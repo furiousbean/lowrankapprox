@@ -1,0 +1,146 @@
+\def\thebibliography#1{
+%\vskip -\headsep
+  \par
+\begin{center}\fontsize{16pt}{20pt}\selectfont
+  \bf Список литературы
+\end{center}
+%\break
+ \footnotesize
+  \list{{\arabic{enumi}.\hspace*{8pt}}}
+ % \list{{\normalsize\arabic{enumi}.}}
+      {
+       \settowidth\labelwidth{[#1]\hspace*{9pt}}
+       \leftmargin\labelwidth
+       \advance\leftmargin\labelsep
+       \usecounter{enumi}
+       \partopsep 0pt
+       \parsep 0pt
+       \itemsep 0pt
+      }
+  \def\newblock{\hskip .11em plus .33em minus .07em}
+ \sloppy
+ \clubpenalty 4000
+ \widowpenalty 4000
+ \sfcode`\.=1000\relax
+ %\normalsize
+}
+
+
+\pagestyle{plain}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Величина абзацного отступа                                                %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\parindent 0.75cm
+\mathindent 2.5cm
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Размер верхнего поля, расстояние до колонтитула                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\topmargin -1.5cm % ()
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Величина левого поля                                                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\oddsidemargin 0.63cm%-1.5cm
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Высота и ширина текста                                                    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textheight 24.62cm \textwidth 14,66cm % really 250X140 !
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Интервал между строками                                                   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\baselinestretch}{1.01}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Нижний колонтитул                                                   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\normalsize \pagestyle{fancy}\chead{\thepage} \lfoot{}
+\cfoot{}\rfoot{}
+
+\fancyhf{} %
+\fancyhead[C]{\thepage}
+
+\fancyfoot[CO,CE]{\fontsize{4}{8} \emph
+{\noindent Труды\,X\,Международной\,конференции\,<<Идентификация\,систем\,и\,задачи\,управления>>\,SICPRO'15,\,Москва\,26\!\,-29 января,2015\!г.
+\\\noindent
+Proceedings\,of\,the\!X\,International\,Conference\,'System\,Identification\,and\,Control\,Problems'\,SICPRO'15,\,Moscow,\!January\,26-29,\,2015\\}}
+
+
+
+
+
+
+\sectionfont{\centering\normalsize}
+\subsectionfont{\centering\normalsize}
+\sectionfont{\normalsize}
+
+
+\makeatletter
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\thesubsection}{\thesection\arabic{subsection}.}
+\renewcommand{\thesubsubsection}{\thesubsection\arabic{subsubsection}.}
+\makeatother
+
+
+\titleformat{\subsubsection}[runin]
+{\normalfont\bfseries}{\thesubsubsection}{0.5em}{}[.~~~]
+\titlespacing{\subsubsection}
+{\parindent}{1.5ex plus .6ex minus .5ex}{0pt}
+
+
+
+
+\renewcommand{\footrulewidth}{0.4pt}
+\renewcommand{\headrulewidth}{0.0pt}
+\renewcommand{\captionlabeldelim}{.}
+\renewcommand{\captionlabelfont}{\footnotesize \bf}
+\renewcommand{\captionfont}{\footnotesize}
+\renewcommand{\captionwidth}{12.16cm}
+       \newcommand{\bls}{\\[\baselineskip]}
+       \newcommand{\bll}{\\[-2mm]}
+       \newcommand{\bpv}{\vspace*{\baselineskip}}
+       \newcommand{\bmv}{\vspace*{-0.5\baselineskip}}
+
+
+
+
+
+
+\sectionfont{\centering}
+
+\subsectionfont{\centering}
+\subsubsectionfont{\normalsize}
+\newtheorem{theorem}{Теорема}
+\newtheorem{definition}{Определение}
+\newtheorem{iteration}{Итерационная схема}
+\newtheorem{problem}{Задача}
+\newtheorem{assumption}{Предположение}
+\newtheorem{remark}{Замечание}
+
+
+
+
+
+
+
+
+
+
+
+
+\def\theequation{\arabic{equation}}
+
+
+\newenvironment{proof1}
+{\vspace{1pt}\par{\it%
+Доказательство.\,\ }}%
+{\noindent\vspace{1pt}}
+\newenvironment{proof2}[1]
+{\vspace{1pt}\par{\it%
+Доказательство теоремы\, #1.}}%
+{\noindent\vspace{1pt}}
+\newenvironment{proof3}[1]
+{\vspace{1pt}\par{\it%
+Доказательство следствия\, #1.}}%
+{\noindent\vspace{1pt}}
+\newenvironment{proof4}[1]
+{\vspace{1pt}\par{\it%
+Доказательство леммы\, #1.}}%
+{\noindent\vspace{1pt}}
