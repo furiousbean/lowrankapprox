@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper,fleqn,leqno, draft]{article}
+\documentclass[12pt,a4paper,fleqn,leqno]{article}
 \usepackage{mathtext}
 \usepackage{cmap}
 \usepackage[utf8x]{inputenc}
@@ -62,7 +62,7 @@
 \\
 \rm
 Россия, 198504, Санкт-Петербург, Петродворец, Университетский пр., 28\\
-E-mail: \textcolor {blue}{\underline{mb\_93@mail.ru}}}
+E-mail: \textcolor {blue}{\underline{nikitazvonarev@gmail.com}}}
 \end{center}
 \begin{center}{\bpv {Н.Э.~Голяндина}\\
 \footnotesize\it Санкт-Петербургский государственный университет,\\
@@ -909,8 +909,8 @@ c_k = \begin{cases}
 \alpha, & \text{в противном случае},
 \end{cases}
 \end{equation*}
-где $0 \le \alpha \le 1$. Тогда $\rho$ имеет порядок $\max(\frac{1}{L}, \frac{(1-\alpha)C_K+\alpha}{(1-\alpha)N/L+\alpha K})$, где порядок $C_K$
-может может меняться от $O(1)$ до $O(K)$ в зависимости от того, как $K$ стремятся к бесконечности.
+где $0 \le \alpha \le 1$. Тогда $\rho$ имеет порядок $\max(\frac{1}{L}, \frac{(1-\alpha)C_{L,K}+\alpha}{(1-\alpha)N/L+\alpha K})$, где порядок $C_{L,K}$
+может может меняться от $O(1)$ до $O(N/L)$ в зависимости от того, как $K$ стремятся к бесконечности.
 \end{proposition}
 
 \begin{proof}
@@ -925,11 +925,11 @@ c_k = \begin{cases}
 \end{gather*}
 для любых вещественных $a, b$ и положительного целого $n$.
 Таким образом, когда ряд $\tsX_2$ не представляет из себя константу, числитель в $\rho^c_{i,j}$ имеет порядок $O(1)$, а знаменатель --- $O(L)$.
-Первая часть доказана, и ее доказательство целиком аналогично случаю, когда $\bfS$ --- единичная матрица.
+Первая часть доказана, и ее доказательство целиком аналогично случаю, когда $\bfC$ --- единичная матрица.
 
 Для доказательства второй части выделим отдельно сумму по тем $k$, для которых $c_k=1$:
 \begin{gather*}
-\sum_{k=1}^K c_k\cos(2 \pi \omega (j + k - 1)) = (1-\alpha) \sum_{\substack{1 \le k \le K: \\ c_k = 1}}\cos(2 \pi \omega (j + k - 1)) +\\ +\sum_{1 \le k \le K}\alpha \cos(2 \pi \omega (j + k - 1)) = (1-\alpha) C_K + \alpha\, O(1),
+\sum_{k=1}^K c_k\cos(2 \pi \omega (j + k - 1)) = (1-\alpha) \sum_{\substack{1 \le k \le K: \\ c_k = 1}}\cos(2 \pi \omega (j + k - 1)) +\\ +\sum_{1 \le k \le K}\alpha \cos(2 \pi \omega (j + k - 1)) = (1-\alpha) C_{L,K} + \alpha\, O(1),
 \\
 %\end{gather*}
 %\begin{gather*}
@@ -939,10 +939,10 @@ c_k = \begin{cases}
 %\begin{gather*}
 \sum_{k=1}^K c_k\cos^2(2 \pi \omega (j + k - 1)) = (1-\alpha)\sum_{\substack{1 \le k \le K: \\ c_k = 1}}\cos^2(2 \pi \omega (j + k - 1)) +\\ +\sum_{1 \le k \le K }\alpha \cos^2(2 \pi \omega (j + k - 1)) = (1-\alpha) O(N/L) + \alpha\, O(K).
 \end{gather*}
-В худшем случае, если $L\omega$ целое, получаем, что $\cos(2 \pi \omega (j + k - 1))$ равно одной и той же константе независимо от $j$ и $k$, и тогда $C_K$ имеет порядок $O(K)$.
+В худшем случае, если $L\omega$ целое, получаем, что $\cos(2 \pi \omega (j + k - 1))$ равно одной и той же константе независимо от $j$ и $k$, и тогда $C_{L,K}$ имеет порядок $O(N/L)$.
 \end{proof}
 
-Таким образом, даже в лучшем случае, когда $C_K$ имеет порядок $O(1)$, разделимость константы и синуса становится хуже, чем при обычном варианте: при $\alpha$, близких к нулю, оптимальным выбором $L$ будет $L \approx \sqrt{N}$, и, таким образом, получаем порядок разделимости $1/\sqrt{N}$.
+Таким образом, даже в лучшем случае, когда $C_{L,K}$ имеет порядок $O(1)$, разделимость константы и синуса становится хуже, чем при обычном варианте: при $\alpha$, близких к нулю, оптимальным выбором $L$ будет $L \approx \sqrt{N}$, и, таким образом, получаем порядок разделимости $1/\sqrt{N}$.
 
 Теперь рассмотрим алгоритм Cadzow с $\widehat\bfC$, введенный в разделе~\ref{sec:cadzow_hat}.
 
