@@ -160,9 +160,9 @@ $\Pi_{\calH}$ --- проектор на $\calH$.
 \begin{proposition} \label{pythaprop}
 Пусть $\calX$ --- гильбертово пространство, $\calM$ --- мультипликативное подмножество, $\Pi_\calM$ --- оператор проектирования на $\calM$. Тогда для любого $x \in \calX$ выполняется теорема Пифагора: $\|x\|^2 = \|x - \Pi_\calM x\|^2 + \|\Pi_\calM x\|^2$.
 \end{proposition}
-\begin{proof}
+\begin{proof5}{\ref{pythaprop}}
 В силу мультипликативности можно представить множество $\calM$ в виде $\calM = \bigcup\limits_{l \in \calL}l$, где $\calL$ --- множество всех прямых, лежащих в $\calM$ и проходящих через $0$, и $l \cap m = 0$ для любых $l, m \in \calL$, $l \neq m$. Тогда операция проектирования может быть записана так: вначале мы выбираем прямую $l$ такую, что $\dist(x, l) \rightarrow \min\limits_{l \in \calL}$, после чего $y = \Pi_\calM x$ --- это ортогональная проекция $x$ на прямую $l$, которая является линейным подпространством. Получаем нужное свойство.
-\end{proof}
+\end{proof5}
 
 Для решения задачи \eqref{eq:gen_task} можно использовать итеративный метод попеременных проекций в виде
 \be
@@ -179,7 +179,7 @@ $\Pi_{\calH}$ --- проектор на $\calH$.
 \item Существует сходящаяся подпоследовательность матриц $\bfY_{i_1}, \bfY_{i_2}, \ldots$ такая, что ее предел $\bfY^*$ лежит в $\calM_r \cap \calH$.
 \end{enumerate}
 \end{theorem}
-\begin{proof}
+\begin{proof2}{\ref{th:converg}}
 Воспользуемся неравенствами \cite{Chu.etal2003}
 \begin{equation}
 \label{chuprop}
@@ -196,7 +196,7 @@ $\Pi_{\calH}$ --- проектор на $\calH$.
 Таким образом, $\|\bfY_{k+1}\|^2 < \|\bfY_k\|^2 - 2d^2$. Расписывая неравенство аналогично дальше, получим, что для любого $j = 1, 2, \ldots$: $\|\bfY_{k+j}\|^2 < \|\bfY_k\|^2 - 2 j d^2$. Возьмем любое $k$, например $k = 1$, и $j = \lceil \|\bfY_k\|^2 / (2d^2) \rceil + 1$. Тогда $\|\bfY_{k+j}\|^2 < 0$, чего не может быть.
 \item Рассмотрим последовательность $(\Pi_{\calM_r} \bfY_k)$, $k = 1, 2, \ldots$. Она ограничена, так как $\|\Pi_{\calM_r} \bfZ\| \le \|\bfZ\|$ и $\|\Pi_{\calH} \bfZ\| \le \|\bfZ\|$ для любого $\bfZ \in \sfR^{L \times K}$ (это справедливо, например, и по предположению \ref{pythaprop}). Тогда мы можем выбрать из нее сходящуюся подпоследовательность $(\Pi_{\calM_r} \bfY_{i_k})$, $\bfY^*$ --- ее предел, при этом $\|\Pi_{\calM_r} \bfY_{i_k} - \bfY_{i_k + 1}\| = \|\Pi_{\calM_r} \bfY_{i_k} - \Pi_\calH \Pi_{\calM_r} \bfY_{i_k}\| \to 0$ при $k \to + \infty$. Учитывая, что $\|\bfZ - \Pi_\calH \bfZ\|$ --- композиция непрерывных отображений, получаем, что $\|\bfY^* - \Pi_\calH \bfY^*\| = 0$, а зная, что $\calM_r$ --- замкнутое множество, получаем, что $\bfY^* \in \calM_r \cap \calH$. Осталось заметить, что последовательность $(\Pi_\calH \Pi_{\calM_r} \bfY_{i_k})$ --- сходящаяся, так как $\Pi_\calH$ --- непрерывное отображение, и ее предел равен $\bfY^*$. Получаем, что $\bfY_{i_k + 1}$ --- требуемая подпоследовательность.
 \end{enumerate}
-\end{proof}
+\end{proof2}
 
 Ниже мы будем рассматривать нормы, порожденные взвешенным фробениусовым скалярным произведением в виде
 \be
@@ -251,9 +251,9 @@ $\Pi_{\calH}$ --- проектор на $\calH$.
 где $\bfO_\bfC$ --- такая матрица, что $\bfC = \bfO_\bfC^{\rmT}\bfO_\bfC$,
 $\bfB = \bfY \bfO_\bfC^{\rmT}$, $(\bfO_\bfC^{\rmT})^\dagger$ обозначает псевдообратную матрицу Мура-Пенроуза к матрице $\bfO_\bfC^{\rmT}$.
 \end{proposition}
-\begin{proof}
+\begin{proof5}{\ref{prop:projS}}
 Доказательство является прямым следствием того, что рассматриваемая норма порождается косоугольным скалярным произведением в пространстве строк матрицы $\bfY$, см. детали в \cite{Golyandina2013}.
-\end{proof}
+\end{proof5}
 
 \begin{remark}
 Заметим, что условия предложения~\ref{prop:projS} могут быть выполнены, только если матрица $\bfC$ диагональная.
@@ -378,7 +378,7 @@ q_i = \sum_{\substack{1 \le l \le L \\ 1 \le k \le K \\ l+k-1=i}} m_{l,k}.
 m_{l,k}=c_k.
 \end{equation}
 \end{proposition}
-\begin{proof}
+\begin{proof5}{\ref{prop:equiv_tasks}}
 Для доказательства первой части утверждения заметим, что
 \begin{equation*}
 \langle \bfY, \bfZ \rangle_{1,\bfM} = \sum_{i = 1}^L \sum_{j = 1}^K m_{i,j} y_{i + j - 1} z_{i + j - 1},
@@ -387,7 +387,7 @@ m_{l,k}=c_k.
 \begin{equation*}
 \langle \bfY, \bfZ \rangle_{2,\bfC} = \sum_{l=1}^L \sum_{k=1}^K c_k y_{l,k} z_{l, k}.
 \end{equation*}
-\end{proof}
+\end{proof5}
 
 \begin{corollary}
 \label{cor:base_weights}
@@ -629,12 +629,12 @@ q_i (\alpha) = \begin{cases}
 \end{cases}
 \end{equation*}
 \end{proposition}
-\begin{proof}
+\begin{proof5}{\ref{zhigconseq}}
 Достаточно просуммировать $c_k$ число раз, равное размеру $i$-й побочной диагонали.
-\end{proof}
+\end{proof5}
 
 
-\begin{lemma} \label{myweightstat}
+\begin{proposition} \label{myweightstat}
 Матричные веса $\hat c_k$, определенные в \eqref{my_s}, равны
 \begin{equation*}
 \hat c_k = \begin{cases}
@@ -643,11 +643,11 @@ q_i (\alpha) = \begin{cases}
 1/L, &\text{в противном случае}.
 \end{cases}
 \end{equation*}
-\end{lemma}
+\end{proposition}
 
-\begin{proof}
+\begin{proof5}{\ref{myweightstat}}
 Достаточно подставить в \eqref{my_s} $m_{l,k}$, определенные в \eqref{Mw}.
-\end{proof}
+\end{proof5}
 
 Для иллюстрации того, как выглядят веса $\hat{q_i}$, сформулируем утверждение в условиях, которые упрощают доказательство.
 
@@ -665,7 +665,7 @@ q_i (\alpha) = \begin{cases}
 где $H_0 = 0$, а $H_i = \sum_{j=1}^i 1/j$ --- $i$-е гармоническое число.
 \end{proposition}
 
-\begin{proof}
+\begin{proof5}{\ref{myserweightstat}}
 Для $1 \le i \le L-1$, имеем
 \begin{gather*}
 \hat{q}_i = \sum_{j=1}^i \hat{c}_j = \sum_{j=1}^i \frac{1}{L}\left(\frac{j}{L} + \sum_{k=j}^{L-1}1/k\right)\! =
@@ -679,7 +679,7 @@ q_i (\alpha) = \begin{cases}
 =1 + \frac{2iL-i-i^2}{2L^2} + \frac{L-i}{L}(H_{L-1} - H_{i - L}).
 \end{gather*}
 Для правой части ряда веса будут симметрично отраженными, а для центральной необходимо $L$ раз просуммировать $\hat{c}_k = 1/L$.
-\end{proof}
+\end{proof5}
 
 Отнормированные веса $q_i(\alpha)$ (так, чтобы сумма была равна 1) при $\alpha = 1$ (стандартный алгоритм Cadzow), $\alpha = 0$ (равные веса $q_i$) и $\alpha = 0.1$,
  а также $\hat{q}_i$ при $N = 40$, $L = 8$ представлены на рисунке~\ref{img_weights}.
@@ -913,7 +913,7 @@ c_k = \begin{cases}
 может может меняться от $O(1)$ до $O(N/L)$ в зависимости от того, как $K$ стремятся к бесконечности.
 \end{proposition}
 
-\begin{proof}
+\begin{proof5}{\ref{prop:separ1}}
 Необходимо оценить порядки следующих величин:
 \begin{gather*}
 \rho^c_{i,j} = \frac{\sum_{k=j}^{j + L - 1} \cos(2 \pi \omega k)}{\sqrt{L (\sum_{k=j}^{j + L - 1} \cos^2(2 \pi \omega k))}},\\ \rho^r_{i,j} = \frac{\sum_{k=1}^K c_k\cos(2 \pi \omega (j + k - 1))}{\sqrt{(\sum_{k=1}^K c_k) (\sum_{k=1}^K c_k\cos^2(2 \pi \omega (j + k - 1)))}}.
@@ -940,18 +940,19 @@ c_k = \begin{cases}
 \sum_{k=1}^K c_k\cos^2(2 \pi \omega (j + k - 1)) = (1-\alpha)\sum_{\substack{1 \le k \le K: \\ c_k = 1}}\cos^2(2 \pi \omega (j + k - 1)) +\\ +\sum_{1 \le k \le K }\alpha \cos^2(2 \pi \omega (j + k - 1)) = (1-\alpha) O(N/L) + \alpha\, O(K).
 \end{gather*}
 В худшем случае, если $L\omega$ целое, получаем, что $\cos(2 \pi \omega (j + k - 1))$ равно одной и той же константе независимо от $j$ и $k$, и тогда $C_{L,K}$ имеет порядок $O(N/L)$.
-\end{proof}
+\end{proof5}
 
 Таким образом, даже в лучшем случае, когда $C_{L,K}$ имеет порядок $O(1)$, разделимость константы и синуса становится хуже, чем при обычном варианте: при $\alpha$, близких к нулю, оптимальным выбором $L$ будет $L \approx \sqrt{N}$, и, таким образом, получаем порядок разделимости $1/\sqrt{N}$.
 
 Теперь рассмотрим алгоритм Cadzow с $\widehat\bfC$, введенный в разделе~\ref{sec:cadzow_hat}.
 
 \begin{proposition}
+\label{prop:separ2}
 Пусть $\tsX_1 = (c, c, \ldots)$ --- некоторая константа и $\tsX_2 = (\cos(2 \pi \omega k), k = 1, 2, \ldots)$, где $0<\omega <0.5$, $L,K\ra \infty$ и $\bfC$ определена в алгоритме Cadzow с $\widehat\bfC$.
  Тогда $\rho$ имеет порядок $\max \left(1/L, \frac{H_L}{\sqrt{NK}} \right)$ при $L, K \to \infty$, где $H_L$ --- $L$-е гармоническое число.
 \end{proposition}
 
-\begin{proof}
+\begin{proof5}{\ref{prop:separ2}}
 Необходимо оценить порядки следующих величин:
 \begin{gather*}
 \rho^c_{i,j} = \frac{\sum_{k=j}^{j + L - 1} \cos(2 \pi \omega k)}{\sqrt{L (\sum_{k=j}^{j + L - 1} \cos^2(2 \pi \omega k))}}, \\ \rho^r_{i,j} = \frac{\sum_{k=1}^K \hat c_k\cos(2 \pi \omega (j + k - 1))}{\sqrt{(\sum_{k=1}^K \hat c_k) (\sum_{k=1}^K \hat c_k\cos^2(2 \pi \omega (j + k - 1)))}}.
@@ -984,7 +985,7 @@ c_k = \begin{cases}
 \begin{equation*}
 \sum_{k=1}^K \hat c_k\cos^2(2 \pi \omega (j + k - 1)) \ge \sum_{k=1}^K \frac{1}{L}\cos^2(2 \pi \omega (j + k - 1)) = O \left(\frac{K}{L} \right).
 \end{equation*}
-\end{proof}
+\end{proof5}
 
 
 \end{document}
