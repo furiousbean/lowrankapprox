@@ -1,0 +1,133 @@
+\begin{thebibliography}{10}
+\def\selectlanguageifdefined#1{
+\expandafter\ifx\csname date#1\endcsname\relax
+\else\selectlanguage{#1}\fi}
+\providecommand*{\href}[2]{{\small #2}}
+\providecommand*{\url}[1]{{\small #1}}
+\providecommand*{\BibUrl}[1]{\url{#1}}
+\providecommand{\BibAnnote}[1]{}
+\providecommand*{\BibEmph}[1]{#1}
+\ProvideTextCommandDefault{\cyrdash}{\hbox to.8em{--\hss--}}
+\providecommand*{\BibDash}{\ifdim\lastskip>0pt\unskip\nobreak\hskip.2em\fi
+\cyrdash\hskip.2em\ignorespaces}
+
+\bibitem{Cadzow1988}
+\selectlanguageifdefined{english}
+\BibEmph{Cadzow~J.~A.} Signal enhancement: a composite property mapping
+  algorithm~// \BibEmph{IEEE Trans. Acoust.} \BibDash
+\newblock 1988. \BibDash
+\newblock Vol.~36, no.~1. \BibDash
+\newblock P.~49--62.
+
+\bibitem{Markovsky2011}
+\selectlanguageifdefined{english}
+\BibEmph{Markovsky~I.} Low Rank Approximation: Algorithms, Implementation,
+  Applications. \BibDash
+\newblock Springer, 2011.
+
+\bibitem{Usevich.Markovsky2014}
+\selectlanguageifdefined{english}
+\BibEmph{Usevich~K., Markovsky~I.} Variable projection for affinely structured
+  low-rank approximation in weighted 2-norms~//
+  \href{http://dx.doi.org/http://dx.doi.org/10.1016/j.cam.2013.04.034}{\BibEmph{Journal
+  of Computational and Applied Mathematics}}. \BibDash
+\newblock 2014. \BibDash
+\newblock Vol. 272, no.~0. \BibDash
+\newblock P.~430 -- 448.
+
+\bibitem{Gillard.Zhigljavsky2013}
+\selectlanguageifdefined{english}
+\BibEmph{Gillard~J., Zhigljavsky~A.} Optimization challenges in the structured
+  low rank approximation problem~// \BibEmph{Journal of Global Optimization}.
+  \BibDash
+\newblock 2013. \BibDash
+\newblock Vol.~57, no.~3. \BibDash
+\newblock P.~733--751.
+
+\bibitem{Broomhead.King1986}
+\selectlanguageifdefined{english}
+\BibEmph{Broomhead~D., King~G.} Extracting qualitative dynamics from
+  experimental data~// \BibEmph{Physica D}. \BibDash
+\newblock 1986. \BibDash
+\newblock Vol.~20. \BibDash
+\newblock P.~217--236.
+
+\bibitem{Vautard.etal1992}
+\selectlanguageifdefined{english}
+\BibEmph{Vautard~R., Yiou~P., Ghil~M.} {S}ingular-{S}pectrum {A}nalysis: A
+  toolkit for short, noisy chaotic signals~// \BibEmph{Physica~D}. \BibDash
+\newblock 1992. \BibDash
+\newblock Vol.~58. \BibDash
+\newblock P.~95--126.
+
+\bibitem{Elsner.Tsonis1996}
+\selectlanguageifdefined{english}
+\BibEmph{Elsner~J.~B., Tsonis~A.~A.} {S}ingular {S}pectrum {A}nalysis: A New
+  Tool in Time Series Analysis. \BibDash
+\newblock Plenum, 1996.
+
+\bibitem{Golyandina.etal2001}
+\selectlanguageifdefined{english}
+\BibEmph{Golyandina~N., Nekrutkin~V., Zhigljavsky~A.} Analysis of Time Series
+  Structure: {SSA} and Related Techniques. \BibDash
+\newblock Chapman\&Hall/CRC, 2001.
+
+\bibitem{Ghil.etal2002}
+\selectlanguageifdefined{english}
+Advanced spectral methods for climatic time series~/ M.~Ghil, R.~M.~Allen,
+  M.~D.~Dettinger et~al.~// \BibEmph{Rev. Geophys.} \BibDash
+\newblock 2002. \BibDash
+\newblock Vol.~40, no.~1. \BibDash
+\newblock P.~1--41.
+
+\bibitem{Golyandina.Zhigljavsky2012}
+\selectlanguageifdefined{english}
+\BibEmph{Golyandina~N., Zhigljavsky~A.} {S}ingular {S}pectrum {A}nalysis for
+  time series. Springer Briefs in Statistics. \BibDash
+\newblock Springer, 2013.
+
+\bibitem{Chu.etal2003}
+\selectlanguageifdefined{english}
+\BibEmph{Chu~M.~T., Funderlic~R.~E., Plemmons~R.~J.} Structured low rank
+  approximation~//
+  \href{http://dx.doi.org/http://dx.doi.org/10.1016/S0024-3795(02)00505-0}{\BibEmph{Linear
+  Algebra and its Applications}}. \BibDash
+\newblock 2003. \BibDash
+\newblock Vol. 366, no.~0. \BibDash
+\newblock P.~157 -- 172. \BibDash
+\newblock Special issue on Structured Matrices: Analysis, Algorithms and
+  Applications.
+
+\bibitem{Golyandina2013}
+\selectlanguageifdefined{english}
+\BibEmph{Golyandina~N., Shlemov~A.} Variations of singular spectrum analysis
+  for separability improvement: non-orthogonal decompositions of time series.
+  \BibDash
+\newblock 2013. \BibDash
+\newblock arXiv:1308.4022.
+
+\bibitem{Srebro2003}
+\selectlanguageifdefined{english}
+\BibEmph{Srebro~N., Jaakkola~T. et~al.} Weighted low-rank approximations~//
+  ICML. \BibDash
+\newblock Vol.~3. \BibDash
+\newblock 2003. \BibDash
+\newblock P.~720--727.
+
+\bibitem{Gillard2014}
+\selectlanguageifdefined{english}
+\BibEmph{Gillard~J., Zhigljavsky~A.~A.} Stochastic algorithms for solving
+  structured low-rank matrix approximation problems~// \BibEmph{Communication
+  in Nonlinear Science and Numerical Simulation}. \BibDash
+\newblock 2014.
+
+\bibitem{Golyandina2010}
+\selectlanguageifdefined{english}
+\BibEmph{Golyandina~N.} On the choice of parameters in singular spectrum
+  analysis and related subspace-based methods~// \BibEmph{Stat. Interface}.
+  \BibDash
+\newblock 2010. \BibDash
+\newblock Vol.~3, no.~3. \BibDash
+\newblock P.~259--279.
+
+\end{thebibliography}
