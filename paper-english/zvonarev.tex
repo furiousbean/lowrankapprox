@@ -46,14 +46,14 @@
 
 
 \author{Nikita Zvonarev}
-\title{Iterative algorithms for Weighted End-rank Time Series Approximation}
+\title{Iterative algorithms for Weighted Finite Rank Time Series  Approximation}
 \begin{document}
 \noindent УДК 519.246.8+519.254
 
 \begin{center}{
 \fontsize{18pt}{23pt}\selectfont\bf%
   \MakeUppercase{
- Iterative algorithms for Weighted End-rank Time Series Approximation
+ Iterative algorithms for Weighted Finite Rank Time Series Approximation
 }}
 \end{center}
 
@@ -74,20 +74,20 @@ E-mail: \textcolor {blue}{\underline{nikitazvonarev@gmail.com}}}
 E-mail: \textcolor {blue}{\underline{nina@gistatgroup.com}}}
 \end{center}
 \hspace{1.25cm}\begin{minipage}{12.16cm}\bpv\bpv\bmv \noindent
-\footnotesize{\bf Keywords:}\/ Time series, Cadzow iterations, End-rank Time Series, Weighted Total Least Squares, Oblique SVD-Factorization, Singular Spectrum Analysis
+\footnotesize{\bf Keywords:}\/ Time series, Cadzow iterations, Time Series of Finite Rank, Weighted Total Least Squares, Oblique SVD-Factorization, Singular Spectrum Analysis
 
-\bpv\bpv\noindent  The problem of time series approximation by end-rank series is considered in the paper. This is actual problem in signal processing tasks, partially, for extracting a signal in analysis of noised signals. After applying weigthed least-squares method, the optimization task arises, which don't have an exact solution. One of the numeric local minimum search method (Cadzow iterations) is well-known. However, Cadzow iterations may work with specific weights only, which decreases while approaching edges of time series. In addition, it's naturally to take equal weights which build usual euclid metric. Therefore, a few new methods are constructed and researched with target of achieving equal or approximately equal weights. Questions of convergency, computational complexity and accuracy are considered for proposed methods. Methods are compared on the numeric example.
+\bpv\bpv\noindent  The problem of time series approximation by series of finite rank is considered in the paper. This is actual problem in signal processing tasks, partially, for extracting a signal in analysis of noisy signals. After applying weigthed least-squares method, the optimization problem arises, which do not have an exact solution. One of the numeric local minimum search method (Cadzow iterations) is well-known. However, Cadzow iterations may work with specific weights only, which decreases while approaching edges of time series. In addition, it is naturally to take equal weights which correspond to usual Euclidean metric. Therefore, several new methods are suggested and investigated to achieve equal or approximately equal weights. Questions of convergency, computational complexity and accuracy are considered for proposed methods. Methods are compared on the numeric example.
 
 \end{minipage}\bls\bmv
 
 \section{Introduction}
-Consider the task of extracting the signal $\tsS = (s_1, \ldots, s_N)$ from an observed noised signal $\tsX = \tsS + \tsN$, where $\tsS$ has some fixed structure, exactly, $\tsS$ is ruled by some \emph{linear recurrent formula} (LRF) of order $r$:
+Consider the problem of extracting the signal $\tsS = (s_1, \ldots, s_N)$ from an observed noisy signal $\tsX = \tsS + \tsN$, where $\tsS$ has some fixed structure, exactly, $\tsS$ is governed by some \emph{linear recurrence relation} (LRR) of order $r$:
 \begin{equation*}
 s_n = \sum_{i = 1}^{r} a_i s_{n-i}, \quad n = r + 1, \ldots, N.
 \end{equation*}
-Generally, ruled-by-LRF series may be written in a parametric form \\ $s_n = \sum_i P_i(n) \exp(\alpha_i n) \cos(2 \pi \omega_i n + \psi_i)$. However, parametric approach for the task doesn't lead to good estimation of parameters due to their big amount and instability of estimators.
+Generally, governed-by-LRR series may be written in a parametric form \\ $s_n = \sum_i P_i(n) \exp(\alpha_i n) \cos(2 \pi \omega_i n + \psi_i)$. However, parametric approach for the problem does not lead to good estimation of parameters due to their big amount and instability of estimators.
 
-It's known that methods based on signal subspace estimation (subspace-based methods) works well. The basic idea of these methods as follows: let's fix window length $L$, $1 \le L \le N$, $K = N - L + 1$, and build a trajectory matrix for series $\tsS$:
+It is known that methods based on signal subspace estimation (subspace-based methods) works well. The basic idea of these methods as follows: let us fix window length $L$, $1 \le L \le N$, $K = N - L + 1$, and build a trajectory matrix for series $\tsS$:
 \begin{equation*}
 \bfS = \begin{pmatrix}
 s_1 & s_2 & \ldots & s_K \\
@@ -96,17 +96,17 @@ s_2 & s_3 & \ldots & s_{K + 1} \\
 s_L & s_{L + 1} & \ldots & s_N
 \end{pmatrix}.
 \end{equation*}
-Notice that $\bfS\in \calH$, where $\calH$ is the set of Hankel matrixes with equal values on their anti-diagonals $i+j=\mathrm{const}$.
-If series are ruled by minimal LRF of order $r$, $r < \min(L, K)$, then $\rank \bfS = r < L$. So, $\bfS$ is Hankel matrix of low-rank $r$.
+Note that $\bfS\in \calH$, where $\calH$ is the set of Hankel matrixes with equal values on their anti-diagonals $i+j=\mathrm{const}$.
+If series are governed by minimal LRR of order $r$, $r < \min(L, K)$, then $\rank \bfS = r < L$. So, $\bfS$ is Hankel matrix of low-rank $r$.
 
-Let $\bfX$ be a trajectory matrix of series $\tsX$. Then the problem of estimation of $\tsS$ could be considered as the problem of approximation of matrix $\bfX$ by Hankel matrix of rank not greater than $r$:
+Let $\bfX$ be a trajectory matrix of series $\tsX$. Then the problem of estimation of $\tsS$ could be considered as the problem of approximation of matrix $\bfX$ by Hankel matrix of rank not larger than $r$:
 \begin{equation}\label{introd_task}
 \|\bfX - \bfY\|^2_\rmF \to \min_{\substack{\rank \bfY \le r \\ \bfY \in \calH}}
 \end{equation}
 
-A lot of papers are dedicated to this problem, e.g., \cite{Cadzow1988, Markovsky2011, Usevich.Markovsky2014, Gillard.Zhigljavsky2013} and many other works, where the problem is called structured low rank approximation. Approaches of solving the problem are iterative, e.g., Cadzow iterations consist of alternating projections to the set of Hankel matrices and matrices of rank not greater than $r$. The target function isn't unimodal in such class of problems, and convergency to global minimum isn't guaranteed; despite this, problem \eqref{introd_task} is considered to be well-researched, though it has many open answers yet.
+A lot of papers are dedicated to this problem, e.g., \cite{Cadzow1988, Markovsky2011, Usevich.Markovsky2014, Gillard.Zhigljavsky2013} and many other works, where the problem is called Structured Low-Rank Approximation. Approaches of solving the problem are iterative, e.g., Cadzow iterations consist of alternating projections to the set of Hankel matrices and matrices of rank not larger than $r$. The target function is not unimodal in such class of problems, and convergency to global minimum is not guaranteed; despite this, problem \eqref{introd_task} is considered to be well-researched, though it has many open answers yet.
 
-Notice that the problem \eqref{introd_task} is equivalent to the problem
+Note that the problem \eqref{introd_task} is equivalent to the problem
 \begin{equation}\label{introd_task_2}
 \sum_{i = 1}^N w_i(x_i - y_i)^2 \to \min_{\substack{\tsY: \rank \bfY \le r \\ \bfY \in \calH}},
 \end{equation}
@@ -122,78 +122,72 @@ N - i + 1 & \text{for $i = K + 1, \ldots, N.$}
 
 Weights on edges of series are less than in a center, i.e. \eqref{introd_task} is a weighted least squares problem for series.
 
-The aim of this paper is to consider methods which solve the problem \eqref{introd_task_2} with various weights instead of $w_i$ and compare methods in terms of precision of the signal $\tsS$ estimation. All described methods are iterative. If an estimate of the signal, which isn't ruled by LRF, is the point of interest then only the first iteration could be taken with aim of reduction of computational complexity. So, described methods are compared by precision of the signal estimation in the first iteration and in the limit. Notice than known Singular Spectrum Analysis (SSA) \cite{Broomhead.King1986, Vautard.etal1992, Elsner.Tsonis1996, Golyandina.etal2001, Ghil.etal2002, Golyandina.Zhigljavsky2012} could be
+The aim of this paper is to consider methods which solve the problem \eqref{introd_task_2} with various weights instead of $w_i$ and compare methods in terms of precision of the signal $\tsS$ estimation. All described methods are iterative. If an estimate of the signal, which is not governed by LRR, is the point of interest then only the first iteration could be taken with aim of reduction of computational complexity. So, described methods are compared by precision of the signal estimation in the first iteration and in the limit. Note than known Singular Spectrum Analysis (SSA) \cite{Broomhead.King1986, Vautard.etal1992, Elsner.Tsonis1996, Golyandina.etal2001, Ghil.etal2002, Golyandina.Zhigljavsky2012} could be
 described as one iteration of Cadzow iterations.
 
-Структура работы следующая.  В разделе~\ref{sec:lowrank_appr} рассматривается задача для матриц аппроксимации ганкелевыми матрицами неполного ранга.
-Описывается общая структура итеративных алгоритмов в виде попеременных проекций, приводятся методы построения проекторов, доказывается теорема о сходимости.
-В разделе~\ref{sec:ts_matrices} описывается связь между задачами аппроксимации временных рядов и матриц, соотношение между весами в постановках задачи
-взвешенного МНК. Раздел~\ref{sec:alg} посвящен предлагаемым алгоритмам аппроксимации временных рядов. В разделе~\ref{sec:simul} проводится численное сравнение алгоритмов на типичном примере.
-Работа завершается короткими выводами и обсуждением дальнейших направления развития в разделе~\ref{sec:concl}. В приложении приведено доказательство результатов
-о разделимости константного и синусоидального рядов, имеющих отношение к скорости сходимости некоторых из рассматриваемых алгоритмов.
+Structure of paper as follows:  In chapter ~\ref{sec:lowrank_appr} problem of approximating a matrix by a Hankel rank-deficient matrix is considered. Common structure of iterative alternating projection algorithms is described, ways of builduing projectors are given, convergency theorem is proved.
 
-\section{Аппроксимация ганкелевыми матрицами неполного ранга}
+In chapter~\ref{sec:ts_matrices} the connection between problems of approximation of time series and matrices is described, relation between weights in weighted least squares problems is also given. Chapter~\ref{sec:alg} is dedicated to suggested algorithms of time series approximation. In chapter~\ref{sec:simul} numeric comparison of algorithms on typical example is carried out.
+
+The paper is finished with short conclusions and discussion of further work in chapter~\ref{sec:concl}. The result of separability of constant and sinusoidal signal, which has connection with convergency speed of some described algorithms, is proved in appendix.
+
+\section{Approximation by rank-deficient Hankel matrices}
 \label{sec:lowrank_appr}
-\subsection{Общий алгоритм}
-В этом разделе рассмотрим задачу аппроксимации матрицы $\bfX$ ганкелевой матрицей неполного ранга по некоторой (полу)норме $\|\cdot\|$.
-Обозначим $\spaceR^{L\times K}$ пространство матриц размера $L$ на $K$, $\calM_r\subset \spaceR^{L\times K}$ множество матриц ранга, не превосходящего $r$,
-$\calH \subset \spaceR^{L\times K}$ --- множество ганкелевых матриц.
-Заметим, что  $\calM_r$ не является ни линейным, ни даже выпуклым множеством. Однако, $\calM_r$ является мультипликативным, т.е.
-если $\bfZ\in \calM_r$, то и $a\bfZ\in \calM_r$ для любого $a$.
-Пространство $\calH$ является линейным.
+\subsection{Common algotihm}
+Consider the problem of approximation of a matrix $\bfX$ by Hankel rank-deficient matrix in some (semi)norm $\|\cdot\|$ in this chapter. Define $\spaceR^{L\times K}$ the space of matrices of size $L \times K$, $\calM_r\subset \spaceR^{L\times K}$ the space of matrices of rank not greater than $r$,
+$\calH \subset \spaceR^{L\times K}$ --- set of Hankel matrices.
+Note that  $\calM_r$ is not nor linear, nor convex set. However, $\calM_r$ is multiplicative, i.e.
+if $\bfZ\in \calM_r$, then $a\bfZ\in \calM_r$ for any $a$.
+Space $\calH$ is linear.
 
-Задача имеет вид
+The problem is
 \be
 \label{eq:gen_task}
-\|\bfX - \bfY\| \to \min_\bfY, \mbox{\ где\ } \bfY \in \calH \cap \calM_r.
+\|\bfX - \bfY\| \to \min_\bfY, \mbox{\ where\ } \bfY \in \calH \cap \calM_r.
 \ee
 
-Чтобы привести схему алгоритма для решения данной задачи, введем проекторы на соответствующие подпространства
-по норме $\|\cdot\|$, $\Pi_{\calM_r}$ --- проектор на $\calM_r\subset \spaceR^{L\times K}$,
-$\Pi_{\calH}$ --- проектор на $\calH$.
-Оба проектора являются ортогональными,
-так как для ортогональности достаточно того, чтобы пространство было мультипликативным. Заметим, что результат проектирования
-на пространство матриц неполного ранга может быть неоднозначно определен, однако в дальнейшем будем предполагать, что
-в случае неоднозначности выбрано произвольное значение из допустимых.
+For presenting the algorithm scheme for this problem, introduce projectors to proper subspaces in $\|\cdot\|$ norm, $\Pi_{\calM_r}$ --- projector to $\calM_r\subset \spaceR^{L\times K}$,
+$\Pi_{\calH}$ --- projector to $\calH$.
+Both projectors are ortogonal because orthogonality is enough for multiplicativity of space. Note that result of projection to subspace of rank-deficient matrices could not be defined uniquely, but further we suppose that in case of ambiguity a random value from all possible is chosen.
 
 \begin{proposition} \label{pythaprop}
-Пусть $\calX$ --- гильбертово пространство, $\calM$ --- мультипликативное подмножество, $\Pi_\calM$ --- оператор проектирования на $\calM$. Тогда для любого $x \in \calX$ выполняется теорема Пифагора: $\|x\|^2 = \|x - \Pi_\calM x\|^2 + \|\Pi_\calM x\|^2$.
+Let $\calX$ be Hilbert space, $\calM$ is multiplicative subset, $\Pi_\calM$ --- projection operator to $\calM$. Then for any $x \in \calX$ Pythagorean theorem is true: $\|x\|^2 = \|x - \Pi_\calM x\|^2 + \|\Pi_\calM x\|^2$.
 \end{proposition}
 \begin{proof5}{\ref{pythaprop}}
-В силу мультипликативности можно представить множество $\calM$ в виде $\calM = \bigcup\limits_{l \in \calL}l$, где $\calL$ --- множество всех прямых, лежащих в $\calM$ и проходящих через $0$, и $l \cap m = 0$ для любых $l, m \in \calL$, $l \neq m$. Тогда операция проектирования может быть записана так: вначале мы выбираем прямую $l$ такую, что $\dist(x, l) \rightarrow \min\limits_{l \in \calL}$, после чего $y = \Pi_\calM x$ --- это ортогональная проекция $x$ на прямую $l$, которая является линейным подпространством. Получаем нужное свойство.
+By using multiplicativity the set $\calM$ could be represented as $\calM = \bigcup\limits_{l \in \calL}l$, where $\calL$ is the set of all lines lying in $\calM$ and passes through $0$, and $l \cap m = 0$ for any $l, m \in \calL$, $l \neq m$. Then projection could be described as follows: to begin with, we choose a line $l$ such that $\dist(x, l) \rightarrow \min\limits_{l \in \calL}$, then $y = \Pi_\calM x$ is orthogonal projection $x$ to line $l$, which is linear subspace. Proposition is proved.
 \end{proof5}
 
-Для решения задачи \eqref{eq:gen_task} можно использовать итеративный метод попеременных проекций в виде
+For solving a problem \eqref{eq:gen_task} iterative alternating projections method could be used:
 \be
-   \bfY_{k+1}=\Pi_\calH \Pi_{\calM_r} \bfY_{k}, \mbox{\ где\ } \bfY_{0}=\bfX.
+   \bfY_{k+1}=\Pi_\calH \Pi_{\calM_r} \bfY_{k}, \mbox{\ where\ } \bfY_{0}=\bfX.
 \ee
 
-Докажем теорему относительно сходимости данного метода.
+Prove the theorem about convergency speed of given method.
 
 \begin{theorem}
 \label{th:converg}
 \begin{enumerate}
-Пусть пространство $\calM_r$ является замкнутым в топологии, порождаемой нормой $\|\cdot\|$. Тогда
-\item $\|\bfY_k - \Pi_{\calM_r}\bfY_k\| \to 0$ при $k \to +\infty$, $\|\Pi_{\calM_r}\bfY_k - \bfY_{k+1}\| \to 0$ при $k \to +\infty$.
-\item Существует сходящаяся подпоследовательность матриц $\bfY_{i_1}, \bfY_{i_2}, \ldots$ такая, что ее предел $\bfY^*$ лежит в $\calM_r \cap \calH$.
+Let space $\calM_r$ be closed in topology raised by norm $\|\cdot\|$. Then
+\item $\|\bfY_k - \Pi_{\calM_r}\bfY_k\| \to 0$ for $k \to +\infty$, $\|\Pi_{\calM_r}\bfY_k - \bfY_{k+1}\| \to 0$ for $k \to +\infty$.
+\item Convergent subsequence of matrices $\bfY_{i_1}, \bfY_{i_2}, \ldots$ such that its limit $\bfY^*$ lies in $\calM_r \cap \calH$ exists.
 \end{enumerate}
 \end{theorem}
 \begin{proof2}{\ref{th:converg}}
-Воспользуемся неравенствами \cite{Chu.etal2003}
+Use unequalities \cite{Chu.etal2003}
 \begin{equation}
 \label{chuprop}
 \|\bfY_k - \Pi_{\calM_r} \bfY_k\| \ge \|\Pi_{\calM_r} \bfY_k - \bfY_{k + 1}\| \ge \|\bfY_{k+1} - \Pi_{\calM_r} \bfY_{k + 1}\|.
 \end{equation}
 
 \begin{enumerate}
-\item Согласно неравенствам \eqref{chuprop}, последовательности $\|\bfY_k - \Pi_{\calM_r} \bfY_k\|$, $k = 1, 2, \ldots$, и $\|\Pi_{\calM_r} \bfY_k - \bfY_{k + 1}\|$, $k = 1, 2, \ldots$, являются невозрастающими. Очевидно, они ограничены снизу нулем. Поэтому они имеют одинаковый предел $c$, опять же согласно \eqref{chuprop}.
+\item According to unequalities \eqref{chuprop}, sequences $\|\bfY_k - \Pi_{\calM_r} \bfY_k\|$, $k = 1, 2, \ldots$ and $\|\Pi_{\calM_r} \bfY_k - \bfY_{k + 1}\|$, $k = 1, 2, \ldots$ are non-increasing. It is obvious that they are limited below by zero. So they have equal limit $c$ according to \eqref{chuprop}.
 
-Докажем, что $c = 0$. Предположим противное: существует $d > 0$ такое, что для любого $k = 1, 2, \ldots$: $\|\bfY_k - \Pi_{\calM_r} \bfY_k\| > d$, $\|\Pi_{\calM_r} \bfY_k - \bfY_{k + 1}\| > d$. Согласно предложению~\ref{pythaprop}, справедливо следующее:
+Prove that $c = 0$. Assume contrary: $d > 0$ exists such that for any $k = 1, 2, \ldots$: $\|\bfY_k - \Pi_{\calM_r} \bfY_k\| > d$, $\|\Pi_{\calM_r} \bfY_k - \bfY_{k + 1}\| > d$. According to ~\ref{pythaprop} proposition, the following is true:
 \begin{gather*}
 \|\bfY_k\|^2 = \|\Pi_{\calM_r} \bfY_k\|^2 + \|\bfY_k - \Pi_{\calM_r} \bfY_k\|^2 =\\ \|\bfY_k - \Pi_{\calM_r} \bfY_k\|^2 + \|\Pi_{\calM_r} \bfY_k - \bfY_{k + 1}\|^2 + \|\bfY_{k + 1}\|^2.
 \end{gather*}
-Таким образом, $\|\bfY_{k+1}\|^2 < \|\bfY_k\|^2 - 2d^2$. Расписывая неравенство аналогично дальше, получим, что для любого $j = 1, 2, \ldots$: $\|\bfY_{k+j}\|^2 < \|\bfY_k\|^2 - 2 j d^2$. Возьмем любое $k$, например $k = 1$, и $j = \lceil \|\bfY_k\|^2 / (2d^2) \rceil + 1$. Тогда $\|\bfY_{k+j}\|^2 < 0$, чего не может быть.
-\item Рассмотрим последовательность $(\Pi_{\calM_r} \bfY_k)$, $k = 1, 2, \ldots$. Она ограничена, так как $\|\Pi_{\calM_r} \bfZ\| \le \|\bfZ\|$ и $\|\Pi_{\calH} \bfZ\| \le \|\bfZ\|$ для любого $\bfZ \in \sfR^{L \times K}$ (это справедливо, например, и по предположению \ref{pythaprop}). Тогда мы можем выбрать из нее сходящуюся подпоследовательность $(\Pi_{\calM_r} \bfY_{i_k})$, $\bfY^*$ --- ее предел, при этом $\|\Pi_{\calM_r} \bfY_{i_k} - \bfY_{i_k + 1}\| = \|\Pi_{\calM_r} \bfY_{i_k} - \Pi_\calH \Pi_{\calM_r} \bfY_{i_k}\| \to 0$ при $k \to + \infty$. Учитывая, что $\|\bfZ - \Pi_\calH \bfZ\|$ --- композиция непрерывных отображений, получаем, что $\|\bfY^* - \Pi_\calH \bfY^*\| = 0$, а зная, что $\calM_r$ --- замкнутое множество, получаем, что $\bfY^* \in \calM_r \cap \calH$. Осталось заметить, что последовательность $(\Pi_\calH \Pi_{\calM_r} \bfY_{i_k})$ --- сходящаяся, так как $\Pi_\calH$ --- непрерывное отображение, и ее предел равен $\bfY^*$. Получаем, что $\bfY_{i_k + 1}$ --- требуемая подпоследовательность.
+Thus, $\|\bfY_{k+1}\|^2 < \|\bfY_k\|^2 - 2d^2$. Expanding the inequality the same way further, see that for any $j = 1, 2, \ldots$: $\|\bfY_{k+j}\|^2 < \|\bfY_k\|^2 - 2 j d^2$. Choose any $k$, e.g. $k = 1$, and $j = \lceil \|\bfY_k\|^2 / (2d^2) \rceil + 1$. Then $\|\bfY_{k+j}\|^2 < 0$, which is not possible.
+\item Consider a sequence $(\Pi_{\calM_r} \bfY_k)$, $k = 1, 2, \ldots$. It is bounded because $\|\Pi_{\calM_r} \bfZ\| \le \|\bfZ\|$ and $\|\Pi_{\calH} \bfZ\| \le \|\bfZ\|$ for any $\bfZ \in \sfR^{L \times K}$ (it is correct by proposition \ref{pythaprop}, for example). Then a convergent subsequence $(\Pi_{\calM_r} \bfY_{i_k})$ could be chosen, $\bfY^*$ is its limit, wherein $\|\Pi_{\calM_r} \bfY_{i_k} - \bfY_{i_k + 1}\| = \|\Pi_{\calM_r} \bfY_{i_k} - \Pi_\calH \Pi_{\calM_r} \bfY_{i_k}\| \to 0$ for $k \to + \infty$. Taking into consideration that $\|\bfZ - \Pi_\calH \bfZ\|$ is a composition of continuous mappings, obtain that $\|\bfY^* - \Pi_\calH \bfY^*\| = 0$, and knowing that $\calM_r$ is closed set, obtain that $\bfY^* \in \calM_r \cap \calH$. The last thing to note is that sequence $(\Pi_\calH \Pi_{\calM_r} \bfY_{i_k})$ is convergent because $\Pi_\calH$ is continuous mapping, and its limit equals to $\bfY^*$. Find that $\bfY_{i_k + 1}$ is a required subsequence.
 \end{enumerate}
 \end{proof2}
 
