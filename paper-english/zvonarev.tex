@@ -76,7 +76,7 @@ E-mail: \textcolor {blue}{\underline{nina@gistatgroup.com}}}
 \hspace{1.25cm}\begin{minipage}{12.16cm}\bpv\bpv\bmv \noindent
 \footnotesize{\bf Keywords:}\/ Time series, Cadzow iterations, Time Series of Finite Rank, Weighted Total Least Squares, Oblique SVD-Factorization, Singular Spectrum Analysis
 
-\bpv\bpv\noindent  The problem of time series approximation by series of finite rank is considered in the paper. This is actual problem in signal processing tasks, partially, for extracting a signal in analysis of noisy signals. After applying weigthed least-squares method, the optimization problem arises, which do not have an exact solution. One of the numeric local minimum search method (Cadzow iterations) is well-known. However, Cadzow iterations may work with specific weights only, which decreases while approaching edges of time series. In addition, it is naturally to take equal weights which correspond to usual Euclidean metric. Therefore, several new methods are suggested and investigated to achieve equal or approximately equal weights. Questions of convergency, computational complexity and accuracy are considered for proposed methods. Methods are compared on the numeric example.
+\bpv\bpv\noindent  The problem of time series approximation by series of finite rank is considered in the paper. This is actual problem in signal processing tasks, partially, for extracting a signal in analysis of noisy signals. After applying weigthed least-squares method, the optimization problem arises, which do not have an exact solution. One of the numeric local minimum search method (Cadzow iterations) is well known. However, Cadzow iterations may work with specific weights only, which decreases while approaching edges of time series. In addition, it is naturally to take equal weights which correspond to usual Euclidean metric. Therefore, several new methods are suggested and investigated to achieve equal or approximately equal weights. Questions of convergency, computational complexity and accuracy are considered for proposed methods. Methods are compared on the numeric example.
 
 \end{minipage}\bls\bmv
 
@@ -125,17 +125,17 @@ Weights on edges of series are less than in a center, i.e. \eqref{introd_task} i
 The aim of this paper is to consider methods which solve the problem \eqref{introd_task_2} with various weights instead of $w_i$ and compare methods in terms of precision of the signal $\tsS$ estimation. All described methods are iterative. If an estimate of the signal, which is not governed by LRR, is the point of interest then only the first iteration could be taken with aim of reduction of computational complexity. So, described methods are compared by precision of the signal estimation in the first iteration and in the limit. Note than known Singular Spectrum Analysis (SSA) \cite{Broomhead.King1986, Vautard.etal1992, Elsner.Tsonis1996, Golyandina.etal2001, Ghil.etal2002, Golyandina.Zhigljavsky2012} could be
 described as one iteration of Cadzow iterations.
 
-Structure of paper as follows:  In chapter ~\ref{sec:lowrank_appr} problem of approximating a matrix by a Hankel rank-deficient matrix is considered. Common structure of iterative alternating projection algorithms is described, ways of builduing projectors are given, convergency theorem is proved.
+Structure of paper as follows:  In Section ~\ref{sec:lowrank_appr} problem of approximating a matrix by a Hankel rank-deficient matrix is considered. Common structure of iterative alternating projection algorithms is described, ways of builduing projectors are given, convergency theorem is proved.
 
-In chapter~\ref{sec:ts_matrices} the connection between problems of approximation of time series and matrices is described, relation between weights in weighted least squares problems is also given. Chapter~\ref{sec:alg} is dedicated to suggested algorithms of time series approximation. In chapter~\ref{sec:simul} numeric comparison of algorithms on typical example is carried out.
+In Section~\ref{sec:ts_matrices} the connection between problems of approximation of time series and matrices is described, relation between weights in weighted least squares problems is also given. Chapter~\ref{sec:alg} is dedicated to suggested algorithms of time series approximation. In Section~\ref{sec:simul} numeric comparison of algorithms on typical example is carried out.
 
-The paper is finished with short conclusions and discussion of further work in chapter~\ref{sec:concl}. The result of separability of constant and sinusoidal signal, which has connection with convergency speed of some described algorithms, is proved in appendix.
+The paper is finished with short conclusions and discussion of further work in Section~\ref{sec:concl}. The result of separability of constant and sinusoidal signal, which has connection with convergency speed of some described algorithms, is proved in appendix.
 
 \section{Approximation by rank-deficient Hankel matrices}
 \label{sec:lowrank_appr}
 \subsection{Common algotihm}
-Consider the problem of approximation of a matrix $\bfX$ by Hankel rank-deficient matrix in some (semi)norm $\|\cdot\|$ in this chapter. Define $\spaceR^{L\times K}$ the space of matrices of size $L \times K$, $\calM_r\subset \spaceR^{L\times K}$ the space of matrices of rank not greater than $r$,
-$\calH \subset \spaceR^{L\times K}$ --- set of Hankel matrices.
+Consider the problem of approximation of a matrix $\bfX$ by Hankel rank-deficient matrix with respect to some (semi)norm $\|\cdot\|$ in this Section. Define by $\spaceR^{L\times K}$ the space of matrices of size $L \times K$, $\calM_r\subset \spaceR^{L\times K}$ is the space of matrices of rank not larger than $r$,
+$\calH \subset \spaceR^{L\times K}$ is the set of Hankel matrices.
 Note that  $\calM_r$ is not nor linear, nor convex set. However, $\calM_r$ is multiplicative, i.e.
 if $\bfZ\in \calM_r$, then $a\bfZ\in \calM_r$ for any $a$.
 Space $\calH$ is linear.
@@ -146,15 +146,15 @@ The problem is
 \|\bfX - \bfY\| \to \min_\bfY, \mbox{\ where\ } \bfY \in \calH \cap \calM_r.
 \ee
 
-For presenting the algorithm scheme for this problem, introduce projectors to proper subspaces in $\|\cdot\|$ norm, $\Pi_{\calM_r}$ --- projector to $\calM_r\subset \spaceR^{L\times K}$,
+For presenting the algorithm scheme for this problem, let us introduce projectors to proper subspaces with respect to $\|\cdot\|$ norm, $\Pi_{\calM_r}$ --- projector to $\calM_r\subset \spaceR^{L\times K}$,
 $\Pi_{\calH}$ --- projector to $\calH$.
-Both projectors are ortogonal because orthogonality is enough for multiplicativity of space. Note that result of projection to subspace of rank-deficient matrices could not be defined uniquely, but further we suppose that in case of ambiguity a random value from all possible is chosen.
+Both projectors are ortogonal because multiplicativity is sufficient for  orthogonality of space. Note that result of projection to subspace of rank-deficient matrices could not be defined uniquely, but further we suppose that in case of ambiguity any value from all possible is chosen.
 
 \begin{proposition} \label{pythaprop}
 Let $\calX$ be Hilbert space, $\calM$ is multiplicative subset, $\Pi_\calM$ --- projection operator to $\calM$. Then for any $x \in \calX$ Pythagorean theorem is true: $\|x\|^2 = \|x - \Pi_\calM x\|^2 + \|\Pi_\calM x\|^2$.
 \end{proposition}
 \begin{proof5}{\ref{pythaprop}}
-By using multiplicativity the set $\calM$ could be represented as $\calM = \bigcup\limits_{l \in \calL}l$, where $\calL$ is the set of all lines lying in $\calM$ and passes through $0$, and $l \cap m = 0$ for any $l, m \in \calL$, $l \neq m$. Then projection could be described as follows: to begin with, we choose a line $l$ such that $\dist(x, l) \rightarrow \min\limits_{l \in \calL}$, then $y = \Pi_\calM x$ is orthogonal projection $x$ to line $l$, which is linear subspace. Proposition is proved.
+By using multiplicativity the set $\calM$ could be represented as $\calM = \bigcup\limits_{l \in \calL}l$, where $\calL$ is the set of all lines lying in $\calM$ and passes through $0$, and $l \cap m = 0$ for any $l, m \in \calL$, $l \neq m$. Then projection could be described as follows: to begin with, we choose a line $l$ such that $\dist(x, l) \rightarrow \min\limits_{l \in \calL}$, then $y = \Pi_\calM x$ is orthogonal projection $x$ to a line $l$, which is linear subspace. Proposition is proved.
 \end{proof5}
 
 For solving a problem \eqref{eq:gen_task} iterative alternating projections method could be used:
@@ -162,18 +162,18 @@ For solving a problem \eqref{eq:gen_task} iterative alternating projections meth
    \bfY_{k+1}=\Pi_\calH \Pi_{\calM_r} \bfY_{k}, \mbox{\ where\ } \bfY_{0}=\bfX.
 \ee
 
-Prove the theorem about convergency speed of given method.
+Let us prove the theorem about convergency speed of given method.
 
 \begin{theorem}
 \label{th:converg}
 \begin{enumerate}
-Let space $\calM_r$ be closed in topology raised by norm $\|\cdot\|$. Then
-\item $\|\bfY_k - \Pi_{\calM_r}\bfY_k\| \to 0$ for $k \to +\infty$, $\|\Pi_{\calM_r}\bfY_k - \bfY_{k+1}\| \to 0$ for $k \to +\infty$.
-\item Convergent subsequence of matrices $\bfY_{i_1}, \bfY_{i_2}, \ldots$ such that its limit $\bfY^*$ lies in $\calM_r \cap \calH$ exists.
+Let space $\calM_r$ be closed in topology gererated by norm $\|\cdot\|$. Then
+\item $\|\bfY_k - \Pi_{\calM_r}\bfY_k\| \to 0$ as $k \to +\infty$, $\|\Pi_{\calM_r}\bfY_k - \bfY_{k+1}\| \to 0$ as $k \to +\infty$.
+\item There exists convergent subsequence of matrices $\bfY_{i_1}, \bfY_{i_2}, \ldots$ such that its limit $\bfY^*$ lies in $\calM_r \cap \calH$.
 \end{enumerate}
 \end{theorem}
 \begin{proof2}{\ref{th:converg}}
-Use unequalities \cite{Chu.etal2003}
+Using unequalities \cite{Chu.etal2003}
 \begin{equation}
 \label{chuprop}
 \|\bfY_k - \Pi_{\calM_r} \bfY_k\| \ge \|\Pi_{\calM_r} \bfY_k - \bfY_{k + 1}\| \ge \|\bfY_{k+1} - \Pi_{\calM_r} \bfY_{k + 1}\|.
@@ -187,150 +187,145 @@ Prove that $c = 0$. Assume contrary: $d > 0$ exists such that for any $k = 1, 2,
 \|\bfY_k\|^2 = \|\Pi_{\calM_r} \bfY_k\|^2 + \|\bfY_k - \Pi_{\calM_r} \bfY_k\|^2 =\\ \|\bfY_k - \Pi_{\calM_r} \bfY_k\|^2 + \|\Pi_{\calM_r} \bfY_k - \bfY_{k + 1}\|^2 + \|\bfY_{k + 1}\|^2.
 \end{gather*}
 Thus, $\|\bfY_{k+1}\|^2 < \|\bfY_k\|^2 - 2d^2$. Expanding the inequality the same way further, see that for any $j = 1, 2, \ldots$: $\|\bfY_{k+j}\|^2 < \|\bfY_k\|^2 - 2 j d^2$. Choose any $k$, e.g. $k = 1$, and $j = \lceil \|\bfY_k\|^2 / (2d^2) \rceil + 1$. Then $\|\bfY_{k+j}\|^2 < 0$, which is not possible.
-\item Consider a sequence $(\Pi_{\calM_r} \bfY_k)$, $k = 1, 2, \ldots$. It is bounded because $\|\Pi_{\calM_r} \bfZ\| \le \|\bfZ\|$ and $\|\Pi_{\calH} \bfZ\| \le \|\bfZ\|$ for any $\bfZ \in \sfR^{L \times K}$ (it is correct by proposition \ref{pythaprop}, for example). Then a convergent subsequence $(\Pi_{\calM_r} \bfY_{i_k})$ could be chosen, $\bfY^*$ is its limit, wherein $\|\Pi_{\calM_r} \bfY_{i_k} - \bfY_{i_k + 1}\| = \|\Pi_{\calM_r} \bfY_{i_k} - \Pi_\calH \Pi_{\calM_r} \bfY_{i_k}\| \to 0$ for $k \to + \infty$. Taking into consideration that $\|\bfZ - \Pi_\calH \bfZ\|$ is a composition of continuous mappings, obtain that $\|\bfY^* - \Pi_\calH \bfY^*\| = 0$, and knowing that $\calM_r$ is closed set, obtain that $\bfY^* \in \calM_r \cap \calH$. The last thing to note is that sequence $(\Pi_\calH \Pi_{\calM_r} \bfY_{i_k})$ is convergent because $\Pi_\calH$ is continuous mapping, and its limit equals to $\bfY^*$. Find that $\bfY_{i_k + 1}$ is a required subsequence.
+\item Consider a sequence $(\Pi_{\calM_r} \bfY_k)$, $k = 1, 2, \ldots$. It is bounded because $\|\Pi_{\calM_r} \bfZ\| \le \|\bfZ\|$ and $\|\Pi_{\calH} \bfZ\| \le \|\bfZ\|$ for any $\bfZ \in \sfR^{L \times K}$ (it is correct by Proposition \ref{pythaprop}, for example). Then a convergent subsequence $(\Pi_{\calM_r} \bfY_{i_k})$ could be chosen, $\bfY^*$ is its limit, wherein $\|\Pi_{\calM_r} \bfY_{i_k} - \bfY_{i_k + 1}\| = \|\Pi_{\calM_r} \bfY_{i_k} - \Pi_\calH \Pi_{\calM_r} \bfY_{i_k}\| \to 0$ as $k \to + \infty$. Taking into consideration that $\|\bfZ - \Pi_\calH \bfZ\|$ is a composition of continuous mappings, obtain that $\|\bfY^* - \Pi_\calH \bfY^*\| = 0$, and knowing that $\calM_r$ is closed set, obtain that $\bfY^* \in \calM_r \cap \calH$. The last thing to note is that sequence $(\Pi_\calH \Pi_{\calM_r} \bfY_{i_k})$ is convergent because $\Pi_\calH$ is continuous mapping, and its limit is equal to $\bfY^*$. Find that $\bfY_{i_k + 1}$ is required subsequence.
 \end{enumerate}
 \end{proof2}
 
-Ниже мы будем рассматривать нормы, порожденные взвешенным фробениусовым скалярным произведением в виде
+Norms generated by weighted Frobenius inner product in form
 \be
 \label{eq:w_inner_prod}
-\langle\bfY, \bfZ\rangle_M = \sum_{l = 1}^L \sum_{k = 1}^K m_{l, k} y_{l, k} z_{l, k}.
+\langle\bfY, \bfZ\rangle_M = \sum_{l = 1}^L \sum_{k = 1}^K m_{l, k} y_{l, k} z_{l, k}
 \ee
+are considered below.
 
-Известно, что относительно обычной фробениусовской нормы пространство $\calM_r$ является замкнутым и, следовательно, утверждения теоремы~\ref{th:converg} верны и в случае взвешенной фробениусовской нормы при всех $m_{l,k} > 0$.
+It is known that $\calM_r$ is closed with respect to usual Frobenius norm, therefore, Theorem ~\ref{th:converg} is also true in the case of weigthed Frobenius norm for any $m_{l,k} > 0$.
 
 
-\subsection{Вычисление проекторов}
+\subsection{Evaluation of projectors}
 
-Будем рассматривать норму $\|\cdot\|_\bfM$, порожденную \eqref{eq:w_inner_prod}.
+Consider a norm $\|\cdot\|_\bfM$ generated by \eqref{eq:w_inner_prod}.
 
-\paragraph{Проектор $\Pi_\calH$.} Несложно показать, что проектор $\Pi_\calH$
-можно вычислить явным образом согласно следующему утверждению.
+\paragraph{Projector $\Pi_\calH$.} It is easy to show that $\Pi_\calH$
+could be evaluated explicitly using following Proposition.
 
 \begin{proposition}
-Для $\widehat{\bfY}=\Pi_\calH \bfY$
+For $\widehat{\bfY}=\Pi_\calH \bfY$
 \begin{equation*}
 \hat{y}_{ij} = \frac{\sum_{l,k: l+k=i+j} m_{l,k} y_{l,k}}{\sum_{l,k: l+k=i+j} m_{l,k}}.
 \end{equation*}
 \end{proposition}
 
-Явный вид проектора $\Pi_{\calM_r}$ в общем случае не получить.
-Рассмотрим различные случаи.
+It is not possible to get explicit form of $\Pi_{\calM_r}$ in general case.
+Consider following cases.
 
-\paragraph{Случай явного вида проектора $\Pi_{\calM_r}$.} Сначала рассмотрим случай, когда проектор можно выписать явно.
-Пусть все веса $m_{ij}=1$. Обозначим в этом специальном случае $\Pi_r=\Pi_{\calM_r}$.
-Хорошо известно, что проектор $\Pi_{r} \bfY$
-вычисляется как сумма первых компонент сингулярного разложения матрицы $\bfY$: пусть $\bfY = \bfU \mathbf{\Sigma} \bfV^\rmT$, где $\bfU$ --- ортогональная матрица порядка $L \times L$, $\mathbf{\Sigma}$ --- квазидиагональная матрица порядка $L \times K$ с неотрицательными диагональными элементами, расположенными в невозрастающем порядке, $\bfV$ --- ортогональная матрица порядка $K \times K$. Пусть для определенности $L\le K$, $\Sigma = (\sigma_1, \ldots, \sigma_L)$ --- вектор, состоящий из диагональных элементов матрицы $\mathbf{\Sigma}$. Обозначим $\mathbf{\Sigma}_r = (\sigma^r_{l k})$ матрицу:
+\paragraph{Case of explicit form of projector $\Pi_{\calM_r}$.} To begin with consider a case when projector could be evaluated explicitly.
+Let all weights $m_{ij}=1$. Denote $\Pi_r=\Pi_{\calM_r}$ in this speial case.
+It is well-known that projector $\Pi_{r} \bfY$ could be evaluated as a sum of first components of matrix $\bfY$ Singular Value Decomposition: let $\bfY = \bfU \mathbf{\Sigma} \bfV^\rmT$ where $\bfU$ is orthogonal matrix of size $L \times L$, $\mathbf{\Sigma}$ is quasi-diagonal matrix of size $L \times K$ with non-negative diagonal elements in non-increasing order, $\bfV$ is orthogonal matrix of size $K \times K$. More definitely, denote by $L\le K$, $\Sigma = (\sigma_1, \ldots, \sigma_L)$ a vector consisting of diagonal elements of matrix $\mathbf{\Sigma}$. Denote by $\mathbf{\Sigma}_r = (\sigma^r_{l k})$ following matrix:
 \begin{equation*}
 \sigma^r_{i j} = \begin{cases}
-\sigma_i & \text{при $i = j, i \le r,$}\\
-0 & \text{в противном случае}.
+\sigma_i & \text{if $i = j, i \le r,$}\\
+0 & \text{otherwise}.
 \end{cases}
 \end{equation*}
-Тогда проекцию можно вычислить следующим образом: $\Pi_{r} \bfY  = \bfU \mathbf{\Sigma}_r \bfV^\rmT$.
-Следующее предложение описывает случаи, когда нахождение проектора
-сводится к применению оператора $\Pi_r$.
+Then projection could be evaluated in following way: $\Pi_{r} \bfY  = \bfU \mathbf{\Sigma}_r \bfV^\rmT$.
+Next Proposition describes the case when evaluation of a projector is reduced to applying a projector  $\Pi_r$.
 
 \begin{proposition}
 \label{prop:projS}
-Пусть существует симметричная, неотрицательно оп\-ре\-де\-лен\-ная матрица  $\bfC$ порядка $K \times K$,
-такая что $\|\bfY\|_\bfM = \tr(\bfY \bfC \bfY^\rmT)$.
-Предположим также, что пространство столбцов матрицы $\bfY$ лежит в пространстве столбцов матрицы $\bfC$.
-Тогда
+Let $\bfC$ be symmetric semidefinite matrix of size $K \times K$ such that $\|\bfY\|_\bfM = \tr(\bfY \bfC \bfY^\rmT)$.
+Let us also suppose that the column space of a matrix $\bfY$ lies in the column space of a matrix $\bfC$.
+Then
 \be
 \label{eq:PiMr}
 \Pi_{\calM_r} \bfY = (\Pi_r \bfB) (\bfO_\bfC^{\rmT})^\dagger,
 \ee
-где $\bfO_\bfC$ --- такая матрица, что $\bfC = \bfO_\bfC^{\rmT}\bfO_\bfC$,
-$\bfB = \bfY \bfO_\bfC^{\rmT}$, $(\bfO_\bfC^{\rmT})^\dagger$ обозначает псевдообратную матрицу Мура-Пенроуза к матрице $\bfO_\bfC^{\rmT}$.
+where $\bfO_\bfC$ is a matrix such that $\bfC = \bfO_\bfC^{\rmT}\bfO_\bfC$,
+$\bfB = \bfY \bfO_\bfC^{\rmT}$, $(\bfO_\bfC^{\rmT})^\dagger$ denotes  Moore-Penrose pseudoinverse to the matrix $\bfO_\bfC^{\rmT}$.
 \end{proposition}
 \begin{proof5}{\ref{prop:projS}}
-Доказательство является прямым следствием того, что рассматриваемая норма порождается косоугольным скалярным произведением в пространстве строк матрицы $\bfY$, см. детали в \cite{Golyandina2013}.
+The proof is a direct consequence of the fact that considered norm is generated by oblique inner product in the row space of a matrix $\bfY$, watch details in \cite{Golyandina2013}.
 \end{proof5}
 
 \begin{remark}
-Заметим, что условия предложения~\ref{prop:projS} могут быть выполнены, только если матрица $\bfC$ диагональная.
+Note that Proposition ~\ref{prop:projS} conditions could be satisfied unless matrix $\bfC$ is diagonal.
 \end{remark}
 
-\paragraph{Проектор $\Pi_{\calM_r}$ в общем случае.}
-Так как в явном виде проектор не находится, то в общем случае используются итеративные алгоритмы.
-Один из них описан в \cite{Srebro2003}. Обозначим $\odot$ поэлементное умножение матриц.
+\paragraph{Projector $\Pi_{\calM_r}$ in general case.}
+Since the projector could not be found explicitly iterative algorithms are used in the general case.
+One of these algorithms is described in \cite{Srebro2003}. Denote by $\odot$ element-wise matrix product.
 
 \begin{algorithm}
 \label{alg:weightedSVD}
-\textbf{Вход}: исходная матрица $\bfY$, ранг $r$, матрица весов $\bfM$,
-критерий остановки STOP.
+\textbf{Input}: initial matrix $\bfY$, rank $r$, weight matrix $\bfM$,
+stop criteria STOP.
 
-\textbf{Результат}:
-Матрица $\widehat\bfY$ как оценка $\Pi_{\calM_r} \bfY$.
+\textbf{Result}:
+Matrix $\widehat\bfY$ as an estimate of $\Pi_{\calM_r} \bfY$.
 
 \begin{enumerate}
 \item
 $\bfY_0 = \bfY$, $k=0$.
 \item
-$\bfY_{k+1} = \Pi_r(\bfY \odot \bfM + \bfY_{k} \odot (\bfU -  \bfM))$, где
+$\bfY_{k+1} = \Pi_r(\bfY \odot \bfM + \bfY_{k} \odot (\bfU -  \bfM))$, where
 $\bfU \in \sfR^{L \times K}$,  $\bfU = \begin{pmatrix}
 1 & \cdots & 1 \\
 \vdots & \ddots & \vdots \\
 1 & \cdots & 1
 \end{pmatrix}$, $k\leftarrow k+1$.
 \item
-Если STOP, то $\widehat\bfY = \bfY_k$.
+If STOP then $\widehat\bfY = \bfY_k$.
 \end{enumerate}
 \end{algorithm}
 
-Заметим, что в случае, когда $m_{ij}$ равняется 0 или 1, алгоритм является EM-алгоритмом \cite{Srebro2003},
-соответственно, для него выполнены свойства EM-алгоритмов и он сходится к локальному минимуму в задаче поиска проектора.
-В случае нулевых весов формально неважно, какие значения стоят в матрице на этих местах. Однако для сходимости алгоритма
-это может быть существенно.
+Note that in the case when $m_{ij}$ is equal to 0 or 1 this algorithm is EM-algorithm \cite{Srebro2003},
+hence properties of EM-algorithms are carried out and it converges to local minimum in the problem of search of a projector. Nominally, it does not make a sence which values are in matrix at positions of zeros. However, it could be significant for algorithm's convergency.
 
-\section{Временные ряды и задача аппроксимации матриц}
+\section{Time series and matrix approximation problem}
 \label{sec:ts_matrices}
-\subsection{Постановка задачи для временных рядов}
-Рассмотрим временной ряд $\tsX = (x_1, \ldots, x_N)$ длины $N \ge 3$. Зафиксируем длину окна $L$, $1 < L < N$, положим $K = N - L + 1$. Также рассмотрим последовательность векторов:
+\subsection{Problem statement for time series}
+Consider time series $\tsX = (x_1, \ldots, x_N)$ of length $N \ge 3$. Let us fix the window length $L$, $1 < L < N$, denote $K = N - L + 1$. Also consider the sequence of vectors:
 \begin{equation}\label{l_lagged}
 X_i = (x_i, \ldots, x_{i + L - 1})^\rmT, \qquad i = 1, \ldots, K.
 \end{equation}
-$L$-Траекторной матрицей ряда $\tsX$ называется матрица $\bfX = [X_1:\ldots:X_K]$.
+Define by $L$-trajectory matrix of series $\tsX$ the matrix $\bfX = [X_1:\ldots:X_K]$.
 
 \begin{definition}
-Пусть $0 \le r \le L$. Будем говорить, что ряд $\tsX$ \emph{имеет $L$-ранг $r$}, если ранг его $L$-траекторной матрицы $\bfX$ равен $r$.
+Suppose that $0 \le r \le L$. Then it is said that series $\tsX$ \emph{have $L$-rank $r$} if its $L$-trajectory matrix $\bfX$ rank equals $r$.
 \end{definition}
 
-Заметим, что ряд $\tsX$ может иметь $L$-ранг $r$ только тогда, когда
+Note that series $\tsX$ could have $L$-rank $r$ only when
 \begin{equation}
 r \le \min(L, N-L+1). \label{min_condition}
 \end{equation}
-Скажем, что при фиксированном $r$ длина окна $L$ является \emph{допустимой}, если для нее выполнено условие \eqref{min_condition}.
+It is said that the window length $L$ is \emph{acceptable} for fixed $r$ if it satisfies condition \eqref{min_condition}.
 
-В дальнейшем будет предполагаться, что $L$ не превосходит $K$, так как транспонирование не изменит ситуацию, а строчный ранг матрицы равен ее столбцовому рангу.
+Further we suppose that $L$ is not larger than $K$ because transposition does not change the situation and row rank of trajectory matrix is equal to its column rank.
 
-Пусть $\sfX_N$ --- множество всех временных рядов длины $N$, $\sfX_N^r$ --- множество всех временных рядов длины $N$ $L$-ранга, не превосходящего $r$. Для заданных исходного временного ряда $\tsX \in \sfX_N$, длины окна $L$, $1 < L < N$, и $r$, удовлетворяющего условию \eqref{min_condition}, рассмотрим задачу:
+Let $\sfX_N$ be the set of all time series of length $N$, $\sfX_N^r$ is the set of all time series of length $N$ of $L$-rank not larger than $r$. For given time series $\tsX \in \sfX_N$, window length $L$, $1 < L < N$, and $r$ satisfying the condition \eqref{min_condition}, consider a problem:
 \begin{equation} \label{L-rank_task}
 f_q(\tsY) \to \min_{\tsY \in \sfX_N^r}, \quad f_q(\tsY) = \sum \limits_{i=1}^N q_i(x_i - y_i)^2,
 \end{equation}
-где $y_i$ --- $i$-е измерение ряда $\tsY$, а $q_1, \ldots, q_N$ --- некоторые неотрицательные веса,
-$q_i \ge 0$, $i = 1, \ldots, N$. Нас больше всего интересует случай, когда целевая функция $f(\tsY) = \rho^2(\tsX, \tsY)$ --- квадрат евклидова расстояния в $\sfR^N$. Она совпадает с $f_q(\tsY)$ при $q_i = 1$, $i = 1, \ldots, N$.
+where $y_i$ is $i$-th measurement of series $\tsY$ and $q_1, \ldots, q_N$ are some non-negative weights,
+$q_i \ge 0$, $i = 1, \ldots, N$. The greatest point of interest is the case when a target function $f(\tsY) = \rho^2(\tsX, \tsY)$ is a square of Euclid distance in $\sfR^N$. It concides with $f_q(\tsY)$ when $q_i = 1$, $i = 1, \ldots, N$.
 
 
-Пусть $\tsX$ --- временной ряд длины $N$, а $\bfX \in \calH$ --- его траекторная матрица, где $\calH$ --- множество всех ганкелевых матриц размера $L \times K$. Тогда между $\sfX_N$ --- множеством всех временных рядов длины $N$ и $\calH$ можно построить отображение $\calT$, действующее по правилу
+Let $\tsX$ be time series of length $N$, $\bfX \in \calH$ --- its trajectory matrix where $\calH$ is the set of all Hankel matrices of size $L \times K$. Then there exists a one-to-one mapping $\calT$ between $\sfX_N$ and $\calH$ which could be written as
 \begin{equation*}
 \calT(\tsX) = \bfX: \hat x_{l, k} = x_{l + k - 1}, \quad \bfX = (\hat x_{l,k}), \quad \tsX = (x_1, \ldots, x_N).
 \end{equation*}
-Нетрудно заметить, что это отображение является биективным.
 
-Так как есть взаимно-однозначное соответствие между пространство рядов и ганкелевыми матрицами,
-задачу~\eqref{L-rank_task} можно записать на матричном языке.
+Hence a one-to-one mapping between the space of series and Hankel matrices,
+problem~\eqref{L-rank_task} could be expressed in terms of matrices.
 
-\paragraph{Поправка.} Для численного поиска решения оптимизационной задачи \eqref{eq:gen_task} нам понадобится следующий теоретический факт.
-Рассмотрим $\calX$ --- гильбертово пространство со скалярным произведением $\langle\cdot, \cdot\rangle$, $\calM$ --- мультипликативное подмножество. Пусть элемент $x$ лежит в $\calX$, $y$ лежит в $\calM$. Рассмотрим проекцию $y^*$ элемента $x$ на прямую $l = \{\alpha y:\, \alpha \in \sfR\}$:. Тогда поправка $y^*$ имеет вид
+\paragraph{Adjustment.} For a numeric search of solution of optimization problem \eqref{eq:gen_task} following fact is necessary.
+Consider $\calX$ to be Hilbert space with inner product $\langle\cdot, \cdot\rangle$, $\calM$ is multiplicative subset. Let an element $x$ lie in $\calX$, $y$ lie in $\calM$. Consider a projection $y^*$ of an element $x$ to a line $l = \{\alpha y:\, \alpha \in \sfR\}$:. Then an adjustment $y^*$ is
 \begin{equation}
 \label{eq:adjust}
 y^* = \calA(y)= y \frac{\langle x, y\rangle}{\langle y, y\rangle}.
 \end{equation}
-При этом выполняется $\|x - y^*\| \le \|x - y\|$.
+Herewith $\|x - y^*\| \le \|x - y\|$ is carried out.
 
-Таким образом, при решении задачи \eqref{L-rank_task} для аппроксимации $x=\tsX \in \sfX_N$, если есть некоторое приближение $y=\tsY \in \sfX_N^r$ к решению этой оптимизационной задачи, то его можно улучшить (по крайней мере, не ухудшить), применив \eqref{eq:adjust} и получив ряд $\tsY^*=\calA(\tsY)$, который назовем \emph{поправкой $\tsY$}.
+Thus if some estimate $y=\tsY \in \sfX_N^r$ to the solution of a problem \eqref{L-rank_task} of approximation $x=\tsX \in \sfX_N$ exists, then it could be adjusted (at least not made worse) by applying \eqref{eq:adjust} and obtaining series $\tsY^*=\calA(\tsY)$ which is called as \emph{$\tsY$ improvement}.
 
 \subsection{Эквивалентные целевые функции задачи \eqref{L-rank_task}}
 В пространстве рядов целевая функция явным образом задается через (полу)скалярное произведение
