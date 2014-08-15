@@ -327,51 +327,49 @@ Herewith $\|x - y^*\| \le \|x - y\|$ is carried out.
 
 Thus if some estimate $y=\tsY \in \sfX_N^r$ to the solution of a problem \eqref{L-rank_task} of approximation $x=\tsX \in \sfX_N$ exists, then it could be adjusted (at least not made worse) by applying \eqref{eq:adjust} and obtaining series $\tsY^*=\calA(\tsY)$ which is called as \emph{$\tsY$ improvement}.
 
-\subsection{Эквивалентные целевые функции задачи \eqref{L-rank_task}}
-В пространстве рядов целевая функция явным образом задается через (полу)скалярное произведение
+\subsection{Equivalent target functions of problem \eqref{L-rank_task}}
+In the space of time series a target function is given explicitly using (semi)inner product
 \begin{equation}
 \label{eq:norm_ser}
     \langle\tsY,\tsZ\rangle_q = \sum_{i = 1}^N q_i y_i z_i,
 \end{equation}
-где $q_i$ --- положительные (неотрицательные) веса.
+where $q_i$ are positive (non-negative) weights.
 
-Рассмотрим два (полу)скалярных произведения в пространстве матриц, являющихся расширениями
-обычного фробениусова скалярного произведения.
+Consider two (semi)inner products in the space of matrices which are expansions of usual Frobenius inner product.
 
-Введем
+Denote
 \begin{equation}
 \label{eq:norm1M}
     \langle\bfY,\bfZ\rangle_{1,\bfM} = \sum_{i = 1}^L \sum_{j=1}^K m_{i,j} y_{i,j} z_{i,j}.
 \end{equation}
-для матрицы $\bfM$ с положительными (неотрицательными) элементами и
+for a matrix $\bfM$ with positive (non-negative) elements and
 \begin{equation}
 \label{eq:norm2S}
     \langle\bfY,\bfZ\rangle_{2,\bfC} = \tr(\bfY \bfC \bfZ^\rmT)
 \end{equation}
-для положительно определенной (или неотрицательно определенной для полунормы) матрицы $\bfC$.
+for positive definite (or positive negative in a case of seminorm) matrix $\bfC$.
 
-Заметим, что если матрица $\bfM$ состоит из всех единиц, т.е. $m_{i.j}=1$,
-и если $\bfC$ --- единичная матрица, то оба скалярных произведения совпадают
-с обычным фробениусовым.
+Note that if a matrix $\bfM$ fully consist of ones, i.e. $m_{i.j}=1$,
+and if a $\bfC$ is identity matrix, then both inner products coincide with usual Frobenius inner product.
 
 \begin{proposition}
 \label{prop:equiv_tasks}
-1. Пусть $\bfY = \calT(\tsY)$,  $\bfZ = \calT(\tsZ)$. Тогда $\langle\tsY,\tsZ\rangle_q= <\bfY,\bfZ>_{1,\bfM}$ тогда и только тогда, когда
+1. Let $\bfY = \calT(\tsY)$,  $\bfZ = \calT(\tsZ)$. Then $\langle\tsY,\tsZ\rangle_q= <\bfY,\bfZ>_{1,\bfM}$ iff
 \begin{equation}\label{qi_mi}
 q_i = \sum_{\substack{1 \le l \le L \\ 1 \le k \le K \\ l+k-1=i}} m_{l,k}.
 \end{equation}
 
-2. Для диагональной матрицы $\bfC=\diag(c_1,\ldots,c_K)$, $\langle\bfY,\bfZ\rangle_{1,\bfM}= \langle\bfY,\bfZ\rangle_{2,\bfC}$ тогда и только тогда, когда
+2. For a diagonal matrix $\bfC=\diag(c_1,\ldots,c_K)$, $\langle\bfY,\bfZ\rangle_{1,\bfM}= \langle\bfY,\bfZ\rangle_{2,\bfC}$ iff
 \begin{equation}\label{sk_mlk}
 m_{l,k}=c_k.
 \end{equation}
 \end{proposition}
 \begin{proof5}{\ref{prop:equiv_tasks}}
-Для доказательства первой части утверждения заметим, что
+To prove a first part note that
 \begin{equation*}
 \langle \bfY, \bfZ \rangle_{1,\bfM} = \sum_{i = 1}^L \sum_{j = 1}^K m_{i,j} y_{i + j - 1} z_{i + j - 1},
 \end{equation*}
-Доказательство второй части следует из того, что для диагональной матрицы $\bfC$
+Proof of a second part is a consequence of the fact that for a diagonal matrix $\bfC$
 \begin{equation*}
 \langle \bfY, \bfZ \rangle_{2,\bfC} = \sum_{l=1}^L \sum_{k=1}^K c_k y_{l,k} z_{l, k}.
 \end{equation*}
@@ -379,31 +377,27 @@ m_{l,k}=c_k.
 
 \begin{corollary}
 \label{cor:base_weights}
-Если все веса $m_{i,j}=1$, то веса $q_i$ равны $w_i$, задаваемым в \eqref{eq:w}.
+If all weights $m_{i,j}=1$, then weights $q_i$ are equal to $w_i$ given in \eqref{eq:w}.
 \end{corollary}
 
-Заметим, что вторая матричная норма с диагональной матрицей $\bfC$ является частным случаем первой.
-Однако, ценность записи первой нормы в виде
-второй состоит в том, что аппроксимация матрицами меньшего ранга по первой норме --- это сложная задача при неравных весах
-$m_{i,j}$, а аппроксимация по второй норме --- естественная задача, решаемая с помощью косоугольного сингулярного разложения.
+Note that second matrix norm with a diagonal matrix $\bfC$ is a particular case of first norm. However, the value of writing first norm in a form of second norm is that approximation by rank-deficient matrices with respect to first norm is a complex problem if not all $m_{i,j}$ are equal, but approximation with respect to the second norm is a natural problem which could be solved using oblique Singular Value Decomposition.
 
 \begin{remark}
 \label{rem:2tasks}
-Таким образом, если выполнено условие~\eqref{qi_mi} и все веса $q_i$ и $m_{i,j}$ ненулевые, то задача~\eqref{L-rank_task}
-эквивалентна задаче
+Thus, if condition~\eqref{qi_mi} is carried out and all weights $q_i$ and $m_{i,j}$ are non-zero, then problem~\eqref{L-rank_task}
+is equivalent to the problem
 \begin{equation*}
 \label{rank_task}
     f_\bfM(\bfY) \to \min_{\bfY \in \calM_r \cap \calH}, \quad f_\bfM(\tsY) = \|\bfX-\bfY\|_\bfM.
 \end{equation*}
 \end{remark}
 
-\section{Алгоритмы}
+\section{Algorithms}
 \label{sec:alg}
-В этом разделе приведем все рассматриваемые алгоритмы для решения задачи~\eqref{L-rank_task}.
-В модели ряда $\tsX=\tsS+\tsN$, где $\tsS$ --- ряд конечного ранга $r$, $\tsN$ --- шум, будем рассматривать
-результат работы алгоритма как оценку сигнала $\tsS$.
+All discussed algorithms for solving the problem~\eqref{L-rank_task} are given in this Section.
+In the model of series $\tsX=\tsS+\tsN$, where $\tsS$ is time series of finite rank $r$, $\tsN$ is a noise, a result of algorithm is considered as an estimate of signal $\tsS$.
 
-\subsection{Алгоритм Cadzow}
+\subsection{Cadzow iterations}
 Этот алгоритм служит для аппроксимации траекторной матрицы по норме $\|\cdot\|_\bfM$ с весами $m_{ij}=1$ (т.е. решению задачи \eqref{introd_task}), что по следствию~\ref{cor:base_weights} соответствует задаче~\eqref{introd_task_2} с весами $w_i$, задаваемыми \eqref{eq:w}.
 Алгоритм был предложен в \cite{Cadzow1988}. Его недостатком является то. что веса $w_i$ не являются равными,
 на краях они меньше, чем в середине. Заметим, что чем меньше длина окна. тем ближе веса к равным.
