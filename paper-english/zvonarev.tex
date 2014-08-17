@@ -257,7 +257,7 @@ One of these algorithms is described in \cite{Srebro2003}. Denote by $\odot$ ele
 \begin{algorithm}
 \label{alg:weightedSVD}
 \textbf{Input}: initial matrix $\bfY$, rank $r$, weight matrix $\bfM$,
-stop criteria STOP.
+stop criterion STOP.
 
 \textbf{Result}:
 Matrix $\widehat\bfY$ as an estimate of $\Pi_{\calM_r} \bfY$.
@@ -398,16 +398,14 @@ All discussed algorithms for solving the problem~\eqref{L-rank_task} are given i
 In the model of series $\tsX=\tsS+\tsN$, where $\tsS$ is time series of finite rank $r$, $\tsN$ is a noise, a result of algorithm is considered as an estimate of signal $\tsS$.
 
 \subsection{Cadzow iterations}
-Этот алгоритм служит для аппроксимации траекторной матрицы по норме $\|\cdot\|_\bfM$ с весами $m_{ij}=1$ (т.е. решению задачи \eqref{introd_task}), что по следствию~\ref{cor:base_weights} соответствует задаче~\eqref{introd_task_2} с весами $w_i$, задаваемыми \eqref{eq:w}.
-Алгоритм был предложен в \cite{Cadzow1988}. Его недостатком является то. что веса $w_i$ не являются равными,
-на краях они меньше, чем в середине. Заметим, что чем меньше длина окна. тем ближе веса к равным.
+The aim of this algorithm is approximation of trajectory matrix with respect to norm $\|\cdot\|_\bfM$ with weights $m_{ij}=1$ (i.e. it solves problem \eqref{introd_task}) corresponding to problem~\eqref{introd_task_2} with weights given in \eqref{eq:w} by Corollary \ref{cor:base_weights}. The algorithm was proposed in \cite{Cadzow1988}. The drawback of this algorithm is non-uniformity of weights $w_i$: they are larger in center than in edges of time series. Note that window length decrease leads to more uniform weights.
+	
+\begin{algorithm}[Cadzow iterations]
+\textbf{Input}: Time series $\tsX$, window length $L$, rank $r$,
+stop criterion STOP1 (eg., given quantity of iterations).
 
-\begin{algorithm}[Cadzow]
-\textbf{Вход}: Временной ряд $\tsX$, длина окна $L$, ранг $r$,
-критерий остановки STOP1 (например, заданное число итераций).
-
-\textbf{Результат}:
-Ряд $\widehat\tsS$ как оценка аппроксимации $\tsX$ рядом конечного ранга $r$.
+\textbf{Result}:
+Series $\widehat\tsS$ as estimate of $\tsX$ by finite rank series of order $r$.
 
 \begin{enumerate}
 \item
@@ -415,72 +413,70 @@ $\bfY_0 = \calT \tsX$, $k=0$.
 \item
 $\bfY_{k+1} = \Pi_\calH  \Pi_{\calM_r} \bfY_{k}$, $k\leftarrow k+1$.
 \item
-Если STOP1, то $\widehat\tsS = \calT^{-1} \bfY_k$.
+If STOP1 then $\widehat\tsS = \calT^{-1} \bfY_k$.
 \end{enumerate}
 \end{algorithm}
 
 
-\subsection{Алгоритм Weighted Cadzow}
+\subsection{Weighted Cadzow iterations}
 
-Пусть веса $q_{i}=1$. Тогда, по предложению~\ref{prop:equiv_tasks}, эквивалентные матричные веса могут иметь вид
+Let all weights $q_{i}=1$. Then equivalent matrix weights could be presented as
 \begin{equation}
 \label{Mw}
    m_{l, k} = \frac{1}{q_{l + k - 1}}
 \end{equation}
+according to Proposition ~\ref{prop:equiv_tasks}.
 
-\begin{algorithm}[Weighted Cadzow]
-\textbf{Вход}: Временной ряд $\tsX$, длина окна $L$, ранг $r$,
-критерии остановки STOP1 для внешних итераций и STOP2 для внутренних.
+\begin{algorithm}[Weighted Cadzow iterations]
+\textbf{Input}: Time series $\tsX$, window length $L$, rank $r$,
+stop criteria STOP1 for outer iterations and STOP2 for inner iterations.
 
-\textbf{Результат}:
-Ряд $\widehat\tsS$ как оценка аппроксимации $\tsX$ рядом конечного ранга $r$.
+\textbf{Result}:
+Series $\widehat\tsS$ as estimate of $\tsX$ by finite rank series of order $r$.
 
 \begin{enumerate}
 \item
 $\bfY_0 = \calT \tsX$, $k=0$.
 \item
-Получение $\widehat\bfZ$ по алгоритму~\ref{alg:weightedSVD} с критерием остановки STOP2, примененному к $\bfY_k$ для оценивания $\Pi_{\calM_r} \bfY_{k}$.
+Obtaining $\widehat\bfZ$ using algorithm ~\ref{alg:weightedSVD} applied to $\bfY_k$ for estimation of $\Pi_{\calM_r} \bfY_{k}$ with stop criterion STOP2.
 \item
 $\bfY_{k+1} = \Pi_\calH  \widehat\bfZ$, $k\leftarrow k+1$.
 \item
-Если STOP1, то $\widehat\tsS = \calT^{-1} \bfY_k$.
+If STOP1 then $\widehat\tsS = \calT^{-1} \bfY_k$.
 \end{enumerate}
 \end{algorithm}
 
-\subsection{Алгоритм Extended Cadzow}
+\subsection{Extended Cadzow iterations}
 
-Постановка задачи в этом алгоритме несколько отличается от общей постановки задачи.
-Формально, мы продлеваем ряд в обе стороны на $L-1$ точек некоторыми значениями, приписывая им вес 0, т.е.
-считая их пропусками. Таким образом, расширенный ряд $\widetilde\tsX$ будет иметь длину $N+2L-2$, а его траекторная матрица
-$\widetilde\bfX$ будет иметь размер $L$ на $N+L-1$.
+The formulation of problem in the case of this algorithm is quite different.
+Formally, series are extended to both sides on $L-1$ measurements with some values having zero weights, i.e. new measurements are considered as gaps.
+Thus, length of extended series $\widetilde\tsX$ is $N+2L-2$, and its trajectory matrix $\widetilde\bfX$ size is $L$ by $N+L-1$.
 
-Для нового расширенного ряда мы применяем общую схему с весами $m_{i,j}=\calT \tsI$, где ряд $\tsI$ имеет
-значения 1 на местах исходного ряда и значения 0 на местах пропусков, то есть
+For extended series a common scheme with weights $m_{i,j}=\calT \tsI$ is applied, where series $\tsI$ have ones in the place of given series and zeroes in positions of gaps, i.e.
 \begin{equation*}
 m_{i,j} = \begin{cases}
 1 & 1 \le i+j-L \le N, \\
-0 & \text{в противном случае.}
+0 & \text{otherwise.}
 \end{cases}
 \end{equation*}
 
-\begin{algorithm}[Extended Cadzow]
-\textbf{Вход}: Временной ряд $\tsX$, длина окна $L$, ранг $r$,
-критерии остановки STOP1 для внешних итераций и STOP2 для внутренних,
-значения, которыми дополнен ряд слева и справа, $\tsL_{L-1}$ и $\tsR_{L-1}$.
+\begin{algorithm}[Extended Cadzow iterations]
+\textbf{Input}: Time series $\tsX$, window length $L$, rank $r$,
+stop criteria STOP1 for outer iterations and STOP2 for inner iterations,
+left and right extention values, $\tsL_{L-1}$ и $\tsR_{L-1}$.
 
-\textbf{Результат}:
-Ряд $\widehat\tsS$ как оценка аппроксимации $\tsX$ рядом конечного ранга $r$.
+\textbf{Result}:
+Series $\widehat\tsS$ as estimate of $\tsX$ by finite rank series of order $r$.
 
 \begin{enumerate}
 \item
-$\bfY_0 = \calT \widetilde\tsX$, где $\widetilde\tsX=(\tsL_{L-1}, \tsX, \tsR_{L-1})$, $k=0$.
+$\bfY_0 = \calT \widetilde\tsX$, where $\widetilde\tsX=(\tsL_{L-1}, \tsX, \tsR_{L-1})$, $k=0$.
 \item
-Получение $\widehat\bfZ$ по алгоритму~\ref{alg:weightedSVD} с критерием остановки STOP2, примененному к $\bfY_k$ для оценивания $\Pi_{\calM_r} \bfY_{k}$.
+Obtaining $\widehat\bfZ$ using algorithm ~\ref{alg:weightedSVD} applied to $\bfY_k$ for estimation of $\Pi_{\calM_r} \bfY_{k}$ with stop criterion STOP2.
 \item
 $\widetilde\bfY_{k+1} = \Pi_\calH  \widehat\bfZ$, $k\leftarrow k+1$.
 \item
-Если STOP1, то $\widehat\tsS = \calT^{-1} \bfY_k$, где $\bfY_k$ состоит из столбцов матрицы $\widetilde\bfY_{k}$
-c $L$-го по $N$-ый.
+If STOP1 then $\widehat\tsS = \calT^{-1} \bfY_k$, where $\bfY_k$ consists of matrix $\widetilde\bfY_{k}$ columns from $L$-th to $N$-th.
 \end{enumerate}
 \end{algorithm}
 
@@ -490,62 +486,61 @@ c $L$-го по $N$-ый.
 %не участвуют.
 %\end{remark}
 
-\subsection{Алгоритмы Oblique Cadzow}
+\subsection{Oblique Cadzow iterations}
 
-Эти алгоритмы могут быть применены, если выполнены условия предложения~\ref{prop:projS}.
+These algorithms could be applied if Proposition~\ref{prop:projS} conditions are carried out.
 
-\begin{algorithm}[Oblique Cadzow]
+\begin{algorithm}[Oblique Cadzow iterations]
 \label{alg:obliqueCadzow}
-\textbf{Вход}: Временной ряд $\tsX$, длина окна $L$, ранг $r$, матрица $\bfC=\diag(c_1,\ldots, c_K)$, где $K=N-L+1$,
-критерий остановки STOP1.
+\textbf{Input}: Time series $\tsX$, window length $L$, rank $r$, matrix $\bfC=\diag(c_1,\ldots, c_K)$, where $K=N-L+1$,
+stop criteria STOP1.
 
-\textbf{Результат}:
-Ряд $\widehat\tsS$ как оценка аппроксимации $\tsX$ рядом конечного ранга $r$.
+\textbf{Result}:
+Series $\widehat\tsS$ as estimate of $\tsX$ by finite rank series of order $r$.
 
 \begin{enumerate}
 \item
 $\bfY_0 = \calT \tsX$, $k=0$.
 \item
-$\bfY_{k+1} = \Pi_\calH  \Pi_{\calM_r} \bfY_{k}$, $k\leftarrow k+1$, где
-$\Pi_{\calM_r}$ задан формулой \eqref{eq:PiMr}.
+$\bfY_{k+1} = \Pi_\calH  \Pi_{\calM_r} \bfY_{k}$, $k\leftarrow k+1$, where
+$\Pi_{\calM_r}$ is given by \eqref{eq:PiMr}.
 \item
-Если STOP1, то $\widehat\tsS = \calT^{-1} \bfY_k$.
+If STOP1 then $\widehat\tsS = \calT^{-1} \bfY_k$.
 \end{enumerate}
 \end{algorithm}
 
+Since the original problem is approximation of time series with equal weights, the problem of finding a proper matrix $\bfC$ is considered.
+It is found that there is no such a matrix, so a few variants are considered below.
 
-Так как исходно задачей является аппроксимация временного ряда с равными весами, поставим задачу нахождения соответствующей матрицы $\bfC$.
-Оказывается такой невырожденной матрицы не существует, поэтому рассмотрим несколько вариантов.
-
-\subsubsection{Алгоритм Cadzow ($\alpha$)}
+\subsubsection{Cadzow ($\alpha$) iterations}
 \label{sec:cadzow_alpha}
-Найдем такую матрицу $\bfC$, чтобы полунорма $\|\cdot\|_{\bfC}$ соотносилась с расстоянием с единичными весами $f_q(\tsY) = f(\tsY)$, встречающимся в \eqref{L-rank_task}, то есть для $\bfM$ выполнялись условия предложения~\ref{prop:projS} и равенство \eqref{qi_mi} при $q_i = 1$, $i=1,\ldots,N$.
+Let us find a matrix $\bfC$ such that seminorm $\|\cdot\|_{\bfC}$ is corresponded with respect to then distance with uniform weights $f_q(\tsY) = f(\tsY)$ taken a part in \eqref{L-rank_task}, i.e. Proposition~\ref{prop:projS} conditions and equality \eqref{qi_mi} under $q_i = 1$, $i=1,\ldots,N$ are carried out for $\bfM$.
 
-Воспользуемся следующей леммой.
+Let us use following lemma.
 
 \begin{lemma}[\cite{Gillard2014}]
 \label{zhiglemma}
-Пусть $\tsX \in \sfX_N$, $\bfX = \calT(\tsX) \in \sfR^{L \times K}$. Если $h = N/L$ --- целое, тогда $\tr(\bfX \bfC \bfX^\rmT) = \tsX^\rmT \tsX$, где $\bfC$ --- диагональная матрица со следующими диагональными элементами:
+Let $\tsX \in \sfX_N$, $\bfX = \calT(\tsX) \in \sfR^{L \times K}$. If $h = N/L$ is integer then $\tr(\bfX \bfC \bfX^\rmT) = \tsX^\rmT \tsX$ where $\bfC$ is a diagonal matrix with diagonal elements as follows:
 \begin{equation*}
 c_k = \begin{cases}
-1, & \text{если} \quad k = jL+1 \quad \text{для некоторого} \quad j = 0, \ldots, h-1, \\
-0, & \text{в противном случае}
+1, & \text{if} \quad k = jL+1 \quad \text{for some} \quad j = 0, \ldots, h-1, \\
+0, & \text{otherwise}
 \end{cases}.
 \end{equation*}
 \end{lemma}
 
-Существенная проблема, которая встречается при этом подходе --- нулевые элементы на диагоналях матрицы $\bfC$. Таким образом, ранг матрицы $\bfC$ заведомо меньше $K$. В \cite{Gillard2014} предложено заменить нули на диагоналях на некоторое малое $\alpha$, чтобы исправить проблему.
+This approach contains the important trouble --- zeroes are placed in a diagonal of matrix $\bfC$. Thus, matrix $\bfC$ rank deliberately less than $K$. Changing diagonal zeroes to some small $\alpha$ is suggested in \cite{Gillard2014} for solving the trouble.
 
-Положим
+Let
 \begin{equation}\label{zhigweights}
 c_k = \begin{cases}
-1, & \text{если} \quad k = jL+1 \quad \text{для некоторого} \quad j = 0, \ldots, h-1, \\
-\alpha, & \text{в противном случае,}
+1, & \text{если} \quad k = jL+1 \quad \text{for some} \quad j = 0, \ldots, h-1, \\
+\alpha, & \text{otherwise,}
 \end{cases}
 \end{equation}
-Это исправляет проблему ранга, но, как будет видно дальше на численных примерах, делает сходимость метода, решающего задачу \eqref{L-rank_task}, медленной.
+It fixes the trouble of rank, but makes convergecy of method for solving a problem \eqref{L-rank_task} slower, as it could be seen further.
 
-Будем называть алгоритм~\ref{alg:obliqueCadzow} с матрицей $\bfC$, заданной в \eqref{zhigweights}, алгоритмом Cadzow($\alpha$).
+Let us denote Cadzow($\alpha$) iterations by the algorithm~\ref{alg:obliqueCadzow} with matrix $\bfC$  given in \eqref{zhigweights}.
 
 \paragraph{Вырожденный случай $\alpha=0$.}
 
