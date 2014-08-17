@@ -76,12 +76,12 @@ E-mail: \textcolor {blue}{\underline{nina@gistatgroup.com}}}
 \hspace{1.25cm}\begin{minipage}{12.16cm}\bpv\bpv\bmv \noindent
 \footnotesize{\bf Keywords:}\/ Time series, Cadzow iterations, Time Series of Finite Rank, Weighted Total Least Squares, Oblique SVD-Factorization, Singular Spectrum Analysis
 
-\bpv\bpv\noindent  The problem of time series approximation by series of finite rank is considered in the paper. This is actual problem in signal processing tasks, partially, for extracting a signal in analysis of noisy signals. After applying weigthed least-squares method, the optimization problem arises, which do not have an exact solution. One of the numeric local minimum search method (Cadzow iterations) is well known. However, Cadzow iterations may work with specific weights only, which decreases while approaching edges of time series. In addition, it is naturally to take equal weights which correspond to usual Euclidean metric. Therefore, several new methods are suggested and investigated to achieve equal or approximately equal weights. Questions of convergency, computational complexity and accuracy are considered for proposed methods. Methods are compared on the numeric example.
+\bpv\bpv\noindent  The problem of time series approximation by series of finite rank is considered in the paper. This is actual problem in signal processing tasks, partially, for extracting a signal in analysis of noisy signals. After applying weigthed least-squares method, the optimization problem arises, which do not have an exact solution. One of the numeric local minimum search method (Cadzow iterations) is well known. However, Cadzow iterations may work with specific weights only, which decreases while approaching edges of time series. In addition, it is naturally to take equal weights corresponding to usual Euclidean metric. Therefore, several new methods are suggested and investigated to achieve equal or approximately equal weights. Questions of convergency, computational complexity and accuracy are considered for proposed methods. Methods are compared on the numeric example.
 
 \end{minipage}\bls\bmv
 
 \section{Introduction}
-Consider the problem of extracting the signal $\tsS = (s_1, \ldots, s_N)$ from an observed noisy signal $\tsX = \tsS + \tsN$, where $\tsS$ has some fixed structure, exactly, $\tsS$ is governed by some \emph{linear recurrence relation} (LRR) of order $r$:
+Consider the problem of extracting a signal $\tsS = (s_1, \ldots, s_N)$ from an observed noisy signal $\tsX = \tsS + \tsN$, where $\tsS$ has some fixed structure, exactly, $\tsS$ is governed by some \emph{linear recurrence relation} (LRR) of order $r$:
 \begin{equation*}
 s_n = \sum_{i = 1}^{r} a_i s_{n-i}, \quad n = r + 1, \ldots, N.
 \end{equation*}
@@ -97,16 +97,16 @@ s_L & s_{L + 1} & \ldots & s_N
 \end{pmatrix}.
 \end{equation*}
 Note that $\bfS\in \calH$, where $\calH$ is the set of Hankel matrixes with equal values on their anti-diagonals $i+j=\mathrm{const}$.
-If series are governed by minimal LRR of order $r$, $r < \min(L, K)$, then $\rank \bfS = r < L$. So, $\bfS$ is Hankel matrix of low-rank $r$.
+If series are governed by minimal LRR of order $r$, $r < \min(L, K)$, then $\rank \bfS = r < L$. So, $\bfS$ is a Hankel matrix of low-rank $r$.
 
-Let $\bfX$ be a trajectory matrix of series $\tsX$. Then the problem of estimation of $\tsS$ could be considered as the problem of approximation of matrix $\bfX$ by Hankel matrix of rank not larger than $r$:
+Let $\bfX$ be a trajectory matrix of series $\tsX$. Then the problem of estimation of $\tsS$ could be considered as the problem of approximation of matrix $\bfX$ by a Hankel matrix of rank not larger than $r$:
 \begin{equation}\label{introd_task}
 \|\bfX - \bfY\|^2_\rmF \to \min_{\substack{\rank \bfY \le r \\ \bfY \in \calH}}
 \end{equation}
 
 A lot of papers are dedicated to this problem, e.g., \cite{Cadzow1988, Markovsky2011, Usevich.Markovsky2014, Gillard.Zhigljavsky2013} and many other works, where the problem is called Structured Low-Rank Approximation. Approaches of solving the problem are iterative, e.g., Cadzow iterations consist of alternating projections to the set of Hankel matrices and matrices of rank not larger than $r$. The target function is not unimodal in such class of problems, and convergency to global minimum is not guaranteed; despite this, problem \eqref{introd_task} is considered to be well-researched, though it has many open answers yet.
 
-Note that the problem \eqref{introd_task} is equivalent to the problem
+Note that problem \eqref{introd_task} is equivalent to the problem
 \begin{equation}\label{introd_task_2}
 \sum_{i = 1}^N w_i(x_i - y_i)^2 \to \min_{\substack{\tsY: \rank \bfY \le r \\ \bfY \in \calH}},
 \end{equation}
@@ -120,21 +120,21 @@ N - i + 1 & \text{for $i = K + 1, \ldots, N.$}
 \end{cases}.
 \end{equation}
 
-Weights on edges of series are less than in a center, i.e. \eqref{introd_task} is a weighted least squares problem for series.
+Weights on edges of series are less than in the center, i.e. \eqref{introd_task} is a weighted least squares problem for series.
 
-The aim of this paper is to consider methods which solve the problem \eqref{introd_task_2} with various weights instead of $w_i$ and compare methods in terms of precision of the signal $\tsS$ estimation. All described methods are iterative. If an estimate of the signal, which is not governed by LRR, is the point of interest then only the first iteration could be taken with aim of reduction of computational complexity. So, described methods are compared by precision of the signal estimation in the first iteration and in the limit. Note than known Singular Spectrum Analysis (SSA) \cite{Broomhead.King1986, Vautard.etal1992, Elsner.Tsonis1996, Golyandina.etal2001, Ghil.etal2002, Golyandina.Zhigljavsky2012} could be
+The aim of this paper is to consider methods which solve problem \eqref{introd_task_2} with various weights instead of $w_i$ and compare methods in terms of precision of the signal's $\tsS$ estimation. All described methods are iterative. If an estimate of the signal, which is not governed by LRR, is the point of interest then only the first iteration could be taken with aim of reduction of computational complexity. So, described methods are compared by precision of the signal estimation in the first iteration and in the limit. Note than known Singular Spectrum Analysis (SSA) \cite{Broomhead.King1986, Vautard.etal1992, Elsner.Tsonis1996, Golyandina.etal2001, Ghil.etal2002, Golyandina.Zhigljavsky2012} could be
 described as one iteration of Cadzow iterations.
 
-Structure of paper as follows:  In Section ~\ref{sec:lowrank_appr} problem of approximating a matrix by a Hankel rank-deficient matrix is considered. Common structure of iterative alternating projection algorithms is described, ways of builduing projectors are given, convergency theorem is proved.
+Structure of paper as follows:  In Section~\ref{sec:lowrank_appr} a problem of approximating a matrix by a Hankel rank-deficient matrix is considered. Common structure of iterative alternating projection algorithms is described, ways of builduing projectors are given, the convergency theorem is proved.
 
-In Section~\ref{sec:ts_matrices} the connection between problems of approximation of time series and matrices is described, relation between weights in weighted least squares problems is also given. Chapter~\ref{sec:alg} is dedicated to suggested algorithms of time series approximation. In Section~\ref{sec:simul} numeric comparison of algorithms on typical example is carried out.
+In Section~\ref{sec:ts_matrices} the connection between problems of approximation of time series and matrices is described, relation between weights in weighted least squares problems is also given. Chapter~\ref{sec:alg} is dedicated to suggested time series approximation algorithms. In Section~\ref{sec:simul} numeric comparison of algorithms on typical example is carried out.
 
 The paper is finished with short conclusions and discussion of further work in Section~\ref{sec:concl}. The result of separability of constant and sinusoidal signal, which has connection with convergency speed of some described algorithms, is proved in appendix.
 
 \section{Approximation by rank-deficient Hankel matrices}
 \label{sec:lowrank_appr}
 \subsection{Common algotihm}
-Consider the problem of approximation of a matrix $\bfX$ by Hankel rank-deficient matrix with respect to some (semi)norm $\|\cdot\|$ in this Section. Define by $\spaceR^{L\times K}$ the space of matrices of size $L \times K$, $\calM_r\subset \spaceR^{L\times K}$ is the space of matrices of rank not larger than $r$,
+Consider a problem of approximation of a matrix $\bfX$ by Hankel rank-deficient matrix with respect to some (semi)norm $\|\cdot\|$ in this Section. Define by $\spaceR^{L\times K}$ space of matrices of size $L \times K$, $\calM_r\subset \spaceR^{L\times K}$ is space of matrices of rank not larger than $r$,
 $\calH \subset \spaceR^{L\times K}$ is the set of Hankel matrices.
 Note that  $\calM_r$ is not nor linear, nor convex set. However, $\calM_r$ is multiplicative, i.e.
 if $\bfZ\in \calM_r$, then $a\bfZ\in \calM_r$ for any $a$.
@@ -146,18 +146,18 @@ The problem is
 \|\bfX - \bfY\| \to \min_\bfY, \mbox{\ where\ } \bfY \in \calH \cap \calM_r.
 \ee
 
-For presenting the algorithm scheme for this problem, let us introduce projectors to proper subspaces with respect to $\|\cdot\|$ norm, $\Pi_{\calM_r}$ --- projector to $\calM_r\subset \spaceR^{L\times K}$,
+For presenting the algorithm's scheme for this problem, let us introduce projectors to proper subspaces with respect to $\|\cdot\|$ norm, $\Pi_{\calM_r}$ --- projector to $\calM_r\subset \spaceR^{L\times K}$,
 $\Pi_{\calH}$ --- projector to $\calH$.
-Both projectors are ortogonal because multiplicativity is sufficient for  orthogonality of space. Note that result of projection to subspace of rank-deficient matrices could not be defined uniquely, but further we suppose that in case of ambiguity any value from all possible is chosen.
+Both projectors are ortogonal because multiplicativity is sufficient for  orthogonality of space. Note that result of projection to subspace of rank-deficient matrices could not be defined uniquely, but further we suppose that in the case of ambiguity any value from all possible is chosen.
 
 \begin{proposition} \label{pythaprop}
 Let $\calX$ be Hilbert space, $\calM$ is multiplicative subset, $\Pi_\calM$ --- projection operator to $\calM$. Then for any $x \in \calX$ Pythagorean theorem is true: $\|x\|^2 = \|x - \Pi_\calM x\|^2 + \|\Pi_\calM x\|^2$.
 \end{proposition}
 \begin{proof5}{\ref{pythaprop}}
-By using multiplicativity the set $\calM$ could be represented as $\calM = \bigcup\limits_{l \in \calL}l$, where $\calL$ is the set of all lines lying in $\calM$ and passes through $0$, and $l \cap m = 0$ for any $l, m \in \calL$, $l \neq m$. Then projection could be described as follows: to begin with, we choose a line $l$ such that $\dist(x, l) \rightarrow \min\limits_{l \in \calL}$, then $y = \Pi_\calM x$ is orthogonal projection $x$ to a line $l$, which is linear subspace. Proposition is proved.
+By using multiplicativity, the set $\calM$ could be represented as $\calM = \bigcup\limits_{l \in \calL}l$, where $\calL$ is the set of all lines lying in $\calM$ and passes through $0$, and $l \cap m = 0$ for any $l, m \in \calL$, $l \neq m$. Then projection could be described as follows: to begin with, we choose a line $l$ such that $\dist(x, l) \rightarrow \min\limits_{l \in \calL}$, then $y = \Pi_\calM x$ is orthogonal projection $x$ to a line $l$, which is linear subspace. Proposition is proved.
 \end{proof5}
 
-For solving a problem \eqref{eq:gen_task} iterative alternating projections method could be used:
+For solving problem \eqref{eq:gen_task} iterative alternating projections method could be used:
 \be
    \bfY_{k+1}=\Pi_\calH \Pi_{\calM_r} \bfY_{k}, \mbox{\ where\ } \bfY_{0}=\bfX.
 \ee
@@ -173,7 +173,7 @@ Let space $\calM_r$ be closed in topology gererated by norm $\|\cdot\|$. Then
 \end{enumerate}
 \end{theorem}
 \begin{proof2}{\ref{th:converg}}
-Using unequalities \cite{Chu.etal2003}
+Let us use unequalities \cite{Chu.etal2003}
 \begin{equation}
 \label{chuprop}
 \|\bfY_k - \Pi_{\calM_r} \bfY_k\| \ge \|\Pi_{\calM_r} \bfY_k - \bfY_{k + 1}\| \ge \|\bfY_{k+1} - \Pi_{\calM_r} \bfY_{k + 1}\|.
@@ -198,7 +198,7 @@ Norms generated by weighted Frobenius inner product in form
 \ee
 are considered below.
 
-It is known that $\calM_r$ is closed with respect to usual Frobenius norm, therefore, Theorem ~\ref{th:converg} is also true in the case of weigthed Frobenius norm for any $m_{l,k} > 0$.
+It is known that $\calM_r$ is closed with respect to usual Frobenius norm, therefore, Theorem~\ref{th:converg} is also true in the case of weigthed Frobenius norm for any $m_{l,k} > 0$.
 
 
 \subsection{Evaluation of projectors}
@@ -220,15 +220,15 @@ Consider following cases.
 
 \paragraph{Case of explicit form of projector $\Pi_{\calM_r}$.} To begin with consider a case when projector could be evaluated explicitly.
 Let all weights $m_{ij}=1$. Denote $\Pi_r=\Pi_{\calM_r}$ in this speial case.
-It is well-known that projector $\Pi_{r} \bfY$ could be evaluated as a sum of first components of matrix $\bfY$ Singular Value Decomposition: let $\bfY = \bfU \mathbf{\Sigma} \bfV^\rmT$ where $\bfU$ is orthogonal matrix of size $L \times L$, $\mathbf{\Sigma}$ is quasi-diagonal matrix of size $L \times K$ with non-negative diagonal elements in non-increasing order, $\bfV$ is orthogonal matrix of size $K \times K$. More definitely, denote by $L\le K$, $\Sigma = (\sigma_1, \ldots, \sigma_L)$ a vector consisting of diagonal elements of matrix $\mathbf{\Sigma}$. Denote by $\mathbf{\Sigma}_r = (\sigma^r_{l k})$ following matrix:
+It is well-known that projector $\Pi_{r} \bfY$ could be evaluated as a sum of first components of matrix's $\bfY$ Singular Value Decomposition: let $\bfY = \bfU \mathbf{\Sigma} \bfV^\rmT$ where $\bfU$ is an orthogonal matrix of size $L \times L$, $\mathbf{\Sigma}$ is a quasi-diagonal matrix of size $L \times K$ with non-negative diagonal elements in non-increasing order, $\bfV$ is an orthogonal matrix of size $K \times K$. More definitely, denote by $L\le K$, $\Sigma = (\sigma_1, \ldots, \sigma_L)$ a vector consisting of diagonal elements of matrix $\mathbf{\Sigma}$. Denote by $\mathbf{\Sigma}_r = (\sigma^r_{l k})$ following matrix:
 \begin{equation*}
 \sigma^r_{i j} = \begin{cases}
 \sigma_i & \text{if $i = j, i \le r,$}\\
 0 & \text{otherwise}.
 \end{cases}
 \end{equation*}
-Then projection could be evaluated in following way: $\Pi_{r} \bfY  = \bfU \mathbf{\Sigma}_r \bfV^\rmT$.
-Next Proposition describes the case when evaluation of a projector is reduced to applying a projector  $\Pi_r$.
+Then projection could be evaluated as follows: $\Pi_{r} \bfY  = \bfU \mathbf{\Sigma}_r \bfV^\rmT$.
+Next Proposition describes the case when evaluation of a projector is reduced to applying the projector  $\Pi_r$.
 
 \begin{proposition}
 \label{prop:projS}
@@ -243,15 +243,15 @@ where $\bfO_\bfC$ is a matrix such that $\bfC = \bfO_\bfC^{\rmT}\bfO_\bfC$,
 $\bfB = \bfY \bfO_\bfC^{\rmT}$, $(\bfO_\bfC^{\rmT})^\dagger$ denotes  Moore-Penrose pseudoinverse to the matrix $\bfO_\bfC^{\rmT}$.
 \end{proposition}
 \begin{proof5}{\ref{prop:projS}}
-The proof is a direct consequence of the fact that considered norm is generated by oblique inner product in the row space of a matrix $\bfY$, watch details in \cite{Golyandina2013}.
+The proof is a direct consequence of the fact that considered norm is generated by oblique inner product in row space of a matrix $\bfY$, watch details in \cite{Golyandina2013}.
 \end{proof5}
 
 \begin{remark}
-Note that Proposition ~\ref{prop:projS} conditions could be satisfied unless matrix $\bfC$ is diagonal.
+Note that Proposition~\ref{prop:projS} conditions could be satisfied unless matrix $\bfC$ is diagonal.
 \end{remark}
 
 \paragraph{Projector $\Pi_{\calM_r}$ in general case.}
-Since the projector could not be found explicitly iterative algorithms are used in the general case.
+Since the projector could not be found explicitly, iterative algorithms are used in the general case.
 One of these algorithms is described in \cite{Srebro2003}. Denote by $\odot$ element-wise matrix product.
 
 \begin{algorithm}
@@ -278,19 +278,19 @@ If STOP then $\widehat\bfY = \bfY_k$.
 \end{algorithm}
 
 Note that in the case when $m_{ij}$ is equal to 0 or 1 this algorithm is EM-algorithm \cite{Srebro2003},
-hence properties of EM-algorithms are carried out and it converges to local minimum in the problem of search of a projector. Nominally, it does not make a sence which values are in matrix at positions of zeros. However, it could be significant for algorithm's convergency.
+hence properties of EM-algorithms are carried out and it converges to local minimum in the problem of projector search. Nominally, it does not make a sence which values are in matrix at positions of zeros. However, it could be significant for algorithm's convergency.
 
 \section{Time series and matrix approximation problem}
 \label{sec:ts_matrices}
 \subsection{Problem statement for time series}
-Consider time series $\tsX = (x_1, \ldots, x_N)$ of length $N \ge 3$. Let us fix the window length $L$, $1 < L < N$, denote $K = N - L + 1$. Also consider the sequence of vectors:
+Consider time series $\tsX = (x_1, \ldots, x_N)$ of length $N \ge 3$. Let us fix a window length $L$, $1 < L < N$, denote $K = N - L + 1$. Also consider a sequence of vectors:
 \begin{equation}\label{l_lagged}
 X_i = (x_i, \ldots, x_{i + L - 1})^\rmT, \qquad i = 1, \ldots, K.
 \end{equation}
-Define by $L$-trajectory matrix of series $\tsX$ the matrix $\bfX = [X_1:\ldots:X_K]$.
+Define by $L$-trajectory matrix of series $\tsX$ a matrix $\bfX = [X_1:\ldots:X_K]$.
 
 \begin{definition}
-Suppose that $0 \le r \le L$. Then it is said that series $\tsX$ \emph{have $L$-rank $r$} if its $L$-trajectory matrix $\bfX$ rank equals $r$.
+Suppose that $0 \le r \le L$. Then it is said that series $\tsX$ \emph{have $L$-rank $r$} if its $L$-trajectory matrix's $\bfX$ rank equals $r$.
 \end{definition}
 
 Note that series $\tsX$ could have $L$-rank $r$ only when
@@ -299,9 +299,9 @@ r \le \min(L, N-L+1). \label{min_condition}
 \end{equation}
 It is said that the window length $L$ is \emph{acceptable} for fixed $r$ if it satisfies condition \eqref{min_condition}.
 
-Further we suppose that $L$ is not larger than $K$ because transposition does not change the situation and row rank of trajectory matrix is equal to its column rank.
+Further we suppose that $L$ is not larger than $K$ because transposition does not change the situation and row rank of the trajectory matrix is equal to its column rank.
 
-Let $\sfX_N$ be the set of all time series of length $N$, $\sfX_N^r$ is the set of all time series of length $N$ of $L$-rank not larger than $r$. For given time series $\tsX \in \sfX_N$, window length $L$, $1 < L < N$, and $r$ satisfying the condition \eqref{min_condition}, consider a problem:
+Let $\sfX_N$ be the set of all time series of length $N$, $\sfX_N^r$ is the set of all time series of length $N$ of $L$-rank not larger than $r$. For given time series $\tsX \in \sfX_N$, window length $L$, $1 < L < N$, and $r$ satisfying condition \eqref{min_condition}, consider a problem:
 \begin{equation} \label{L-rank_task}
 f_q(\tsY) \to \min_{\tsY \in \sfX_N^r}, \quad f_q(\tsY) = \sum \limits_{i=1}^N q_i(x_i - y_i)^2,
 \end{equation}
@@ -314,28 +314,28 @@ Let $\tsX$ be time series of length $N$, $\bfX \in \calH$ --- its trajectory mat
 \calT(\tsX) = \bfX: \hat x_{l, k} = x_{l + k - 1}, \quad \bfX = (\hat x_{l,k}), \quad \tsX = (x_1, \ldots, x_N).
 \end{equation*}
 
-Hence a one-to-one mapping between the space of series and Hankel matrices,
+Hence the one-to-one mapping between space of series and Hankel matrices,
 problem~\eqref{L-rank_task} could be expressed in terms of matrices.
 
 \paragraph{Adjustment.} For a numeric search of solution of optimization problem \eqref{eq:gen_task} following fact is necessary.
-Consider $\calX$ to be Hilbert space with inner product $\langle\cdot, \cdot\rangle$, $\calM$ is multiplicative subset. Let an element $x$ lie in $\calX$, $y$ lie in $\calM$. Consider a projection $y^*$ of an element $x$ to a line $l = \{\alpha y:\, \alpha \in \sfR\}$:. Then an adjustment $y^*$ is
+Consider $\calX$ as Hilbert space with inner product $\langle\cdot, \cdot\rangle$, $\calM$ is multiplicative subset. Let an element $x$ lie in $\calX$, $y$ lie in $\calM$. Consider a projection $y^*$ of an element $x$ to a line $l = \{\alpha y:\, \alpha \in \sfR\}$:. Then an adjustment $y^*$ is
 \begin{equation}
 \label{eq:adjust}
 y^* = \calA(y)= y \frac{\langle x, y\rangle}{\langle y, y\rangle}.
 \end{equation}
 Herewith $\|x - y^*\| \le \|x - y\|$ is carried out.
 
-Thus if some estimate $y=\tsY \in \sfX_N^r$ to the solution of a problem \eqref{L-rank_task} of approximation $x=\tsX \in \sfX_N$ exists, then it could be adjusted (at least not made worse) by applying \eqref{eq:adjust} and obtaining series $\tsY^*=\calA(\tsY)$ which is called as \emph{$\tsY$ improvement}.
+Thus if some estimate $y=\tsY \in \sfX_N^r$ to the solution of problem \eqref{L-rank_task} of approximation $x=\tsX \in \sfX_N$ exists, then it could be adjusted (at least not made worse) by applying \eqref{eq:adjust} and obtaining series $\tsY^*=\calA(\tsY)$ which is called as \emph{$\tsY$ adjustment}.
 
 \subsection{Equivalent target functions of problem \eqref{L-rank_task}}
-In the space of time series a target function is given explicitly using (semi)inner product
+In space of time series a target function is given explicitly using (semi)inner product
 \begin{equation}
 \label{eq:norm_ser}
     \langle\tsY,\tsZ\rangle_q = \sum_{i = 1}^N q_i y_i z_i,
 \end{equation}
 where $q_i$ are positive (non-negative) weights.
 
-Consider two (semi)inner products in the space of matrices which are expansions of usual Frobenius inner product.
+Consider two (semi)inner products in space of matrices which are expansions of usual Frobenius inner product.
 
 Denote
 \begin{equation}
@@ -365,11 +365,11 @@ m_{l,k}=c_k.
 \end{equation}
 \end{proposition}
 \begin{proof5}{\ref{prop:equiv_tasks}}
-To prove a first part note that
+To prove the first part note that
 \begin{equation*}
 \langle \bfY, \bfZ \rangle_{1,\bfM} = \sum_{i = 1}^L \sum_{j = 1}^K m_{i,j} y_{i + j - 1} z_{i + j - 1},
 \end{equation*}
-Proof of a second part is a consequence of the fact that for a diagonal matrix $\bfC$
+Proof of the second part is a consequence of the fact that for a diagonal matrix $\bfC$
 \begin{equation*}
 \langle \bfY, \bfZ \rangle_{2,\bfC} = \sum_{l=1}^L \sum_{k=1}^K c_k y_{l,k} z_{l, k}.
 \end{equation*}
@@ -380,11 +380,11 @@ Proof of a second part is a consequence of the fact that for a diagonal matrix $
 If all weights $m_{i,j}=1$, then weights $q_i$ are equal to $w_i$ given in \eqref{eq:w}.
 \end{corollary}
 
-Note that second matrix norm with a diagonal matrix $\bfC$ is a particular case of first norm. However, the value of writing first norm in a form of second norm is that approximation by rank-deficient matrices with respect to first norm is a complex problem if not all $m_{i,j}$ are equal, but approximation with respect to the second norm is a natural problem which could be solved using oblique Singular Value Decomposition.
+Note that second matrix norm with a diagonal matrix $\bfC$ is a particular case of first norm. However, the value of writing first norm in a form of second norm is that approximation by rank-deficient matrices with respect to the first norm is a complex problem if not all $m_{i,j}$ are equal, but approximation with respect to the second norm is a natural problem which could be solved using oblique Singular Value Decomposition.
 
 \begin{remark}
 \label{rem:2tasks}
-Thus, if condition~\eqref{qi_mi} is carried out and all weights $q_i$ and $m_{i,j}$ are non-zero, then problem~\eqref{L-rank_task}
+Thus, if Condition~\eqref{qi_mi} is carried out and all weights $q_i$ and $m_{i,j}$ are non-zero, then problem~\eqref{L-rank_task}
 is equivalent to the problem
 \begin{equation*}
 \label{rank_task}
@@ -394,8 +394,8 @@ is equivalent to the problem
 
 \section{Algorithms}
 \label{sec:alg}
-All discussed algorithms for solving the problem~\eqref{L-rank_task} are given in this Section.
-In the model of series $\tsX=\tsS+\tsN$, where $\tsS$ is time series of finite rank $r$, $\tsN$ is a noise, a result of algorithm is considered as an estimate of signal $\tsS$.
+All discussed algorithms for solving problem~\eqref{L-rank_task} are given in this Section.
+In a model of series $\tsX=\tsS+\tsN$, where $\tsS$ is time series of finite rank $r$, $\tsN$ is a noise, a result of algorithm is considered as an estimate of signal $\tsS$.
 
 \subsection{Cadzow iterations}
 The aim of this algorithm is approximation of trajectory matrix with respect to norm $\|\cdot\|_\bfM$ with weights $m_{ij}=1$ (i.e. it solves problem \eqref{introd_task}) corresponding to problem~\eqref{introd_task_2} with weights given in \eqref{eq:w} by Corollary \ref{cor:base_weights}. The algorithm was proposed in \cite{Cadzow1988}. The drawback of this algorithm is non-uniformity of weights $w_i$: they are larger in center than in edges of time series. Note that window length decrease leads to more uniform weights.
@@ -405,7 +405,7 @@ The aim of this algorithm is approximation of trajectory matrix with respect to 
 stop criterion STOP1 (eg., given quantity of iterations).
 
 \textbf{Result}:
-Series $\widehat\tsS$ as estimate of $\tsX$ by finite rank series of order $r$.
+Series $\widehat\tsS$ as an estimate of $\tsX$ by finite rank series of order $r$.
 
 \begin{enumerate}
 \item
@@ -432,7 +432,7 @@ according to Proposition ~\ref{prop:equiv_tasks}.
 stop criteria STOP1 for outer iterations and STOP2 for inner iterations.
 
 \textbf{Result}:
-Series $\widehat\tsS$ as estimate of $\tsX$ by finite rank series of order $r$.
+Series $\widehat\tsS$ as an estimate of $\tsX$ by finite rank series of order $r$.
 
 \begin{enumerate}
 \item
@@ -448,9 +448,9 @@ If STOP1 then $\widehat\tsS = \calT^{-1} \bfY_k$.
 
 \subsection{Extended Cadzow iterations}
 
-The formulation of problem in the case of this algorithm is quite different.
+The formulation of a problem in the case of this algorithm is quite different.
 Formally, series are extended to both sides on $L-1$ measurements with some values having zero weights, i.e. new measurements are considered as gaps.
-Thus, length of extended series $\widetilde\tsX$ is $N+2L-2$, and its trajectory matrix $\widetilde\bfX$ size is $L$ by $N+L-1$.
+Thus, length of extended series $\widetilde\tsX$ is $N+2L-2$, and its trajectory matrix's $\widetilde\bfX$ size is $L$ by $N+L-1$.
 
 For extended series a common scheme with weights $m_{i,j}=\calT \tsI$ is applied, where series $\tsI$ have ones in the place of given series and zeroes in positions of gaps, i.e.
 \begin{equation*}
@@ -466,7 +466,7 @@ stop criteria STOP1 for outer iterations and STOP2 for inner iterations,
 left and right extention values, $\tsL_{L-1}$ и $\tsR_{L-1}$.
 
 \textbf{Result}:
-Series $\widehat\tsS$ as estimate of $\tsX$ by finite rank series of order $r$.
+Series $\widehat\tsS$ as an estimate of $\tsX$ by finite rank series of order $r$.
 
 \begin{enumerate}
 \item
@@ -476,7 +476,7 @@ Obtaining $\widehat\bfZ$ using algorithm ~\ref{alg:weightedSVD} applied to $\bfY
 \item
 $\widetilde\bfY_{k+1} = \Pi_\calH  \widehat\bfZ$, $k\leftarrow k+1$.
 \item
-If STOP1 then $\widehat\tsS = \calT^{-1} \bfY_k$, where $\bfY_k$ consists of matrix $\widetilde\bfY_{k}$ columns from $L$-th to $N$-th.
+If STOP1 then $\widehat\tsS = \calT^{-1} \bfY_k$, where $\bfY_k$ consists of matrix's $\widetilde\bfY_{k}$ columns from $L$-th to $N$-th.
 \end{enumerate}
 \end{algorithm}
 
@@ -496,7 +496,7 @@ These algorithms could be applied if Proposition~\ref{prop:projS} conditions are
 stop criteria STOP1.
 
 \textbf{Result}:
-Series $\widehat\tsS$ as estimate of $\tsX$ by finite rank series of order $r$.
+Series $\widehat\tsS$ as an estimate of $\tsX$ by finite rank series of order $r$.
 
 \begin{enumerate}
 \item
@@ -509,18 +509,18 @@ If STOP1 then $\widehat\tsS = \calT^{-1} \bfY_k$.
 \end{enumerate}
 \end{algorithm}
 
-Since the original problem is approximation of time series with equal weights, the problem of finding a proper matrix $\bfC$ is considered.
-It is found that there is no such a matrix, so a few variants are considered below.
+Since the original problem is approximation of time series with equal weights, a problem of finding a proper matrix $\bfC$ is considered.
+It is found that there is no such matrix, so a few variants are considered below.
 
 \subsubsection{Cadzow ($\alpha$) iterations}
 \label{sec:cadzow_alpha}
-Let us find a matrix $\bfC$ such that seminorm $\|\cdot\|_{\bfC}$ is corresponded with respect to then distance with uniform weights $f_q(\tsY) = f(\tsY)$ taken a part in \eqref{L-rank_task}, i.e. Proposition~\ref{prop:projS} conditions and equality \eqref{qi_mi} under $q_i = 1$, $i=1,\ldots,N$ are carried out for $\bfM$.
+Let us find a matrix $\bfC$ such that seminorm $\|\cdot\|_{\bfC}$ is corresponded with respect to distance with uniform weights $f_q(\tsY) = f(\tsY)$ taken a part in \eqref{L-rank_task}, i.e. Proposition~\ref{prop:projS} conditions and equality \eqref{qi_mi} under $q_i = 1$, $i=1,\ldots,N$ are carried out for $\bfM$.
 
-Let us use following lemma.
+Let us use the following lemma.
 
 \begin{lemma}[\cite{Gillard2014}]
 \label{zhiglemma}
-Let $\tsX \in \sfX_N$, $\bfX = \calT(\tsX) \in \sfR^{L \times K}$. If $h = N/L$ is integer then $\tr(\bfX \bfC \bfX^\rmT) = \tsX^\rmT \tsX$ where $\bfC$ is a diagonal matrix with diagonal elements as follows:
+Let $\tsX \in \sfX_N$, $\bfX = \calT(\tsX) \in \sfR^{L \times K}$. If $h = N/L$ is integer, then $\tr(\bfX \bfC \bfX^\rmT) = \tsX^\rmT \tsX$ where $\bfC$ is a diagonal matrix with diagonal elements as follows:
 \begin{equation*}
 c_k = \begin{cases}
 1, & \text{if} \quad k = jL+1 \quad \text{for some} \quad j = 0, \ldots, h-1, \\
@@ -538,9 +538,9 @@ c_k = \begin{cases}
 \alpha, & \text{otherwise,}
 \end{cases}
 \end{equation}
-It fixes the trouble of rank, but makes convergecy of method for solving a problem \eqref{L-rank_task} slower, as it could be seen further.
+It fixes the trouble of rank, but makes convergecy of method for solving problem \eqref{L-rank_task} slower, as it could be seen further.
 
-Let us denote Cadzow($\alpha$) iterations by the algorithm~\ref{alg:obliqueCadzow} with matrix $\bfC$  given in \eqref{zhigweights}.
+Let us denote Cadzow($\alpha$) iterations by algorithm~\ref{alg:obliqueCadzow} with matrix $\bfC$  given in \eqref{zhigweights}.
 
 \paragraph{Вырожденный случай $\alpha=0$.}
 
