@@ -661,53 +661,39 @@ Normalized weights $q_i(\alpha)$ (so that sum equals 1) under $\alpha = 1$ (usua
 \includegraphics[width = \textwidth]{weights.pdf}\caption{Веса ряда}\label{img_weights}
 \end{center}\end{figure}
 
-\subsection{Комментарии к алгоритмам. Сравнение}
+\subsection{Comments to algorithms. Comparison}
 
-Итак, в дальнейшем будем рассматривать и сравнивать методы
-Weighted Cadzow, Extended Cadzow, Cadzow ($\alpha$), $0< \alpha \leq 1$, совпадающий с обычным методом Cadzow при $\alpha=1$,
-и Cadzow с $\widehat \bfC$.
-Заметим, что длина окна $L$ является параметром всех рассматриваемых методов.
+Following methods are considered and compared further: Weighted Cadzow iterations, Extended Cadzow iterations, Cadzow ($\alpha$) iterations, $0< \alpha \leq 1$, coinciding with usual Cadzow iterations under $\alpha=1$,
+and Cadzow $\widehat \bfC$ iterations.
+Note that window length $L$ is a parameter for all following methods.
 
 \begin{itemize}
 \item
-Все методы итеративные и, вообще говоря, они не обязаны сходится к глобальному экстремум в задаче МНК  (теоретически, даже сходимость можно иметь место только по подпоследовательностям; однако, во всех проведенных численных экспериментах сходимость имела место). Поэтому сравнение методов, даже
-решающих одну и ту же задачу,  по точности имеет смысл.
+All methods are iterative, and, generally, they are not obliged to converge to global extremum in Least Squares problem (theoretically, even convergency by subsequences could be satisfied only; however, there is convergency by sequences in all numeric examples made). So, comparison of various methods applied to same problem is comprehended.
 \item
-Сходимость методов по подпоследовательностям имеет место в предположении, что внутренние задачи проектирования в методах Weighted и Extended Cadzow решаются точно. Это напрямую следует из утверждения теоремы \ref{th:converg} для всех методов кроме Extended Cadzow, у которого веса являются частично нулевыми. Однако заметим, что  матрицы $\tilde \bfY_k$, которые содержат столбцы матриц $\Pi_{\calM_r} \bfY_k$ с $L$-го по $N$-ый и каждый элемент которых имеет положительный вес, являются матрицами ранга, не превосходящего $r$, их фробениусова норма не превосходит полунормы исходной матрицы: $\|\tilde \bfY_k\|_F \le \|\Pi_{\calM_r} \bfY_k\|_\bfM$, следовательно, эта ограниченная последовательность и у нее существует сходящаяся к нужному множеству подпоследовательность.
+Convergency of methods by sequences is carried out under following consumption: inner projecting problems in Weighted and Extended Cadzow iterations are solved exactly. This is a direct corollary from Theorem \ref{th:converg} statement for all methods excluding Extended Cadzow iterations, which have partially zero weights. But note that matrices $\tilde \bfY_k$ consisting of columns of matrices $\Pi_{\calM_r} \bfY_k$ from $L$-th to $N$-th and having posisive weight of each element are matrices of rank not larger than $r$, and their Frobenius norm is not larger than seminorm of original matrix: $\|\tilde \bfY_k\|_F \le \|\Pi_{\calM_r} \bfY_k\|_\bfM$, so it is bounded sequence which contains subsequence converging to needed set.
 \item
-Нас интересует сравнение методов не по достигаемому минимуму в задаче МНК, а по точности оценивания выделяемого сигнала $\bfS$.
-Вполне возможно, что слишком хорошая аппроксимация исходного ряда может привести к переподгонке, результатом которой
-может явиться ухудшение качества оценивания сигнала.
+Precision of estimation of excluded signal $\bfS$ is our point of interest, not a minimum in Least Squares problem. It is possible that excessively near approximation of given series could lead to overfitting, so quality of signal estimation could decrease.
 \item
-Методы Weighted Cadzow и Extended Cadzow решают задачу \eqref{L-rank_task} c единичными весами $q_i$. Остальные методы решат задачу с весами, отличающимися от равных в той или иной степени.
+Weighted and Extended Cadzow iterations solves problem \eqref{L-rank_task} with equal weights $q_i$. Other methods work with weights with various degree of non-uniformity.
 \item
-Однако каждая итерация методов Weighted Cadzow и Extended Cadzow отличается повышенной трудоемкостью, так как использует
-еще один итеративный алгоритм на каждой основной итерации.
+Though, each iteration in Weighted and Extended Cadzow distinguishes by higher computational complexity because it uses one more iterative algorithm on each primary iteration.
 \item
-Трудоемкость методов определяется как трудоемкостью одной итерации, так и числом итераций. Поэтому с этой точки зрения скорость сходимости представляет значительный интерес.
+Computational complexity is described by complexity of one iteration and amount of iterations too. So, convergency speed is important from this point of view.
 \item
-На примере обычного метода Cadzow, известно, что при решении реальных задач одна итерация может представлять значительный интерес, как по трудоемкости, так и по широкому спектру решаемых задач. А именно, одна итерация метода Cadzow --- это известным метод Singular Spectrum Analysis (SSA), который умеет решать существенно большее число задач, чем сам итеративный метод. Поэтому представляет интерес также точность оценивания сигнала, выполненная с помощью одной итерации во всех рассматриваемых методах.
+It is known that computational complexity and application variety of one iteration of usual Cadzow iterations is important in real problems. Exactly, one iteration of Cadzow iterations is well-known Singular Spectrum Analysis (SSA) method, which could solve significally bigger variety of tasks than iterative method. Therefore, precision of signal estimation done by one iteration in all described methods is the point of interest too.
 \item
-В методе SSA есть понятие разделимости, которое определяет свойство метода (приближенно) находить сигнал по наблюдаемой сумме. Тем самым разделимость
-тесно связана с точностью первой итерации итеративного метода. В свою очередь, естественно предположить, что точность первой итерации связана со скоростью сходимости метода. Поэтому вопросы разделимости имеют отношение к скорости сходимости итеративных алгоритмов.
+Separability, which defines the ability of method to (approximately) find a signal using given series, is the one of SSA method concepts. So, separability is closely connected with precision of first iteration of method. Hence, it is naturally to assume that precision of first iteration is connected with method's convergency speed. Therefore, questions about separability are related to convergency speed of iterative methods.
 \item
-Связь разделимости с длиной окна $L$ для метода SSA хорошо изучена (см., например, \cite{Golyandina2010}). А именно, оптимальная длина окна близка
-к половине длины ряда. Маленькие длины окна $L$ приводят к плохой разделимости. Влияние параметра $\alpha$ в классе алгоритмов
-Cadzow ($\alpha$) на разделимость исследуется в приложении (раздел~\ref{sec:app}) на примере разделения константы и гармоники. Там показано, что малые значения
-$\alpha$ приводят к плохой разделимости, хотя именно они соответствуют примерно равным весам $q_i$ в задаче \eqref{L-rank_task}.
-В целом, виден следующий эффект: параметры, соответствующие более равномерным весам, приводят к худшей разделимости.
+The connection between separability and window length $L$ is well researched for SSA method, see \cite{Golyandina2010}. Namely, optimal length window is near to half of a series length. Small window length $L$ tends to bad separability. Influence of parameter $\alpha$ in the class of Cadzow ($\alpha$) iterations is researched in Appendix (\ref{sec:app}) on the example of constant and harmonic signal. There it is shown that small value of $\alpha$ tends to bad separability, though it corresponds with approximately equal weights $q_i$ in problem \eqref{L-rank_task}. Generally, following effect becomes clear: parameters corresponding to more uniform weights tend to worst separability.
 \item
-Вполне возможно, что хорошая скорость сходимости и точность оценивания сигнала являются свойствами, которые не выполняются одновременно, как в силу
-противоречия между равномерностью весов и разделимостью, так и потому что медленная сходимость вполне может привести к сходимости алгоритма к лучшему значению оптимизационной задачи.
+It is possible that good convergency speed and precision of estimation of signal are properties that could not be satisfied simultaneously because of contradiction between uniformity of weights and separability, and slow convergency could tend to better solution of optimization problem too.
 \end{itemize}
 
 \begin{remark}
 \label{rem:adjust}
-Во всех алгоритмах к $\widehat\tsS$ можно применить поправку \eqref{eq:adjust}, где $\|\cdot\|$ --- обычная евклидова норма независимо от алгоритма,
-так как она согласуется с задачей \eqref{L-rank_task} с равными весами $q_i$.
-Полученные алгоритмы будем называть алгоритмами с поправкой.
-Например, результат работы $k$-й итерации алгоритма Cadzow можно записать как $\widehat\tsS_k = \calT^{-1}(\Pi_\calH \Pi_{\calM_r})^k \calT \tsX$.
-Тогда результат $k$-й итерации алгоритма Cadzow с поправкой имеет вид $\widehat\tsS_k^*=\calA(\widehat\tsS_k)$.
+Adjustment \eqref{eq:adjust} could be applied to $\widehat\tsS$ in all algorithms where $\|\cdot\|$ is usual Euclidean norm not depending to algorithms because norm corresponds to problem \eqref{L-rank_task} with equal weights $q_i$. Define by adjusted algorithms obtained algorithms.
+For example, result of $k$-th iteration of Cadzow iterations could be written as $\widehat\tsS_k = \calT^{-1}(\Pi_\calH \Pi_{\calM_r})^k \calT \tsX$. Then result of $k$-th iteration of adjusted Cadzow iterations is $\widehat\tsS_k^*=\calA(\widehat\tsS_k)$.
 \end{remark}
 
 \section{Численные эксперименты}
