@@ -87,7 +87,7 @@ s_n = \sum_{i = 1}^{r} a_i s_{n-i}, \quad n = r + 1, \ldots, N.
 \end{equation*}
 Generally, governed-by-LRR series may be written in a parametric form \\ $s_n = \sum_i P_i(n) \exp(\alpha_i n) \cos(2 \pi \omega_i n + \psi_i)$. However, parametric approach for the problem does not lead to good estimation of parameters due to their big amount and instability of estimators.
 
-It is known that methods based on signal subspace estimation (subspace-based methods) works well. The basic idea of these methods as follows: let us fix window length $L$, $1 \le L \le N$, $K = N - L + 1$, and build a trajectory matrix for series $\tsS$:
+It is known that methods based on signal subspace estimation (subspace-based methods) works well. The basic idea of these methods is as follows: let us fix window length $L$, $1 \le L \le N$, $K = N - L + 1$, and build a trajectory matrix for series $\tsS$:
 \begin{equation*}
 \bfS = \begin{pmatrix}
 s_1 & s_2 & \ldots & s_K \\
@@ -125,7 +125,7 @@ Weights on edges of series are less than in the center, i.e. \eqref{introd_task}
 The aim of this paper is to consider methods which solve problem \eqref{introd_task_2} with various weights instead of $w_i$ and compare methods in terms of precision of the signal's $\tsS$ estimation. All described methods are iterative. If an estimate of the signal, which is not governed by LRR, is the point of interest then only the first iteration could be taken with aim of reduction of computational complexity. So, described methods are compared by precision of the signal estimation in the first iteration and in the limit. Note than known Singular Spectrum Analysis (SSA) \cite{Broomhead.King1986, Vautard.etal1992, Elsner.Tsonis1996, Golyandina.etal2001, Ghil.etal2002, Golyandina.Zhigljavsky2012} could be
 described as one iteration of Cadzow iterations.
 
-Structure of paper as follows:  In Section~\ref{sec:lowrank_appr} a problem of approximating a matrix by a Hankel rank-deficient matrix is considered. Common structure of iterative alternating projection algorithms is described, ways of builduing projectors are given, the convergency theorem is proved.
+Structure of paper is as follows:  In Section~\ref{sec:lowrank_appr} a problem of approximating a matrix by a Hankel rank-deficient matrix is considered. Common structure of iterative alternating projection algorithms is described, ways of builduing projectors are given, the convergency theorem is proved.
 
 In Section~\ref{sec:ts_matrices} the connection between problems of approximation of time series and matrices is described, relation between weights in weighted least squares problems is also given. Chapter~\ref{sec:alg} is dedicated to suggested time series approximation algorithms. In Section~\ref{sec:simul} numeric comparison of algorithms on typical example is carried out.
 
@@ -520,7 +520,7 @@ Let us use the following lemma.
 
 \begin{lemma}[\cite{Gillard2014}]
 \label{zhiglemma}
-Let $\tsX \in \sfX_N$, $\bfX = \calT(\tsX) \in \sfR^{L \times K}$. If $h = N/L$ is integer, then $\tr(\bfX \bfC \bfX^\rmT) = \tsX^\rmT \tsX$ where $\bfC$ is a diagonal matrix with diagonal elements as follows:
+Let $\tsX \in \sfX_N$, $\bfX = \calT(\tsX) \in \sfR^{L \times K}$. If $h = N/L$ is integer, then $\tr(\bfX \bfC \bfX^\rmT) = \tsX^\rmT \tsX$ where $\bfC$ is a diagonal matrix with diagonal elements are as follows:
 \begin{equation*}
 c_k = \begin{cases}
 1, & \text{if} \quad k = jL+1 \quad \text{for some} \quad j = 0, \ldots, h-1, \\
@@ -696,58 +696,39 @@ Adjustment \eqref{eq:adjust} could be applied to $\widehat\tsS$ in all algorithm
 For example, result of $k$-th iteration of Cadzow iterations could be written as $\widehat\tsS_k = \calT^{-1}(\Pi_\calH \Pi_{\calM_r})^k \calT \tsX$. Then result of $k$-th iteration of adjusted Cadzow iterations is $\widehat\tsS_k^*=\calA(\widehat\tsS_k)$.
 \end{remark}
 
-\section{Численные эксперименты}
+\section{Numeric examples}
 \label{sec:simul}
-В этом разделе мы приведем численные результаты, призванные продемонстрировать указанные выше выводы и соображения.
-Сравнение было проведено для случая выделения синуса и экспоненциально-модулированного синуса.
-Так как результаты, в целом, аналогичны, мы приведем только результаты, полученные для выделения гармонического ряда.
+Numeric results which confirm conclusions and considerations listed before are shown in this Section. Comparison was done in the case of extacting a sine and exponentially-modulated sine signals.
+Since results are same at all, only result for sine signal is presented.
 
-Был взят следующий сигнал:
+Following signal is taken:
 \begin{equation*}
 \tsS = (s_{1}, \ldots, s_N), \qquad s_{i} = 5\sin{\frac{2 \pi k}{6}}, \quad k = 1, \ldots, N, \quad N = 40
 \end{equation*}
-и рассматривался ряд в виде $\tsX = \tsS + \tsN$, где  $\tsN$ --- гауссовский белый шум с математическим ожиданием $0$ и дисперсией, равной $1$.
-Точность оценивания сигнала оценивалась с помощью корня из среднего по точкам ряда и по 1000 реализациям ряда среднеквадратического отклонения (CKO)
-$\widehat\tsS$ от сигнала $\tsS$.
-Эту меру будем называть RMSE (root mean square error) оценки сигнала.
-Сравнение проводилось на одних и тех же реализациях исходного ряда. Результаты сравнения являются значимыми
-при уровне значимости 5\%.
+and signal $\tsX = \tsS + \tsN$ is considered, where  $\tsN$ is gaussian white noise with mean equals $0$ and variance equals $1$. Precision of signal estimation is done by extracting a root from mean of series measurements and 1000 realizations of mean square error (MSE) of series $\widehat\tsS$ from signal $\tsS$. This measure is called RMSE (root mean square error) of signal estimate. Comparison is done on same realizations of given series. Comparison results are significant at 5\% level of significance.
 
-Рассмотрим сначала класс методов Oblique Cadzow, включающий в себя и обычный метод Cadzow.
-Рисунок \ref{img_cadzowspeed2} показывает одновременно скорость сходимости для разных значений параметра $\alpha$ и двух разных длин окна $L$.
-По оси x откладывается номер итерации, по оси y --- RMSE оценки сигнала, деленное на число точек в ряде.
+Firstly, consider a class of Oblique Cadzow iterations including usual Cadzow iterations. Picture \ref{img_cadzowspeed2} shows speed of convergency for various $\alpha$ and two various window lengths $L$ simultaneously. There are iteration number on X axis, and RMSE of signal estimate divided by number of measurements in series on Y axis.
+
 \begin{figure}[!hhh]
 \begin{center}
 \includegraphics[width = \textwidth]{cadzowspeed_2.pdf}
-\caption{RMSE оценки сигнала в зависимости от числа итераций.}
+\caption{RMSE of signal estimate depending by number of iterations.}
 \label{img_cadzowspeed2}
 \end{center}
 \end{figure}
 
-В пределе самым лучших оказался самый медленно сходящийся метод, а именно, из рассмотренных методов это Cadzow (0.1) с длиной окна $L=8$.
-Этот метод также соответствует наиболее равномерным весам из рассматриваемых в примере.
-Заметим, что точность всех рассматриваемых методов различается не очень сильно, от 0.33 ($\alpha=0.1$, $L=8$) в лучшем случае до 0.37 в худшем
-($\alpha=1$, $L=20$). Однако в первом случае ошибка 0.38 достигается уже на первой итерации, в то время как во втором для
-достижения ошибки 0.38 требуется около 4--5 итераций.
+The best method in the limit is the one with slowest convergency speed, exactly, it is Cadzow (0.1) with window length $L=8$. Also, weights corresponding to this method are most uniform in Example.
+Note that precision of all described methods does not differ strongly, from 0.33 ($\alpha=0.1$, $L=8$) in the best case to 0.37 ($\alpha=1$, $L=20$) in the worst case. However, error 0.38 is achieved at first iteration in the first case, while it takes 4--5 iterations to achieve error 0.38 in the second case.
 
-Рассмотрим более подробно распределение ошибки по элементам ряда При этом включим в рассмотрение и
-методы Extended и Weighted.
-В качестве критерия остановки STOP1 для основных итераций будем использовать в алгоритмах число итераций, равное 100 (полученные результаты
-можно считать предельными), а для внутренних итераций критерий STOP2 будет иметь вид $\frac{\|\bfY_k - \bfY_{k+1}\|^2}{LK} < 10^{-4}$.
-Начальные левые и правые добавленные точки $\tsL_{L-1}$ и $\tsR_{L-1}$
-в методе Extended Cadzow строились с помощью векторного SSA прогноза \cite[раздел 2.3.1]{Golyandina.etal2001}.
+Consider error distributions by series measurements in detail including Extended and Weighted Cadzow iterations too. ``Number of iterations equal 100'' is taken as stop criterion STOP1 (obtained results could be interpreted as limit), and stop criterion STOP2 for inner iterations is as follows:
+ $\frac{\|\bfY_k - \bfY_{k+1}\|^2}{LK} < 10^{-4}$. Initial left and right extended values $\tsL_{L-1}$ и $\tsR_{L-1}$ in Extended Cadzow iterations are obtained using Vector SSA forecast \cite[chapter 2.3.1]{Golyandina.etal2001}.
 
-Возьмем длину окна $L=20$.  На рисунках~\ref{fig:s1_it1}~и~\ref{fig:s1_it100} по оси x откладывается номер точки ряда,
-а по оси y --- RMSE от истинного значения сигнала в данной точке. Рисунок~\ref{fig:s1_it1} показывает ошибки на первой итерации,
-а рисунок~\ref{fig:s1_it100} --- на итерации с номером 100.
-Видно, что в обоих случаях самым точным оказывается метод Extended Cadzow. Из методов, не имеющих внутренних итераций,
-на первой итерации выигрывают методы обычный Cadzow и Cadzow c $\widehat\bfC$. В пределе (после 100-й итерации результаты практически не меняются)
-наилучшим из них, что не удивительно после анализа рисунка~\ref{img_cadzowspeed2}, оказался Cadzow с $\alpha=0.1$.
+Let us take window length $L=20$. There are measurement number on X axis and RMSE from real signal value at this measurement on Y axis at Pictures~\ref{fig:s1_it1}~and~\ref{fig:s1_it100}. Picture~\ref{fig:s1_it1} shows errors at first iteration, Picture~\ref{fig:s1_it100} shows errors at 100-th iteration. It is clear that Extended Cadzow iterations is the most precise method in both cases. Cadzow and Cadzow with $\widehat\bfC$ iterations are best at first iteration among methods without inner iterations. The best method in the limit (after 100-th iteration, results does not change significally further) is Cadzow with $\alpha=0.1$, and it is not surprising according to Picture~\ref{img_cadzowspeed2}.
 
 \begin{figure}[!hhh]
 \begin{center}
 \includegraphics[width = 13cm]{s1_it1.pdf}
-\caption{RMSE оценки сигнала в каждой точке ряда на одной итерации.}
+\caption{RMSE of signal estimate at each measurement at first iteration.}
 \label{fig:s1_it1}
 \end{center}
 \end{figure}
@@ -755,25 +736,18 @@ $\widehat\tsS$ от сигнала $\tsS$.
 \begin{figure}[!hhh]
 \begin{center}
 \includegraphics[width = 13cm]{s1_it100.pdf}
-\caption{RMSE оценки сигнала в каждой точке ряда на ста итерациях.}
+\caption{RMSE of signal estimate at each measurement at 100-th iteration.}
 \label{fig:s1_it100}
 \end{center}
 \end{figure}
 
-Приведем таблицу~\ref{fintable}, где отражены результаты методов, а именно, RMSE как меры отклонения от сигнала и исходного ряда на одной и 100 итерациях.
-В таблице $k$ --- число итераций, $\tsS$ --- сигнал, $\tsX$ --- исходный ряд; $L=20$. Таблица подтверждает выводы по сравнению методов по точности
-оценивания сигнала. Также видно, что качество аппроксимации исходного ряда не всегда согласуется с качеством оценивания сигнала.
-Например, для Cadzow c $\alpha=0.1$ на первой итерации явно видна переподгонка. Однако в пределе упорядоченность точности аппроксимации
-и точности оценки сигнала одинаковые.
+Consider Table~\ref{fintable} which shows method results, namely, RMSE as the measure of deviation from signal and initial series at first and 100-th iteration. $k$ is number of iterations in Table, $\tsS$ means signal, $\tsX$ --- initial series; $L=20$. This Table confirms conclusions about comparison of methods by precision of signal estimation. Also it is seen that quality of initial series approximation does not always correspond with quality of signal estimation. For example, overfitting is clearly present for Cadzow ($0.1$) iterations at first iteration. However, methods are ordered identically by precision of approximation and precision of signal estimation in the limit.
 
-В таблице \ref{fintable_improved} содержатся аналогичные измерения для рядов с поправкой (см. замечание~\ref{rem:adjust}).
-Видно, что поправка влияет незначительно (графики для результатов методов с поправкой мы не приводим, так как визуально влияние поправки незаметно). Аппроксимацию ряда поправка улучшает (не ухудшает) во всех случаях,
-как и должно быть по ее построению. На точность оценивания сигнала поправка влияет неоднозначно. На 100-ой итерации она улучшает точность,
-а на 1-й результаты разные.
+Same experiment is done with adjusted algorithms (see remark~\ref{rem:adjust}), results are written in Table~\ref{fintable_improved}. It is clear that adjustment does not affect significally (Pictures are not brought for adjusted methods because adjustment does not influence noticeably by sight). Adjustment improves approximation of initial series in all cases by its construction, but influence to precision of signal approximation is ambiguous (it improves precision at 100th iteration; results are various at first iteration).
 
 \begin{table}[!hhh]
 \begin{center}
-\caption{Сравнение алгоритмов по RMSE.}\label{fintable}
+\caption{Comparison of methods by RMSE.}\label{fintable}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
 $P$: & $\tsS$, $k = 1$ & $\tsX$, $k = 1$ & $\tsS$, $k = 100$ & $\tsX$, $k = 100$  \\
@@ -794,7 +768,7 @@ Extended Cadzow & 0.3361 & 0.9030 & 0.3189 & 0.9471 \\
 
 \begin{table}[!hhh]
 	\begin{center}
-		\caption{Сравнение алгоритмов с поправкой по RMSE.}\label{fintable_improved}
+		\caption{Comparison of adjusted methods by RMSE.}\label{fintable_improved}
 		\begin{tabular}{|c|c|c|c|c|}
 			\hline
 			$P$: & $\tsS$, $T = 1$ & $\tsX$, $T = 1$ & $\tsS$, $T = 100$ & $\tsX$, $T = 100$  \\
@@ -813,14 +787,11 @@ Extended Cadzow & 0.3361 & 0.9030 & 0.3189 & 0.9471 \\
 	\end{center}
 \end{table}
 
-\section{Заключение}
+\section{Conclusion}
 \label{sec:concl}
-В работе были рассмотрены известные итеративные алгоритмы и предложены новые для аппроксимации ряда рядами конечного ранга с целью
-оценивания сигнала в зашумленном ряде по взвешенному методу наименьших квадратов.
+Known and new iterative algorithms for approximation of series by finite rank series with aim of estimating a signal from noisy signal by Least Squares method were considered in this Paper.
 
-
-Был рассмотрен довольно широкий набор алгоритмов с целью получить равные веса в МНК. В рассматриваемых алгоритмах равные веса удалось
-получить только с помощью вложенных итераций, которые сходятся только к локальному экстремуму и вдобавок делают алгоритм очень трудоемкими.
+Large class of algorithms was reviewed with aim of achieving equal weights in Least Squares method. Equal weights were achieved by using inner iterations only, which converges to local minimum only and makes algorithms time-consuming.
 Итеративные методы без вложенных итераций дают только приближенно равные веса.
 
 Для рассматриваемого класса алгоритмов типа алгоритмов Cadzow была доказана сходимость внешних итераций алгоритмов по подпоследовательностям.
