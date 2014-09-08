@@ -741,7 +741,7 @@ Let us take window length $L=20$. There are measurement number on X axis and RMS
 \end{center}
 \end{figure}
 
-Consider Table~\ref{fintable} which shows method results, namely, RMSE as the measure of deviation from signal and initial series at first and 100-th iteration. $k$ is number of iterations in Table, $\tsS$ means signal, $\tsX$ --- initial series; $L=20$. This Table confirms conclusions about comparison of methods by precision of signal estimation. Also it is seen that quality of initial series approximation does not always correspond with quality of signal estimation. For example, overfitting is clearly present for Cadzow ($0.1$) iterations at first iteration. However, methods are ordered identically by precision of approximation and precision of signal estimation in the limit.
+Consider Table~\ref{fintable} which shows method results, namely, RMSE as the measure of deviation from signal and initial series at first and 100-th iteration. $k$ is a number of iterations in Table, $\tsS$ means signal, $\tsX$ --- initial series; $L=20$. This Table confirms conclusions about comparison of methods by precision of signal estimation. Also it is seen that quality of initial series approximation does not always correspond with quality of signal estimation. For example, overfitting is clearly present for Cadzow ($0.1$) iterations at first iteration. However, methods are ordered identically by precision of approximation and precision of signal estimation in the limit.
 
 Same experiment is done with adjusted algorithms (see remark~\ref{rem:adjust}), results are written in Table~\ref{fintable_improved}. It is clear that adjustment does not affect significally (Pictures are not brought for adjusted methods because adjustment does not influence noticeably by sight). Adjustment improves approximation of initial series in all cases by its construction, but influence to precision of signal approximation is ambiguous (it improves precision at 100th iteration; results are various at first iteration).
 
@@ -791,23 +791,18 @@ Extended Cadzow & 0.3361 & 0.9030 & 0.3189 & 0.9471 \\
 \label{sec:concl}
 Known and new iterative algorithms for approximation of series by finite rank series with aim of estimating a signal from noisy signal by Least Squares method were considered in this Paper.
 
-Large class of algorithms was reviewed with aim of achieving equal weights in Least Squares method. Equal weights were achieved by using inner iterations only, which converges to local minimum only and makes algorithms time-consuming.
-Итеративные методы без вложенных итераций дают только приближенно равные веса.
+Large class of algorithms was reviewed with aim of achieving equal weights in Least Squares method. Equal weights were achieved by using inner iterations only, which converges to local minimum only and makes algorithms time-consuming. Usage of methods without inner iterations leads to approximately equal weights only.
 
-Для рассматриваемого класса алгоритмов типа алгоритмов Cadzow была доказана сходимость внешних итераций алгоритмов по подпоследовательностям.
+Convergency of outer iterations by subsequences was proved for reviewed class of algorithms.
 
-На примере зашумленного синуса с помощью моделирования были получены результаты по точности и скорости сходимости предлагаемых алгоритмов.
-Результаты показали, что самым точным оказывается самый трудоемкий метод.
-Были рассмотрены вопросы соотношения скорости сходимости, трудоемкости и точности методов.
-Акцент был сделан также на точности оценки с помощью одной итерации методов.
+Results about precision and convergency speed of considered methods were obtained by simulation on the example of noisy sine signal. Results shows that the most precise method is the most time-consuming method. Questions about relation of convergency speed, computational complexity and precision of methods were reviewed. Also, emphasis was placed on precision of estimate made by one iteration of methods.
 
-В дальнейшем предполагается провести расширенное численное и аналитическое исследование методов и получить более конкретные рекомендации по
-соотношению трудоемкости и точности алгоритмов.
+Further work includes extended numeric and analytical research of methods, and achievement of more specific recomendations about relation of computational complexity and precision.
 
 %\bibliographystyle{plain}
 \bibliographystyle{gost2008}
 \bibliography{zvonarev}
-\addcontentsline{toc}{section}{Список литературы}
+\addcontentsline{toc}{section}{References}
 
 \section{Приложение: Разделимость константы и гармоники для двух алгоритмов Oblique Cadzow}
 \label{sec:app}
