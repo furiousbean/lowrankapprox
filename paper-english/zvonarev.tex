@@ -645,14 +645,14 @@ For $1 \le i \le L-1$ we have
 \hat{q}_i = \sum_{j=1}^i \hat{c}_j = \sum_{j=1}^i \frac{1}{L}\left(\frac{j}{L} + \sum_{k=j}^{L-1}1/k\right)\! =
 \frac{i(i+1)}{2L^2}+\frac{1}{L} \sum_{k = 1}^{L-1} \sum_{j=1}^{\min(k,i)} 1/k =\\= \frac{i(i+1)}{2L^2}+\frac{1}{L} \sum_{k = 1}^{L-1} \frac{\min(k,i)}{k} = \frac{i(i+1)}{2 L^2} + \frac{i}{L}(1 + H_{L-1} - H_i).
 \end{gather*}
-For $L \le i \le 2L-1$, changing the summation order too, we obtain
+For $L \le i \le 2L-1$, by changing the order of summation too, we obtain
 \begin{gather*}
 \hat{q}_i = \sum_{j = 1}^L \hat{c}_{i-L+j} = \sum_{j = i - L + 1}^{L - 1} \hat{c}_j + \frac{i - L + 1}{L} =\\
 =\frac{i - L + 1}{L} + \frac{1}{L^2} \sum_{j = i - L + 1}^{L-1}j + \frac{1}{L} \sum_{j = i-L + 1}^{L-1} \sum_{k=j}^{L-1}1/k =\\
 =\frac{i - L + 1}{L} + \frac{2iL - =i - i^2}{2L^2} + \frac{1}{L} \sum_{k = i - L + 1}^{L - 1} \sum_{j = i - L + 1}^k 1/k =\\
 =1 + \frac{2iL-i-i^2}{2L^2} + \frac{L-i}{L}(H_{L-1} - H_{i - L}).
 \end{gather*}
-Weights on the right part of series are calculated using symmetry, and for center it is necessary to sum $\hat{c}_k = 1/L$ by $L$ times.
+Weights on the right part of series are calculated using symmetry, and for center it is necessary to sum $\hat{c}_k = 1/L$ $L$ times.
 \end{proof5}
 
 Normalized weights $q_i(\alpha)$ (so that sum equals 1) under $\alpha = 1$ (usual Cadzow iterations), $\alpha = 0$ (equal $q_i$), $\alpha = 0.1$,
@@ -795,7 +795,7 @@ Large class of algorithms was reviewed with aim of achieving equal weights in Le
 
 Convergency of outer iterations by subsequences was proved for reviewed class of algorithms.
 
-Results about precision and convergency speed of considered methods were obtained by simulation on the example of noisy sine signal. Results shows that the most precise method is the most time-consuming method. Questions about relation of convergency speed, computational complexity and precision of methods were reviewed. Also, emphasis was placed on precision of estimate made by one iteration of methods.
+Results about precision and convergency speed of considered methods were obtained by simulation on the example of noisy sine signal. Results shows that the most precise is the most time-consuming method. Questions about relation of convergency speed, computational complexity and precision of methods were reviewed. Also, emphasis was placed on precision of estimate made by one iteration of methods.
 
 Further work includes extended numeric and analytical research of methods, and achievement of more specific recomendations about relation of computational complexity and precision.
 
@@ -804,56 +804,56 @@ Further work includes extended numeric and analytical research of methods, and a
 \bibliography{zvonarev}
 \addcontentsline{toc}{section}{References}
 
-\section{Приложение: Разделимость константы и гармоники для двух алгоритмов Oblique Cadzow}
+\section{Appendix: separability of constant and harmonic signal for Oblique Cadzow iterations}
 \label{sec:app}
 
-Введем еще одну характеристику алгоритмов, показывающую, насколько хорошо они раскладывают временной ряд на его аддитивные компоненты. Основным применением описанных алгоритмов является задача оценки сигнала, поэтому данное качество нам важно для получения как можно более точной оценки.
+Let us introduce another characteristic of algorithms showing ability of decomposing time series into additive parts. Basic application of described algorithms is the problem of signal estimation, so that characteristic is important for obtaining a more precise estimate as much as possible.
 
-Пусть $\bfC \in \sfR^{K \times K}$ --- симметричная неотрицательно определенная матрица, $\tsX_1$ и $\tsX_2$ ---  два разных временных ряда длины $N$, $\bfX^1$, $\bfX^2$ --- их траекторные матрицы. Тогда \emph{коэффициентом корреляции $i$-го и $j$-го столбца} назовем следующую величину:
+Let $\bfC \in \sfR^{K \times K}$ be symmetric semidefinite matrix, $\tsX_1$ и $\tsX_2$ ---  two different time series of length $N$, $\bfX^1$, $\bfX^2$ --- their trajectory matrices. Then define \emph{correlation coefficient of $i$-th and $j$-th column} by:
 \begin{equation}\label{col_corr}
 \rho^c_{i,j} = \frac{(X^1_i, X^2_j)}{\|X^1_i\| \|X^2_j\|},
 \end{equation}
-где $X^k_i$ --- $i$-й столбец матрицы $\bfX^k$, $k = 1, 2$, $(\cdot, \cdot)$ --- евклидово скалярное произведение, $\|\cdot\|$ --- евклидова норма. \emph{Коэффициентом корреляции $i$-й и $j$-й строки} назовем следующую величину:
+where $X^k_i$ is $i$-th column of matrix $\bfX^k$, $k = 1, 2$, $(\cdot, \cdot)$ is euclidian inner product, $\|\cdot\|$ is euclidean norm. Define \emph{correlation coefficient of $i$-th and $j$-th row} by:
 \begin{equation}\label{row_corr}
 \rho^r_{i,j} = \frac{(X^{1,i}, X^{2,j})_\bfC}{\|X^{1,i}\|_\bfC \|X^{2,j}\|_\bfC},
 \end{equation}
-где $X^{k,i}$ --- $i$-я строчка матрицы $\bfX^k$, $k = 1, 2$, а $(\cdot, \cdot)_\bfC$ --- скалярное произведение с матрицей $\bfC$ в $\sfR^K$, определенная следующим образом: $(X, Y)_\bfC = X \bfC Y^\sfT$, так как $X$, $Y$ --- вектор-строчки, $\| \cdot \|_\bfC$ --- норма, порожденная этим скалярным произведением. Скажем, что ряды $\tsX_1$ и $\tsX_2$ \emph{слабо $\varepsilon$---разделимы}, если
+where $X^{k,i}$ is $i$-th row of matrix $\bfX^k$, $k = 1, 2$, and $(\cdot, \cdot)_\bfC$ is oblique inner product generated by matrix $\bfC$ in $\sfR^K$ defined as follows: $(X, Y)_\bfC = X \bfC Y^\sfT$, because $X$ and $Y$ are row-vectors, $\| \cdot \|_\bfC$ is the norm with respect to this inner product. Let us say that series $\tsX_1$ and $\tsX_2$ are \emph{weak $\varepsilon$---separatable} if
 \begin{equation}\label{weak_sep_eq}
 \rho = \max\Big(\max_{1 \le i,j \le K}|\rho^c_{i,j}|, \max_{1 \le i,j \le L}|\rho^r_{i,j}|\Big) < \varepsilon.
 \end{equation}
-Нас будет интересовать порядок $\varepsilon$ при различных матрицах $\bfC$ и рядах $\tsX_1 = (c, c, \ldots)$ --- некоторая константа и $\tsX_2 = (\cos(2 \pi \omega k), k = 1, 2, \ldots)$, а также при различных $L$ и $K$ при условии, что мы будем брать только $N = L + K - 1$ компонент ряда. Когда $\bfC$ единичная матрица, ответ известен: $\varepsilon$ имеет порядок $1/\min(L,K)$, т.е. скорость сходимости имеет порядок $1/N$ при $L$, пропорциональном $N$.
-Этот результат может быть найден в \cite[Раздел 6.1]{Golyandina.etal2001}. Он имеет отношение к точности первой итерации метода Cadzow.
+We are interested in order of $\varepsilon$ for various matrices $\bfC$ and series $\tsX_1 = (c, c, \ldots)$ --- some constant series and $\tsX_2 = (\cos(2 \pi \omega k), k = 1, 2, \ldots)$, and also for various $L$ and $K$ under assumption that only first $N = L + K - 1$ measurements of series are taken. When $\bfC$ is identity matrix, the answer is known: $\varepsilon$ have order $1/\min(L,K)$, i.e. speed of convergency have order $1/N$ for $L$ proportional to $N$.
+This result could be found in \cite[Chapter 6.1]{Golyandina.etal2001}. This result relates to the precision of first iteration of Cadzow iterations.
 
-В следующем утверждении рассматривается порядок разделимости для алгоритма Cadzow ($\alpha$), введенном в разделе~\ref{sec:cadzow_alpha}.
+Order of separability of Cadzow ($\alpha$) iterations, introduced in Chapter~\ref{sec:cadzow_alpha}, is considered in following proposition.
 
 \begin{proposition}
 \label{prop:separ1}
-Пусть $\tsX_1 = (c, c, \ldots)$ --- некоторая константа и $\tsX_2 = (\cos(2 \pi \omega k), k = 1, 2, \ldots)$, где $0<\omega <0.5$, $L,K\ra \infty$ так, что $h = h_L = N/L$, где $N=L+K-1$, --- целое, и $\bfC$ определена в алгоритме Cadzow ($\alpha$), т.е.  $\bfC$ --- диагональная матрица со следующими диагональными элементами:
+Let $\tsX_1 = (c, c, \ldots)$ be some constant and $\tsX_2 = (\cos(2 \pi \omega k), k = 1, 2, \ldots)$, where $0<\omega <0.5$, $L,K\ra \infty$ such that $h = h_L = N/L$, where $N=L+K-1$, is integer, and $\bfC$ defined in Cadzow ($\alpha$) iterations, i.e.  $\bfC$ is diagonal matrix with following diagonal elements:
 \begin{equation*}
 c_k = \begin{cases}
-1, & \text{если} \quad k = jL+1 \quad \text{для некоторого} \ j = 0, \ldots, h-1,\\
-\alpha, & \text{в противном случае},
+1, & \text{если} \quad k = jL+1 \quad \text{for some} \ j = 0, \ldots, h-1,\\
+\alpha, & \text{otherwise},
 \end{cases}
 \end{equation*}
-где $0 \le \alpha \le 1$. Тогда $\rho$ имеет порядок $\max(\frac{1}{L}, \frac{(1-\alpha)C_{L,K}+\alpha}{(1-\alpha)N/L+\alpha K})$, где порядок $C_{L,K}$
-может может меняться от $O(1)$ до $O(N/L)$ в зависимости от того, как $K$ стремятся к бесконечности.
+where $0 \le \alpha \le 1$. Then $\rho$ have order $\max(\frac{1}{L}, \frac{(1-\alpha)C_{L,K}+\alpha}{(1-\alpha)N/L+\alpha K})$, where order of $C_{L,K}$
+could vary from $O(1)$ to $O(N/L)$ depending on how $K$ tends to infinity.
 \end{proposition}
 
 \begin{proof5}{\ref{prop:separ1}}
-Необходимо оценить порядки следующих величин:
+It is necessary to evaluate an order of following values:
 \begin{gather*}
 \rho^c_{i,j} = \frac{\sum_{k=j}^{j + L - 1} \cos(2 \pi \omega k)}{\sqrt{L (\sum_{k=j}^{j + L - 1} \cos^2(2 \pi \omega k))}},\\ \rho^r_{i,j} = \frac{\sum_{k=1}^K c_k\cos(2 \pi \omega (j + k - 1))}{\sqrt{(\sum_{k=1}^K c_k) (\sum_{k=1}^K c_k\cos^2(2 \pi \omega (j + k - 1)))}}.
 \end{gather*}
-Для доказательства используем следующие факты:
+Let us use following facts to prove the proposition:
 \begin{gather*}
 \sum_{k=1}^n \cos(ak + b) = \csc(a/2) \sin(an / 2) \cos \left(\frac{an + a + 2b}{2} \right), \\
 \sum_{k=1}^n \cos^2(ak + b) = \frac{1}{4}(\csc(a) \sin(2an + a + 2b) -\\ - \csc(a)\sin(a + 2b) + 2n),
 \end{gather*}
-для любых вещественных $a, b$ и положительного целого $n$.
-Таким образом, когда ряд $\tsX_2$ не представляет из себя константу, числитель в $\rho^c_{i,j}$ имеет порядок $O(1)$, а знаменатель --- $O(L)$.
-Первая часть доказана, и ее доказательство целиком аналогично случаю, когда $\bfC$ --- единичная матрица.
+for any real $a, b$ and positive integer $n$.
+Thus when series $\tsX_2$ is not constant, numerator in $\rho^c_{i,j}$ have order $O(1)$, and denominator --- $O(L)$.
+First part is proved, and its proof is exactly analogous to the case when $\bfC$ is identity matrix.
 
-Для доказательства второй части выделим отдельно сумму по тем $k$, для которых $c_k=1$:
+To prove second part choose a sum for $k$ such that $c_k=1$ separately:
 \begin{gather*}
 \sum_{k=1}^K c_k\cos(2 \pi \omega (j + k - 1)) = (1-\alpha) \sum_{\substack{1 \le k \le K: \\ c_k = 1}}\cos(2 \pi \omega (j + k - 1)) +\\ +\sum_{1 \le k \le K}\alpha \cos(2 \pi \omega (j + k - 1)) = (1-\alpha) C_{L,K} + \alpha\, O(1),
 \\
@@ -865,49 +865,49 @@ c_k = \begin{cases}
 %\begin{gather*}
 \sum_{k=1}^K c_k\cos^2(2 \pi \omega (j + k - 1)) = (1-\alpha)\sum_{\substack{1 \le k \le K: \\ c_k = 1}}\cos^2(2 \pi \omega (j + k - 1)) +\\ +\sum_{1 \le k \le K }\alpha \cos^2(2 \pi \omega (j + k - 1)) = (1-\alpha) O(N/L) + \alpha\, O(K).
 \end{gather*}
-В худшем случае, если $L\omega$ целое, получаем, что $\cos(2 \pi \omega (j + k - 1))$ равно одной и той же константе независимо от $j$ и $k$, и тогда $C_{L,K}$ имеет порядок $O(N/L)$.
+In the worst case when $L\omega$ is integer we obtain that $\cos(2 \pi \omega (j + k - 1))$ is a constant not depending from $j$ and $k$, and then $C_{L,K}$ has order $O(N/L)$.
 \end{proof5}
 
-Таким образом, даже в лучшем случае, когда $C_{L,K}$ имеет порядок $O(1)$, разделимость константы и синуса становится хуже, чем при обычном варианте: при $\alpha$, близких к нулю, оптимальным выбором $L$ будет $L \approx \sqrt{N}$, и, таким образом, получаем порядок разделимости $1/\sqrt{N}$.
+Thus even in the worst case when $C_{L,K}$ has order $O(1)$, separability of constant and sine signal becomes worse than in usual Cadzow iterations: for $\alpha$ close to 0, the most optimal chose for $L$ is $L \approx \sqrt{N}$, so order of separability equal to $1/\sqrt{N}$ is obtained.
 
-Теперь рассмотрим алгоритм Cadzow с $\widehat\bfC$, введенный в разделе~\ref{sec:cadzow_hat}.
+Now let us consider Cadzow with $\widehat\bfC$ iterations introduced in Chapter~\ref{sec:cadzow_hat}.
 
 \begin{proposition}
 \label{prop:separ2}
-Пусть $\tsX_1 = (c, c, \ldots)$ --- некоторая константа и $\tsX_2 = (\cos(2 \pi \omega k), k = 1, 2, \ldots)$, где $0<\omega <0.5$, $L,K\ra \infty$ и $\bfC$ определена в алгоритме Cadzow с $\widehat\bfC$.
- Тогда $\rho$ имеет порядок $\max \left(1/L, \frac{H_L}{\sqrt{NK}} \right)$ при $L, K \to \infty$, где $H_L$ --- $L$-е гармоническое число.
+Let $\tsX_1 = (c, c, \ldots)$ be some constant signal and $\tsX_2 = (\cos(2 \pi \omega k), k = 1, 2, \ldots)$, where $0<\omega <0.5$, $L,K\ra \infty$ and $\bfC$ defined in Cadzow with $\widehat\bfC$ iterations.
+ Then $\rho$ have order $\max \left(1/L, \frac{H_L}{\sqrt{NK}} \right)$ as $L, K \to \infty$, where $H_L$ is $L$-th harmonic number.
 \end{proposition}
 
 \begin{proof5}{\ref{prop:separ2}}
-Необходимо оценить порядки следующих величин:
+It is necessary to evaluate an order of following values:
 \begin{gather*}
 \rho^c_{i,j} = \frac{\sum_{k=j}^{j + L - 1} \cos(2 \pi \omega k)}{\sqrt{L (\sum_{k=j}^{j + L - 1} \cos^2(2 \pi \omega k))}}, \\ \rho^r_{i,j} = \frac{\sum_{k=1}^K \hat c_k\cos(2 \pi \omega (j + k - 1))}{\sqrt{(\sum_{k=1}^K \hat c_k) (\sum_{k=1}^K \hat c_k\cos^2(2 \pi \omega (j + k - 1)))}}.
 \end{gather*}
- Порядок $\rho^c_{i,j}$ уже был получен в доказательстве предложения~\ref{prop:separ1}, поэтому сразу перейдем к $\rho^r_{i,j}$. Рассмотрим корреляцию только первых строчек --- для остальных доказательство будет целиком аналогичным. Рассмотрим числитель $\rho^r_{1,1}$:
+ The order of $\rho^c_{i,j}$ was already obtained in proof of Proposition~\ref{prop:separ1}, so let us just move to $\rho^r_{i,j}$. Consider the correlation of first rows only --- proof for remained rows is absolutely analogous. Consider a numerator $\rho^r_{1,1}$:
 \begin{gather*}
 \sum_{k=1}^K \hat c_k\cos(2 \pi \omega k) = \sum_{k=1}^{L-1} \hat c_k\cos(2 \pi \omega k) + \sum_{k=L}^{K - L + 1} \frac{\cos(2 \pi \omega k)}{L} +\\+ \sum_{k=K - L + 2}^{K} \hat c_k\cos(2 \pi \omega k) = I_1 + I_2 + I_3,
 \end{gather*}
-который разбился на три части. Для $I_2$ справедлива оценка $O(1/L)$, а для $I_3$ доказательство аналогично доказательству для $I_1$:
+which is divided by three parts. For $I_2$ an estimate $O(1/L)$ is carried out, and the proof for $I_3$ is analogic to proof for $I_1$:
 \begin{gather*}
 |I_1|=\bigg|\sum_{k=1}^{L-1}\frac{1}{L}\left(\frac{k}{L} + \sum_{j=k}^{L-1} \frac{1}{j} \right) \cos(2 \pi \omega k)\bigg| =\\= \bigg|\sum_{k=1}^{L-1} \frac{k \cos(2 \pi \omega k)}{L^2} +  \frac{1}{L}\sum_{k = 1}^{L-1}\sum_{j = k}^{L-1}\frac{\cos(2 \pi \omega k)}{j}\bigg| \le \\ \le
 \bigg|\sum_{k=1}^{L-1} \frac{k \cos(2 \pi \omega k)}{L^2}\bigg| + \bigg|\frac{1}{L}\sum_{k = 1}^{L-1}\sum_{j = k}^{L-1}\frac{\cos(2 \pi \omega k)}{j}\bigg|.
 \end{gather*}
-Используя тот факт, что
+Using a fact that
 \begin{gather*}
 \sum_{k=1}^n k \cos(ak + b) = -\frac{1}{4}\csc^2(a/2)(-(n+1)\cos(an+b) + \\ + n\cos(an + a + b) + \cos b),
 \end{gather*}
-получаем:
+obtain that:
 \begin{gather*}
 \bigg|\sum_{k=1}^{L-1} \frac{k \cos(2 \pi \omega k)}{L^2}\bigg| = O(1/L), \quad
 \bigg|\frac{1}{L}\sum_{k = 1}^{L-1}\sum_{j = k}^{L-1}\frac{\cos(2 \pi \omega k)}{j}\bigg| = \\ =\bigg|\frac{1}{L}\sum_{j = 1}^{L-1}\sum_{k = 1}^{j}\frac{\cos(2 \pi \omega k)}{j}\bigg| \le \bigg|\frac{1}{L}\sum_{j = 1}^{L-1}\frac{d}{j}\bigg| = O \left(\frac{H_L}{L} \right),
 \end{gather*}
-где $d$ --- некоторая константа. 
+where $d$ is some constant.
 
-Для знаменателя нужно рассмотреть следующие суммы:
+Following sums are considered for the denominator:
 \begin{equation*}
 \sum_{k=1}^K \hat c_k = N / L
 \end{equation*}
-по определению, а следующую составляющую просто оценить снизу:
+by definition, and the following part is just estimated lower:
 \begin{equation*}
 \sum_{k=1}^K \hat c_k\cos^2(2 \pi \omega (j + k - 1)) \ge \sum_{k=1}^K \frac{1}{L}\cos^2(2 \pi \omega (j + k - 1)) = O \left(\frac{K}{L} \right).
 \end{equation*}
