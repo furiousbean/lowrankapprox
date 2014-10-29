@@ -923,10 +923,10 @@ $\Pi_{\calM_r} \bfY = \sigma_i U_i V_i^{\rmT}$.
 Заметим следующее: матрица $\bfY \odot \bfM = \calT(0_{L-1}, \tsX, 0_{L-1})$ является ганкелевой, и для нее уже есть быстрый алгоритм умножения на вектор \ref{fastprod}. Рассмотрим оставшиеся слагаемые: обозначим $\bfZ^{t}_i = (U_i^{(t-1)} (V_i^{(t-1)})^{\rmT}) \odot (\bfU-\bfM)$. Пусть $U_i^{(t-1)} = (u'^{(i)}_1, \ldots, u'^{(i)}_L)^\rmT$, $V_i^{(t-1)} = (v'^{(i)}_1, \ldots, v'^{(i)}_{N + L - 1})^\rmT$. Тогда матрица $\bfZ^{t}_i$ имеет вид
 \begin{equation*}
 \bfZ^{t}_i = \begin{pmatrix}
-0 & \ldots & \ldots & \ldots & 0 & u'^{(i)}_1 v'^{(i)}_{N + 1} & \ldots & \ldots & u'^{(i)}_1 v'^{(i)}_{N + L - 1} \\ 
-u'^{(i)}_2 v'^{(i)}_1 & 0 & \ldots & \ldots & \ldots & 0 & u'^{(i)}_2 v'^{(i)}_{N + 2} & \ldots & u'^{(i)}_2 v'^{(i)}_{N + L - 1} \\ 
-\vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\ 
-u'^{(i)}_L v'^{(i)}_1 & u'^{(i)}_L v'^{(i)}_2 & \ldots & u'^{(i)}_L v'^{(i)}_{L-1} & 0 & \ldots & \ldots & \ldots & 0
+u'^{(i)}_1 v'^{(i)}_1 & u'^{(i)}_1 v'^{(i)}_2 & \ldots & u'^{(i)}_1 v'^{(i)}_{L-1} & 0 & \ldots & \ldots & 0\\
+u'^{(i)}_2 v'^{(i)}_1 & \ldots  &u'^{(i)}_2 v'^{(i)}_{L-2} & 0 & \ldots & \ldots & 0 & u'^{(i)}_2 v'^{(i)}_{N + L - 1} \\ 
+\vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\ 
+0 & \ldots & \ldots & \ldots & 0 & u'^{(i)}_L v'^{(i)}_{N + 1} & \ldots & u'^{(i)}_L v'^{(i)}_{N + L - 1} \\
 \end{pmatrix}.
 \end{equation*}
 
@@ -939,9 +939,9 @@ u'^{(i)}_L v'^{(i)}_1 & u'^{(i)}_L v'^{(i)}_2 & \ldots & u'^{(i)}_L v'^{(i)}_{L-
 	
 	\begin{enumerate}
 		\item
-		$b'_1 \leftarrow \sum\limits_{i=N+1}^{N+L-1}v_i a_i$
+		$b'_1 \leftarrow \sum\limits_{i=1}^{L-1}v_i a_i$
 		\item
-		$b'_k \leftarrow b'_{k-1} + v_{k-1}a_{k-1} - v_{N + k-1}a_{N + k-1},$ $k = 2, \ldots, L$
+		$b'_k \leftarrow b'_{k-1} + v_{N + L + 1 - k}a_{N + L + 1 - k} - v_{L + 1 - k}a_{L + 1 - k},$ $k = 2, \ldots, L$
      	\item
      	$B \leftarrow B' \odot U$
 	\end{enumerate}
@@ -955,18 +955,18 @@ u'^{(i)}_L v'^{(i)}_1 & u'^{(i)}_L v'^{(i)}_2 & \ldots & u'^{(i)}_L v'^{(i)}_{L-
 	
 	\begin{enumerate}
 		\item
-		$b'_1 \leftarrow \sum\limits_{i=2}^{L}u_i a_i$
+		$b'_1 \leftarrow \sum\limits_{i=1}^{L - 1}u_i a_i$
 		\item
 		$b'_k \leftarrow \begin{cases}
-		b'_{k - 1} - u_k a_k, & k \le L, \\
-		b'_{k - 1} + u_{k - N} a_{k - N}, & k \ge N + 1,\\
+		b'_{k - 1} - u_{L + 1 - k} a_{L + 1 - k}, & k \le L, \\
+		b'_{k - 1} + u_{N + L + 1 - k} a_{N + L + 1 - k}, & k \ge N + 1,\\
 		0, & \text{в противном случае}
 		\end{cases}$, $k = 2, \ldots, N + L - 1$
 		\item
 		$B \leftarrow B' \odot V$
 	\end{enumerate}
 \end{algorithm}
-Таким образом, матрицы $\bfY'_t$ и $(\bfY'_t)^\rmT$ могут быть умножены за время $O(N \log N + Nr)$, а частичное сингулярное разложение $\sigma_i^{(t)}$, $U_i^{(t)}$, $V_i^{(t)}$, $i = 1, \ldots, r$ может быть получено за время $O(r N \log N + N r^2)$.
+Таким образом, матрицы $\bfY'_t$ и $(\bfY'_t)^\rmT$ могут быть умножены за время $O(N \log N + Nr)$, а частичное сингулярное разложение $\sigma_i^{(t)}$, $U_i^{(t)}$, $V_i^{(t)}$, $i = 1, \ldots, r$ может быть получено за время $O(r N \log N + N r^2)$. \emph{TODO}: вычисление расстояний между матрицами по модной норме в качестве критерия остановки.
 \section{Численные эксперименты}
 \label{sec:simul}
 В этом разделе мы приведем численные результаты, призванные продемонстрировать указанные выше выводы и соображения.
