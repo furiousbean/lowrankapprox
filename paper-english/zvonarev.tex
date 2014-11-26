@@ -74,7 +74,7 @@ E-mail: \textcolor {blue}{\underline{nina@gistatgroup.com}}}
 \hspace{1.25cm}\begin{minipage}{12.16cm}\bpv\bpv\bmv \noindent
 \footnotesize{\bf Keywords:}\/ time series, Cadzow iterations, time series of finite rank, weighted total least squares, oblique SVD-factorization, singular spectrum analysis
 
-\bpv\bpv\noindent  \emph{Переписать} The problem of time series approximation by series of finite rank is considered in the paper. This is actual problem in signal processing tasks, partially, for extracting a signal in analysis of noisy signals. After applying weigthed least-squares method, the optimization problem arises, which do not have an exact solution. One of the numeric local minimum search method (Cadzow iterations) is well known. However, Cadzow iterations may work with specific weights only, which decreases while approaching edges of time series. In addition, it is naturally to take equal weights corresponding to usual Euclidean metric. Therefore, several new methods are suggested and investigated to achieve equal or approximately equal weights. Questions of convergency, computational complexity and accuracy are considered for proposed methods. Methods are compared on the numeric example.
+\bpv\bpv\noindent  The problem of time series approximation by series of finite rank is considered in the paper. This is actual problem in signal processing tasks, partially, for extracting a signal in analysis of noisy signals. After applying weigthed least-squares method, the optimization problem arises, which do not have an exact solution. One of the numeric local minimum search method (Cadzow iterations) is well known. However, Cadzow iterations may work with specific weights only, which decreases while approaching edges of time series. In addition, it is naturally to take equal weights corresponding to usual Euclidean metric. Therefore, several new methods are suggested and investigated to achieve equal or approximately equal weights. Questions of convergency, computational complexity and accuracy are considered for proposed methods. Methods are compared on the numeric example.\footnote{Переписать}
 
 \end{minipage}\bls\bmv
 
@@ -88,7 +88,7 @@ Generally, governed-by-LRR series may be written in a parametric form
 s_n = \sum_i P_i(n) \exp(\alpha_i n) \cos(2 \pi \omega_i n + \psi_i)
 \end{equation}, where $P_i(n)$ in \eqref{parametricform} are polynomials. However, parametric regression approach for the problem does not lead to accurate estimation of parameters due to their large amount and instability of estimators.
 
-It is known that methods based on signal subspace estimation (subspace-based methods) works well. \emph{(ссылки)} These subspace-based methods use the following approach: let us fix window length $L$, $1 \le L \le N$, $K = N - L + 1$, and build the trajectory matrix for the series $\tsS$:
+It is known that methods based on signal subspace estimation (subspace-based methods) works well. \footnote{ссылки} These subspace-based methods use the following approach: let us fix window length $L$, $1 \le L \le N$, $K = N - L + 1$, and build the trajectory matrix for the series $\tsS$:
 \begin{equation*}
 \bfS = \begin{pmatrix}
 s_1 & s_2 & \ldots & s_K \\
@@ -181,7 +181,7 @@ Let us use inequalities \cite{Chu.etal2003}
 \end{equation}
 
 \begin{enumerate}
-\item According to inequalities \eqref{chuprop}, \emph{the?} sequences $\|\bfY_k - \Pi_{\calM_r} \bfY_k\|$, $k = 1, 2, \ldots$, and $\|\Pi_{\calM_r} \bfY_k - \bfY_{k + 1}\|$, $k = 1, 2, \ldots$, are non-increasing. It is obvious that they are limited below by zero. So they have equal limits $c$ according to \eqref{chuprop}.
+\item According to inequalities \eqref{chuprop}, \footnote{the?} sequences $\|\bfY_k - \Pi_{\calM_r} \bfY_k\|$, $k = 1, 2, \ldots$, and $\|\Pi_{\calM_r} \bfY_k - \bfY_{k + 1}\|$, $k = 1, 2, \ldots$, are non-increasing. It is obvious that they are limited below by zero. So they have equal limits $c$ according to \eqref{chuprop}.
 
 Prove that $c = 0$. Assume contrary: there exists $d > 0$ such that $\|\bfY_k - \Pi_{\calM_r} \bfY_k\| > d$, $\|\Pi_{\calM_r} \bfY_k - \bfY_{k + 1}\| > d$ for any $k = 1, 2, \ldots$. According to Proposition ~\ref{pythaprop}, the following equalities are true:
 \begin{gather*}
@@ -317,7 +317,7 @@ Let $\tsX$ be a time series of length $N$, $\bfX \in \calH$. Then there exists a
 Due to the one-to-one mapping between space of series and Hankel matrices,
 problem~\eqref{L-rank_task} can be expressed in terms of matrices.
 
-\paragraph{Adjustment.} For a numeric solution of optimization problem \emph{(TODO: ссылка)}\eqref{eq:gen_task} the following fact is important.
+\paragraph{Adjustment.} For a numeric solution of optimization problem \footnote{TODO: ссылка}\eqref{eq:gen_task} the following fact is important.
 Consider a Hilbert space $\calX$ with inner product $\langle\cdot, \cdot\rangle$, $\calM$ is multiplicative subset. Let an element $x$ lie in $\calX$, $y$ lie in $\calM$. Consider a projection $y^*$ of an element $x$ to a line $l = \{\alpha y:\, \alpha \in \sfR\}$. Then for the adjusted element $y^*$
 \begin{equation}
 \label{eq:adjust}
@@ -380,7 +380,7 @@ Proof of the second statement is a consequence of the fact that $\bfC$ is a diag
 If $m_{i,j}=1$, $i =1, \ldots, L$, $j = 1, \ldots, K$, then the weights $q_i$, $i = 1, \ldots, N$ are equal to $w_i$ given in \eqref{eq:w}.
 \end{corollary}
 
-Note that second matrix norm $||\cdot||_{2, \bfC}$ with a diagonal matrix $\bfC$ is a particular case of first norm $||\cdot||_{1, \bfC}$ . \emph{TODO: дальше переписать.} However, the value of writing first norm in a form of second norm is that approximation by rank-deficient matrices with respect to the first norm is a complex problem if not all $m_{i,j}$ are equal, but approximation with respect to the second norm is a natural problem which could be solved using oblique Singular Value Decomposition.
+Note that second matrix norm $||\cdot||_{2, \bfC}$ with a diagonal matrix $\bfC$ is a particular case of first norm $||\cdot||_{1, \bfC}$ . \footnote{TODO: дальше переписать.} However, the value of writing first norm in a form of second norm is that approximation by rank-deficient matrices with respect to the first norm is a complex problem if not all $m_{i,j}$ are equal, but approximation with respect to the second norm is a natural problem which could be solved using oblique Singular Value Decomposition.
 
 \begin{remark}
 \label{rem:2tasks}
@@ -584,7 +584,7 @@ where $m_{l, k}$ are defined in \ref{Mw}.
 Denote Algorithm~\ref{alg:obliqueCadzow} with matrix $\bfC=\widehat\bfC$ by Cadzow $\widehat\bfC$ iterations.
 
 \subsubsection{Correspondence between algorithms and weights $q_i$ in \eqref{L-rank_task}}
-Since the $||\cdot||_{2, \bfC}$ with $\bfC(\alpha)$ and $\widehat \bfC$ does not correspond to $||\cdot||_q$ in the space of time series with equal weights $q$, the resultant weights $q_i$ are of interest $\bfC(\alpha)$ and $\widehat \bfC$. \emph{TODO: я не понял это предложение}.
+Since the $||\cdot||_{2, \bfC}$ with $\bfC(\alpha)$ and $\widehat \bfC$ does not correspond to $||\cdot||_q$ in the space of time series with equal weights $q$, the resultant weights $q_i$ are of interest $\bfC(\alpha)$ and $\widehat \bfC$. \footnote{TODO: я не понял это предложение}.
 Define weights $q(\alpha)$ and $\hat q_i$ generated by the matrix $\bfC$ in Cadzow ($\alpha$) and Cadzow $\widehat\bfC$ iterations respectively.
 
 Following statements are valid.
@@ -693,37 +693,37 @@ Adjustment \eqref{eq:adjust} defined in can be applied to $\widehat\tsS$ in all 
 
 \section{Numeric examples}
 \label{sec:simul}
-Numeric results which confirm conclusions and considerations listed before are shown in this Section. Comparison was done in the case of extacting a sine and exponentially-modulated sine signals.
-Since results are same at all, only result for sine signal is presented.
+Let us consider numerical experiments for analysis of performance of the considered methods. Comparison of methods was done on examples with a sine wave signal exponentially-modulated sine wave signal.
+Since results are very similar, only results for the sine wave signal are presented.
 
-Following signal is taken:
+Let the signal $\tsS = (s_{1}, \ldots, s_N)$ of length $N = 40$ have form:
 \begin{equation*}
-\tsS = (s_{1}, \ldots, s_N), \qquad s_{i} = 5\sin{\frac{2 \pi k}{6}}, \quad k = 1, \ldots, N, \quad N = 40
+s_{i} = 5\sin{\frac{2 \pi k}{6}}, \quad k = 1, \ldots, N,
 \end{equation*}
-and signal $\tsX = \tsS + \tsN$ is considered, where  $\tsN$ is gaussian white noise with mean equals $0$ and variance equals $1$. Precision of signal estimation is done by extracting a root from mean of series measurements and 1000 realizations of mean square error (MSE) of series $\widehat\tsS$ from signal $\tsS$. This measure is called RMSE (root mean square error) of signal estimate. Comparison is done on same realizations of given series. Comparison results are significant at 5\% level of significance.
+and the series $\tsX = \tsS + \tsN$ is observed, where  $\tsN$ is Gaussian white noise with mean equal to $0$ and variance equal to $1$. Precision of signal estimation $\widehat\tsS$ is is calculated as root of mean squared error (RMSE) using 1000 repeats Comparison is performed on the same simulated samples. It was checked that comparison results are significant at 5\% level of significance.
 
-Firstly, consider a class of Oblique Cadzow iterations including usual Cadzow iterations. Picture \ref{img_cadzowspeed2} shows speed of convergency for various $\alpha$ and two various window lengths $L$ simultaneously. There are iteration number on X axis, and RMSE of signal estimate divided by number of measurements in series on Y axis.
+We start with investigation of the Cadzow ($\alpha$) methods and the Cadzow with $\widehat \bfC$ method. These methods use oblique SVD; Cadzow($1$) is the conventional Cadzow method. Figure \ref{img_cadzowspeed2} shows the rate of convergence for $\alpha = 0.1$ and $1$ and two different window lengths $L$. There are iteration number on X axis, and RMSE of signal estimate divided by number of measurements in series on Y axis.
 
 \begin{figure}[!hhh]
 \begin{center}
 \includegraphics[width = \textwidth]{cadzowspeed_2.pdf}
-\caption{RMSE of signal estimate depending by number of iterations.}
+\caption{RMSE of signal estimate depending on number of iterations.}
 \label{img_cadzowspeed2}
 \end{center}
 \end{figure}
 
-The best method in the limit is the one with slowest convergency speed, exactly, it is Cadzow (0.1) with window length $L=8$. Also, weights corresponding to this method are most uniform in Example.
-Note that precision of all described methods does not differ strongly, from 0.33 ($\alpha=0.1$, $L=8$) in the best case to 0.37 ($\alpha=1$, $L=20$) in the worst case. However, error 0.38 is achieved at first iteration in the first case, while it takes 4--5 iterations to achieve error 0.38 in the second case.
+One can see that the method with the smallest limit error is the one with slowest convergence rate. For the considered parameters, it is Cadzow (0.1) with window length $L=8$, where also, weights \emph{corresponding to this method} \footnote{ссылка} are most uniform.
+Note that the precision does not differ strongly, from 0.31 ($\alpha=0.1$, $L=8$) in the best case to 0.35 ($\alpha=1$, $L=20$) in the worst case. However, error 0.35 is achieved at first iteration in the first case, while it takes 4--5 iterations to achieve error 0.35 in the second case.
 
-Consider error distributions by series measurements in detail including Extended and Weighted Cadzow iterations too. ``Number of iterations equal 100'' is taken as stop criterion STOP1 (obtained results could be interpreted as limit), and stop criterion STOP2 for inner iterations is as follows:
+Consider estimation error spreading behavior by series measurements in detail including Extended and Weighted Cadzow iterations. Number of iterations equal to 100 is taken as stop criterion STOP1 (this choice yields the error close to the limiting value), and stop criterion STOP2 for inner iterations is as follows:
  $\frac{\|\bfY_k - \bfY_{k+1}\|^2}{LK} < 10^{-4}$. Initial left and right extended values $\tsL_{L-1}$ и $\tsR_{L-1}$ in Extended Cadzow iterations are obtained using Vector SSA forecast \cite[chapter 2.3.1]{Golyandina.etal2001}.
 
-Let us take window length $L=20$. There are measurement number on X axis and RMSE from real signal value at this measurement on Y axis at Pictures~\ref{fig:s1_it1}~and~\ref{fig:s1_it100}. Picture~\ref{fig:s1_it1} shows errors at first iteration, Picture~\ref{fig:s1_it100} shows errors at 100-th iteration. It is clear that Extended Cadzow iterations is the most precise method in both cases. Cadzow and Cadzow with $\widehat\bfC$ iterations are best at first iteration among methods without inner iterations. The best method in the limit (after 100-th iteration, results does not change significally further) is Cadzow with $\alpha=0.1$, and it is not surprising according to Picture~\ref{img_cadzowspeed2}.
+Figures~\ref{fig:s1_it1}~and~\ref{fig:s1_it100} show the dependence of RMSE for each series point. Picture~\ref{fig:s1_it1} shows errors at first iteration, Picture~\ref{fig:s1_it100} shows errors at 100-th iteration. It is clear that Extended Cadzow method is the most precise in both cases. Cadzow and Cadzow with $\widehat\bfC$ methods are the best at first iteration among methods without inner iterations. The best method in the limit (after 100-th iteration, results do not change significally further) is Cadzow with $\alpha=0.1$, and it is not surprising according to Figure~\ref{img_cadzowspeed2}.
 
 \begin{figure}[!hhh]
 \begin{center}
 \includegraphics[width = 13cm]{s1_it1.pdf}
-\caption{RMSE of signal estimate at each measurement at first iteration.}
+\caption{RMSE of signal estimate at each series point; iteration 1.}
 \label{fig:s1_it1}
 \end{center}
 \end{figure}
@@ -731,18 +731,18 @@ Let us take window length $L=20$. There are measurement number on X axis and RMS
 \begin{figure}[!hhh]
 \begin{center}
 \includegraphics[width = 13cm]{s1_it100.pdf}
-\caption{RMSE of signal estimate at each measurement at 100-th iteration.}
+\caption{RMSE of signal estimate at each series point; iteration 100.}
 \label{fig:s1_it100}
 \end{center}
 \end{figure}
 
-Consider Table~\ref{fintable} which shows method results, namely, RMSE as the measure of deviation from signal and initial series at first and 100-th iteration. $k$ is a number of iterations in Table, $\tsS$ means signal, $\tsX$ --- initial series; $L=20$. This Table confirms conclusions about comparison of methods by precision of signal estimation. Also it is seen that quality of initial series approximation does not always correspond with quality of signal estimation. For example, overfitting is clearly present for Cadzow ($0.1$) iterations at first iteration. However, methods are ordered identically by precision of approximation and precision of signal estimation in the limit.
+Consider Table~\ref{fintable} which shows method results, namely, RMSE for $\tilde \tsS$ as an estimate of the signal $\tsS$ and for $\tilde \tsS$ as an estimate of the initial series $\tsX$. \footnote{(that is, as the approximation error) -- не понял} Here $k$ is the number of iterations, $L=20$. Table~\ref{fintable} confirms conclusions about comparison of methods by precision of signal estimation. Also it is seen that еру quality of initial series approximation does not always correspond with quality of signal estimation. For example, overfitting is clearly present for Cadzow ($0.1$) iterations at first iteration. However, methods are ordered identically by precision of approximation and precision of signal estimation in the limit.
 
-Same experiment is done with adjusted algorithms (see remark~\ref{rem:adjust}), results are written in Table~\ref{fintable_improved}. It is clear that adjustment does not affect significally (Pictures are not brought for adjusted methods because adjustment does not influence noticeably by sight). Adjustment improves approximation of initial series in all cases by its construction, but influence to precision of signal approximation is ambiguous (it improves precision at 100th iteration; results are various at first iteration).
+The same experiments were performed with adjusted algorithms (see Remark~\ref{rem:adjust}). One can see in Table~\ref{fintable_improved} that the accuracy is almost the same. Adjustment improves approximation of initial series in all cases by its construction, however, the influence to precision of signal approximation is ambiguous (it improves precision at 100th iteration; results are various at first iteration).
 
 \begin{table}[!hhh]
 \begin{center}
-\caption{Comparison of methods by RMSE.}\label{fintable}
+\caption{Comparison of methods by RMSE, $L = 20$}\label{fintable}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
 $P$: & $\tsS$, $k = 1$ & $\tsX$, $k = 1$ & $\tsS$, $k = 100$ & $\tsX$, $k = 100$  \\
@@ -763,10 +763,10 @@ Extended Cadzow & 0.3361 & 0.9030 & 0.3189 & 0.9471 \\
 
 \begin{table}[!hhh]
 	\begin{center}
-		\caption{Comparison of adjusted methods by RMSE.}\label{fintable_improved}
+		\caption{Comparison of adjusted methods by RMSE, $L = 20$}\label{fintable_improved}
 		\begin{tabular}{|c|c|c|c|c|}
 			\hline
-			$P$: & $\tsS$, $T = 1$ & $\tsX$, $T = 1$ & $\tsS$, $T = 100$ & $\tsX$, $T = 100$  \\
+			$P$: & $\tsS$, $k = 1$ & $\tsX$, $k = 1$ & $\tsS$, $k = 100$ & $\tsX$, $k = 100$  \\
 			\hline
 			Cadzow, $\alpha = 1$ & 0.3714 & 0.9175 & 0.3667 & 0.9622 \\
 			\hline
@@ -784,9 +784,9 @@ Extended Cadzow & 0.3361 & 0.9030 & 0.3189 & 0.9471 \\
 
 \section{Conclusion}
 \label{sec:concl}
-Known and new iterative algorithms for approximation of series by finite rank series with aim of estimating a signal from noisy signal by Least Squares method were considered in this Paper.
+Several known and new iterative algorithms for approximation of a noisy series by a finite-rank series (signal) were considered in the paper. The approximation was performed by Least Squares method and was considered as an estimate of signal.
 
-Large class of algorithms was reviewed with aim of achieving equal weights in Least Squares method. Equal weights were achieved by using inner iterations only, which converges to local minimum only and makes algorithms time-consuming. Usage of methods without inner iterations leads to approximately equal weights only.
+\footnote{С этого места --- переписать}Large class of algorithms was reviewed with aim of achieving equal weights in Least Squares method. Equal weights were achieved by using inner iterations only, which converges to local minimum only and makes algorithms time-consuming. Usage of methods without inner iterations leads to approximately equal weights only.
 
 Convergency of outer iterations by subsequences was proved for reviewed class of algorithms.
 
