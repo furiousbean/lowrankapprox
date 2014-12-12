@@ -34,7 +34,6 @@ headsep=1cm, footskip=1cm]{geometry}
 \theoremstyle{definition}
 \newtheorem{definition}{Определение}
 
-
 \input{letters}
 
 \input{newcommands}
@@ -56,6 +55,7 @@ headsep=1cm, footskip=1cm]{geometry}
 
 
     \begin{document}
+
     % Название организации
     \institution{%
     	Санкт-Петербургский государственный университет \\
@@ -64,7 +64,7 @@ headsep=1cm, footskip=1cm]{geometry}
     }
     % Имя лица, допускающего к защите (зав. кафедрой)
     \apname{д.\,ф.-м.\,н., профессор С.\,М.~Ермаков}
-    \title{Дипломная работа}
+    \title{Отчет по производственной практике}
     % Тема
     \topic{\normalfont\scshape %
     	<<Итеративные алгоритмы взвешенной аппроксимации рядами конечного ранга>>}
@@ -76,12 +76,12 @@ headsep=1cm, footskip=1cm]{geometry}
     \sa {Н.\,Э.~Голяндина}
     \sastatus{к.\,ф.-м.\,н., доцент}
     % Рецензент
-    \rev {А.\,И.~Коробейников}
-    \revstatus{к.\,ф.-м.\,н., доцент}
+    %\rev {А.\,И.~Коробейников}
+    %\revstatus{к.\,ф.-м.\,н., доцент}
     % Город и год
     \city{Санкт-Петербург}
     \date{\number\year}
-    \maketitle    
+    \maketitle
     
     % Organization title
     \institution{%
@@ -108,7 +108,7 @@ headsep=1cm, footskip=1cm]{geometry}
     % City & Year
     \city{Saint Petersburg}
     \date{\number\year}
-    \maketitle[en]    
+    %\maketitle[en]    
     \tableofcontents
     	%\newpage
 \intro
@@ -1245,6 +1245,6 @@ c_k = \begin{cases}
 
 \bibliographystyle{gost705}
 \bibliography{zvonarev}
-\addcontentsline{toc}{section}{Список литературы}
+%\addcontentsline{toc}{section}{Список литературы}
 
 \end{document}
