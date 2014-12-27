@@ -34,9 +34,237 @@
 \newtheorem{algorithm}{Алгоритм}
 \newtheorem{lemma}{Лемма}
 
-\input{letters}
+\usepackage{euscript}
+\newcommand{\spA}{\EuScript{A}}
+\newcommand{\spB}{\EuScript{B}}
+\newcommand{\spC}{\EuScript{C}}
+\newcommand{\spD}{\EuScript{D}}
+\newcommand{\spE}{\EuScript{E}}
+\newcommand{\spF}{\EuScript{F}}
+\newcommand{\spG}{\EuScript{G}}
+\newcommand{\spH}{\EuScript{H}}
+\newcommand{\spI}{\EuScript{I}}
+\newcommand{\spJ}{\EuScript{J}}
+\newcommand{\spK}{\EuScript{K}}
+\newcommand{\spL}{\EuScript{L}}
+\newcommand{\spM}{\EuScript{M}}
+\newcommand{\spN}{\EuScript{N}}
+\newcommand{\spO}{\EuScript{O}}
+\newcommand{\spP}{\EuScript{P}}
+\newcommand{\spQ}{\EuScript{Q}}
+\newcommand{\spR}{\EuScript{R}}
+\newcommand{\spS}{\EuScript{S}}
+\newcommand{\spT}{\EuScript{T}}
+\newcommand{\spU}{\EuScript{U}}
+\newcommand{\spV}{\EuScript{V}}
+\newcommand{\spW}{\EuScript{W}}
+\newcommand{\spX}{\EuScript{X}}
+\newcommand{\spY}{\EuScript{Y}}
+\newcommand{\spZ}{\EuScript{Z}}
 
-\input{newcommands}
+%font for text indices like transposition X^\mathrm{T}
+\newcommand{\rmA}{\mathrm{A}}
+\newcommand{\rmB}{\mathrm{B}}
+\newcommand{\rmC}{\mathrm{C}}
+\newcommand{\rmD}{\mathrm{D}}
+\newcommand{\rmE}{\mathrm{E}}
+\newcommand{\rmF}{\mathrm{F}}
+\newcommand{\rmG}{\mathrm{G}}
+\newcommand{\rmH}{\mathrm{H}}
+\newcommand{\rmI}{\mathrm{I}}
+\newcommand{\rmJ}{\mathrm{J}}
+\newcommand{\rmK}{\mathrm{K}}
+\newcommand{\rmL}{\mathrm{L}}
+\newcommand{\rmM}{\mathrm{M}}
+\newcommand{\rmN}{\mathrm{N}}
+\newcommand{\rmO}{\mathrm{O}}
+\newcommand{\rmP}{\mathrm{P}}
+\newcommand{\rmQ}{\mathrm{Q}}
+\newcommand{\rmR}{\mathrm{R}}
+\newcommand{\rmS}{\mathrm{S}}
+\newcommand{\rmT}{\mathrm{T}}
+\newcommand{\rmU}{\mathrm{U}}
+\newcommand{\rmV}{\mathrm{V}}
+\newcommand{\rmW}{\mathrm{W}}
+\newcommand{\rmX}{\mathrm{X}}
+\newcommand{\rmY}{\mathrm{Y}}
+\newcommand{\rmZ}{\mathrm{Z}}
+
+%tt font for time series
+\newcommand{\tsA}{\mathbb{A}}
+\newcommand{\tsB}{\mathbb{B}}
+\newcommand{\tsC}{\mathbb{C}}
+\newcommand{\tsD}{\mathbb{D}}
+\newcommand{\tsE}{\mathbb{E}}
+\newcommand{\tsF}{\mathbb{F}}
+\newcommand{\tsG}{\mathbb{G}}
+\newcommand{\tsH}{\mathbb{H}}
+\newcommand{\tsI}{\mathbb{I}}
+\newcommand{\tsJ}{\mathbb{J}}
+\newcommand{\tsK}{\mathbb{K}}
+\newcommand{\tsL}{\mathbb{L}}
+\newcommand{\tsM}{\mathbb{M}}
+\newcommand{\tsN}{\mathbb{N}}
+\newcommand{\tsO}{\mathbb{O}}
+\newcommand{\tsP}{\mathbb{P}}
+\newcommand{\tsQ}{\mathbb{Q}}
+\newcommand{\tsR}{\mathbb{R}}
+\newcommand{\tsS}{\mathbb{S}}
+\newcommand{\tsT}{\mathbb{T}}
+\newcommand{\tsU}{\mathbb{U}}
+\newcommand{\tsV}{\mathbb{V}}
+\newcommand{\tsW}{\mathbb{W}}
+\newcommand{\tsX}{\mathbb{X}}
+\newcommand{\tsY}{\mathbb{Y}}
+\newcommand{\tsZ}{\mathbb{Z}}
+
+%bf font for matrices
+\newcommand{\bfA}{\mathbf{A}}
+\newcommand{\bfB}{\mathbf{B}}
+\newcommand{\bfC}{\mathbf{C}}
+\newcommand{\bfD}{\mathbf{D}}
+\newcommand{\bfE}{\mathbf{E}}
+\newcommand{\bfF}{\mathbf{F}}
+\newcommand{\bfG}{\mathbf{G}}
+\newcommand{\bfH}{\mathbf{H}}
+\newcommand{\bfI}{\mathbf{I}}
+\newcommand{\bfJ}{\mathbf{J}}
+\newcommand{\bfK}{\mathbf{K}}
+\newcommand{\bfL}{\mathbf{L}}
+\newcommand{\bfM}{\mathbf{M}}
+\newcommand{\bfN}{\mathbf{N}}
+\newcommand{\bfO}{\mathbf{O}}
+\newcommand{\bfP}{\mathbf{P}}
+\newcommand{\bfQ}{\mathbf{Q}}
+\newcommand{\bfR}{\mathbf{R}}
+\newcommand{\bfS}{\mathbf{S}}
+\newcommand{\bfT}{\mathbf{T}}
+\newcommand{\bfU}{\mathbf{U}}
+\newcommand{\bfV}{\mathbf{V}}
+\newcommand{\bfW}{\mathbf{W}}
+\newcommand{\bfX}{\mathbf{X}}
+\newcommand{\bfY}{\mathbf{Y}}
+\newcommand{\bfZ}{\mathbf{Z}}
+
+%bb font for standard spaces and expectation
+\newcommand{\bbA}{\mathbb{A}}
+\newcommand{\bbB}{\mathbb{B}}
+\newcommand{\bbC}{\mathbb{C}}
+\newcommand{\bbD}{\mathbb{D}}
+\newcommand{\bbE}{\mathbb{E}}
+\newcommand{\bbF}{\mathbb{F}}
+\newcommand{\bbG}{\mathbb{G}}
+\newcommand{\bbH}{\mathbb{H}}
+\newcommand{\bbI}{\mathbb{I}}
+\newcommand{\bbJ}{\mathbb{J}}
+\newcommand{\bbK}{\mathbb{K}}
+\newcommand{\bbL}{\mathbb{L}}
+\newcommand{\bbM}{\mathbb{M}}
+\newcommand{\bbN}{\mathbb{N}}
+\newcommand{\bbO}{\mathbb{O}}
+\newcommand{\bbP}{\mathbb{P}}
+\newcommand{\bbQ}{\mathbb{Q}}
+\newcommand{\bbR}{\mathbb{R}}
+\newcommand{\bbS}{\mathbb{S}}
+\newcommand{\bbT}{\mathbb{T}}
+\newcommand{\bbU}{\mathbb{U}}
+\newcommand{\bbV}{\mathbb{V}}
+\newcommand{\bbW}{\mathbb{W}}
+\newcommand{\bbX}{\mathbb{X}}
+\newcommand{\bbY}{\mathbb{Y}}
+\newcommand{\bbZ}{\mathbb{Z}}
+
+%got font for any case
+\newcommand{\gA}{\mathfrak{A}}
+\newcommand{\gB}{\mathfrak{B}}
+\newcommand{\gC}{\mathfrak{C}}
+\newcommand{\gD}{\mathfrak{D}}
+\newcommand{\gE}{\mathfrak{E}}
+\newcommand{\gF}{\mathfrak{F}}
+\newcommand{\gG}{\mathfrak{G}}
+\newcommand{\gH}{\mathfrak{H}}
+\newcommand{\gI}{\mathfrak{I}}
+\newcommand{\gJ}{\mathfrak{J}}
+\newcommand{\gK}{\mathfrak{K}}
+\newcommand{\gL}{\mathfrak{L}}
+\newcommand{\gM}{\mathfrak{M}}
+\newcommand{\gN}{\mathfrak{N}}
+\newcommand{\gO}{\mathfrak{O}}
+\newcommand{\gP}{\mathfrak{P}}
+\newcommand{\gQ}{\mathfrak{Q}}
+\newcommand{\gR}{\mathfrak{R}}
+\newcommand{\gS}{\mathfrak{S}}
+\newcommand{\gT}{\mathfrak{T}}
+\newcommand{\gU}{\mathfrak{U}}
+\newcommand{\gV}{\mathfrak{V}}
+\newcommand{\gW}{\mathfrak{W}}
+\newcommand{\gX}{\mathfrak{X}}
+\newcommand{\gY}{\mathfrak{Y}}
+\newcommand{\gZ}{\mathfrak{Z}}
+
+%old calligraphic font
+\newcommand{\calA}{\mathcal{A}}
+\newcommand{\calB}{\mathcal{B}}
+\newcommand{\calC}{\mathcal{C}}
+\newcommand{\calD}{\mathcal{D}}
+\newcommand{\calE}{\mathcal{E}}
+\newcommand{\calF}{\mathcal{F}}
+\newcommand{\calG}{\mathcal{G}}
+\newcommand{\calH}{\mathcal{H}}
+\newcommand{\calI}{\mathcal{I}}
+\newcommand{\calJ}{\mathcal{J}}
+\newcommand{\calK}{\mathcal{K}}
+\newcommand{\calL}{\mathcal{L}}
+\newcommand{\calM}{\mathcal{M}}
+\newcommand{\calN}{\mathcal{N}}
+\newcommand{\calO}{\mathcal{O}}
+\newcommand{\calP}{\mathcal{P}}
+\newcommand{\calQ}{\mathcal{Q}}
+\newcommand{\calR}{\mathcal{R}}
+\newcommand{\calS}{\mathcal{S}}
+\newcommand{\calT}{\mathcal{T}}
+\newcommand{\calU}{\mathcal{U}}
+\newcommand{\calV}{\mathcal{V}}
+\newcommand{\calW}{\mathcal{W}}
+\newcommand{\calX}{\mathcal{X}}
+\newcommand{\calY}{\mathcal{Y}}
+\newcommand{\calZ}{\mathcal{Z}}
+
+%sf font for transposition and spaces like R
+\newcommand{\sfA}{\mathsf{A}}
+\newcommand{\sfB}{\mathsf{B}}
+\newcommand{\sfC}{\mathsf{C}}
+\newcommand{\sfD}{\mathsf{D}}
+\newcommand{\sfE}{\mathsf{E}}
+\newcommand{\sfF}{\mathsf{F}}
+\newcommand{\sfG}{\mathsf{G}}
+\newcommand{\sfH}{\mathsf{H}}
+\newcommand{\sfI}{\mathsf{I}}
+\newcommand{\sfJ}{\mathsf{J}}
+\newcommand{\sfK}{\mathsf{K}}
+\newcommand{\sfL}{\mathsf{L}}
+\newcommand{\sfM}{\mathsf{M}}
+\newcommand{\sfN}{\mathsf{N}}
+\newcommand{\sfO}{\mathsf{O}}
+\newcommand{\sfP}{\mathsf{P}}
+\newcommand{\sfQ}{\mathsf{Q}}
+\newcommand{\sfR}{\mathsf{R}}
+\newcommand{\sfS}{\mathsf{S}}
+\newcommand{\sfT}{\mathsf{T}}
+\newcommand{\sfU}{\mathsf{U}}
+\newcommand{\sfV}{\mathsf{V}}
+\newcommand{\sfW}{\mathsf{W}}
+\newcommand{\sfX}{\mathsf{X}}
+\newcommand{\sfY}{\mathsf{Y}}
+\newcommand{\sfZ}{\mathsf{Z}}
+
+%\input{newcommands}
+\def\spaceR{\mathsf{R}}
+\newcommand{\be}{\begin{eqnarray}}
+\newcommand{\ee}{\end{eqnarray}}
+\def\dist{\mathop{\mathrm{dist}}}
+\newcommand{\diag}{\mathop{\mathrm{diag}}}
+\newcommand{\ra}{\rightarrow}
 
 \sectionfont{\centering}
 
@@ -242,7 +470,7 @@ $\Pi_{\calH}$ --- проектор на $\calH$.
 \begin{proposition}
 \label{prop:projS}
 Пусть существует симметричная, неотрицательно оп\-ре\-де\-лен\-ная матрица  $\bfC$ порядка $K \times K$,
-такая что $\|\bfY\|_\bfM = \tr(\bfY \bfC \bfY^\rmT)$.
+такая что $\|\bfY\|^2_\bfM = \tr(\bfY \bfC \bfY^\rmT)$.
 Предположим также, что пространство столбцов матрицы $\bfY$ лежит в пространстве столбцов матрицы $\bfC$.
 Тогда
 \be
@@ -553,7 +781,7 @@ c_k = \begin{cases}
 \end{equation*}
 \end{lemma}
 
-Существенная проблема, которая встречается при этом подходе --- нулевые элементы на диагоналях матрицы $\bfC$. Таким образом, ранг матрицы $\bfC$ заведомо меньше $K$. В \cite{Gillard2014} предложено заменить нули на диагоналях на некоторое малое $\alpha$, чтобы исправить проблему.
+Существенная проблема, которая встречается при этом подходе --- нулевые элементы на диагонали матрицы $\bfC$. Таким образом, ранг матрицы $\bfC$ заведомо меньше $K$. В \cite{Gillard2014} предложено заменить нули на диагонали на некоторое малое $\alpha$, чтобы исправить проблему.
 
 Положим
 \begin{equation}\label{zhigweights}
@@ -874,9 +1102,73 @@ Extended Cadzow & 0.3361 & 0.9030 & 0.3189 & 0.9471 \\
 В дальнейшем предполагается провести расширенное численное и аналитическое исследование методов и получить более конкретные рекомендации по
 соотношению трудоемкости и точности алгоритмов.
 
-%\bibliographystyle{plain}
-\bibliographystyle{gost2008}
-\bibliography{zvonarev}
+%\bibliographystyle{gost2008}
+%\bibliography{zvonarev}
+\begin{thebibliography}{10}
+\bibitem{Cadzow1988}	
+Cadzow J. A. Signal enhancement: a composite property mapping algorithm // IEEE
+Trans. Acoust. 1988. Vol. 36, No. 1. P. 49–62.
+
+\bibitem{Markovsky2011}
+Markovsky I. Low Rank Approximation: Algorithms, Implementation, Applications.
+Springer, 2012, 258 p.
+
+\bibitem{Usevich.Markovsky2014}
+Usevich K., Markovsky I. Variable projection for affinely structured low-rank
+approximation in weighted 2-norms // Journal of Computational and Applied
+Mathematics. 2014. Vol. 272, P. 430 – 448.
+
+\bibitem{Gillard.Zhigljavsky2013}
+Gillard J., Zhigljavsky A. Optimization challenges in the structured low rank
+approximation problem // Journal of Global Optimization. 2013. Vol. 57, No. 3. P. 733–
+751.
+
+\bibitem{Broomhead.King1986}
+Broomhead D., King G. Extracting qualitative dynamics from experimental data //
+Physica D. 1986. Vol. 20. P. 217–236.
+
+\bibitem{Vautard.etal1992}
+Vautard R., Yiou P., Ghil M. Singular-Spectrum Analysis: A toolkit for short, noisy
+chaotic signals // Physica D. 1992. Vol. 58. P. 95–126.
+
+\bibitem{Elsner.Tsonis1996}
+Elsner J. B., Tsonis A. A. Singular Spectrum Analysis: A New Tool in Time Series
+Analysis. Plenum, 1996, 164 p.
+
+\bibitem{Golyandina.etal2001}
+Golyandina N., Nekrutkin V., Zhigljavsky A. Analysis of Time Series Structure: SSA and Related Techniques. Chapman\&Hall/CRC, 2001, 320 p.
+
+\bibitem{Ghil.etal2002}
+M. Ghil, R. M. Allen, M. D. Dettinger et al. Advanced spectral methods for climatic time series // Rev. Geophys. 2002. Vol. 40, No. 1. P. 1–41.
+
+\bibitem{Golyandina.Zhigljavsky2012}
+Golyandina N., Zhigljavsky A. Singular Spectrum Analysis for time series. Springer Briefs
+in Statistics. Springer, 2013, 120 p.
+
+\bibitem{Chu.etal2003}
+Chu M. T., Funderlic R. E., Plemmons R. J. Structured low rank approximation //
+Linear Algebra and its Applications. 2003. Vol. 366, P. 157 – 172. Special issue on
+Structured Matrices: Analysis, Algorithms and Applications.
+
+\bibitem{Golyandina2013}
+Golyandina N., Shlemov A. Variations of singular spectrum analysis for separability
+improvement: non-orthogonal decompositions of time series // Stat. Interface. 2014 (in press).
+\textcolor{blue}{\underline{http://arxiv.org/abs/1308.4022}}.
+
+\bibitem{Srebro2003}
+Srebro N., Jaakkola T. et al. Weighted low-rank approximations // ICML. Vol. 3. 2003.
+P. 720–727.
+
+\bibitem{Gillard2014}
+Gillard J., Zhigljavsky A. A. Stochastic algorithms for solving structured low-rank
+matrix approximation problems // Communication in Nonlinear Science and Numerical
+Simulation. 2015. Vol. 21, No. 1. P. 70-88.
+
+\bibitem{Golyandina2010}
+Golyandina N. On the choice of parameters in singular spectrum analysis and related
+subspace-based methods // Stat. Interface. 2010. Vol. 3, No. 3. P. 259–279.
+\end{thebibliography}
+
 \addcontentsline{toc}{section}{Список литературы}
 
 \section{Приложение: Разделимость константы и гармоники для двух алгоритмов Oblique Cadzow}
