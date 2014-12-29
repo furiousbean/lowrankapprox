@@ -66,7 +66,7 @@
 \begin{abstract}
 The problem of time series approximation by series of finite rank is considered from the viewpoint of signal extraction. For signal estimation,
 a weighted least-squares method is applied to the trajectory matrix of the considered time series to obtain an approximation of the original time series. The aim of matrix weights is to obtain equal or approximately equal weights in the equivalent problem of time series least-squares approximation.
-Several new methods are suggested. Questions of convergency, computational complexity and accuracy are considered for the proposed methods. The methods are compared on a numeric example.
+Several new methods are suggested. Questions of convergence, computational complexity and accuracy are considered for the proposed methods. The methods are compared on a numeric example.
 \end{abstract}
 
 %\begin{keyword}[class=AMS]
@@ -120,7 +120,7 @@ Let $\bfX$ be the trajectory matrix of the series $\tsX$. Then the problem of es
 \end{equation}
 where $\|\cdot\|_\rmF$ is the Frobenius norm.
 
-A lot of papers are dedicated to this problem, e.g., \cite{Cadzow1988, Markovsky2011, Usevich.Markovsky2014, Gillard.Zhigljavsky2013} among them, where the problem is called Structured Low-Rank Approximation. Approaches to solving the problem are iterative, e.g., Cadzow iterations \cite{Cadzow1988} consist of alternating projections to the set of Hankel matrices and matrices of rank not larger than $r$. The target function is not unimodal in such class of problems, and convergency to global minimum is not guaranteed; despite this, problem \eqref{introd_task} is considered to be well-researched, though it has many open answers yet.
+A lot of papers are dedicated to this problem, e.g., \cite{Cadzow1988, Markovsky2011, Usevich.Markovsky2014, Gillard.Zhigljavsky2013} among them, where the problem is called Structured Low-Rank Approximation. Approaches to solving the problem are iterative, e.g., Cadzow iterations \cite{Cadzow1988} consist of alternating projections to the set of Hankel matrices and matrices of rank not larger than $r$. The target function is not unimodal in such class of problems, and convergence to global minimum is not guaranteed; despite this, problem \eqref{introd_task} is considered to be well-researched, though it has many open answers yet.
 
 Note that problem \eqref{introd_task} is equivalent to the problem of weighted approximation of the series $\tsX = (x_1, \ldots, x_N)$:
 \begin{equation}\label{introd_task_2}
@@ -143,18 +143,18 @@ If one is interested in a signal estimate, which is not necessarily governed by 
 Hence, the described methods are compared by precision of the signal estimation in the first iteration and in the limit. Note that Singular Spectrum Analysis (SSA) \cite{Broomhead.King1986, Vautard.etal1992, Elsner.Tsonis1996, Golyandina.etal2001, Ghil.etal2002, Golyandina.Zhigljavsky2012} can be
 described as one iteration of the Cadzow method.
 
-The structure of the paper is as follows.  In Section~\ref{sec:lowrank_appr}, a problem of approximation of a matrix by a Hankel rank-deficient matrix is considered. Common structure of iterative alternating projection algorithms is described, approaches to construction of the projectors are given, the convergency theorem is proved.
+The structure of the paper is as follows.  In Section~\ref{sec:lowrank_appr}, a problem of approximation of a matrix by a Hankel rank-deficient matrix is considered. Common structure of iterative alternating projection algorithms is described, approaches to construction of the projectors are given, the convergence theorem is proved.
 
 In Section~\ref{sec:ts_matrices}, the relation between problems of approximation of time series and of their trajectory matrices is described, relationship between weights in the corresponding weighted least squares problems is also given. Section~\ref{sec:alg} contains the suggested time-series approximation algorithms. In Section~\ref{sec:simul}, a numeric comparison of algorithms on a typical example is performed.
 
-The paper is finished with conclusions (Section~\ref{sec:concl}) The result of separability of constant and sinusoidal signals by SSA with weights, which has a connection with convergency for two of the described algorithms, is proved in Appendix.
+The paper is finished with conclusions (Section~\ref{sec:concl}) The result of separability of constant and sinusoidal signals by SSA with weights, which has a connection with convergence for two of the described algorithms, is proved in Appendix.
 
 \section{Approximation by rank-deficient Hankel matrices}
 \label{sec:lowrank_appr}
 \subsection{Common algorithm}
 Consider a problem of approximation of a matrix $\bfX$ by a Hankel rank-deficient matrix with respect to some (semi)norm $\|\cdot\|$. Define by $\spaceR^{L\times K}$ the space of matrices of size $L \times K$, $\calM_r\subset \spaceR^{L\times K}$ is the set of matrices of rank not larger than $r$,
 $\calH \subset \spaceR^{L\times K}$ is the set of Hankel matrices.
-Note that  $\calM_r$ is not nor linear, nor convex set. However, $\calM_r$ is multiplicative, i.e.
+Note that  $\calM_r$ is not nor linear, nor convex set. However, $\calM_r$ is closed with respect to scalar multiplication, i.e.
 if $\bfZ\in \calM_r$, then $a\bfZ\in \calM_r$ for any $a$.
 Space $\calH$ is linear.
 
@@ -164,48 +164,49 @@ The problem is
 \|\bfX - \bfY\| \to \min_\bfY, \mbox{\ where\ } \bfY \in \calH \cap \calM_r.
 \ee
 
-For presenting the algorithm's scheme for this problem, let us introduce projectors to the subspaces with respect to norm $\|\cdot\|$, $\Pi_{\calM_r}$ is the projector to $\calM_r$,
+To present the algorithm's scheme for this problem, let us introduce the projectors to the subspaces $\calM_r$ and $\calH$ with respect to norm $\|\cdot\|$: $\Pi_{\calM_r}$ is the projector to $\calM_r$,
 $\Pi_{\calH}$ is the projector to $\calH$.
-Note that result of projection to $\calM_r$ can not be defined uniquely, but further we suppose that in the case of ambiguity any value from all possible is chosen. The projector to $\calH$ is evidently orthogonal, while $\Pi_{\calM_r}$ is orthognonal due to the following proposition.
+Note that the projection to $\calM_r$ can not be defined uniquely, but further we suppose that in the case of ambiguity any possible value is chosen. The projector to $\calH$ is evidently orthogonal, while $\Pi_{\calM_r}$ is orthognonal due to the following proposition.
 
 \begin{proposition} \label{pythaprop}
-	Let $\calX$ be Hilbert space, $\calM$ is a multiplicative subset, $\Pi_\calM$ is projection operator to $\calM$. Then for any $x \in \calX$ Pythagorean theorem is true: $\|x\|^2~=~\|x~-~\Pi_\calM x\|^2~+~\|\Pi_\calM x\|^2$.
+	Let $\calX$ be Hilbert space, $\calM\in \calX$ be a subset closed with respect to scalar multiplication, $\Pi_\calM$ be the projection operator to $\calM$. Then for any $x \in \calX$ the Pythagorean theorem is true: $\|x\|^2~=~\|x~-~\Pi_\calM x\|^2~+~\|\Pi_\calM x\|^2$.
 \end{proposition}
 \begin{proof}
-	By using multiplicativity, the set $\calM$ could be represented as $\calM = \bigcup\limits_{l \in \calL}l$, where $\calL$ is the set of all lines lying in $\calM$ and passing through $0$. Then the projection can be described as follows: to begin with, we choose a line $l$ such that $\dist(x, l) \rightarrow \min\limits_{l \in \calL}$; then, $y = \Pi_\calM x$ is the orthogonal projection of $x$ to the line $l$, which is a linear subspace. Proposition is proved.
+	By conditions, the set $\calM$ can be represented as $\calM = \bigcup\limits_{l \in \calL}l$, where $\calL$ is the set of all lines lying in $\calM$ and passing through $0$. Then the projection can be described as follows: to begin with, we choose a line $l$ such that $\dist(x, l) \rightarrow \min\limits_{l \in \calL}$; then, $y = \Pi_\calM x$ is the orthogonal projection of $x$ to the line $l$, which is a linear subspace. Proposition is proved.
 \end{proof}
 
-For solving problem \eqref{eq:gen_task} the iterative method of alternating projections can be used:
+The iterative method of alternating projections for the problem \eqref{eq:gen_task} is given by the following iteration step:
 \be
+\label{eq:iter}
 \bfY_{k+1}=\Pi_\calH \Pi_{\calM_r} \bfY_{k}, \mbox{\ where\ } \bfY_{0}=\bfX.
 \ee
 
-Let us prove a theorem about convergency rate of the given method.
+Consider the convergence of the sequence~\eqref{eq:iter}.
 
 \begin{theorem}
 	\label{th:converg}
 	\begin{enumerate}
-		Let the space $\calM_r$ be closed in topology gererated by norm $\|\cdot\|$. Then
+		Let the space $\calM_r$ be closed in the topology generated by norm $\|\cdot\|$. Then
 		\item $\|\bfY_k - \Pi_{\calM_r}\bfY_k\| \to 0$ as $k \to +\infty$, $\|\Pi_{\calM_r}\bfY_k - \bfY_{k+1}\| \to 0$ as $k \to +\infty$.
-		\item There exists a convergent subsequence of matrices $\bfY_{i_1}, \bfY_{i_2}, \ldots$ such that its limit $\bfY^*$ lies in $\calM_r \cap \calH$.
+		\item There exists a convergent subsequence of matrices $\bfY_{i_1}, \bfY_{i_2}, \ldots$ such that its limit $\bfY^*$ belongs to $\calM_r \cap \calH$.
 	\end{enumerate}
 \end{theorem}
 \begin{proof}
-	Let us use inequalities \cite{Chu.etal2003}
+	Let us use inequalities \cite[ineq. (4.1)]{Chu.etal2003}
 	\begin{multline}
 	\label{chuprop}
 	\|\bfY_k - \Pi_{\calM_r} \bfY_k\| \ge \|\Pi_{\calM_r} \bfY_k - \bfY_{k + 1}\| \ge \\ \|\bfY_{k+1} - \Pi_{\calM_r} \bfY_{k + 1}\|.
 	\end{multline}
 	
 	\begin{enumerate}
-		\item According to inequalities \eqref{chuprop}, \footnote{the?} sequences $\|\bfY_k~-~\Pi_{\calM_r} \bfY_k\|$, $k = 1, 2, \ldots$, and $\|\Pi_{\calM_r} \bfY_k - \bfY_{k + 1}\|$, $k = 1, 2, \ldots$, are non-increasing. It is obvious that they are limited below by zero. So they have equal limits $c$ according to \eqref{chuprop}.
+		\item According to inequalities \eqref{chuprop}, the sequences $\|\bfY_k~-~\Pi_{\calM_r} \bfY_k\|$, $k = 1, 2, \ldots$, and $\|\Pi_{\calM_r} \bfY_k - \bfY_{k + 1}\|$, $k = 1, 2, \ldots$, are non-increasing. It is obvious that they are limited below by zero. Therefore, they have the same limit $c$ due to \eqref{chuprop}.
 		
-		Prove that $c = 0$. Assume contrary: there exists $d > 0$ such that $\|\bfY_k - \Pi_{\calM_r} \bfY_k\| > d$, $\|\Pi_{\calM_r} \bfY_k - \bfY_{k + 1}\| > d$ for any $k = 1, 2, \ldots$. According to Proposition ~\ref{pythaprop}, the following equalities are true:
+		Let us prove that $c = 0$ assuming the opposite $c > 0$. Then there exists $d > 0$ such that $\|\bfY_k - \Pi_{\calM_r} \bfY_k\| > d$, $\|\Pi_{\calM_r} \bfY_k - \bfY_{k + 1}\| > d$ for any $k = 1, 2, \ldots$. In accordance to Proposition ~\ref{pythaprop}, the following equalities are valid:
 		\begin{multline*}
 		\|\bfY_k\|^2 = \|\Pi_{\calM_r} \bfY_k\|^2 + \|\bfY_k - \Pi_{\calM_r} \bfY_k\|^2 =\\ \|\bfY_k - \Pi_{\calM_r} \bfY_k\|^2 + \|\Pi_{\calM_r} \bfY_k - \bfY_{k + 1}\|^2 + \|\bfY_{k + 1}\|^2.
 		\end{multline*}
-		Thus, $\|\bfY_{k+1}\|^2 < \|\bfY_k\|^2 - 2d^2$. Expanding the inequality by the same way further, we obtain that $\|\bfY_{k+j}\|^2 < \|\bfY_k\|^2 - 2 j d^2$ for any $j = 1, 2, \ldots$. Choose any $k$, e.g. $k = 1$, and $j = \lceil \|\bfY_k\|^2 / (2d^2) \rceil + 1$. Then $\|\bfY_{k+j}\|^2 < 0$, what is impossible.
-		\item Consider the sequence $(\Pi_{\calM_r} \bfY_k)$, $k = 1, 2, \ldots$. It is bounded because $\|\Pi_{\calM_r} \bfZ\| \le \|\bfZ\|$ and $\|\Pi_{\calH} \bfZ\| \le \|\bfZ\|$ for any $\bfZ \in \sfR^{L \times K}$ (by Prop. \ref{pythaprop}). Then a convergent subsequence $(\Pi_{\calM_r} \bfY_{i_k})$ could be chosen, denote by $\bfY^*$ its limit, wherein $\|\Pi_{\calM_r} \bfY_{i_k} - \bfY_{i_k + 1}\| = \|\Pi_{\calM_r} \bfY_{i_k} - \Pi_\calH \Pi_{\calM_r} \bfY_{i_k}\| \to 0$ as $k \to + \infty$. Taking into consideration that $\|\bfZ - \Pi_\calH \bfZ\|$ is a composition of continuous mappings, we obtain that $\|\bfY^* - \Pi_\calH \bfY^*\| = 0$ since $\calM_r$ is closed set, $\bfY^* \in \calM_r \cap \calH$. Finally, $\Pi_\calH$ is continuous mapping and therefore sequence $(\Pi_\calH \Pi_{\calM_r} \bfY_{i_k})$ is convergent to $\bfY^*$. Thus, $\bfY_{i_k + 1}$ is a required subsequence.
+		Thus, $\|\bfY_{k+1}\|^2 < \|\bfY_k\|^2 - 2d^2$. Expanding the inequality by the same way, we obtain that $\|\bfY_{k+j}\|^2 < \|\bfY_k\|^2 - 2 j d^2$ for any $j = 1, 2, \ldots$. Choose $k = 1$, and $j = \lceil \|\bfY_k\|^2 / (2d^2) \rceil + 1$. Then $\|\bfY_{k+j}\|^2 < 0$, what is impossible. Thus, $c=0$.
+		\item Consider the sequence $(\Pi_{\calM_r} \bfY_k)$, $k = 1, 2, \ldots$. It is bounded because $\|\Pi_{\calM_r} \bfZ\| \le \|\bfZ\|$ and $\|\Pi_{\calH} \bfZ\| \le \|\bfZ\|$ for any $\bfZ \in \sfR^{L \times K}$ (by Proposition \ref{pythaprop}). Then a convergent subsequence $(\Pi_{\calM_r} \bfY_{i_k})$ can be chosen; denote by $\bfY^*\in\calM_r$ its limit, wherein $\|\Pi_{\calM_r} \bfY_{i_k} - \bfY_{i_k + 1}\| = \|\Pi_{\calM_r} \bfY_{i_k} - \Pi_\calH \Pi_{\calM_r} \bfY_{i_k}\| \to 0$ as $k \to + \infty$. Taking into consideration that $\|\bfZ - \Pi_\calH \bfZ\|$ is a composition of continuous mappings, we obtain that $\|\bfY^* - \Pi_\calH \bfY^*\| = 0$, $\bfY^* \in \calM_r \cap \calH$. Finally, $\Pi_\calH$ is continuous mapping and therefore the sequence $(\Pi_\calH \Pi_{\calM_r} \bfY_{i_k})$ converges to $\bfY^*\in\calM_r$. Thus, $\bfY_{i_k + 1}$ is a required subsequence.
 	\end{enumerate}
 \end{proof}
 
@@ -215,7 +216,7 @@ Below we will consider the norms generated by weighted Frobenius inner product i
 \langle\bfY, \bfZ\rangle_M = \sum_{l = 1}^L \sum_{k = 1}^K m_{l, k} y_{l, k} z_{l, k}.
 \ee
 
-It is well known that $\calM_r$ is closed with respect to usual Frobenius norm. It can be proved that $\calM_r$ is closed with respect to any weighted norm \eqref{eq:w_inner_prod} when $m_{l,k} > 0$ and therefore, Theorem~\ref{th:converg} is true in the case of positive weights.
+It is well known that $\calM_r$ is closed with respect to usual Frobenius norm. It can be proved that $\calM_r$ is closed with respect to any weighted norm \eqref{eq:w_inner_prod} when $m_{l,k} > 0$ and therefore, the conclusion of Theorem~\ref{th:converg} holds in the case of positive weights.
 
 
 \subsection{Evaluation of projectors}
@@ -223,7 +224,7 @@ It is well known that $\calM_r$ is closed with respect to usual Frobenius norm. 
 Let us consider the weighted norm $\|\cdot\|_\bfM$ generated by \eqref{eq:w_inner_prod}, that is $||\bfX||^2 = \sum_{l = 1}^L \sum_{k = 1}^K m_{l, k} x^2_{l, k}$.
 
 \subsubsection{Projector $\Pi_\calH$.} It is easy to show that $\Pi_\calH$
-could be evaluated explicitly using the following proposition.
+can be evaluated explicitly using the following proposition.
 
 \begin{proposition}
 	For $\widehat{\bfY}=\Pi_\calH \bfY$
@@ -244,7 +245,7 @@ It is well-known that the projector $\Pi_{r} \bfY$ can be evaluated as a sum of 
 0 & \text{otherwise}.
 \end{cases}
 \end{equation*}
-Then the projection could be evaluated as follows: $\Pi_{r} \bfY  = \bfU \mathbf{\Sigma}_r \bfV^\rmT$.
+Then the projection can be evaluated as follows: $\Pi_{r} \bfY  = \bfU \mathbf{\Sigma}_r \bfV^\rmT$.
 Next proposition describes the case when evaluation of the projector is reduced to applying the projector  $\Pi_r$.
 
 \begin{proposition}
@@ -295,7 +296,7 @@ One of these algorithms is described in \cite{Srebro2003}. Denote by $\odot$ the
 \end{algorithm}
 
 Note that in the case, when $m_{ij}$ are equal to 0 or 1, this algorithm is an EM-algorithm \cite{Srebro2003};
-hence properties of EM-algorithms are carried out and the sequence $\bfY_k$ converges to local minimum. Formally, it does not matter what values are in $\bfY$ at positions of zeros. However, these values can influence to algorithm's convergency rate.
+hence properties of EM-algorithms are carried out and the sequence $\bfY_k$ converges to local minimum. Formally, it does not matter what values are in $\bfY$ at positions of zeros. However, these values can influence to algorithm's convergence rate.
 
 \section{Time series and problem of matrix approximation}
 \label{sec:ts_matrices}
@@ -395,7 +396,7 @@ and if $\bfC$ is the identity matrix, then both inner products coincide with the
 	If $m_{i,j}=1$, $i =1, \ldots, L$, $j = 1, \ldots, K$, then the weights $q_i$, $i = 1, \ldots, N$ are equal to $w_i$ given in \eqref{eq:w}.
 \end{corollary}
 
-Note that second matrix norm $||\cdot||_{2, \bfC}$ with a diagonal matrix $\bfC$ is a particular case of first norm $||\cdot||_{1, \bfC}$ . \footnote{TODO: rewrite further.} However, the value of writing first norm in a form of second norm is that approximation by rank-deficient matrices with respect to the first norm is a complex problem if not all $m_{i,j}$ are equal, but approximation with respect to the second norm is a natural problem which could be solved using oblique Singular Value Decomposition.
+Note that second matrix norm $||\cdot||_{2, \bfC}$ with a diagonal matrix $\bfC$ is a particular case of first norm $||\cdot||_{1, \bfC}$ . \footnote{TODO: rewrite further.} However, the value of writing first norm in a form of second norm is that approximation by rank-deficient matrices with respect to the first norm is a complex problem if not all $m_{i,j}$ are equal, but approximation with respect to the second norm is a natural problem which can be solved using oblique Singular Value Decomposition.
 
 \begin{remark}
 	\label{rem:2tasks}
@@ -523,7 +524,7 @@ These algorithms can be applied if conditions of Proposition~\ref{prop:projS} ho
 	\end{enumerate}
 \end{algorithm}
 
-To solve the problem \eqref{introd_task} of approximation of time series with equal weights $q_i$, a proper matrix $\bfC$ should be chosen. It is found that there is no such full-rank matrix, so a few variants providing approximately equal weights are considered below.
+To solve the problem \eqref{introd_task} of approximation of time series with equal weights $q_i$, a proper matrix $\bfC$ should be chosen. It is found that there is no such full-rank matrix; therefore, a few variants providing approximately equal weights are considered below.
 
 \subsubsection{Cadzow ($\alpha$) iterations}
 \label{sec:cadzow_alpha}
@@ -688,9 +689,9 @@ and $\hat{q}_i$ for $N = 40$, $L = 8$ are shown in Figure~\ref{img_weights}.
 		\item
 		The methods are iterative, and convergence to the global minimum in the corresponding Least Squares problem does not necessarily takes place (theoretically, only convergence of subsequences holds; however, there is convergence in the considered examples). %Therefore, comparison of various methods applied to same problem is comprehended.
 		\item
-		Theorem \ref{th:converg} provides condition for existence of subsequences convergent to a matrix from $\calM_r \cap \calH$. This theorem is appliable directly to Algorithm \ref{alg:obliqueCadzow} if all weights are positive and to Algorithm \ref{alg:WCIt} if the weighted projection to $\calM_r$ can be calculated with no error. It is easy to extend Theorem \ref{th:converg} to Algorithm \ref{alg:ECIt} where the weights for added values are zero. Note that matrices $\tilde \bfY_k$ consisting of columns of matrices $\Pi_{\calM_r} \bfY_k$ from $L$-th to $N$-th and having positive weight of each element are matrices of rank not larger than $r$, and their Frobenius norms are not larger than seminorm of original matrix: $\|\tilde \bfY_k\|_F \le \|\Pi_{\calM_r} \bfY_k\|_\bfM$, so it is bounded sequence which contains a subsequence converging to needed set.
+		Theorem \ref{th:converg} provides condition for existence of subsequences convergent to a matrix from $\calM_r \cap \calH$. This theorem is appliable directly to Algorithm \ref{alg:obliqueCadzow} if all weights are positive and to Algorithm \ref{alg:WCIt} if the weighted projection to $\calM_r$ can be calculated with no error. It is easy to extend Theorem \ref{th:converg} to Algorithm \ref{alg:ECIt} where the weights for added values are zero. Note that matrices $\tilde \bfY_k$ consisting of columns of matrices $\Pi_{\calM_r} \bfY_k$ from $L$-th to $N$-th and having positive weight of each element are matrices of rank not larger than $r$, and their Frobenius norms are not larger than seminorm of original matrix: $\|\tilde \bfY_k\|_F \le \|\Pi_{\calM_r} \bfY_k\|_\bfM$. Hence it is bounded sequence which contains a subsequence converging to needed set.
 		\item
-		Accuracy of estimation of extracted signal $\bfS$ is our point of interest, not an error of approximation of the initial series $\tsX$. Generally, it is possible that too accurate approximation of the given series could lead to overfitting, so that the quality of the signal estimation decreases.
+		Accuracy of estimation of extracted signal $\bfS$ is our point of interest, not an error of approximation of the initial series $\tsX$. Generally, it is possible that too accurate approximation of the given series can lead to overfitting, so that the quality of the signal estimation decreases.
 		\item
 		Weighted and Extended Cadzow iterations solves problem \eqref{L-rank_task} with equal weights $q_i$. Other methods work with weights with various degree of non-uniformity.
 		\item
@@ -700,11 +701,11 @@ and $\hat{q}_i$ for $N = 40$, $L = 8$ are shown in Figure~\ref{img_weights}.
 		\item
 		One iteration of Cadzow iterations is well-known Singular Spectrum Analysis (SSA) method, which can solve significally wider range of tasks than the iterative method does. Therefore, precision of signal estimation done by one iteration in all described methods is the point of interest together with the limiting value.
 		\item
-		Separability, which defines the ability of a method to (approximately) find a signal using given series, is the one of important concepts of the SSA method. In particular, separability accuracy is closely related to precision of the first iteration of the method. Hence, it is naturally to assume that precision of first iteration is connected with method's convergency rate. Therefore, questions about separability accuracy are related to convergency speed of iterative methods.
+		Separability, which defines the ability of a method to (approximately) find a signal using given series, is the one of important concepts of the SSA method. In particular, separability accuracy is closely related to precision of the first iteration of the method. Hence, it is naturally to assume that precision of first iteration is connected with method's convergence rate. Therefore, questions about separability accuracy are related to convergence rate of iterative methods.
 		\item
 		The connection between separability and window length $L$ is well researched for the SSA method, see \cite{Golyandina2010}. In particular, an optimal window length is near to half of the series length. Small window length $L$ tends to poor separability. Influence of parameter $\alpha$ in the class of Cadzow ($\alpha$) iterations is researched in Appendix (\ref{sec:app}) on the example of separability of constant and harmonic signal. It is shown that small value of $\alpha$ tends to poor separability, though this case corresponds to approximately equal weights $q_i$ in problem \eqref{L-rank_task}. Generally, the following effect becomes clear: parameters ($\alpha$ as well as $L$) corresponding to more uniform weights lead to worse separability.
 		\item
-		It seems that fast convergence speed and high precision of estimation of signal are properties that can not be satisfied simultaneously. Probably this is caused by contradiction between uniformity of weights and separability. Also, it seems that slow convergence can help to find a better solution of the optimization problem.
+		It seems that fast convergence rate and high precision of estimation of signal are properties that can not be satisfied simultaneously. Probably this is caused by contradiction between uniformity of weights and separability. Also, it seems that slow convergence can help to find a better solution of the optimization problem.
 	\end{itemize}
 	
 	\begin{remark}
@@ -819,7 +820,7 @@ Several known and new iterative algorithms for approximation of a noisy series b
 Large class of iterative algorithms was reviewed with the aim to obtain equal weights in Least Squares method applied to time series.
 Equal weights were achieved by using inner iterations, which converge to local minimum only and also make algorithms time-consuming. It appears that the use of methods without inner iterations leads to approximately equal weights only.
 
-Convergency of outer iterations by subsequences was proved for the reviewed class of algorithms.
+convergence of outer iterations by subsequences was proved for the reviewed class of algorithms.
 
 Results about precision and convergence rate of the considered methods were obtained by simulation on the example of a noisy sine signal. It appears that time-series weights that more close to equal ones provides in the limit more consumed and simultaneously more precise methods.
 Also, the simulations show that the convergence rate is managed by
@@ -842,7 +843,7 @@ it was shown that the computational costs for one iteration are approximately th
 \section{Separability of constant and harmonic signals for Oblique Cadzow iterations}
 \label{sec:app}
 
-Let us introduce another characteristic of algorithms showing their ability to decompose a time series into additive parts at one iteration. It is nearly impossible to consider a characteristic of algorithms showing ability of cleaning a noisy signal from a white noise to achieve more precise estimation, so we replace it with plausible and computable characteristic.
+Let us introduce another characteristic of algorithms showing their ability to decompose a time series into additive parts at one iteration. It is nearly impossible to consider a characteristic of algorithms showing ability of cleaning a noisy signal from a white noise to achieve more precise estimation; therefore, we replace it with plausible and computable characteristic.
 
 Let $\bfC \in \sfR^{K \times K}$ be symmetric semidefinite matrix, $\tsX_1$ и $\tsX_2$ be two different time series of length $N$, $\bfX^1$, $\bfX^2$ be their trajectory matrices. Define \emph{correlation coefficient of $i$-th and $j$-th column} by:
 \begin{equation}\label{col_corr}
@@ -856,8 +857,8 @@ where $X^{k,i}$ is $i$-th row of matrix $\bfX^k$, $k = 1, 2$, and $(\cdot, \cdot
 \begin{equation}\label{weak_sep_eq}
 \rho = \max\Big(\max_{1 \le i,j \le K}|\rho^c_{i,j}|, \max_{1 \le i,j \le L}|\rho^r_{i,j}|\Big) < \varepsilon.
 \end{equation}
-We are interested in the order of $\varepsilon$ for different matrices $\bfC$, where the series $\tsX_1$ and $\tsX_2$ consist of the first $N$ terms of series $\tsX_1^\infty = (c, c, \ldots)$ is a constant series and $\tsX_2^\infty = (\cos(2 \pi \omega k), k = 1, 2, \ldots)$. Instead of $N \to \infty$ it is convenient to consider $L,$~$K \to \infty$ and take $N = L + K - 1$. When $\bfC$ is the identity matrix, the answer is known: $\varepsilon$ has order $1/\min(L,K)$, i.e. speed \footnote{rate?} of convergence has order $1/N$ for $L$ proportional to $N$.
-This result could be found in \cite[Chapter 6.1]{Golyandina.etal2001}. %This result relates to the precision of first iteration of Cadzow iterations.
+We are interested in the order of $\varepsilon$ for different matrices $\bfC$, where the series $\tsX_1$ and $\tsX_2$ consist of the first $N$ terms of series $\tsX_1^\infty = (c, c, \ldots)$ is a constant series and $\tsX_2^\infty = (\cos(2 \pi \omega k), k = 1, 2, \ldots)$. Instead of $N \to \infty$ it is convenient to consider $L,$~$K \to \infty$ and take $N = L + K - 1$. When $\bfC$ is the identity matrix, the answer is known: $\varepsilon$ has order $1/\min(L,K)$, i.e. rate of convergence has order $1/N$ for $L$ proportional to $N$.
+This result can be found in \cite[Chapter 6.1]{Golyandina.etal2001}. %This result relates to the precision of first iteration of Cadzow iterations.
 
 Measure of separability for Cadzow ($\alpha$) iterations, introduced in Chapter~\ref{sec:cadzow_alpha}, is considered in the following proposition.
 
@@ -905,7 +906,7 @@ Measure of separability for Cadzow ($\alpha$) iterations, introduced in Chapter~
 	In the worst case when $L\omega$ is integer we obtain that $\cos(2 \pi \omega (j + k - 1))$ is a constant not depending on $j$ and $k$, and then $C_{L,K}$ has order $O(N/L)$.
 \end{proof}
 
-Thus even in the worst case when $C_{L,K}$ has order $O(1)$, separability of constant and sine signals becomes worse than in usual Cadzow iterations: for $\alpha$ close to 0, the most optimal chose for $L$ is $L \approx \sqrt{N}$, so order of separability equal to $1/\sqrt{N}$ is obtained.
+Thus even in the worst case when $C_{L,K}$ has order $O(1)$, separability of constant and sine signals becomes worse than in usual Cadzow iterations: for $\alpha$ close to 0, the optimal choice for $L$ is $L \approx \sqrt{N}$ and therefore the order of separability equal to $1/\sqrt{N}$ is obtained.
 
 Now let us consider Cadzow with $\widehat\bfC$ iterations introduced in Section~\ref{sec:cadzow_hat}.
 
@@ -916,15 +917,15 @@ Now let us consider Cadzow with $\widehat\bfC$ iterations introduced in Section~
 \end{proposition}
 
 \begin{proof}
-	To move the theorem, we should evaluate the order of the expressions:
+	To prove the theorem, we should evaluate the order of the expressions:
 	\begin{equation}\label{th6_sep1}
 	\rho^c_{i,j} = \frac{\sum_{k=j}^{j + L - 1} \cos(2 \pi \omega k)}{\sqrt{L (\sum_{k=j}^{j + L - 1} \cos^2(2 \pi \omega k))}},
 	\end{equation}
 	\begin{equation}\label{th6_sep2}
 	\rho^r_{i,j} = \frac{\sum_{k=1}^K \hat c_k\cos(2 \pi \omega (j + k - 1))}{\sqrt{(\sum_{k=1}^K \hat c_k) (\sum_{k=1}^K \hat c_k\cos^2(2 \pi \omega (j + k - 1)))}}.
 	\end{equation}
-	\eqref{th6_sep1} coincides with \eqref{th5_sep1} in Theorem \ref{prop:separ1}, thus
-	the order of \eqref{th6_sep1} is already obtained, so let us just move to the estimation of order of \eqref{th6_sep2}. Consider the correlation of first rows only, since the proof for remained rows is absolutely analogous. Consider a numerator of $\rho^r_{1,1}$:
+\eqref{th6_sep1} coincides with \eqref{th5_sep1} in Theorem \ref{prop:separ1}, 
+thus the order of \eqref{th6_sep1} is already obtained, so let us just move to the estimation of order of \eqref{th6_sep2}. Consider the correlation of first rows only, since the proof for remained rows is absolutely analogous. Consider a numerator of $\rho^r_{1,1}$:
 	\begin{gather*}
 	\sum_{k=1}^K \hat c_k\cos(2 \pi \omega k) = \sum_{k=1}^{L-1} \hat c_k\cos(2 \pi \omega k) + \sum_{k=L}^{K - L + 1} \frac{\cos(2 \pi \omega k)}{L} +\\+ \sum_{k=K - L + 2}^{K} \hat c_k\cos(2 \pi \omega k) = I_1 + I_2 + I_3,
 	\end{gather*}
