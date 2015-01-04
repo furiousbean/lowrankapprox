@@ -66,7 +66,7 @@
 \begin{abstract}
 The problem of time series approximation by series of finite rank is considered from the viewpoint of signal extraction. For signal estimation,
 a weighted least-squares method is applied to the trajectory matrix of the considered time series to obtain an approximation of the original time series. The aim of matrix weights is to obtain equal or approximately equal weights in the equivalent problem of time series least-squares approximation.
-Several new methods are suggested. Questions of convergence, computational complexity and accuracy are considered for the proposed methods. The methods are compared on a numeric example.
+Several new methods are suggested. Questions of convergence, computational complexity and accuracy are considered for the proposed methods. The methods are compared on numeric examples.
 \end{abstract}
 
 %\begin{keyword}[class=AMS]
@@ -120,7 +120,7 @@ Let $\bfX$ be the trajectory matrix of the series $\tsX$. Then the problem of es
 \end{equation}
 where $\|\cdot\|_\rmF$ is the Frobenius norm.
 
-A lot of papers are dedicated to this problem, e.g., \cite{Cadzow1988, Markovsky2011, Usevich.Markovsky2014, Gillard.Zhigljavsky2013} among them, where the problem is called Structured Low-Rank Approximation. Approaches to solving the problem are iterative, e.g., Cadzow iterations \cite{Cadzow1988} consist of alternating projections to the set of Hankel matrices and matrices of rank not larger than $r$. The target function is not unimodal in such class of problems, and convergence to global minimum is not guaranteed; despite this, problem \eqref{introd_task} is considered to be well-researched, though it has many open answers yet.
+A lot of papers are dedicated to this problem, e.g., \cite{Cadzow1988, Markovsky2011, Usevich.Markovsky2014, Gillard.Zhigljavsky2013} among them, where the problem is called Structured Low-Rank Approximation. Approaches to solving the problem are iterative, e.g., Cadzow's iterative method \cite{Cadzow1988}, consist of alternating projections to the set of Hankel matrices and matrices of rank not larger than $r$. The target function is not unimodal in such class of problems, and convergence to global minimum is not guaranteed; despite this, problem \eqref{introd_task} is considered to be well-researched, though it has many open questions yet.
 
 Note that problem \eqref{introd_task} is equivalent to the problem of weighted approximation of the series $\tsX = (x_1, \ldots, x_N)$:
 \begin{equation}\label{introd_task_2}
@@ -138,9 +138,9 @@ N - i + 1 & \text{for $i = K + 1, \ldots, N.$}
 
 Weights on edges of series are less than that in the center, i.e. the ordinary least-square problem \eqref{introd_task} for matrices corresponds to a weighted least squares problem for series.
 
-The aim of this paper is to consider methods which solve problem \eqref{introd_task_2} with equal weights instead of $w_i$ and to compare the constructed methods in terms of precision of the signal estimation. All described methods are iterative. 
+The aim of this paper is to consider methods which solve problem \eqref{introd_task_2} with equal weights instead of $w_i$ and to compare the constructed methods in terms of accuracy of the signal estimation. All described methods are iterative. 
 If one is interested in a signal estimate, which is not necessarily governed by an LRR, then the first iteration can be considered as a low cost-consumed estimation of the signal.
-Hence, the described methods are compared by precision of the signal estimation in the first iteration and in the limit. Note that Singular Spectrum Analysis (SSA) \cite{Broomhead.King1986, Vautard.etal1992, Elsner.Tsonis1996, Golyandina.etal2001, Ghil.etal2002, Golyandina.Zhigljavsky2012} can be
+Hence, the described methods are compared by accuracy of the signal estimation at the first iteration and in the limit. Note that Singular Spectrum Analysis (SSA) \cite{Broomhead.King1986, Vautard.etal1992, Elsner.Tsonis1996, Golyandina.etal2001, Ghil.etal2002, Golyandina.Zhigljavsky2012} can be
 described as one iteration of the Cadzow method.
 
 The structure of the paper is as follows.  In Section~\ref{sec:lowrank_appr}, a problem of approximation of a matrix by a Hankel rank-deficient matrix is considered. Common structure of iterative alternating projection algorithms is described, approaches to construction of the projectors are given, the convergence theorem is proved.
@@ -310,7 +310,8 @@ X_i = (x_i, \ldots, x_{i + L - 1})^\rmT, \qquad i = 1, \ldots, K.
 \end{equation}
 Define by $L$-trajectory matrix of series $\tsX$ the matrix $\bfX = [X_1:\ldots:X_K]$.
 
-Suppose that $0 \le r \le L$. We say that a series $\tsX$ \emph{has $L$-rank $r$} if its $L$-trajectory matrix $\bfX$ has rank $r$.\footnote{Needed to be made as a definition}
+Suppose that $0 \le r \le L$. We say that a series $\tsX$ \emph{has $L$-rank $r$} if its $L$-trajectory matrix $\bfX$ has rank $r$.
+%\footnote{Needed to be made as a definition}
 
 Note that the series $\tsX$ can have $L$-rank $r$ only when
 \begin{equation}
@@ -589,7 +590,7 @@ Equality \eqref{sk_mlk} provides the form of a matrix $\bfM$ to obtain $\|\cdot\
 \end{remark}
 
 
-\subsubsection{Cadzow $\widehat{\bfC}$ iterations}
+\subsubsection{Cadzow-$\widehat{\bfC}$ iterations}
 \label{sec:cadzow_hat}
 Let us correct the rank-deficiency of $\bfC(0)$ by another way.
 
@@ -614,7 +615,7 @@ The solution $\widehat\bfM$ is evidently constructed as the averaging of the mat
 %where $m_{l, k}$ are defined in \eqref{Mw}.
 
 
-We call Algorithm~\ref{alg:obliqueCadzow} with the matrix $\bfC=\widehat\bfC$ Cadzow $\widehat\bfC$ iterations.
+We call Algorithm~\ref{alg:obliqueCadzow} with the matrix $\bfC=\widehat\bfC$ Cadzow-$\widehat\bfC$ iterations.
 
 \subsubsection{Weights $q_i$ in \eqref{L-rank_task} produced by the algorithms}
 Since the norm $\|\cdot\|_{2, \bfC}$ with $\bfC(\alpha)$ or $\widehat\bfC$ in place of $\bfC$ does not correspond to equal series weights,
@@ -624,7 +625,7 @@ Formulas for calculation are provided by Proposition~\ref{prop:equiv_tasks}.
 
 The following statements are valid.
 
-\begin{proposition}\label{zhigconseq}
+\begin{proposition}\label{prop:zhigconseq}
 	Let $h = N/L$ be integer, $\bfC(\alpha) = \diag(c_1(\alpha), \ldots, c_K(\alpha))$, where $c_i(\alpha)$ are given in \eqref{zhigweights}, $0 \le \alpha \le 1$. Then the weights $q_i(\alpha)$ have the form
 	\begin{equation*}
 	q_i (\alpha) = \begin{cases}
@@ -697,51 +698,58 @@ and $\hat{q}_i$ for $N = 40$, $L = 8$ are shown in Figure~\ref{img_weights}.
 \end{figure}
 	
 	\subsection{Comments to algorithms. Comparison}
+\label{sec:comments}
 	
 	Let us comment and compare the following methods: Weighted Cadzow iterations (Algorithm \ref{alg:WCIt}), Extended Cadzow iterations (Algorithm \ref{alg:ECIt}), Cadzow($\alpha$) iterations, $0< \alpha \leq 1$, coinciding with usual Cadzow iterations under $\alpha=1$,
-	and Cadzow $\widehat\bfC$ iterations (Algorithm \ref{alg:obliqueCadzow}).
+	and Cadzow-$\widehat\bfC$ iterations (Algorithm \ref{alg:obliqueCadzow}).
 	Note that window length $L$ is a parameter for all considered methods.
 	
 	\begin{itemize}
-		\item
-		The methods are iterative, and convergence to the global minimum in the corresponding Least Squares problem does not necessarily takes place (theoretically, only convergence of subsequences holds; however, there is convergence in the considered examples). %Therefore, comparison of various methods applied to same problem is comprehended.
-		\item
-		Theorem \ref{th:converg} provides condition for existence of subsequences convergent to a matrix from $\calM_r \cap \calH$. This theorem is applicable directly to Algorithm \ref{alg:obliqueCadzow} if all weights are positive and to Algorithm \ref{alg:WCIt} if the weighted projection to $\calM_r$ can be calculated with no error. It is easy to extend Theorem \ref{th:converg} to Algorithm \ref{alg:ECIt} where the weights for added values are zero. Note that matrices $\tilde \bfY_k$ consisting of columns of matrices $\Pi_{\calM_r} \bfY_k$ from $L$-th to $N$-th and having positive weight of each element are matrices of rank not larger than $r$, and their Frobenius norms are not larger than seminorm of original matrix: $\|\tilde \bfY_k\|_F \le \|\Pi_{\calM_r} \bfY_k\|_\bfM$. Hence it is bounded sequence which contains a subsequence converging to needed set.
-		\item
-		Accuracy of estimation of extracted signal $\bfS$ is our point of interest, not an error of approximation of the initial series $\tsX$. Generally, it is possible that too accurate approximation of the given series can lead to overfitting, so that the quality of the signal estimation decreases.
-		\item
-		Weighted and Extended Cadzow iterations solves problem \eqref{L-rank_task} with equal weights $q_i$. Other methods work with weights with various degree of non-uniformity.
-		\item
-		However, each iteration in Weighted and Extended Cadzow algorithms distinguishes by higher computational complexity since it uses one more iterative algorithm on each outer step.
-		\item
-		Computational complexity is described by both complexity of one iteration and amount of iterations. Evidently, the number of iterations is determined by convergence rate.
-		\item
-		One iteration of Cadzow iterations is well-known Singular Spectrum Analysis (SSA) method, which can solve significantly wider range of tasks than the iterative method does. Therefore, precision of signal estimation done by one iteration in all described methods is the point of interest together with the limiting value.
-		\item
-		Separability, which defines the ability of a method to (approximately) find a signal using given series, is the one of important concepts of the SSA method. In particular, separability accuracy is closely related to precision of the first iteration of the method. Hence, it is naturally to assume that precision of first iteration is connected with method's convergence rate. Therefore, questions about separability accuracy are related to convergence rate of iterative methods.
-		\item
-		The connection between separability and window length $L$ is well researched for the SSA method, see \cite{Golyandina2010}. In particular, an optimal window length is near to half of the series length. Small window length $L$ tends to poor separability. Influence of parameter $\alpha$ in the class of Cadzow($\alpha$) iterations is researched in Appendix (\ref{sec:app}) on the example of separability of constant and harmonic signal. It is shown that small value of $\alpha$ tends to poor separability, though this case corresponds to approximately equal weights $q_i$ in problem \eqref{L-rank_task}. Generally, the following effect becomes clear: parameters ($\alpha$ as well as $L$) corresponding to more uniform weights lead to worse separability.
-		\item
-		It seems that fast convergence rate and high precision of estimation of signal are properties that can not be satisfied simultaneously. Probably this is caused by contradiction between uniformity of weights and separability. Also, it seems that slow convergence can help to find a better solution of the optimization problem.
-	\end{itemize}
+		\item \textit{Theoretical convergence.}
+		Theorem \ref{th:converg} provides condition for existence of subsequences convergent to a matrix from $\calM_r \cap \calH$. This theorem is applicable directly to Algorithm \ref{alg:obliqueCadzow} if all weights are positive and to Algorithm \ref{alg:WCIt} if to suppose that the weighted projection to $\calM_r$ can be calculated with no error. It is easy to extend Theorem \ref{th:converg} to be applicable to Algorithm \ref{alg:ECIt} where the weights for added values are zero, if to consider the sequence  $\widetilde \bfY_k$ instead of $\bfY_k$. 
+%consisting of columns of matrices $\Pi_{\calM_r} \bfY_k$ from $L$-th to $N$-th and having positive weight of each element are matrices of rank not larger than $r$, and their Frobenius norms are not larger than seminorm of original matrix: $\|\widetilde \bfY_k\|_F \le \|\Pi_{\calM_r} \bfY_k\|_\bfM$. Hence it is bounded sequence which contains a subsequence converging to needed set.
+		\item \textit{Convergence in practice.} Although the theory says about existence of converging subsequences, the convergence took place in all considered numerical examples.
+		\item \textit{Global or local minimum.}
+		The methods are iterative, and convergence to the global minimum in the corresponding least-squares problem does not necessarily takes place. Therefore, different algorithms corresponding to the same weights can yield different approximations. Thereby, comparison of the algorithms by the approximation precision has sense.
+\item \textit{Signal estimation and series approximation.}
+		The considered methods can be considered as weighted least-squares methods (that is, approximation of the initial series by finite-rank series) for signal estimation. Note that generally the approximation quality can contradict to the estimation accuracy due to possible over-fitting. 
+		\item \textit{Algorithms and series weights.}
+		The Weighted Cadzow and Extended Cadzow methods try to solve problem \eqref{L-rank_task} with equal weights $q_i$. Other methods work with weights with various degree of non-uniformity.
+		\item \textit{Algorithms and computational costs.}
+		All suggested algorithms are iterative. However, each outer iteration in the Weighted Cadzow and Extended Cadzow algorithms has a step with inner iterations. Therefore, these algorithms are very time-consuming. Other algorithms have similar computational costs of one iteration.
+		Computational complexity is described by both complexity of one iteration and the number of iterations. Evidently, the number of iterations is determined by convergence rate.
+		\item \textit{Use of the first iteration for signal estimation.}
+		One iteration of the Cadzow iterations is exactly the well-known Singular Spectrum Analysis (SSA) method, which can solve significantly wider range of tasks than the iterative method does. By analogy, together with the limiting series, we are interested in the signal estimations by means of the first iteration of the considered algorithms. In a sense, each iterative method produces a modification of SSA. The first iteration is generally not of finite rank; however, it has low computational complexity and can provide sufficient accuracy.
+		\item \textit{Separability, the first iteration and convergence rate.}
+		Separability of the signal, which is an important concept of the SSA method, means the ability of a method to (approximately) separate the signal from a residual. From the viewpoint of the iterative methods,  separability quality is closely related to accuracy of the first iteration of the method. On the other hand, we can expect that the accuracy of the first iteration is connected with the method's convergence rate. Therefore, the separability accuracy is related to the convergence rate of iterative methods.
+		\item \textit{Separability and choice of parameters.}
+		The connection between separability and the window length $L$ is well researched for the SSA method, see \cite{Golyandina2010}. In particular, optimal window lengths are close to half of the series length. A small window length $L$ provides poor separability. We can expect that this is valid for the other algorithms too.
+The Cadzow($\alpha$) method has an additional parameter $\alpha$.
+Influence of parameter $\alpha$ in the class of Cadzow($\alpha$) iterations is investigated in Appendix~\ref{sec:app} on the example of separability of constant and sine-wave signals. It is shown that small values of $\alpha$ provide poor separability.
+        \item \textit{Equal series weights and choice of parameters.}
+        Let us consider the dependence of series weights produced by the Cadzow($\alpha$) algorithm on the window length $L$ or $\alpha$. Proposition~\ref{prop:zhigconseq} shows that more uniform weights are achieved for small $L$ and small $\alpha$. This is exactly
+        the cases corresponding to poor separability. 
+ 		\item \textit{Equal series weights and accuracy of signal estimation.}
+ Thus, the weights, which are close to equal ones, correspond to algorithms, which either have a time-consuming iteration step with inner iterations or are slowly convergent; therefore such algorithms have high computational complexity.
+There are no theoretical results about the behavior of the estimation accuracy in dependence on algorithms and their parameters. However, the numerical study shows that the best accuracy is achieved in the algorithms corresponding to the weights, which are equal or almost equal.	 \end{itemize}
 	
 	\begin{remark}
 		\label{rem:adjust}
-		Adjustment \eqref{eq:adjust} defined in can be applied to $\widehat\tsS$ in all algorithms. In \eqref{eq:adjust} $\|\cdot\|$ is standard Euclidean norm not depending on algorithms, because since this norm corresponds to problem \eqref{L-rank_task} with equal weights $q_i$. We will call the algorithms with adjustment \eqref{eq:adjust} adjusted algorithms. For example, result of the $k$-th iteration of the Cadzow iterations method can be written as $\widehat\tsS_k = \calT^{-1}(\Pi_\calH \Pi_{\calM_r})^k \calT \tsX$. Then the result of the $k$-th iteration of the adjusted Cadzow iterations method is $\widehat\tsS_k^*=\calA(\widehat\tsS_k)$.
+		Adjustment defined in \eqref{eq:adjust} can be applied to the resultant signal estimation $\widehat\tsS$ for any considered algorithm. In \eqref{eq:adjust} $\|\cdot\|$ is standard Euclidean norm not depending on algorithms, since this norm corresponds to problem \eqref{L-rank_task} with equal weights $q_i$. We will call the algorithms with adjustment \eqref{eq:adjust} adjusted algorithms. For example, the result of the $k$-th iteration of the Cadzow iterations method can be expressed as $\widehat\tsS_k = \calT^{-1}(\Pi_\calH \Pi_{\calM_r})^k \calT \tsX$. Then the result of the $k$-th iteration of the adjusted Cadzow iterations method is $\widehat\tsS_k^*=\calA(\widehat\tsS_k)$.
 	\end{remark}
 
-\section{Numeric examples}
+\section{Numerical examples}
 \label{sec:simul}
-Let us consider numerical experiments for analysis of performance of the considered methods. Comparison of methods was done on examples with a sine wave signal exponentially-modulated sine wave signal.
-Since results are very similar, only results for the sine wave signal are presented.
+Let us carry out numerical experiments for analysis of performance of the considered methods. Comparison of is methods was performed on two examples, with a sine-wave signal and an exponentially-modulated sine-wave signal.
+Since the results of the method comparison are very similar, only results for the sine-wave signal are presented.
 
-Let the signal $\tsS = (s_{1}, \ldots, s_N)$ of length $N = 40$ have form:
+Let the signal $\tsS = (s_{1}, \ldots, s_N)$ of length $N = 40$ and rank $r=2$ have form:
 \begin{equation*}
 s_{i} = 5\sin{\frac{2 \pi k}{6}}, \quad k = 1, \ldots, N,
 \end{equation*}
-and the series $\tsX = \tsS + \tsN$ is observed, where  $\tsN$ is Gaussian white noise with mean equal to $0$ and variance equal to $1$. Precision of signal estimation $\widehat\tsS$ is is calculated as root of mean squared error (RMSE) using 1000 repeats Comparison is performed on the same simulated samples. It was checked that comparison results are significant at 5\% level of significance.
+and the series $\tsX = \tsS + \tsN$ be observed, where  $\tsN$ is Gaussian white noise with mean equal to $0$ and variance equal to $1$. Accuracy of a signal estimate $\widehat\tsS$ is measured as root mean-square error (RMSE) using 1000 simulations. Comparison is performed on the same simulated samples. It was checked that comparison results are significant at 5\% level of significance.
 
-We start with investigation of the Cadzow($\alpha$) methods and the Cadzow with $\widehat\bfC$ method. These methods use oblique SVD; Cadzow($1$) is the conventional Cadzow method. Figure \ref{img_cadzowspeed2} shows the rate of convergence for $\alpha = 0.1$ and $1$ and two different window lengths $L$. There are iteration number on X axis, and RMSE of signal estimate divided by number of measurements in series on Y axis.
+We start with the investigation of the Cadzow-$\widehat\bfC$ method and a set of the Cadzow($\alpha$) methods. These methods use an oblique SVD; the Cadzow($1$) method is the conventional Cadzow method. Figure~\ref{img_cadzowspeed2} shows the rate of convergence for $\alpha = 0.1$ and $\alpha = 1$ and for two different window lengths $L$. The RMSE values are depicted versus the number of performed iterations.
 
 \begin{figure}[!hhh]
 %	\begin{center}
@@ -751,13 +759,15 @@ We start with investigation of the Cadzow($\alpha$) methods and the Cadzow with 
 %	\end{center}
 \end{figure}
 
-One can see that the method with the smallest limit error is the one with slowest convergence rate. For the considered parameters, it is Cadzow (0.1) with window length $L=8$, where also, weights corresponding to Cadzow (0.1) method are most uniform.
-Note that the precision does not differ strongly, from 0.31 ($\alpha=0.1$, $L=8$) in the best case to 0.35 ($\alpha=1$, $L=20$) in the worst case. However, error 0.35 is achieved at first iteration in the first case, while it takes 4--5 iterations to achieve error 0.35 in the second case.
+One can see that the method with a smaller limit error is the one with a slower convergence rate. For parameters involved to the simulations, the Cadzow($0.1$) method with the window length $L=8$ has the smallest limit error. At the same time, this set of parameters corresponds to both the slowest convergence and the most uniform weights.
 
-Consider estimation error spreading behavior by series measurements in detail including Extended and Weighted Cadzow iterations. Number of iterations equal to 100 is taken as stop criterion STOP1 (this choice yields the error close to the limiting value), and stop criterion STOP2 for inner iterations is as follows:
-$\frac{\|\bfY_k - \bfY_{k+1}\|^2}{LK} < 10^{-4}$. Initial left and right extended values $\tsL_{L-1}$ и $\tsR_{L-1}$ in Extended Cadzow iterations are obtained using Vector SSA forecast \cite[chapter 2.3.1]{Golyandina.etal2001}.
+Note that the limit errors do not differ strongly, they change from 0.31 ($\alpha=0.1$, $L=8$) in the best case to 0.35 ($\alpha=1$, $L=20$) in the worst case. However, error equal to 0.35 is achieved at the first iteration in the worst case, while it takes 4--5 iterations to achieve error 0.35 in the best case.
 
-Figures~\ref{fig:s1_it1}~and~\ref{fig:s1_it100} show the dependence of RMSE for each series point. Picture~\ref{fig:s1_it1} shows errors at first iteration, Picture~\ref{fig:s1_it100} shows errors at 100-th iteration. It is clear that Extended Cadzow method is the most precise in both cases. Cadzow and Cadzow with $\widehat\bfC$ methods are the best at first iteration among methods without inner iterations. The best method in the limit (after 100-th iteration, results do not change significantly further) is Cadzow with $\alpha=0.1$, and it is not surprising according to Figure~\ref{img_cadzowspeed2}.
+\smallskip
+Let us take Extended and Weighted Cadzow iterations into consideration and consider the spreading of the estimation errors along the series. The maximal number of iterations equal to 100 is taken for the stop criterion STOP1 (this choice yields the error close to the limiting value); the stop criterion STOP2 for inner iterations is as follows:
+$\frac{\|\bfY_k - \bfY_{k+1}\|^2}{LK} < 10^{-4}$. Initial left and right extended values $\tsL_{L-1}$ и $\tsR_{L-1}$ in Extended Cadzow iterations are obtained using vector SSA forecasting \cite[chapter 2.3.1]{Golyandina.etal2001}.
+
+Figures~\ref{fig:s1_it1}~and~\ref{fig:s1_it100} show the dependence of RMSE on numbers of the series points. Figure~\ref{fig:s1_it1} shows errors at the first iteration, Figure~\ref{fig:s1_it100} shows errors at the 100-th iteration. It is clearly seen that the Extended Cadzow method is the most precise in both cases. The Cadzow and Cadzow-$\widehat\bfC$ methods are the best at the first iteration among the set of methods without inner iterations. The best method in the limit (after 100-th iteration, results do not change significantly further) is the Cadzow($\alpha=0.1$) one; this is not surprising according to Figure~\ref{img_cadzowspeed2}.
 
 \begin{figure}[!hhh]
 %	\begin{center}
@@ -775,10 +785,11 @@ Figures~\ref{fig:s1_it1}~and~\ref{fig:s1_it100} show the dependence of RMSE for 
 %	\end{center}
 \end{figure}
 
-Consider Table~\ref{fintable} which shows method results, namely, RMSE for $\tilde \tsS$ as an estimate of the signal $\tsS$ and for $\tilde \tsS$ as an estimate of the initial series $\tsX$. \footnote{(that is, as the approximation error) -- I didn't understand} Here $k$ is the number of iterations, $L=20$. Table~\ref{fintable} confirms conclusions about comparison of methods by precision of signal estimation. Also it is seen that еру quality of initial series approximation does not always correspond with quality of signal estimation. For example, overfitting is clearly present for Cadzow($0.1$) iterations at first iteration. However, methods are ordered identically by precision of approximation and precision of signal estimation in the limit.
+\smallskip
+Since we considered the least-squares method for estimation of a signal, 
+consider Table~\ref{fintable} which shows RMSE for $\tilde \tsS$ as an estimate of the signal $\tsS$ (i.e., signal estimation error) and RMSE for $\tilde \tsS$ as an estimate of the initial series $\tsX$ (i.e., series approximation error). Here $k$ is the number of iterations, $L=20$. Table~\ref{fintable} confirms the conclusions about comparison of the methods by accuracy of signal estimation. Also it is seen that the quality of initial series approximation does not always correspond with the quality of signal estimation. For example, overfitting is clearly present for the Cadzow($0.1$) iterations at first iteration. However, methods are ordered identically by errors of series approximation and signal estimation in the limit. 
 
-The same experiments were performed with adjusted algorithms (see Remark~\ref{rem:adjust}). One can see in Table~\ref{fintable_improved} that the accuracy is almost the same. Adjustment improves approximation of initial series in all cases by its construction, however, the influence to precision of signal approximation is ambiguous (it improves precision at 100th iteration; results are various at first iteration).
-
+The same simulations were performed with adjusted algorithms (see Remark~\ref{rem:adjust}). One can see in Table~\ref{fintable_improved} that the accuracy is almost the same. By its definition, the adjustment always improves approximation of the initial series; however, the influence on accuracy of signal approximation is ambiguous (the adjustment improves accuracy at the 100-th iteration; results are various at the first iteration).
 
 \begin{table*}
 		\caption{Comparison of methods by RMSE, $L = 20$}\label{fintable}
@@ -821,6 +832,8 @@ The same experiments were performed with adjusted algorithms (see Remark~\ref{re
 	\end{center}
 \end{table*}
 
+Thus, the numerical examples confirm hypotheses and conclusions itemized in Section~\ref{sec:comments}.
+
 \section{Conclusion}
 \label{sec:concl}
 %In this paper, we suggested and investigated the methods of signal extraction based on subspace-based methods of approximation.
@@ -829,31 +842,24 @@ The same experiments were performed with adjusted algorithms (see Remark~\ref{re
 %to unequal weights in the least-squares time series problem, and vice verse.
 %
 
-Several known and new iterative algorithms for approximation of a noisy series by a finite-rank series (signal) were considered in the paper. The approximation was performed by Least Squares method and was considered as an estimate of signal.
+Several known and new iterative algorithms for approximation of a noisy series by a finite-rank series (a signal) were considered in the paper. The approximation was performed by a least-squares method and its result was considered as an estimate of the signal.
 
- We used equivalent statements of the problems for weighted matrix approximation and  weighted time-series approximations, where equal weights in the least-squares matrix problem corresponds
+ We used equivalent statements of the problems for weighted matrix approximation and  weighted time-series approximation, where equal weights in the least-squares matrix problem corresponds
  to unequal weights in the least-squares time series problem, and vice verse.
 
-Large class of iterative algorithms was reviewed with the aim to obtain equal weights in Least Squares method applied to time series.
-Equal weights were achieved by using inner iterations, which converge to local minimum only and also make algorithms time-consuming. It appears that the use of methods without inner iterations leads to approximately equal weights only.
+A wide range of iterative algorithms was reviewed with the aim to obtain equal weights in the least-squares method applied to time series.
+Equal weights were achieved by using inner iterations, which converge to local minimum only and also make the algorithms with time-consuming. It appears that the use of methods without inner iterations leads to approximately equal weights only.
 
-convergence of outer iterations by subsequences was proved for the reviewed class of algorithms.
+Convergence of outer iterations by subsequences was proved for the reviewed class of algorithms.
 
-Results about precision and convergence rate of the considered methods were obtained by simulation on the example of a noisy sine signal. It appears that time-series weights that more close to equal ones provides in the limit more consumed and simultaneously more precise methods.
-Also, the simulations show that the convergence rate is managed by
-the separability rate. Therefore, for the methods without inner iterations,
+Comparison of the considered methods by accuracy and convergence rate was performed by simulation on the example of a noisy sine-wave signal. The simulation results confirmed the theoretical results. It appears that time-series weights, which are more close to equal ones, provides in the limit more time-consuming and simultaneously more accurate methods.
+Also, the simulations confirm that the convergence rate is in accordance with the separability rate. Therefore, for the methods without inner iterations,
 there is the correspondence between slow convergence, poor separability,
-inaccurate approximation by one iteration and higher precision in the limit.
-In particular, Cadzow iterations, which produce Singular Spectrum Analysis for signal reconstruction as the first iteration, with window length equal
-to the half of the series length, gives poor accuracy at the limit and
-one of the best reconstruction in the first iteration.
-Note that we can compare the methods by the number of iterations, since
-it was shown that the computational costs for one iteration are approximately the same.
+inaccurate approximation at the first one iteration and high accuracy in the limit; and vice verse.
+In particular, for Cadzow iterations, which produce Singular Spectrum Analysis for signal reconstruction at the first iteration, the window length equal to the half of the series length gives poor accuracy in the limit and
+one of the best reconstructions at the first iteration.
 
-
-%The relation of convergence rate, computational complexity and precision of methods was demonstrated. Also, emphasis was placed on precision of estimate made by one iteration of methods.
-
-%Further work includes extended numeric and analytical research of methods, and achievement of more specific recommendations about relation of computational complexity and precision.
+Note that we can compare numbers of iterations to achieve a given accuracy to compare the methods without inner iterations by computational complexity, since it was shown that the computational costs of one iteration are approximately the same.
 
 \appendix
 
@@ -875,7 +881,7 @@ where $X^{k,i}$ is $i$-th row of matrix $\bfX^k$, $k = 1, 2$, and $(\cdot, \cdot
 \rho = \max\Big(\max_{1 \le i,j \le K}|\rho^c_{i,j}|, \max_{1 \le i,j \le L}|\rho^r_{i,j}|\Big) < \varepsilon.
 \end{equation}
 We are interested in the order of $\varepsilon$ for different matrices $\bfC$, where the series $\tsX_1$ and $\tsX_2$ consist of the first $N$ terms of series $\tsX_1^\infty = (c, c, \ldots)$ is a constant series and $\tsX_2^\infty = (\cos(2 \pi \omega k), k = 1, 2, \ldots)$. Instead of $N \to \infty$ it is convenient to consider $L,$~$K \to \infty$ and take $N = L + K - 1$. When $\bfC$ is the identity matrix, the answer is known: $\varepsilon$ has order $1/\min(L,K)$, i.e. rate of convergence has order $1/N$ for $L$ proportional to $N$.
-This result can be found in \cite[Chapter 6.1]{Golyandina.etal2001}. %This result relates to the precision of first iteration of Cadzow iterations.
+This result can be found in \cite[Chapter 6.1]{Golyandina.etal2001}. %This result relates to the accuracy of first iteration of Cadzow iterations.
 
 Measure of separability for Cadzow($\alpha$) iterations, introduced in Chapter~\ref{sec:cadzow_alpha}, is considered in the following proposition.
 
@@ -925,11 +931,11 @@ Measure of separability for Cadzow($\alpha$) iterations, introduced in Chapter~\
 
 Thus even in the worst case when $C_{L,K}$ has order $O(1)$, separability of constant and sine signals becomes worse than in usual Cadzow iterations: for $\alpha$ close to 0, the optimal choice for $L$ is $L \approx \sqrt{N}$ and therefore the order of separability equal to $1/\sqrt{N}$ is obtained.
 
-Now let us consider Cadzow with $\widehat\bfC$ iterations introduced in Section~\ref{sec:cadzow_hat}.
+Now let us consider Cadzow-$\widehat\bfC$ iterations introduced in Section~\ref{sec:cadzow_hat}.
 
 \begin{proposition}
 	\label{prop:separ2}
-	Let $\tsX_1 = (c, c, \ldots)$ be some a constant series and $\tsX_2 = (\cos(2 \pi \omega k), k = 1, 2, \ldots)$, where $0<\omega <0.5$, $L,K\ra \infty$ and $\bfC$ defined in Cadzow with $\widehat\bfC$ iterations.
+	Let $\tsX_1 = (c, c, \ldots)$ be some a constant series and $\tsX_2 = (\cos(2 \pi \omega k), k = 1, 2, \ldots)$, where $0<\omega <0.5$, $L,K\ra \infty$ and $\bfC$ defined in Cadzow-$\widehat\bfC$ iterations.
 	Then $\rho$ given by \eqref{weak_sep_eq} has order $\max \left(1/L, \frac{H_L}{\sqrt{NK}} \right)$ as $L, K \to \infty$, where $H_L$ is $L$-th harmonic number.
 \end{proposition}
 
