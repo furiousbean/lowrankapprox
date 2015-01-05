@@ -147,7 +147,7 @@ The structure of the paper is as follows.  In Section~\ref{sec:lowrank_appr}, a 
 
 In Section~\ref{sec:ts_matrices}, the relation between problems of approximation of time series and of their trajectory matrices is described, relationship between weights in the corresponding weighted least squares problems is also given. Section~\ref{sec:alg} contains the suggested time-series approximation algorithms. In Section~\ref{sec:simul}, a numeric comparison of algorithms on a typical example is performed.
 
-The paper is finished with conclusions (Section~\ref{sec:concl}) The result of separability of constant and sinusoidal signals by SSA with weights, which has a connection with convergence for two of the described algorithms, is proved in Appendix.
+The paper is summarized and conclusions are drawn in Section~\ref{sec:concl}. Supplementary results on separability by SSA with weights, which has a connection with convergence rate, are proved in Appendix A.
 
 \section{Approximation by rank-deficient Hankel matrices}
 \label{sec:lowrank_appr}
@@ -507,7 +507,7 @@ m_{i,j} = \begin{cases}
 %\end{remark}
 
 \subsection{Oblique Cadzow iterations}
-
+\label{sec:ObliqueCadzow}
 Algorithms considered in this section generalize the conventional Cadzow algorithm based on Euclidean inner product to the use of an oblique inner product given by a matrix $\bfC$.
 These algorithms can be applied if the conditions of Proposition~\ref{prop:projS} hold.
 
@@ -557,7 +557,6 @@ c_k = c_k(\alpha) =\\ \begin{cases}
 \end{cases}
 \end{multline}
 Then the matrix $\bfC$ with the diagonal given in \eqref{zhigweights} is of full rank.
-%However, it will be shown in Appendix that the convergence in Algorithm \ref{sec:simul} is very slow for small $\alpha$.
 
 Let us denote Cadzow($\alpha$) the iterations performed by Algorithm~\ref{alg:obliqueCadzow} with the diagonal matrix $\bfC=\bfC(\alpha)$  given in \eqref{zhigweights}.
 	Note that for $\alpha=1$ Cadzow($\alpha$) iterations coincide with usual Cadzow iterations.
@@ -725,7 +724,7 @@ and $\hat{q}_i$ for $N = 40$, $L = 8$ are shown in Figure~\ref{img_weights}.
 		\item \textit{Separability and choice of parameters.}
 		The connection between separability and the window length $L$ is well researched for the SSA method, see \cite{Golyandina2010}. In particular, optimal window lengths are close to half of the series length. A small window length $L$ provides poor separability. We can expect that this is valid for the other algorithms too.
 The Cadzow($\alpha$) method has an additional parameter $\alpha$.
-Influence of parameter $\alpha$ in the class of Cadzow($\alpha$) iterations is investigated in Appendix~\ref{sec:app} on the example of separability of constant and sine-wave signals. It is shown that small values of $\alpha$ provide poor separability.
+Influence of parameter $\alpha$ in the class of Cadzow($\alpha$) iterations is investigated in Appendix~\ref{sec:app} on the example of separability of a sine-wave signal from a constant residual. It is shown that small values of $\alpha$ provide poor separability.
         \item \textit{Equal series weights and choice of parameters.}
         Let us consider the dependence of series weights produced by the Cadzow($\alpha$) algorithm on the window length $L$ or $\alpha$. Proposition~\ref{prop:zhigconseq} shows that more uniform weights are achieved for small $L$ and small $\alpha$. This is exactly
         the cases corresponding to poor separability. 
@@ -859,14 +858,23 @@ inaccurate approximation at the first one iteration and high accuracy in the lim
 In particular, for Cadzow iterations, which produce Singular Spectrum Analysis for signal reconstruction at the first iteration, the window length equal to the half of the series length gives poor accuracy in the limit and
 one of the best reconstructions at the first iteration.
 
-Note that we can compare numbers of iterations to achieve a given accuracy to compare the methods without inner iterations by computational complexity, since it was shown that the computational costs of one iteration are approximately the same.
+Note that we can compare numbers of iterations providing a given accuracy to compare the methods without inner iterations by computational complexity, since computational costs of one iteration are approximately the same.
 
 \appendix
 
-\section{Separability of constant and harmonic signals for Oblique Cadzow iterations}
+\section{Separability of sine-wave signal from constant residual for Cadzow($\alpha$) iterations}
 \label{sec:app}
 
-Let us introduce another characteristic of algorithms showing their ability to decompose a time series into additive parts at one iteration. It is nearly impossible to consider a characteristic of algorithms showing ability of cleaning a noisy signal from a white noise to achieve more precise estimation; therefore, we replace it with plausible and computable characteristic.
+Let us consider modifications of SSA, which are produced by the first iteration of the considered oblique Cadzow iterative algorithms described in Section~\ref{sec:ObliqueCadzow}. Recall that the Cadzow($1$) iterative algorithm produces the conventional Basic SSA method \cite{Golyandina.etal2001,Golyandina.Zhigljavsky2012}, while the first iteration of a general oblique Cadzow algorithm can be considered as a
+particular case of Oblique SSA \cite{Golyandina2013} with the Euclidean inner product in the row column and a special inner product in the row space.
+
+Separability of signals from residuals in SSA is deeply investigated in \cite{Golyandina.etal2001,Golyandina2010}. Separability of a signal means the ability of the method to extract the signal. In fact, separability is related to the accuracy of signal estimation obtained at the first iteration
+of the considered iterative algorithms. Notions of exact, approximate and asymptotical (as the series length tends to infinity) separability together with the asymptotic separability rate are introduced for
+SSA in \cite{Golyandina.etal2001} and can be generalized for the oblique case. Following by \cite{Golyandina.etal2001}, we will measure the separability by means of the cosines between $L$- and $K$-lagged vectors
+of the signal and the residual.
+%Since we consider a specific Oblique SSA with Euclidean inner product
+%in the column space, we still can measure the separability through orthogonality of series subspaces as it was suggested for Basic SSA in \cite{Golyandina.etal2001}.
+
 
 Let $\bfC \in \sfR^{K \times K}$ be symmetric semidefinite matrix, $\tsX_1$ и $\tsX_2$ be two different time series of length $N$, $\bfX^1$, $\bfX^2$ be their trajectory matrices. Define \emph{correlation coefficient of $i$-th and $j$-th column} by:
 \begin{equation}\label{col_corr}
@@ -876,18 +884,23 @@ where $X^k_i$ is the $i$-th column of the matrix $\bfX^k$, $k = 1, 2$, $(\cdot, 
 \begin{equation}\label{row_corr}
 \rho^r_{i,j} = \frac{(X^{1,i}, X^{2,j})_\bfC}{\|X^{1,i}\|_\bfC \|X^{2,j}\|_\bfC},
 \end{equation}
-where $X^{k,i}$ is $i$-th row of matrix $\bfX^k$, $k = 1, 2$, and $(\cdot, \cdot)_\bfC$ is the oblique inner product in $\sfR^K$ generated by a matrix $\bfC$ defined as follows: $(X, Y)_\bfC = X \bfC Y^\sfT$ (here $X$ and $Y$ are row vectors), $\| \cdot \|_\bfC$ is the norm with respect to this inner product. We say that series $\tsX_1$ and $\tsX_2$ are \emph{weak $\varepsilon$-separable} if
+where $X^{k,i}$ is the $i$-th row of matrix $\bfX^k$, $k = 1, 2$, and $(\cdot, \cdot)_\bfC$ is the oblique inner product in $\sfR^K$ generated by a matrix $\bfC$ defined as follows: $(X, Y)_\bfC = X \bfC Y^\sfT$ (here $X$ and $Y$ are row vectors), $\| \cdot \|_\bfC$ is the norm with respect to this inner product. We say that series $\tsX_1$ and $\tsX_2$ are \emph{weakly $\varepsilon$-separable} if
 \begin{equation}\label{weak_sep_eq}
 \rho = \max\Big(\max_{1 \le i,j \le K}|\rho^c_{i,j}|, \max_{1 \le i,j \le L}|\rho^r_{i,j}|\Big) < \varepsilon.
 \end{equation}
-We are interested in the order of $\varepsilon$ for different matrices $\bfC$, where the series $\tsX_1$ and $\tsX_2$ consist of the first $N$ terms of series $\tsX_1^\infty = (c, c, \ldots)$ is a constant series and $\tsX_2^\infty = (\cos(2 \pi \omega k), k = 1, 2, \ldots)$. Instead of $N \to \infty$ it is convenient to consider $L,$~$K \to \infty$ and take $N = L + K - 1$. When $\bfC$ is the identity matrix, the answer is known: $\varepsilon$ has order $1/\min(L,K)$, i.e. rate of convergence has order $1/N$ for $L$ proportional to $N$.
-This result can be found in \cite[Chapter 6.1]{Golyandina.etal2001}. %This result relates to the accuracy of first iteration of Cadzow iterations.
+We are interested in the order of $\varepsilon$ for different matrices $\bfC$, where the series $\tsX_k$, $k=1,2$, consist of the first $N$ terms of infinite series $\tsX_k^\infty$.
 
-Measure of separability for Cadzow($\alpha$) iterations, introduced in Chapter~\ref{sec:cadzow_alpha}, is considered in the following proposition.
+Here we apply the theory to an example with sine-wave signal and constant residual. By analogy with SSA, we can expect that the asymptotic separability rate will be the same if the residual is Gaussian white noise.
+Thus, 
+$\tsX_1^\infty = (\cos(2 \pi \omega k), k = 1, 2, \ldots)$ and  $\tsX_2^\infty = (c, c, \ldots)$. Instead of $N \to \infty$ it is convenient to consider $L,K \to \infty$ and take $N = L + K - 1$. When $\bfC$ is the identity matrix, the answer is known: $\varepsilon$ has order $1/\min(L,K)$, i.e. the rate of separability has order $1/N$ for $L$ proportional to $N$.
+This result can be found in \cite[Chapter 6.1]{Golyandina.etal2001}. 
+
+\smallskip
+Let us consider the separability rate for Cadzow($\alpha$) iterations, introduced in Section~\ref{sec:cadzow_alpha}.
 
 \begin{proposition}
-	\label{prop:separ1} \footnote{I think it's okay to repeat conditions again.}
-	Let $\tsX_1 = (c, c, \ldots)$ be a constant series and $\tsX_2 = (\cos(2 \pi \omega k), k = 1, 2, \ldots)$, where $0<\omega <0.5$, $L,K\ra \infty$ such that $h = h_L = N/L$, where $N=L+K-1$, is integer, and $\bfC$ defined in Cadzow($\alpha$) iterations, i.e.  $\bfC$ is diagonal matrix with diagonal elements:
+	\label{prop:separ1} 
+	Let $\tsX_1 = (\cos(2 \pi \omega k), k = 1, 2, \ldots)$, where $0<\omega <0.5$, be a sine wave, $\tsX_2 = (c, c, \ldots)$ be a constant series,  $L,K\ra \infty$ such that $h = h_L = N/L$, where $N=L+K-1$, be integer, and $\bfC=\bfC(\alpha)$ be defined in \eqref{zhigweights}, i.e.  $\bfC$ is diagonal matrix with diagonal elements:
 	\begin{equation*}
 	c_k = \begin{cases}
 	1, & \text{если} \quad k = jL+1 \quad \text{for some} \ j = 0, \ldots, h-1,\\
@@ -899,12 +912,12 @@ Measure of separability for Cadzow($\alpha$) iterations, introduced in Chapter~\
 \end{proposition}
 
 \begin{proof}
-	To move the theorem, we should evaluate the order of the expressions:
+To prove the theorem, we should evaluate the order of the expressions:
 	\begin{equation}\label{th5_sep1}
-	\rho^c_{i,j} = \frac{\sum_{k=j}^{j + L - 1} \cos(2 \pi \omega k)}{\sqrt{L (\sum_{k=j}^{j + L - 1} \cos^2(2 \pi \omega k))}},
+	\rho^c_{i,j} = \frac{\sum_{k=j}^{j + L - 1} \cos(2 \pi \omega k)}{\sqrt{L \left(\sum_{k=j}^{j + L - 1} \cos^2(2 \pi \omega k)\right)}},
 	\end{equation}
 	\begin{equation}\label{th5_sep2}
-	\rho^r_{i,j} = \frac{\sum_{k=1}^K c_k\cos(2 \pi \omega (j + k - 1))}{\sqrt{(\sum_{k=1}^K c_k) (\sum_{k=1}^K c_k\cos^2(2 \pi \omega (j + k - 1)))}}.
+	\rho^r_{i,j} = \frac{\sum_{k=1}^K c_k\cos(2 \pi \omega (j + k - 1))}{\sqrt{\left(\sum_{k=1}^K c_k\right) \left(\sum_{k=1}^K c_k\cos^2(2 \pi \omega (j + k - 1))\right)}}.
 	\end{equation}
 	The following trigonometric equalities hold:
 	\begin{multline*}
@@ -912,71 +925,75 @@ Measure of separability for Cadzow($\alpha$) iterations, introduced in Chapter~\
 	\sum_{k=1}^n \cos^2(ak + b) = \frac{1}{4}(\csc(a) \sin(2an + a + 2b) -\\ - \csc(a)\sin(a + 2b) + 2n),
 	\end{multline*}
 	for any real $a, b$ and positive integer $n$.
-	Therefore, since the series $\tsX_2$ is not constant, the numerator in \eqref{th5_sep1} has order $O(1)$, while denominator has order $O(L)$.
+	Therefore, since the series $\tsX_2$ is not constant, the numerator in \eqref{th5_sep1} has order $O(1)$, while denominator has order $O(L)$. Thus, we obtain the order $1/L$.
 	
-	To evaluate the order of \eqref{th5_sep2} choose a sum for $k$ such that $c_k=1$ separately:
+	To evaluate the order of \eqref{th5_sep2}, consider the sum over $k$ such that $c_k=1$ separately:
 	\begin{multline*}
 	\sum_{k=1}^K c_k\cos(2 \pi \omega (j + k - 1)) = \\ (1-\alpha) \sum_{\substack{1 \le k \le K: \\ c_k = 1}}\cos(2 \pi \omega (j + k - 1)) +\\ +\sum_{1 \le k \le K}\alpha \cos(2 \pi \omega (j + k - 1)) = (1-\alpha) C_{L,K} + \alpha\, O(1),
 	\end{multline*}
+where
     \begin{gather*}
 	C_{L, K} = \sum_{\substack{1 \le k \le K: \\ c_k = 1}}\cos(2 \pi \omega (j + k - 1)),
 	\\
 	\sum_{k=1}^K c_k = (1-\alpha) N/L + \alpha K,
 	\end{gather*}
+and
     \begin{multline*}
 	\sum_{k=1}^K c_k\cos^2(2 \pi \omega (j + k - 1)) = \\ (1-\alpha)\sum_{\substack{1 \le k \le K: \\ c_k = 1}}\cos^2(2 \pi \omega (j + k - 1)) +\\ +\sum_{1 \le k \le K }\alpha \cos^2(2 \pi \omega (j + k - 1)) = (1-\alpha) O(N/L) + \alpha\, O(K).
     \end{multline*}
 	In the worst case when $L\omega$ is integer we obtain that $\cos(2 \pi \omega (j + k - 1))$ is a constant not depending on $j$ and $k$, and then $C_{L,K}$ has order $O(N/L)$.
 \end{proof}
 
-Thus even in the worst case when $C_{L,K}$ has order $O(1)$, separability of constant and sine signals becomes worse than in usual Cadzow iterations: for $\alpha$ close to 0, the optimal choice for $L$ is $L \approx \sqrt{N}$ and therefore the order of separability equal to $1/\sqrt{N}$ is obtained.
+Thus even in the best case when $C_{L,K}$ has order $O(1)$, separability of sine-wave and constant signals becomes worse than in the standard Cadzow($1$) iterations: for $\alpha$ close to 0, the optimal choice for $L$ is $L \approx \sqrt{N}$ and therefore the rate of separability has order $1/\sqrt{N}$.
+In the worst case, the separability vanishes as $\alpha$ tends to zero.
 
-Now let us consider Cadzow-$\widehat\bfC$ iterations introduced in Section~\ref{sec:cadzow_hat}.
-
-\begin{proposition}
-	\label{prop:separ2}
-	Let $\tsX_1 = (c, c, \ldots)$ be some a constant series and $\tsX_2 = (\cos(2 \pi \omega k), k = 1, 2, \ldots)$, where $0<\omega <0.5$, $L,K\ra \infty$ and $\bfC$ defined in Cadzow-$\widehat\bfC$ iterations.
-	Then $\rho$ given by \eqref{weak_sep_eq} has order $\max \left(1/L, \frac{H_L}{\sqrt{NK}} \right)$ as $L, K \to \infty$, where $H_L$ is $L$-th harmonic number.
-\end{proposition}
-
-\begin{proof}
-	To prove the theorem, we should evaluate the order of the expressions:
-	\begin{equation}\label{th6_sep1}
-	\rho^c_{i,j} = \frac{\sum_{k=j}^{j + L - 1} \cos(2 \pi \omega k)}{\sqrt{L (\sum_{k=j}^{j + L - 1} \cos^2(2 \pi \omega k))}},
-	\end{equation}
-	\begin{equation}\label{th6_sep2}
-	\rho^r_{i,j} = \frac{\sum_{k=1}^K \hat c_k\cos(2 \pi \omega (j + k - 1))}{\sqrt{(\sum_{k=1}^K \hat c_k) (\sum_{k=1}^K \hat c_k\cos^2(2 \pi \omega (j + k - 1)))}}.
-	\end{equation}
-\eqref{th6_sep1} coincides with \eqref{th5_sep1} in Theorem \ref{prop:separ1}, 
-thus the order of \eqref{th6_sep1} is already obtained, so let us just move to the estimation of order of \eqref{th6_sep2}. Consider the correlation of first rows only, since the proof for remained rows is absolutely analogous. Consider a numerator of $\rho^r_{1,1}$:
-	\begin{gather*}
-	\sum_{k=1}^K \hat c_k\cos(2 \pi \omega k) = \sum_{k=1}^{L-1} \hat c_k\cos(2 \pi \omega k) + \sum_{k=L}^{K - L + 1} \frac{\cos(2 \pi \omega k)}{L} +\\+ \sum_{k=K - L + 2}^{K} \hat c_k\cos(2 \pi \omega k) = I_1 + I_2 + I_3,
-	\end{gather*}
-	which is splitted by three parts. $I_2$ has order $O(1/L)$, and the order of $I_3$ is equal to the order of $I_1$:
-	\begin{multline*}
-	|I_1|=\bigg|\sum_{k=1}^{L-1}\frac{1}{L}\left(\frac{k}{L} + \sum_{j=k}^{L-1} \frac{1}{j} \right) \cos(2 \pi \omega k)\bigg| =\\= \bigg|\sum_{k=1}^{L-1} \frac{k \cos(2 \pi \omega k)}{L^2} +  \frac{1}{L}\sum_{k = 1}^{L-1}\sum_{j = k}^{L-1}\frac{\cos(2 \pi \omega k)}{j}\bigg| \le \\ \le
-	\bigg|\sum_{k=1}^{L-1} \frac{k \cos(2 \pi \omega k)}{L^2}\bigg| + \bigg|\frac{1}{L}\sum_{k = 1}^{L-1}\sum_{j = k}^{L-1}\frac{\cos(2 \pi \omega k)}{j}\bigg|.
-	\end{multline*}
-	Using the fact that
-	\begin{multline*}
-	\sum_{k=1}^n k \cos(ak + b) = -\frac{1}{4}\csc^2(a/2)(-(n+1)\cos(an+b) + \\ + n\cos(an + a + b) + \cos b),
-	\end{multline*}
-	we obtain that:
-	\begin{multline*}
-	\bigg|\sum_{k=1}^{L-1} \frac{k \cos(2 \pi \omega k)}{L^2}\bigg| = O(1/L), \quad
-	\bigg|\frac{1}{L}\sum_{k = 1}^{L-1}\sum_{j = k}^{L-1}\frac{\cos(2 \pi \omega k)}{j}\bigg| = \\ =\bigg|\frac{1}{L}\sum_{j = 1}^{L-1}\sum_{k = 1}^{j}\frac{\cos(2 \pi \omega k)}{j}\bigg| \le \bigg|\frac{1}{L}\sum_{j = 1}^{L-1}\frac{d}{j}\bigg| = O \left(\frac{H_L}{L} \right),
-	\end{multline*}
-	where $d$ is some constant.
-	
-	Following sum is considered for the denominator of $\rho^r_{1,1}$:
-	\begin{equation*}
-	\sum_{k=1}^K \hat c_k = N / L
-	\end{equation*}
-	by definition, and the following part has lower bound:
-	\begin{multline*}
-	\sum_{k=1}^K \hat c_k\cos^2(2 \pi \omega (j + k - 1)) \ge \\ \ge \sum_{k=1}^K \frac{1}{L}\cos^2(2 \pi \omega (j + k - 1)) = O \left(\frac{K}{L} \right).
-	\end{multline*}
-\end{proof}
+%\smallskip
+%Now let us consider Cadzow-$\widehat\bfC$ iterations introduced in Section~\ref{sec:cadzow_hat}.
+%
+%\begin{proposition}
+%	\label{prop:separ2}
+%	Let $\tsX_1 = (\cos(2 \pi \omega k), k = 1, 2, \ldots)$, where $0<\omega <0.5$, be a sine wave, $\tsX_2 = (c, c, \ldots)$ be a constant series,   $L,K\ra \infty$, and $\bfC=\widehat\bfC$ be defined in Cadzow-$\widehat\bfC$ iterations.
+%	Then $\rho$ given by \eqref{weak_sep_eq} has order $\max \left(1/L, \frac{H_L}{\sqrt{NK}} \right)$ as $L, K \to \infty$, where $H_L$ is $L$-th harmonic number.
+%\end{proposition}
+%
+%\begin{proof}
+%	To prove the theorem, we should evaluate the order of the expressions:
+%	\begin{equation}\label{th6_sep1}
+%	\rho^c_{i,j} = \frac{\sum_{k=j}^{j + L - 1} \cos(2 \pi \omega k)}{\sqrt{L \left(\sum_{k=j}^{j + L - 1} \cos^2(2 \pi \omega k)\right)}},
+%	\end{equation}
+%	\begin{equation}\label{th6_sep2}
+%	\rho^r_{i,j} = \frac{\sum_{k=1}^K \hat c_k\cos(2 \pi \omega (j + k - 1))}{\sqrt{\left(\sum_{k=1}^K \hat c_k\right) \left(\sum_{k=1}^K \hat c_k\cos^2(2 \pi \omega (j + k - 1))\right)}}.
+%	\end{equation}
+%\eqref{th6_sep1} coincides with \eqref{th5_sep1} in Theorem \ref{prop:separ1}, 
+%thus the order of \eqref{th6_sep1} is already obtained, so let us just move to the estimation of order of \eqref{th6_sep2}. Consider the correlation of first rows only, since the proof for remained rows is absolutely analogous. Consider a numerator of $\rho^r_{1,1}$:
+%	\begin{gather*}
+%	\sum_{k=1}^K \hat c_k\cos(2 \pi \omega k) = \sum_{k=1}^{L-1} \hat c_k\cos(2 \pi \omega k) + \sum_{k=L}^{K - L + 1} \frac{\cos(2 \pi \omega k)}{L} +\\+ \sum_{k=K - L + 2}^{K} \hat c_k\cos(2 \pi \omega k) = I_1 + I_2 + I_3,
+%	\end{gather*}
+%	which is splitted by three parts. $I_2$ has order $O(1/L)$, and the order of $I_3$ is equal to the order of $I_1$:
+%	\begin{multline*}
+%	|I_1|=\bigg|\sum_{k=1}^{L-1}\frac{1}{L}\left(\frac{k}{L} + \sum_{j=k}^{L-1} \frac{1}{j} \right) \cos(2 \pi \omega k)\bigg| =\\= \bigg|\sum_{k=1}^{L-1} \frac{k \cos(2 \pi \omega k)}{L^2} +  \frac{1}{L}\sum_{k = 1}^{L-1}\sum_{j = k}^{L-1}\frac{\cos(2 \pi \omega k)}{j}\bigg| \le \\ \le
+%	\bigg|\sum_{k=1}^{L-1} \frac{k \cos(2 \pi \omega k)}{L^2}\bigg| + \bigg|\frac{1}{L}\sum_{k = 1}^{L-1}\sum_{j = k}^{L-1}\frac{\cos(2 \pi \omega k)}{j}\bigg|.
+%	\end{multline*}
+%	Using the fact that
+%	\begin{multline*}
+%	\sum_{k=1}^n k \cos(ak + b) = -\frac{1}{4}\csc^2(a/2)(-(n+1)\cos(an+b) + \\ + n\cos(an + a + b) + \cos b),
+%	\end{multline*}
+%	we obtain that:
+%	\begin{multline*}
+%	\bigg|\sum_{k=1}^{L-1} \frac{k \cos(2 \pi \omega k)}{L^2}\bigg| = O(1/L), \quad
+%	\bigg|\frac{1}{L}\sum_{k = 1}^{L-1}\sum_{j = k}^{L-1}\frac{\cos(2 \pi \omega k)}{j}\bigg| = \\ =\bigg|\frac{1}{L}\sum_{j = 1}^{L-1}\sum_{k = 1}^{j}\frac{\cos(2 \pi \omega k)}{j}\bigg| \le \bigg|\frac{1}{L}\sum_{j = 1}^{L-1}\frac{d}{j}\bigg| = O \left(\frac{H_L}{L} \right),
+%	\end{multline*}
+%	where $d$ is some constant.
+%	
+%	Following sum is considered for the denominator of $\rho^r_{1,1}$:
+%	\begin{equation*}
+%	\sum_{k=1}^K \hat c_k = N / L
+%	\end{equation*}
+%	by definition, and the following part has lower bound:
+%	\begin{multline*}
+%	\sum_{k=1}^K \hat c_k\cos^2(2 \pi \omega (j + k - 1)) \ge \\ \ge \sum_{k=1}^K \frac{1}{L}\cos^2(2 \pi \omega (j + k - 1)) = O \left(\frac{K}{L} \right).
+%	\end{multline*}
+%\end{proof}
 
 %\section*{Acknowledgements}
 %And this is an acknowledgements section with a heading that was produced by the
