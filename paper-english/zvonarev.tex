@@ -96,11 +96,11 @@ Consider the problem of extracting a signal $\tsS~=~(s_1, \ldots, s_N)$ from an 
 \begin{equation*}
 s_n = \sum_{i = 1}^{r} a_i s_{n-i}, \quad n = r + 1, \ldots, N.
 \end{equation*}
-Generally, governed-by-LRR series may be written in a parametric form
+Generally, series governed by an LRR may be written in a parametric form
 \begin{equation} \label{parametricform}
 s_n = \sum_i P_i(n) \exp(\alpha_i n) \cos(2 \pi \omega_i n + \psi_i),
 \end{equation}
-where $P_i(n)$ are polynomials of $n$. However, parametric regression approach for the problem does not lead to accurate estimation of parameters due to their large amount and instability of estimators.
+where $P_i(n)$ are polynomials of order $n$. However, a parametric regression approach for the problem does not lead to accurate estimation of parameters due to their large amount and instability of estimators.
 
 It is known that methods based on signal subspace estimation (subspace-based methods) works well \cite{Broomhead.King1986, Vautard.etal1992, Elsner.Tsonis1996, Golyandina.etal2001}. These subspace-based methods use the following approach. Let us fix a window length $L$, $1 \le L \le N$, set $K = N - L + 1$, and build the trajectory matrix for the series $\tsS$:
 \begin{equation*}
@@ -153,7 +153,7 @@ The paper is summarized and conclusions are drawn in Section~\ref{sec:concl}. Su
 \subsection{Common scheme of iterations}
 Consider a problem of approximation of a matrix $\bfX$ by a Hankel rank-deficient matrix with respect to some (semi)norm $\|\cdot\|$. Define by $\spaceR^{L\times K}$ the space of matrices of size $L \times K$, $\calM_r\subset \spaceR^{L\times K}$ is the set of matrices of rank not larger than $r$,
 $\calH \subset \spaceR^{L\times K}$ is the set of Hankel matrices.
-Note that  $\calM_r$ is not nor linear, nor convex set. However, $\calM_r$ is closed with respect to scalar multiplication, i.e.
+Note that  $\calM_r$ is neither a linear, nor convex set. However, $\calM_r$ is closed with respect to scalar multiplication, i.e.
 if $\bfZ\in \calM_r$, then $a\bfZ\in \calM_r$ for any $a$.
 The space $\calH$ is linear.
 
@@ -171,7 +171,7 @@ Note that the projection to $\calM_r$ can not be defined uniquely, but further w
 	Let $\calX$ be Hilbert space, $\calM\in \calX$ be a subset closed with respect to scalar multiplication, $\Pi_\calM$ be the projection operator to $\calM$. Then for any $x \in \calX$ the Pythagorean theorem is true: $\|x\|^2~=~\|x~-~\Pi_\calM x\|^2~+~\|\Pi_\calM x\|^2$.
 \end{proposition}
 \begin{proof}
-	By conditions, the set $\calM$ can be represented as $\calM = \bigcup\limits_{l \in \calL}l$, where $\calL$ is the set of all lines lying in $\calM$ and passing through $0$. Then the projection can be described as follows: to begin with, we choose a line $l$ such that $\dist(x, l) \rightarrow \min\limits_{l \in \calL}$; then, $y = \Pi_\calM x$ is the orthogonal projection of $x$ to the line $l$, which is a linear subspace. Proposition is proved.
+	By conditions, the set $\calM$ can be represented as $\calM = \bigcup\limits_{l \in \calL}l$, where $\calL$ is the set of all lines lying in $\calM$ and passing through $0$. Then the projection can be described as follows: to begin with, we choose a line $l$ such that $\dist(x, l) \rightarrow \min\limits_{l \in \calL}$; then, $y = \Pi_\calM x$ is the orthogonal projection of $x$ to the line $l$, which is a linear subspace. Hence, proposition is proved.
 \end{proof}
 
 The iterative method of alternating projections for the problem \eqref{eq:gen_task} is given by the following iteration step:
@@ -204,7 +204,7 @@ Consider the convergence of the sequence~\eqref{eq:iter}.
 		\begin{multline*}
 		\|\bfY_k\|^2 = \|\Pi_{\calM_r} \bfY_k\|^2 + \|\bfY_k - \Pi_{\calM_r} \bfY_k\|^2 =\\ \|\bfY_k - \Pi_{\calM_r} \bfY_k\|^2 + \|\Pi_{\calM_r} \bfY_k - \bfY_{k + 1}\|^2 + \|\bfY_{k + 1}\|^2.
 		\end{multline*}
-		Thus, $\|\bfY_{k+1}\|^2 < \|\bfY_k\|^2 - 2d^2$. Expanding this inequality by the same way, we obtain that $\|\bfY_{k+j}\|^2 < \|\bfY_k\|^2 - 2 j d^2$ for any $j = 1, 2, \ldots$. Choose $k = 1$, and $j = \lceil \|\bfY_k\|^2 / (2d^2) \rceil + 1$. Then $\|\bfY_{k+j}\|^2 < 0$, what is impossible. Thus, $c=0$.
+		Thus, $\|\bfY_{k+1}\|^2 < \|\bfY_k\|^2 - 2d^2$. Expanding this inequality by the same way, we obtain that $\|\bfY_{k+j}\|^2 < \|\bfY_k\|^2 - 2 j d^2$ for any $j = 1, 2, \ldots$. Choose $k = 1$, and $j = \lceil \|\bfY_k\|^2 / (2d^2) \rceil + 1$. Then $\|\bfY_{k+j}\|^2 < 0$, which is impossible. Thus, $c=0$.
 		\item Consider the sequence $(\Pi_{\calM_r} \bfY_k,\, k = 1, 2, \ldots)$. It is bounded because $\|\Pi_{\calM_r} \bfZ\| \le \|\bfZ\|$ and $\|\Pi_{\calH} \bfZ\| \le \|\bfZ\|$ for any $\bfZ \in \sfR^{L \times K}$ (by Proposition \ref{pythaprop}). Then a convergent subsequence $(\Pi_{\calM_r} \bfY_{i_k})$ can be chosen; denote by $\bfY^*\in\calM_r$ its limit, wherein $\|\Pi_{\calM_r} \bfY_{i_k} - \bfY_{i_k + 1}\| = \|\Pi_{\calM_r} \bfY_{i_k} - \Pi_\calH \Pi_{\calM_r} \bfY_{i_k}\| \to 0$ as $k \to + \infty$. Taking into consideration that $\|\bfZ - \Pi_\calH \bfZ\|$ is a composition of continuous mappings, we obtain that $\|\bfY^* - \Pi_\calH \bfY^*\| = 0$, $\bfY^* \in \calM_r \cap \calH$. Finally, $\Pi_\calH$ is continuous mapping and therefore the sequence $(\Pi_\calH \Pi_{\calM_r} \bfY_{i_k})$ converges to $\bfY^*$. Thus, $\bfY_{i_k + 1}$ is a required subsequence.
 	\end{enumerate}
 \end{proof}
@@ -232,7 +232,7 @@ can be evaluated explicitly using the following proposition.
 	\end{equation*}
 \end{proposition}
 
-It is impossible to derive explicit form of $\Pi_{\calM_r}$ in the case of arbitrary weights.
+It is impossible to derive an explicit form of $\Pi_{\calM_r}$ in the case of arbitrary weights.
 Consider one specific case and suggest an iterative approach to the general case.
 
 \subsubsection{Case of explicit form of projector $\Pi_{\calM_r}$.}
@@ -310,7 +310,7 @@ X_i = (x_i, \ldots, x_{i + L - 1})^\rmT, \qquad i = 1, \ldots, K.
 \end{equation}
 Define by \emph{$L$-trajectory matrix} of series $\tsX$ the matrix $\bfX = [X_1:\ldots:X_K]$.
 
-Suppose that $0 \le r \le L$. We say that the series $\tsX$ \emph{has $L$-rank $r$} if its $L$-trajectory matrix $\bfX$ has rank $r$.
+Suppose that $0 < r \le L$. We say that the series $\tsX$ \emph{has $L$-rank $r$} if its $L$-trajectory matrix $\bfX$ has rank $r$.
 %\footnote{Needed to be made as a definition}
 
 Note that the series $\tsX$ can have $L$-rank $r$ only when
@@ -336,7 +336,7 @@ y^* = \calA(y)= y \frac{\langle x, y\rangle}{\langle y, y\rangle}
 \end{equation}
 the inequality $\|x - y^*\| \le \|x - y\|$ holds.
 
-Thus, if an estimate $y=\tsY \in \sfX_N^r$ of the solution of problem \eqref{L-rank_task} for approximation of $x=\tsX \in \sfX_N$ is obtained, then it can be adjusted by applying \eqref{eq:adjust} to obtain the series $\tsY^*=\calA(\tsY)$, which is called \emph{adjustment of $\tsY$}.
+Thus, if an estimate $y=\tsY \in \sfX_N^r$ of the solution of problem \eqref{L-rank_task} for approximation of $x=\tsX \in \sfX_N$ is obtained, then it can be adjusted by applying \eqref{eq:adjust} to obtain the series $\tsY^*=\calA(\tsY)$, which is called \emph{an adjustment of $\tsY$}.
 
 \subsection{Equivalent target functions}
 
@@ -416,7 +416,7 @@ However, this particular case is of special interest, since the corresponding ap
 \section{Algorithms}
 \label{sec:alg}
 In this section we suggest a range of algorithms for solving problem~\eqref{L-rank_task}.
-In the model of series $\tsX=\tsS+\tsN$, where $\tsS$ is a time series of finite rank $r$ and $\tsN$ is a noise, results of the algorithms serve as  estimates of the signal $\tsS$.
+In the model of series $\tsX=\tsS+\tsN$, where $\tsS$ is a time series of finite rank $r$ and $\tsN$ is a noise series, results of the algorithms serve as  estimates of the signal $\tsS$.
 
 \subsection{Cadzow iterations}
 The aim of the Cadzow algorithm \cite{Cadzow1988} is the least-squares approximation \eqref{rank_task} of the trajectory matrix of a series with respect to the norm $\|\cdot\|_{1, \bfM}$ with the weights $m_{ij}=1$ (i.e. the algorithm solves problem \eqref{introd_task}, which, by Corollary \ref{cor:base_weights}, corresponds to problem~\eqref{introd_task_2} (or, the same, to problem ~\eqref{L-rank_task} with the weights $q_i=w_i$ given by \eqref{eq:w}). The drawback of this algorithm consists in the unequal series weights $w_i$: they are larger in the center than at both ends of the time series. Note that smaller window lengths leads to more uniform weights.
@@ -470,7 +470,7 @@ where $w_i$ are introduced in \eqref{eq:w}.
 \subsection{Extended Cadzow iterations}
 Let us introduce the Extended Cadzow algorithm, which presents a different approach to problem \eqref{L-rank_task} with equal weights than the Weighted Cadzow algorithm does.
 Formally, let the series $\tsX$ be extended to both sides on $L-1$ measurements with some values having zero weights, i.e., the added measurements are considered as gaps.
-Thus, the length of the extended series $\widetilde\tsX$ is $N+2L-2$, and size of its trajectory matrix $\widetilde\bfX$ is $L$ by $N+L-1$ (instead of $N-L+1$ for the non-extended trajectory matrix).
+Thus, the length of the extended series $\widetilde\tsX$ is $N+2L-2$, and the size of its trajectory matrix $\widetilde\bfX$ is $L$ by $N+L-1$ (instead of $N-L+1$ for the non-extended trajectory matrix).
 
 For the extended series, Algorithm~\ref{alg:weightedSVD} with weights $m_{i,j}=\calT \tsI$ is applied to $\widetilde\bfX$, where the series $\tsI$ has ones in the place of the series $\tsX$ and zeroes in positions of gaps, i.e.
 \begin{equation*}
@@ -559,7 +559,7 @@ c_k = c_k(\alpha) =\\ \begin{cases}
 Then the matrix $\bfC(\alpha)=\diag(c_1(\alpha),\ldots,c_K(\alpha))$ with the diagonal given by \eqref{zhigweights} is of full rank.
 However, the corresponding series weights are not equal.
 
-Let us denote Cadzow($\alpha$) the iterations performed by Algorithm~\ref{alg:obliqueCadzow} with the diagonal matrix $\bfC=\bfC(\alpha)$.
+Let Cadzow($\alpha$) denote the iterations performed by Algorithm~\ref{alg:obliqueCadzow} with the diagonal matrix $\bfC=\bfC(\alpha)$.
 	Note that for $\alpha=1$ the matrix $\bfC(\alpha)$ is the identity matrix and the Cadzow($\alpha$) iterations coincide with the conventional Cadzow iterations.
 
 \paragraph*{Degenerate case $\alpha=0$.}
@@ -856,11 +856,11 @@ Equal weights were achieved by using inner iterations, which converge to a local
 
 Convergence of outer iterations by subsequences was proved for the reviewed class of algorithms.
 
-Comparison of the considered methods by accuracy and convergence rate was performed by simulation on the example of a noisy sine-wave signal. The simulation results confirmed the theoretical results. It appears that time-series weights, which are more close to equal ones, provides in the limit more time-consuming and simultaneously more accurate methods.
+Comparison of the considered methods by accuracy and convergence rate was performed by simulation on the example of a noisy sine-wave signal. The simulation results confirmed the theoretical results. It appears that time-series weights, which are more close to one, provides in the limit more time-consuming and simultaneously more accurate methods.
 Also, the simulations confirm that the convergence rate is in accordance with the separability rate. Therefore, for the methods without inner iterations,
 there is the correspondence between slow convergence, poor separability,
 inaccurate approximation at the first one iteration and high accuracy in the limit; and vice verse.
-In particular, for Cadzow iterations, which produce Singular Spectrum Analysis for signal reconstruction at the first iteration, the window length equal to the half of the series length gives poor accuracy in the limit and
+In particular, for Cadzow iterations, which produce Singular Spectrum Analysis for signal reconstruction at the first iteration, the window length equal to half the series length gives poor accuracy in the limit and
 one of the best reconstructions at the first iteration.
 
 
