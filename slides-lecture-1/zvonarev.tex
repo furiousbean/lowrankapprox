@@ -1,0 +1,444 @@
+\documentclass[unicode, notheorems]{beamer}
+
+% If you have more than three sections or more than three subsections in at least one section,
+% you might want to use the [compress] switch. In this case, only the current (sub-) section
+% is displayed in the header and not the full overview.
+\mode<presentation>
+{
+  \usetheme[numbers, totalnumbers, compress]{Statmod}
+
+  \setbeamercovered{transparent}
+  % or whatever (possibly just delete it)
+}
+
+%\usepackage{pscyr}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amsthm}
+\usepackage{mathdots}
+
+
+%\usepackage{tikz}
+% you only need this when using TikZ graphics
+
+\newtheorem{theorem}{Теорема}
+\newtheorem{example}{Пример}
+\newtheorem{definition}{Определение}
+\newtheorem{thnote}{Замечание}
+\newtheorem{proposition}{Утверждение}
+\newtheorem{solution}{Решение}
+
+\DeclareMathOperator{\mathspan}{span}
+\def\dist{\mathop{\mathrm{dist}}}
+
+\input{letters}
+
+\title{Аппроксимация временными рядами конечного ранга}
+
+\author{Звонарев Никита, гр. 522}
+\institute[СПбГУ]{Санкт-Петербургский государственный университет \\
+    Математико-механический факультет \\
+    Кафедра статистического моделирования \\
+    \vspace{0.2cm}
+    Научный руководитель: к.ф.-м.н., доц. Голяндина Н. Э. \\
+    \vspace{0.2cm}
+    Рецензент: к.ф.-м.н., доц. Коробейников А. И. \\
+    \vspace{0.2cm}
+}
+\date{
+    Санкт-Петербург\\
+    2015г.
+}
+
+\subject{Beamer}
+% This is only inserted into the PDF information catalog. Can be left
+% out.
+
+% Delete this, if you do not want the table of contents to pop up at
+% the beginning of each subsection:
+% \AtBeginSubsection[]
+% {
+%   \begin{frame}<beamer>
+%     \frametitle{Outline}
+%     \tableofcontents[currentsection,currentsubsection]
+%   \end{frame}
+% }
+
+\begin{document}
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\begin{frame}
+	\frametitle{Постановка задачи}
+	\begin{itemize}
+		\item Дано: $\tsX$ --- временной ряд, $\tsX \in \calX_N$ --- множество всех временных рядов длины $N$.
+		\item $\calX_N^r$ --- подмножество $\calX_N$ рядов \structure{некоторой структуры}.
+		\item Найти: $\tsY = (y_1, \ldots, y_N)$: $f_q(\tsY) \to \min, \tsY \in \calX_N^r$, $f_q(\tsY) = \sum \limits_{i=1}^N q_i(x_i - y_i)^2$, $q_i \ge 0$ --- неотрицательные веса.
+		\item Приложение в статистике: наблюдаем $\tsX$ = $\tsY$ + $\tsN$, где $\tsY \in \calX_N^r$ --- сигнал, $\tsN$ --- белый гауссовский шум с нулевым матожиданием. Требуется найти оценку для $\tsY$. В качестве оценки можно рассматривать решение задачи.
+	\end{itemize}
+	
+\end{frame}
+
+\begin{frame}
+	\frametitle{Ряды, управляемые ЛРФ}
+	\begin{definition}
+		Ряд, управляемый линейной рекуррентной формулой порядка~$r$: $\tsX = (x_1, \ldots, x_N), \quad x_n = \sum_{i = 1}^{r} a_i x_{n-i}, \quad n = r + 1, \ldots, N.$
+	\end{definition}
+	Параметрический вид:
+	\begin{equation*}
+	x_n = \sum_i P_i(n) \exp(\alpha_i n) \cos(2 \pi \omega_i n + \psi_i).
+	\end{equation*}
+	
+	Можно показать эквивалентность поиска ряда, управляемого ЛРФ, и поиска ряда конечного $L$-ранга при наложении дополнительных условий.
+\end{frame}
+
+\begin{frame}
+	\frametitle{Структура сигнала}
+	
+	Временной ряд $\tsX = (x_1, \ldots, x_N)$.
+	
+	Параметры: $1 < L < N$ --- \emph{длина окна}, $K = N - L + 1$, $0 \le r \le L$ --- ранг.
+	
+	Вектора вложения: $X_i = (x_i, \ldots, x_{i + L - 1})^\rmT, \qquad i = 1, \ldots, K$.
+	\begin{definition}
+		Траекторное пространство: $\spX^{(L)}(\tsX) = \spX^{(L)} = \mathspan(X_1, \ldots, X_K).$
+	\end{definition}
+	\begin{definition}
+		$L$-ранг ряда $\tsX$ равен $r$ $\Leftrightarrow$ $\dim \spX^{(L)} = r$.
+	\end{definition}
+	
+	$\calX_N$ --- множество всех временных рядов длины $N$. $\calX_N^r$ --- множество всех временных рядов длины $N$ $L$-ранга, не превосходящего $r$.
+\end{frame}
+
+\begin{frame}
+	\frametitle{Постановка на матричном языке}
+	\begin{enumerate}
+		\item Временной ряд $\tsX = (x_1, \ldots, x_N)$.
+		\item $\bfX = \calT(\tsX)$, где $\calT$ --- биективное отображение на множество траекторных матриц:
+		\begin{equation*}
+		\bfX = \begin{pmatrix}
+		x_1 & x_2 & \cdots & x_K \\ 
+		x_2 & \iddots & \iddots & x_{K+1} \\ 
+		\vdots & \iddots & \vdots & \vdots \\ 
+		x_L & x_{L+1} & \cdots & x_N
+		\end{pmatrix} 
+		\end{equation*}
+		\item Найти $\bfY$: $||\bfX - \bfY||_? \to \min$, $\bfY \in \calH \cap \calM_r$, где $\calH$ --- множество ганкелевых матриц, $\calM_r$ --- матрицы ранга $\le r$.
+		\item $\tsY = \calT^{-1}(\bfY)$
+	\end{enumerate}
+\end{frame}
+
+\section{Способ решения}
+\subsection{Теоретические сведения}
+\begin{frame}
+	\frametitle{Стандартное решение}
+	$\bfY$: $||\bfX - \bfY||_? \to \min$, $\bfY \in \calH \cap \calM_r$, где $\calH \subset \sfR^{L \times K}$ --- множество ганкелевых матриц, $\calM_r \subset \sfR^{L \times K}$ --- матрицы ранга~$\le r$.
+	
+	\begin{solution}
+		
+		Переменные проекции: 
+		\begin{equation*}
+		\bfY = (\Pi_\calH \circ \Pi_{\calM_r})^I (\bfX),
+		\end{equation*}
+		$\Pi_\calH$ --- проектор на ганкелевы матрицы, $\Pi_{\calM_r}$ --- проектор на матрицы ранга $\le r$.
+	\end{solution}
+	\begin{enumerate}
+	\item Интересует сходимость к нужному множеству
+	\item Выбор норм тоже интересен
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Предварительные утверждения}
+	$\bfY = (\Pi_\calH \circ \Pi_{\calM_r})^I (\bfX)$, $\Pi_\calH$ --- проектор на ганкелевы матрицы, $\Pi_{\calM_r}$ --- проектор на матрицы ранга $\le r$ по норме $||\cdot||$.
+	
+    \vspace{0.3cm}
+	$\calH$ --- линейное подпространство. $\calM_r$ --- ни линейное, ни выпуклое множество. Тем не менее, $\calM_r$ замкнуто относительно умножения на константу, т.е. если $\bfZ \in \calM_r$, то $a \bfZ \in \calM_r$ для любого $a \in \sfR$.
+	\begin{proposition}
+		Пусть $\calX$ --- гильбертово пространство, $\calM \subset \calX$ --- замкнутое относительно умножения на константу подпространство, $\Pi_\calM$ --- проектор на $\calM$. Тогда для любого $x \in \calX$ выполнена теорема Пифагора: $\|x\|^2~=~\|x~-~\Pi_\calM x\|^2~+~\|\Pi_\calM x\|^2$.
+	\end{proposition}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Доказательство утверждения}
+	\begin{proposition}
+		Пусть $\calX$ --- гильбертово пространство, $\calM \subset \calX$ --- замкнутое относительно умножения на константу подпространство, $\Pi_\calM$ --- проектор на $\calM$. Тогда для любого $x \in \calX$ выполнена теорема Пифагора: $\|x\|^2~=~\|x~-~\Pi_\calM x\|^2~+~\|\Pi_\calM x\|^2$.
+	\end{proposition}
+	
+	\begin{proof}
+	По условию, множество $\calM$ можно представить как $\calM = \bigcup\limits_{l \in \calL}l$, где $\calL$ это множество всех прямых, лежащих в $\calM$ и проходящих через $0$. Тогда проекцию можно описать так: вначале мы выбираем прямую $l$ такую, что $\dist(x, l) \rightarrow \min\limits_{l \in \calL}$; далее, $y = \Pi_\calM x$ --- ортогональная проекция $x$ на прямую $l$, которая является линейным подпространством.
+	\end{proof}	
+\end{frame}
+
+\begin{frame}
+	\frametitle{Замкнутость $\calM_r$}
+	\begin{proposition} \small
+		Множество матриц ранга $\le r$ $\calM_r$ замкнуто в топологии, порожденной фробениусовской нормой.
+	\end{proposition}
+	
+	\begin{proof} \small
+		Рассмотрим функцию-``индикатор'' $f: \sfR^{L \times K} \to \sfR$, определенную как \begin{equation*}
+		f(\bfX) = \sum_{\bfU \in \sfU(\bfX)} |\det(\bfU)|,
+		\end{equation*}
+		где $\sfU(\bfX)$ --- множество всевозможных квадратных подматриц порядка $r+1$ матрицы $\bfX$. Заметим, что $f$ --- непрерывная, и $\bfX \in \calM_r \Leftrightarrow f(\bfX) = 0$.
+		
+		$\bfX_1, \bfX_2, \ldots$ --- сходящаяся последовательность, $\bfX_k \in \calM_r$ $\forall k$, $\bfX'$ --- ее предел. Тогда $f(\bfX_k) = 0$ $\forall k$; используя непрерывность $f$, получаем $f(\bfX') = 0$.
+	\end{proof}	
+\end{frame}
+
+\subsection{Нормы и алгоритмы}
+\begin{frame}
+	\frametitle{Стандартное решение}
+	$\bfY$: $||\bfX - \bfY||_? \to \min$, $\bfY \in \calH \cap \calM_r$, где $\calH$ --- множество ганкелевых матриц, $\calM_r$ --- матрицы ранга $\le r$.
+	
+	\begin{solution}
+		
+		Переменные проекции: 
+		\begin{equation*}
+		\bfY = (\Pi_\calH \circ \Pi_{\calM_r})^I (\bfX),
+		\end{equation*}
+		$\Pi_\calH$ --- проектор на ганкелевы матрицы, $\Pi_{\calM_r}$ --- проектор на матрицы ранга $\le r$.
+	\end{solution}
+	
+	$\Pi_\calH$ и $\Pi_{\calM_r}$ зависят от $||\cdot||_?$. Варианты:
+	\begin{enumerate}
+		\item $||\bfX||_M^2 = \sum_{l = 1}^L \sum_{k = 1}^K m_{l, k} (x_{l, k})^2$, все $m_{l, k} \ge 0$
+		\item Частный случай предыдущего пункта: $m_{l, k} = 1$.
+		\item $||\bfX||_\bfC^2 = \text{tr}(\bfX \bfC \bfX^\rmT)$, $\bfC$ --- симметричная, неотрицательно определенная матрица порядка $K \times K$.
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Эквивалентность скалярных произведений и норм}
+	
+	\begin{enumerate}
+		\item $<\tsX, \tsY>_q = \sum_{i=1}^N q_i x_i  y_i$
+		\item $<\bfX, \bfY>_M = \sum_{l = 1}^L \sum_{k = 1}^K m_{l, k} x_{l, k} y_{l, k}$
+		\item $<\bfX, \bfY>_\bfC = \text{tr}(\bfX \bfC \bfY^\rmT)$.
+	\end{enumerate}
+	\begin{proposition}
+		1. Пусть $\bfX = \calT(\tsX)$,  $\bfY = \calT(\tsY)$. Тогда $<\tsX,\tsY>_q= <\bfX,\bfY>_M$ тогда и только тогда, когда
+		\begin{equation*}
+		q_i = \sum_{\substack{1 \le l \le L \\ 1 \le k \le K \\ l+k-1=i}} m_{l,k}.
+		\end{equation*}
+		
+		2. Для диагональной матрицы $\bfC$, $<\bfX,\bfY>_M= <\bfX,\bfY>_\bfC$ тогда и только тогда, когда
+		\begin{equation*}
+		m_{l,k}=c_{k,k}.
+		\end{equation*}
+	\end{proposition}
+	
+\end{frame}
+
+\begin{frame}
+	\frametitle{Проектор $\Pi_{\calM_r}$}
+	Варианты:
+	\begin{enumerate}
+		\item $||\bfX||_M$, все $m_{l, k} = 1$: через стандартное SVD-разложение. $\Pi_{\calM_r}(\bfX) = \bfU \Sigma_r \bfV^T$, где $\bfX = \bfU \Sigma \bfV^T$.
+		\vspace{0.2cm}
+		\item $||\bfX||_M$, общий случай: EM-подобный алгоритм.
+		\vspace{0.2cm}
+		\item $||\bfX||_\bfC$: косоугольное SVD-разложение. $\bfC = \bfO_{\bfC}^T \bfO_\bfC$, $\bfB = \bfX \bfO_{\bfC}^T$, $\Pi_{\calM_r}^\bfC(\bfX) = \Pi_{\calM_r}(\bfB)(\bfO_{\bfC}^T)^\dagger$.
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Проектор $\Pi_{\calH}$}
+	Варианты:
+	\begin{enumerate}
+		\item $||\bfX||_M$, $m_{l,k}$ на побочных диагоналях равны, в частности $m_{l, k} = 1$: диагональное усреднение.
+		\begin{equation*}
+		\bfX = \Pi_{\calH}(\bfY), \quad x_{l,k} = \sum_{i + j = l + k} y_{i, j} / w_{l + k - 1}.
+		\end{equation*}
+		\item $||\bfX||_\bfS$, $\bfS$ --- диагональная: взвешенное диагональное усреднение с весами $s_{i, i}$, где $\bfS = (s_{i, j})$.
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Варианты алгоритма Cadzow}
+	$||\bfX||^2_M =  \sum_{l = 1}^L \sum_{k = 1}^K m_{l, k}$
+	\begin{enumerate}
+		\item Все $m_{l, k} = 1$ --- базовый алгоритм Cadzow ($\Pi_{\calM_r}$ --- обычный SVD, $\Pi_\calH$ --- диаг. усреднение).
+		\begin{thnote}
+			Эквивалентные веса базового алгоритма:
+			\begin{equation*}
+			q_i = w_i = \begin{cases}
+			i & \text{для $i = 1, \ldots, L-1,$}\\
+			L & \text{для $i = L, \ldots, K,$}\\
+			N - i + 1 & \text{для $i = K + 1, \ldots, N,$}
+			\end{cases} \qquad.
+			\end{equation*}
+			что не всегда естественно.
+		\end{thnote}
+		\item $||\bfX||_M$, $m_{l, k} = 1 / w_{l + k - 1}$ --- Weighted Cadzow ($\Pi_{\calM_r}$ --- EM, $\Pi_\calH$ --- диаг. усреднение). Для него все $q_i$ = 1.
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Варианты Cadzow с косоугольным SVD}
+	$||\bfX||_\bfC^2 = \text{tr}(\bfX \bfC \bfX^\rmT)$
+	\begin{enumerate}
+		\item $\bfC = \text{diag}(1, \alpha, \alpha, \ldots, \alpha, 1, \alpha, \ldots, 1)$,
+		где единицы стоят на $1$, $L + 1$, $2L + 1$, \ldots , $K$ месте, $0 \le \alpha \le 1$ (Cadzow($\alpha$))
+		\begin{theorem}
+			Эквивалентные веса алгоритма Cadzow($\alpha$):
+			\begin{equation*}
+			q_i = \begin{cases}
+			1 + (i - 1) \alpha & \text{для $i = 1, \ldots, L-1,$}\\
+			1 + (L - 1) \alpha & \text{для $i = L, \ldots, K-1,$}\\
+			1 + (N - i) \alpha & \text{для $i = K, \ldots, N.$}
+			\end{cases}
+			\end{equation*}
+		\end{theorem}
+		\item $\hat \bfC = \text{diag}(C)$, где $C$ --- усреднение матрицы $\bfM$, примененной в алгоритме Weighted Cadzow, по столбцам (Hat-Cadzow).
+	\end{enumerate}
+	
+	$\Pi_{\calM_r}$ --- косоугольное SVD, $\Pi_\calH$ --- взвешенное диаг. усреднение
+\end{frame}
+
+\begin{frame}
+	\frametitle{Различные проблемы}
+	\begin{itemize}
+		\item Базовый алгоритм Cadzow --- имеет $q_i$, далекие от оптимальных
+		\item Weighted Cadzow --- работает долго, так как использует итерационный EM-алгоритм для проектирования на множество матриц ранга $\le r$
+		\item Cadzow($\alpha$) с косоугольным SVD: при $\alpha = 0$~--- вообще нет сходимости к нужному множеству, $\alpha \approx 0$, $\alpha > 0$: медленно сходится, проблемы со слабой разделимостью, требуется, чтобы $N$ было кратно $L$
+	\end{itemize}
+	\begin{equation*}
+	\alpha = 0 \implies \bfC = \text{diag}(1, 0, 0, \ldots, 0, 1, 0, \ldots, 1) \quad \text{--- }
+	\end{equation*}
+	вырожденная матрица
+\end{frame}
+
+%\section{Алгоритм Cazdow}
+
+%\begin{frame}
+%    \frametitle{Базовый алгоритм Cadzow}
+%    \small{
+%    \begin{enumerate}
+%    \item Биективное отображение $\calT$ на множество траекторных матриц:
+%\begin{equation*}
+%\calT(\tsX) = \bfX, \quad \bfX = \begin{pmatrix}
+%x_1 & x_2 & \cdots & x_K \\ 
+%x_2 & \iddots & \iddots & x_{K+1} \\ 
+%\vdots & \iddots & \vdots & \vdots \\ 
+%x_L & x_{L+1} & \cdots & x_N
+%\end{pmatrix} 
+%\end{equation*}
+%    \item Проектор на множество матриц неполного ранга во фробениусовой норме %$\Pi_{\calM_r}: \sfR^{L \times K} \rightarrow \calM_r$ (SVD-разложение).
+%    \item Проектор на множество ганкелевых матриц $\Pi_{\calH}$ (диагональное усреднение):
+%    \begin{equation*}
+%    \bfX = \Pi_{\calH}(\bfY), \quad x_{l,k} = \sum_{i + j = l + k} y_{i j} / w_{l + k - %1}.
+%    \end{equation*}
+%        \item Сам алгоритм: $\tilde \tsX$ = $\calT^{-1}(\Pi^M(\calT(\tsX)))$, $\Pi = %\Pi_{\calH} \circ \Pi_{\calM_r}$.
+%    \end{enumerate}}
+%\end{frame}
+
+\subsection{Алгоритм Extended Cadzow}
+
+%\begin{frame}
+%    \frametitle{Траекторная псевдоматрица}
+%    \small{
+%     Cadzow: $\tsY$ = $\calT^{-1}((\Pi_\calH \circ \Pi_{\calM_r})^I(\calT(\tsX)))$.
+%    \vspace{0.4cm}
+
+%\structure{Траекторная псевдоматрица} $\calX$ ряда $\tsX$: $\calX(i, j) = x_{i+j-L}$, $(i,j) \in %\text{supp} \calX$, $\text{supp} \calX = \{(i,j) | 1 \le i \le L,\ 1 \le i+j-L \le N\}$.
+%    \begin{equation*}
+%    \calX = \begin{pmatrix}
+%     &  &  & x_1 & x_2 & \cdots & x_K & x_{K+1} & \cdots & x_N \\ 
+%     &  & \iddots & x_2 & x_3 & \iddots & x_{K+1} & \iddots & \iddots &  \\ 
+%     & x_1 & \iddots & \iddots & \iddots & \iddots & \iddots & x_N &  &  \\ 
+%    x_1 & x_2 & \cdots & x_L & x_{L+1} & \cdots & x_N &  &  & 
+%    \end{pmatrix}.
+%    \end{equation*}
+
+%}
+%\end{frame}
+
+\begin{frame}
+	\frametitle{Алгоритм Extended Cadzow}
+	\begin{equation*}
+	\calX = \begin{pmatrix}
+	&  &  & x_1 & x_2 & \cdots & x_K & x_{K+1} & \cdots & x_N \\ 
+	&  & \iddots & x_2 & x_3 & \iddots & x_{K+1} & \iddots & \iddots &  \\ 
+	& x_1 & \iddots & \iddots & \iddots & \iddots & \iddots & x_N &  &  \\ 
+	x_1 & x_2 & \cdots & x_L & x_{L+1} & \cdots & x_N &  &  & 
+	\end{pmatrix}.
+	\end{equation*}
+	\begin{enumerate}
+		\item $q_i = 1$, $i = 1, \ldots, N$, но задача несколько иная
+		\item $\tilde \calT$ : $\tilde \calT(\tsX) = \calX$ --- биекция между рядами и матрицами с пропусками.
+		\item Проектор на множество матриц неполного ранга $\Pi_{\widetilde \calM_r}$ (EM-алгоритм).
+		\item Проектор на множество траекторных псевдоматриц $\Pi_\gX$ (диагональное усреднение).
+		\item Сам алгоритм: $\tsY = \tilde \calT^{-1}((\Pi_\gX \circ \Pi_{\widetilde \calM_r})^I (\tilde \calT(\tsX)))$.
+	\end{enumerate}
+\end{frame}
+\section{Эксперименты}
+\begin{frame}
+	\frametitle{Пример №1 (одна итерация)}
+	Задача оценки сигнала: $N = 40$, $L = 20$, $r = 2$, $\tsX = (x_{1}, \ldots, x_N),$  $x_k = 5\sin{\frac{2 k \pi}{6}}$.
+	\begin{center}
+		\includegraphics*[width = 9cm]{s1_it1.pdf}
+	\end{center}
+	
+	
+\end{frame}
+
+\begin{frame}
+	\frametitle{Пример №2 (много итераций)}
+	Задача оценки сигнала: $N = 40$, $L = 20$, $r = 2$, $\tsX = (x_{1}, \ldots, x_N),$  $x_k = 5\sin{\frac{2 k \pi}{6}}$.
+	
+	\begin{center}
+		\includegraphics*[width = 9cm]{s1_it100.pdf}
+	\end{center}
+	
+\end{frame}
+
+\begin{frame}
+	\frametitle{Пример №3}
+	Сходимость алгоритма: $N = 40$, $L_1 = 8$, $L_2 = 20$, $r = 2$, $\tsX = (x_{1}, \ldots, x_N),$  $x_k = 5\sin{\frac{2 k \pi}{6}}$.
+	
+	\begin{center}
+		\includegraphics*[width = 9cm]{cadzowspeed_2.pdf}
+	\end{center}
+	
+\end{frame}
+\section{Итоги}
+
+%\begin{frame}
+%  \frametitle{Выводы}
+%  Рассмотрен широкий класс алгоритмов, проведено сравнение на модельном примере:
+%  \begin{itemize}
+%  \item Доказана сходимость по подпоследовательностям для всех алгоритмов
+%  \item Единичные веса достигаются только на алгоритмах с вложенными итерациями (Extended, Weighted Cadzow), которые являются медленными.
+%  \item Алгоритмы с более близкими к единичным весами дают лучшую аппроксимацию в пределе, но медленее сходятся и имеют проблемы с разделимостью:
+%  
+%  Cadzow($\alpha$): малое $L$, $\alpha$ $\Rightarrow$ плохая разделимость
+%  \item Лучший метод среди всех -- Extended Cadzow. Среди методов без внутренних итераций на одной лучше всего работает Cadzow($1$) и Hat-Cadzow, в пределе --- Cadzow($0.1$)
+%  \end{itemize}
+
+%\end{frame}
+
+\begin{frame}
+	\frametitle{Выводы}\footnotesize
+	\begin{itemize}
+		\item Рассмотрен широкий класс итерац. алгоритмов решения задачи 
+		%(повторить для рядов с весами $q_i$) 
+		для оценивания сигнала $\tsY$  в модели $\tsX = \tsY + \tsN$.
+		\item Доказана сходимость по подпоследовательностям для всех алгоритмов
+		\item Единичные веса $q_i$ достигаются только на алгоритмах с вложенными итерациями (Extended, Weighted Cadzow), которые являются медленными.
+		\item  На численных примерах проведено исследование и получены следующие результаты:
+		\begin{itemize} \footnotesize
+			\item Лучший метод среди всех -- Extended Cadzow.
+			\item Алгоритмы с более близкими к единичным весами дают лучшую аппроксимацию в пределе, но медленнее сходятся и имеют проблемы с разделимостью,
+			
+			например, Cadzow($\alpha$) при маленькой  длине окна $L$ или малом параметре $\alpha$.
+			\item На одной итерации лучше всего работает Cadzow($1$) (= Singular Spectrum Analysis) и Hat-Cadzow, т.е. методы с лучшей разделимостью.
+		\end{itemize}
+	\end{itemize}
+	
+\end{frame}
+
+\end{document}
