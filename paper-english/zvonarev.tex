@@ -100,7 +100,7 @@ Generally, series governed by an LRR may be written in a parametric form
 \begin{equation} \label{parametricform}
 s_n = \sum_i P_i(n) \exp(\alpha_i n) \cos(2 \pi \omega_i n + \psi_i),
 \end{equation}
-where $P_i(n)$ are polynomials of order $n$. However, a parametric regression approach for the problem does not lead to accurate estimation of parameters due to their large amount and instability of estimators.
+where $P_i(n)$ are polynomials of $n$. However, a parametric regression approach for the problem does not lead to accurate estimation of parameters due to their large amount and instability of estimators.
 
 It is known that methods based on signal subspace estimation (subspace-based methods) works well \cite{Broomhead.King1986, Vautard.etal1992, Elsner.Tsonis1996, Golyandina.etal2001}. These subspace-based methods use the following approach. Let us fix a window length $L$, $1 \le L \le N$, set $K = N - L + 1$, and build the trajectory matrix for the series $\tsS$:
 \begin{equation*}
@@ -171,7 +171,7 @@ Note that the projection to $\calM_r$ can not be defined uniquely, but further w
 	Let $\calX$ be Hilbert space, $\calM \subset \calX$ be a subset closed with respect to scalar multiplication, $\Pi_\calM$ be the projection operator to $\calM$. Then for any $x \in \calX$ the Pythagorean theorem is true: $\|x\|^2~=~\|x~-~\Pi_\calM x\|^2~+~\|\Pi_\calM x\|^2$.
 \end{proposition}
 \begin{proof}
-	By conditions, the set $\calM$ can be represented as $\calM = \bigcup\limits_{l \in \calL}l$, where $\calL$ is the set of all lines lying in $\calM$ and passing through $0$. Then the projection can be described as follows: to begin with, we choose a line $l$ such that $\dist(x, l) \rightarrow \min\limits_{l \in \calL}$; then, $y = \Pi_\calM x$ is the orthogonal projection of $x$ to the line $l$, which is a linear subspace. Hence, proposition is proved.
+	By conditions, the set $\calM$ can be represented as $\calM = \bigcup\limits_{l \in \calL}l$, where $\calL$ is the set of all lines lying in $\calM$ and passing through $0$. Then the projection can be described as follows: to begin with, we choose a line $l$ such that $\dist(x, l) \rightarrow \min\limits_{l \in \calL}$; then, $y = \Pi_\calM x$ is the orthogonal projection of $x$ to the line $l$, which is a linear subspace. Hence, the proposition is proved.
 \end{proof}
 
 The iterative method of alternating projections for the problem \eqref{eq:gen_task} is given by the following iteration step:
@@ -856,7 +856,7 @@ Equal weights were achieved by using inner iterations, which converge to a local
 
 Convergence of outer iterations by subsequences was proved for the reviewed class of algorithms.
 
-Comparison of the considered methods by accuracy and convergence rate was performed by simulation on the example of a noisy sine-wave signal. The simulation results confirmed the theoretical results. It appears that time-series weights, which are closer to one, provides in the limit more time-consuming and simultaneously more accurate methods.
+Comparison of the considered methods by accuracy and convergence rate was performed by simulation on the example of a noisy sine-wave signal. The simulation results confirmed the theoretical results. It appears that time-series weights, which are closer to equal ones, provides in the limit more time-consuming and simultaneously more accurate methods.
 Also, the simulations confirm that the convergence rate is in accordance with the separability rate. Therefore, for the methods without inner iterations,
 there is the correspondence between slow convergence, poor separability,
 inaccurate approximation at the first one iteration and high accuracy in the limit; and vice verse.
