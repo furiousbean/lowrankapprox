@@ -260,22 +260,24 @@
 
 \begin{frame}
 	\frametitle{Эквивалентность скалярных произведений и норм}
-	
 	\begin{enumerate}
 		\item $<\tsX, \tsY>_q = \sum_{i=1}^N q_i x_i  y_i$
 		\item $<\bfX, \bfY>_M = \sum_{l = 1}^L \sum_{k = 1}^K m_{l, k} x_{l, k} y_{l, k}$
 		\item $<\bfX, \bfY>_\bfC = \text{tr}(\bfX \bfC \bfY^\rmT)$.
 	\end{enumerate}
 	\begin{proposition}
-		1. Пусть $\bfX = \calT(\tsX)$,  $\bfY = \calT(\tsY)$. Тогда $<\tsX,\tsY>_q= <\bfX,\bfY>_M$ тогда и только тогда, когда
+		\small
+	    \begin{enumerate}
+		\item Пусть $\bfX = \calT(\tsX)$,  $\bfY = \calT(\tsY)$. Тогда $<\tsX,\tsY>_q= <\bfX,\bfY>_M$ тогда и только тогда, когда
 		\begin{equation*}
 		q_i = \sum_{\substack{1 \le l \le L \\ 1 \le k \le K \\ l+k-1=i}} m_{l,k}.
 		\end{equation*}
 		
-		2. Для диагональной матрицы $\bfC$, $<\bfX,\bfY>_M= <\bfX,\bfY>_\bfC$ тогда и только тогда, когда
+		\item Для диагональной матрицы $\bfC$, $<\bfX,\bfY>_M= <\bfX,\bfY>_\bfC$ тогда и только тогда, когда
 		\begin{equation*}
 		m_{l,k}=c_{k,k}.
 		\end{equation*}
+	    \end{enumerate}
 	\end{proposition}
 	
 \end{frame}
@@ -284,11 +286,11 @@
 	\frametitle{Проектор $\Pi_{\calM_r}$}
 	Варианты:
 	\begin{enumerate}
-		\item $||\bfX||_M$, все $m_{l, k} = 1$: через стандартное SVD-разложение. $\Pi_{\calM_r}(\bfX) = \bfU \Sigma_r \bfV^T$, где $\bfX = \bfU \Sigma \bfV^T$.
+		\item $||\bfX||_M$, все $m_{l, k} = 1$: через стандартное SVD-разложение. $\Pi_{\calM_r}(\bfX) = \bfU \Sigma_r \bfV^\rmT$, где $\bfX = \bfU \Sigma \bfV^\rmT$.
 		\vspace{0.2cm}
 		\item $||\bfX||_M$, общий случай: EM-подобный алгоритм.
 		\vspace{0.2cm}
-		\item $||\bfX||_\bfC$: косоугольное SVD-разложение. $\bfC = \bfO_{\bfC}^T \bfO_\bfC$, $\bfB = \bfX \bfO_{\bfC}^T$, $\Pi_{\calM_r}^\bfC(\bfX) = \Pi_{\calM_r}(\bfB)(\bfO_{\bfC}^T)^\dagger$.
+		\item $||\bfX||_\bfC$: косоугольное SVD-разложение. $\bfC = \bfO_{\bfC}^\rmT \bfO_\bfC$, $\bfB = \bfX \bfO_{\bfC}^\rmT$, $\Pi_{\calM_r}^\bfC(\bfX) = \Pi_{\calM_r}(\bfB)(\bfO_{\bfC}^\rmT)^\dagger$.
 	\end{enumerate}
 \end{frame}
 
@@ -300,7 +302,7 @@
 		\begin{equation*}
 		\bfX = \Pi_{\calH}(\bfY), \quad x_{l,k} = \sum_{i + j = l + k} y_{i, j} / w_{l + k - 1}.
 		\end{equation*}
-		\item $||\bfX||_\bfS$, $\bfS$ --- диагональная: взвешенное диагональное усреднение с весами $s_{i, i}$, где $\bfS = (s_{i, j})$.
+		\item $||\bfX||_\bfC$, $\bfC$ --- диагональная: взвешенное диагональное усреднение с весами $c_{i, i}$, где $\bfC = (c_{i, j})$.
 	\end{enumerate}
 \end{frame}
 
@@ -347,64 +349,6 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Различные проблемы}
-	\begin{itemize}
-		\item Базовый алгоритм Cadzow --- имеет $q_i$, далекие от оптимальных
-		\item Weighted Cadzow --- работает долго, так как использует итерационный EM-алгоритм для проектирования на множество матриц ранга $\le r$
-		\item Cadzow($\alpha$) с косоугольным SVD: при $\alpha = 0$~--- вообще нет сходимости к нужному множеству, $\alpha \approx 0$, $\alpha > 0$: медленно сходится, проблемы со слабой разделимостью, требуется, чтобы $N$ было кратно $L$
-	\end{itemize}
-	\begin{equation*}
-	\alpha = 0 \implies \bfC = \text{diag}(1, 0, 0, \ldots, 0, 1, 0, \ldots, 1) \quad \text{--- }
-	\end{equation*}
-	вырожденная матрица
-\end{frame}
-
-%\section{Алгоритм Cazdow}
-
-%\begin{frame}
-%    \frametitle{Базовый алгоритм Cadzow}
-%    \small{
-%    \begin{enumerate}
-%    \item Биективное отображение $\calT$ на множество траекторных матриц:
-%\begin{equation*}
-%\calT(\tsX) = \bfX, \quad \bfX = \begin{pmatrix}
-%x_1 & x_2 & \cdots & x_K \\ 
-%x_2 & \iddots & \iddots & x_{K+1} \\ 
-%\vdots & \iddots & \vdots & \vdots \\ 
-%x_L & x_{L+1} & \cdots & x_N
-%\end{pmatrix} 
-%\end{equation*}
-%    \item Проектор на множество матриц неполного ранга во фробениусовой норме %$\Pi_{\calM_r}: \sfR^{L \times K} \rightarrow \calM_r$ (SVD-разложение).
-%    \item Проектор на множество ганкелевых матриц $\Pi_{\calH}$ (диагональное усреднение):
-%    \begin{equation*}
-%    \bfX = \Pi_{\calH}(\bfY), \quad x_{l,k} = \sum_{i + j = l + k} y_{i j} / w_{l + k - %1}.
-%    \end{equation*}
-%        \item Сам алгоритм: $\tilde \tsX$ = $\calT^{-1}(\Pi^M(\calT(\tsX)))$, $\Pi = %\Pi_{\calH} \circ \Pi_{\calM_r}$.
-%    \end{enumerate}}
-%\end{frame}
-
-\subsection{Алгоритм Extended Cadzow}
-
-%\begin{frame}
-%    \frametitle{Траекторная псевдоматрица}
-%    \small{
-%     Cadzow: $\tsY$ = $\calT^{-1}((\Pi_\calH \circ \Pi_{\calM_r})^I(\calT(\tsX)))$.
-%    \vspace{0.4cm}
-
-%\structure{Траекторная псевдоматрица} $\calX$ ряда $\tsX$: $\calX(i, j) = x_{i+j-L}$, $(i,j) \in %\text{supp} \calX$, $\text{supp} \calX = \{(i,j) | 1 \le i \le L,\ 1 \le i+j-L \le N\}$.
-%    \begin{equation*}
-%    \calX = \begin{pmatrix}
-%     &  &  & x_1 & x_2 & \cdots & x_K & x_{K+1} & \cdots & x_N \\ 
-%     &  & \iddots & x_2 & x_3 & \iddots & x_{K+1} & \iddots & \iddots &  \\ 
-%     & x_1 & \iddots & \iddots & \iddots & \iddots & \iddots & x_N &  &  \\ 
-%    x_1 & x_2 & \cdots & x_L & x_{L+1} & \cdots & x_N &  &  & 
-%    \end{pmatrix}.
-%    \end{equation*}
-
-%}
-%\end{frame}
-
-\begin{frame}
 	\frametitle{Алгоритм Extended Cadzow}
 	\begin{equation*}
 	\calX = \begin{pmatrix}
@@ -422,6 +366,78 @@
 		\item Сам алгоритм: $\tsY = \tilde \calT^{-1}((\Pi_\gX \circ \Pi_{\widetilde \calM_r})^I (\tilde \calT(\tsX)))$.
 	\end{enumerate}
 \end{frame}
+
+\begin{frame}
+	\frametitle{Пример весов ряда ($N = 40$, $L = 8$)}
+	\begin{center}
+		\includegraphics*[width = 10cm]{weights.pdf}
+	\end{center}
+	
+	
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Различные проблемы}
+	\begin{itemize}
+		\item Базовый алгоритм Cadzow --- имеет $q_i$, далекие от оптимальных
+		\item Weighted, Extended Cadzow --- работает долго, так как использует итерационный EM-алгоритм для проектирования на множество матриц ранга $\le r$
+		\item Cadzow($\alpha$) с косоугольным SVD: при $\alpha = 0$~--- вообще нет сходимости к нужному множеству, $\alpha \approx 0$, $\alpha > 0$: медленно сходится, проблемы со слабой разделимостью, требуется, чтобы $N$ было кратно $L$
+	\end{itemize}
+	\begin{equation*}
+	\alpha = 0 \implies \bfC = \text{diag}(1, 0, 0, \ldots, 0, 1, 0, \ldots, 1) \quad \text{--- }
+	\end{equation*}
+	вырожденная матрица
+\end{frame}
+
+\section{Слабая разделимость}
+\begin{frame} \small
+	\frametitle{Слабая разделимость в косоугольном случае}
+ $\bfC \in \sfR^{K \times K}$ --- симметричная неотрицательно определенная, $\tsX_1$ и $\tsX_2$~--- два временных ряда длины $N$, $\bfX^1$, $\bfX^2$ --- их траекторные матрицы. Определим \emph{коэффициент корреляции $i$-го и $j$-го столбца}:
+\begin{equation*}
+\rho^c_{i,j} = \frac{(X^1_i, X^2_j)}{\|X^1_i\| \|X^2_j\|},
+\end{equation*}
+где $X^k_i$ --- $i$-й столбец матрицы $\bfX^k$, $k = 1, 2$. 
+
+\emph{Коэффициент корреляции $i$-й и $j$-й строчки}:
+\begin{equation*}
+\rho^r_{i,j} = \frac{(X^{1,i}, X^{2,j})_\bfC}{\|X^{1,i}\|_\bfC \|X^{2,j}\|_\bfC},
+\end{equation*}
+где $X^{k,i}$ --- $i$-я строка матрицы $\bfX^k$, $k = 1, 2$, а $(\cdot, \cdot)_\bfC$ --- косоугольное скалярное произведение в $\sfR^K$, порожденное матрицей $\bfC$: $(X, Y)_\bfC = X \bfC Y^\sfT$ (здесь $X$, $Y$ --- вектор-строчки), $\| \cdot \|_\bfC$ --- соответствующая норма.
+\end{frame}
+
+\begin{frame}
+	\frametitle{Слабая разделимость гармоники и константы}
+	\begin{definition}
+		Скажем, что ряды $\tsX_1$ и $\tsX_2$ \emph{слабо $\varepsilon$-разделимы} если
+		\begin{equation*}
+			\rho = \max\Big(\max_{1 \le i,j \le K}|\rho^c_{i,j}|, \max_{1 \le i,j \le L}|\rho^r_{i,j}|\Big) < \varepsilon.
+		\end{equation*}
+	\end{definition}
+	Интересует порядок $\varepsilon$ при $N \to \infty$, если брать первые $N$ точек бесконечного ряда.
+	
+	Будем рассматривать $\tsX_1^\infty = (\cos(2 \pi \omega k), k = 1, 2, \ldots)$ и $\tsX_2^\infty = (c, c, \ldots)$ при $L, K \to \infty$, где $N = L + K - 1$.
+	
+	\vspace{0.3cm}
+	Известный результат: когда $\bfC$ --- единичная матрица, то $\varepsilon$ имеет порядок $1/\min(L,K)$.
+\end{frame}
+
+\begin{frame}
+\begin{proposition}
+	\frametitle{Слабая разделимость: новые результаты}
+	Пусть $\tsX_1^\infty = (\cos(2 \pi \omega k), k = 1, 2, \ldots)$, где $0<\omega <0.5$ --- синусоида, $\tsX_2^\infty = (c, c, \ldots)$ --- константа,  $L,K \to \infty$ так, что $h = h_L = N/L$, где $N=L+K-1$, целое, и $\bfC=\bfC(\alpha)$ диагональная с диагональными элементами (алгоритм Cadzow($\alpha$)):
+	\begin{equation*}
+	c_k = \begin{cases}
+	1, & \text{если} \quad k = jL+1 \quad \text{для некоторых} \ j = 0, \ldots, h-1,\\
+	\alpha, & \text{в противном случае},
+	\end{cases}
+	\end{equation*}
+	где $0 \le \alpha \le 1$. Тогда $\rho$ имеет порядок $\max\left(\frac{1}{L}, \frac{(1-\alpha)C_{L,K}+\alpha}{(1-\alpha)N/L+\alpha K}\right)$, где порядок $C_{L,K}$
+	может меняться от $O(1)$ to $O(N/L)$ в зависимости от того, как $K$ стремится к бесконечности.
+	\end{proposition}
+    \small При $\alpha \approx 0$, $C_{L, K} = O(1)$: оптимальное $L \approx \sqrt{N}$, а $\rho$ имеет порядок $ 1/\sqrt{N}$.
+\end{frame}
+ 
 \section{Эксперименты}
 \begin{frame}
 	\frametitle{Пример №1 (одна итерация)}
