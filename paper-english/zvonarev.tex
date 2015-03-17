@@ -133,8 +133,9 @@ w_i = \begin{cases}
 i & \text{for $i = 1, \ldots, L-1,$}\\
 L & \text{for $i = L, \ldots, K,$}\\
 N - i + 1 & \text{for $i = K + 1, \ldots, N.$}
-\end{cases}.
+\end{cases},
 \end{equation}
+and $\bfY$ is the corresponding trajectory matrix for the series $\tsY$.
 
 Weights at both ends of the series are smaller than that in the center, i.e. the ordinary least-square problem \eqref{introd_task} for matrices corresponds to a weighted least-squares problem for series.
 
@@ -154,7 +155,7 @@ The paper is summarized and conclusions are drawn in Section~\ref{sec:concl}. Su
 Consider a problem of approximation of a matrix $\bfX$ by a Hankel rank-deficient matrix with respect to some (semi)norm $\|\cdot\|$. Define by $\spaceR^{L\times K}$ the space of matrices of size $L \times K$, $\calM_r\subset \spaceR^{L\times K}$ is the set of matrices of rank not larger than $r$,
 $\calH \subset \spaceR^{L\times K}$ is the set of Hankel matrices.
 Note that  $\calM_r$ is neither a linear, nor convex set. However, $\calM_r$ is closed with respect to scalar multiplication, i.e.
-if $\bfZ\in \calM_r$, then $a\bfZ\in \calM_r$ for any $a$.
+if $\bfZ\in \calM_r$, then $a\bfZ\in \calM_r$ for any $a$. This fact is crucial for the proof of the following theorem.
 The space $\calH$ is linear.
 
 The problem is
@@ -171,7 +172,7 @@ Note that the projection to $\calM_r$ can not be defined uniquely, but further w
 	Let $\calX$ be Hilbert space, $\calM \subset \calX$ be a subset closed with respect to scalar multiplication, $\Pi_\calM$ be the projection operator to $\calM$. Then for any $x \in \calX$ the Pythagorean theorem is true: $\|x\|^2~=~\|x~-~\Pi_\calM x\|^2~+~\|\Pi_\calM x\|^2$.
 \end{proposition}
 \begin{proof}
-	By conditions, the set $\calM$ can be represented as $\calM = \bigcup\limits_{l \in \calL}l$, where $\calL$ is the set of all lines lying in $\calM$ and passing through $0$. Then the projection can be described as follows: to begin with, we choose a line $l$ such that $\dist(x, l) \rightarrow \min\limits_{l \in \calL}$; then, $y = \Pi_\calM x$ is the orthogonal projection of $x$ to the line $l$, which is a linear subspace. Hence, the proposition is proved.
+	By conditions, the set $\calM$ can be represented as $\calM = \bigcup\limits_{l \in \calL}l$, where $\calL$ is the set of all lines lying in $\calM$ and passing through $0$. Then the projection can be described as follows: to begin with, we choose a line $l$ such that $\dist(x, l) \rightarrow \min\limits_{l \in \calL}$; then, $y = \Pi_\calM x$ is the orthogonal projection of $x$ to the line $l$, which is a linear subspace, therefore, $x-y$ is orthogonal to the $y$. Hence, the proposition is proved.
 \end{proof}
 
 The iterative method of alternating projections for the problem \eqref{eq:gen_task} is given by the following iteration step:
@@ -200,7 +201,8 @@ Consider the convergence of the sequence~\eqref{eq:iter}.
 	\begin{enumerate}
 		\item According to inequalities \eqref{chuprop}, the sequences $\|\bfY_k~-~\Pi_{\calM_r} \bfY_k\|$, $k = 1, 2, \ldots$, and $\|\Pi_{\calM_r} \bfY_k - \bfY_{k + 1}\|$, $k = 1, 2, \ldots$, are non-increasing. It is obvious that they are limited below by zero. Therefore, they have the same limit $c$ due to \eqref{chuprop}.
 		
-		Let us prove that $c = 0$ assuming the opposite $c > 0$. Then there exists $d > 0$ such that $\|\bfY_k - \Pi_{\calM_r} \bfY_k\| > d$ and $\|\Pi_{\calM_r} \bfY_k - \bfY_{k + 1}\| > d$ for any $k = 1, 2, \ldots$. In accordance to Proposition~\ref{pythaprop}, the following equalities are valid:
+		Let us prove that $c = 0$ assuming the opposite $c > 0$. Then there exists $d > 0$ such that $\|\bfY_k - \Pi_{\calM_r} \bfY_k\| > d$ and $\|\Pi_{\calM_r} \bfY_k - \bfY_{k + 1}\| > d$ for any $k = 1, 2, \ldots$. In accordance to Proposition~\ref{pythaprop}, the following equality is valid: $\|\bfY_k \|^2~=~\|\bfY_k~-~\Pi_{\calM_r} \bfY_k\|^2~+~\|\Pi_{\calM_r} \bfY_k \|^2$. Since the space $\calH$ is linear, the following equality is valid too:
+		$\|\Pi_{\calM_r} \bfY_k \|^2~=\|\Pi_{\calM_r} \bfY_k~-~\Pi_\calH \Pi_{\calM_r} \bfY_k|^2~+~\|\Pi_\calH \Pi_{\calM_r} \bfY_k \|^2 = \|\Pi_{\calM_r} \bfY_k~-~\bfY_{k+1}|^2~+~\|\bfY_{k+1} \|^2$. Therefore,
 		\begin{multline*}
 		\|\bfY_k\|^2 = \|\Pi_{\calM_r} \bfY_k\|^2 + \|\bfY_k - \Pi_{\calM_r} \bfY_k\|^2 =\\ \|\bfY_k - \Pi_{\calM_r} \bfY_k\|^2 + \|\Pi_{\calM_r} \bfY_k - \bfY_{k + 1}\|^2 + \|\bfY_{k + 1}\|^2.
 		\end{multline*}
@@ -407,10 +409,10 @@ However, this particular case is of special interest, since the corresponding ap
 	\label{rem:2tasks}
 	If condition~\eqref{qi_mi} is carried out and all weights $q_i$ and $m_{i,j}$ are positive, then problem~\eqref{L-rank_task}
 	is equivalent to the problem
-	\begin{equation}
+	\begin{multline}
 	\label{rank_task}
-	f_\bfM(\bfY) \to \min_{\bfY \in \calM_r \cap \calH}, \quad f_\bfM(\bfY) = \|\bfX-\bfY\|_{1,\bfM}.
-	\end{equation}
+	f_\bfM(\bfY) \to \min_{\bfY \in \calM_r \cap \calH}, \\ f^2_\bfM(\bfY) = \|\bfX-\bfY\|^2_{1,\bfM} = \sum_{l = 1}^L \sum_{k=1}^K m_{l,k} (x_{l,k} - y_{l,k})^2.
+	\end{multline}
 \end{remark}
 
 \section{Algorithms}
@@ -767,6 +769,16 @@ We start with the investigation of the Cadzow-$\widehat\bfC$ method and a set of
 One can see that a method with a smaller limit error is the one with a slower convergence rate. For parameters involved to the simulations, the Cadzow($0.1$) method with the window length $L=8$ has the smallest limit error. At the same time, these values of parameters correspond to both the slowest convergence and the most uniform weights.
 
 Note that the limit errors do not differ strongly, they change from 0.31 ($\alpha=0.1$, $L=8$) in the best case to 0.35 ($\alpha=1$, $L=20$) in the worst case. However, error equal to 0.35 is achieved at the first iteration in the worst case, while it takes 4--5 iterations to achieve error 0.35 in the best case.
+
+\smallskip
+\begin{figure}[!hhh]
+	%	\begin{center}
+	\includegraphics[width = \columnwidth]{2axis.pdf}
+	\caption{RMSE and average numer of iterations depending on $\alpha$.}
+	\label{img_2axis}
+	%	\end{center}
+\end{figure}
+The same signal with $L = 20$ was taken to investigate how RMSE and convergency speed depends on $\alpha$ for Cadzow($\alpha$) algorithms. The following STOP1 criterion was taken: $\frac{\|\calT^{-1}(\bfY_k) - \calT^{-1}(\bfY_{k + 1})\|^2}{N} < 10^{-8}$. Figure~\ref{img_2axis} shows that smaller $\alpha$ leads to better estimates of the signal, but decreases the speed of algorithm.
 
 \smallskip
 Let us take the Extended and Weighted Cadzow iterations into consideration and examine the spreading of the estimation errors along the series. The maximal number of iterations equal to 100 is taken for the stop criterion STOP1 (this choice yields the error close to the limiting value); the stop criterion STOP2 for inner iterations is as follows:

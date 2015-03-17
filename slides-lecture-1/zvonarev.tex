@@ -303,6 +303,10 @@
 		\bfX = \Pi_{\calH}(\bfY), \quad x_{l,k} = \sum_{i + j = l + k} y_{i, j} / w_{l + k - 1}.
 		\end{equation*}
 		\item $||\bfX||_\bfC$, $\bfC$ --- диагональная: взвешенное диагональное усреднение с весами $c_{i, i}$, где $\bfC = (c_{i, j})$.
+		
+		\begin{equation*}
+		\bfX = \Pi_{\calH}(\bfY), \quad x_{l,k} = \frac{\sum_{i,j:\, i+j=l+k} c_{i,i} y_{i,j}}{\sum_{i,j:\, i+j=l+k} c_{i,i}}.
+		\end{equation*}
 	\end{enumerate}
 \end{frame}
 
@@ -349,6 +353,13 @@
 \end{frame}
 
 \begin{frame}
+	\frametitle{Пример весов ряда ($N = 40$, $L = 8$)}
+	\begin{center}
+		\includegraphics*[width = 10cm]{weights.pdf}
+	\end{center}	
+\end{frame}
+
+\begin{frame}
 	\frametitle{Алгоритм Extended Cadzow}
 	\begin{equation*}
 	\calX = \begin{pmatrix}
@@ -366,16 +377,6 @@
 		\item Сам алгоритм: $\tsY = \tilde \calT^{-1}((\Pi_\gX \circ \Pi_{\widetilde \calM_r})^I (\tilde \calT(\tsX)))$.
 	\end{enumerate}
 \end{frame}
-
-\begin{frame}
-	\frametitle{Пример весов ряда ($N = 40$, $L = 8$)}
-	\begin{center}
-		\includegraphics*[width = 10cm]{weights.pdf}
-	\end{center}
-	
-	
-\end{frame}
-
 
 \begin{frame}
 	\frametitle{Различные проблемы}
