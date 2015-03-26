@@ -169,10 +169,26 @@ $\Pi_{\calH}$ is the projector to $\calH$.
 Note that the projection to $\calM_r$ can not be defined uniquely, but further we suppose that in the case of ambiguity any closest value is chosen. The projector to $\calH$ is evidently orthogonal, while $\Pi_{\calM_r}$ is orthogonal due to the following proposition.
 
 \begin{proposition} \label{pythaprop}
-	Let $\calX$ be Hilbert space, $\calM \subset \calX$ be a subset closed with respect to scalar multiplication, $\Pi_\calM$ be the projection operator to $\calM$. Then for any $x \in \calX$ the Pythagorean theorem is true: $\|x\|^2~=~\|x~-~\Pi_\calM x\|^2~+~\|\Pi_\calM x\|^2$.
+	Let $\calX$ be Hilbert space, $\calM \subset \calX$ be a subset closed with respect to scalar multiplication, $\Pi_\calM$ be the projection operator to $\calM$. Then for any $x \in \calX$ the following equation (``Pythagorean theorem'') is true: $\|x\|^2~=~\|x~-~\Pi_\calM x\|^2~+~\|\Pi_\calM x\|^2$.
 \end{proposition}
+%\begin{proof}
+%	By conditions, the set $\calM$ can be represented as $\calM = \bigcup\limits_{l \in \calL}l$, where $\calL$ is the set of all lines lying in $\calM$ and passing through $0$. Then the projection can be described as follows: to begin with, we choose a line $l$ such that $\dist(x, l) \rightarrow \min\limits_{l \in \calL}$; then, $y = \Pi_\calM x$ is the orthogonal projection of $x$ to the line $l$, which is a linear subspace, therefore, $x-y$ is orthogonal to the $y$. Hence, the proposition is proved.
+%\end{proof}
+
 \begin{proof}
-	By conditions, the set $\calM$ can be represented as $\calM = \bigcup\limits_{l \in \calL}l$, where $\calL$ is the set of all lines lying in $\calM$ and passing through $0$. Then the projection can be described as follows: to begin with, we choose a line $l$ such that $\dist(x, l) \rightarrow \min\limits_{l \in \calL}$; then, $y = \Pi_\calM x$ is the orthogonal projection of $x$ to the line $l$, which is a linear subspace, therefore, $x-y$ is orthogonal to the $y$. Hence, the proposition is proved.
+	Let us define $y = \Pi_\calM x$, then:
+	\begin{gather*}
+	\|x\|^2 = \|x - y + y\|^2 = \\ \langle x - y, x - y \rangle + 2 \langle x - y, y \rangle + \langle y, y \rangle = \\ \|x - y \|^2 + \|y \|^2 + 2 \langle x - y, y \rangle.
+	\end{gather*}
+	From Proposition's statement it follows that $\langle x - y, y \rangle = 0$. Assume the contrary: $\langle x - y, y \rangle \ne 0$. Then there exists $\alpha$ such that $\langle x - \alpha y, \alpha y \rangle = \alpha \langle x - \alpha y, y \rangle = 0$: 
+	\begin{equation*}
+	\alpha = \frac{\langle x, y \rangle}{\langle y, y \rangle}.
+	\end{equation*}
+	$\alpha y$ lies in $\calM$ according to the property of $\calM$. It becomes clear that $\alpha y$ is closer to $x$ than $y$:
+	\begin{gather*}
+	\|x - y\|^2 - \|x - \alpha y\|^2 = \langle y, y \rangle - 2 \langle x, y \rangle + \frac{\langle x, y \rangle ^ 2}{\langle y, y \rangle} = \\ \frac{\langle x - y, y \rangle^2}{\langle y, y \rangle} > 0.
+	\end{gather*}
+	Hence, the contradiction with the fact that $y = \Pi_\calM x$ is the closest point to $x$ is acquired.
 \end{proof}
 
 The iterative method of alternating projections for the problem \eqref{eq:gen_task} is given by the following iteration step:
