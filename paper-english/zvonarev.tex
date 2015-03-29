@@ -976,7 +976,7 @@ and
 	In the worst case when $L\omega$ is integer we obtain that $\cos(2 \pi \omega (j + k - 1))$ is a constant not depending on $j$ and $k$, and then $C_{L,K}$ has order $O(N/L)$.
 \end{proof}
 
-Thus, even in the best case when $C_{L,K}$ has order $O(1)$, separability of sine-wave and constant signals becomes worse than in the standard Cadzow($1$) iterations: for $\alpha$ close to 0, the optimal choice for $L$ is $L \approx \sqrt{N}$ and therefore the rate of separability has order $1/\sqrt{N}$.
+Thus, even in the best case when $C_{L,K}$ has order $O(1)$, separability of sine-wave and constant signals becomes worse than in the standard Cadzow($1$) iterations: the optimal choice for $L$ is $L \approx \frac{\alpha(N + 1) + \sqrt{\alpha^2(N+1)^2 + 4N(1  - \alpha^2)}}{2(1 + \alpha)}$; for fixed $\alpha$ the rate of separability remains its order $1/N$, but in the case of smaller $\alpha(N) = O(N^{-\beta})$ rate of separability becomes equal $O(N^{\beta - 1})$ for $0 \le \beta \le 0.5$, and $O(1/\sqrt{N})$ for $\beta > 0.5$.
 In the worst case, the separability vanishes as $\alpha$ tends to zero.
 
 %\smallskip
