@@ -152,7 +152,7 @@ The paper is summarized and conclusions are drawn in Section~\ref{sec:concl}. Su
 \section{Approximation by rank-deficient Hankel matrices}
 \label{sec:lowrank_appr}
 \subsection{Common scheme of iterations}
-Consider the problem of projecting a point $x$ to a set $\calH \cap \calM$ in Hilbert space $\sfX$ with inner product $\langle \cdot, \cdot \rangle$, where $\calH$ is a closed linear subspace, $\calM$ is closed under the limit operation and also $\calM$ is closed with respect to scalar multiplication, i.e.
+Consider the problem of projecting a point $x$ to a set $\calH~ \cap~\calM$ in Hilbert space $\sfX$ with inner product $\langle \cdot, \cdot \rangle$, where $\calH$ is a closed linear subspace, $\calM$ is closed under the limit operation and also $\calM$ is closed with respect to scalar multiplication, i.e.
 if $z \in \calM$, then $\alpha z\in \calM$ for any $\alpha$. This fact is crucial for the proof of the following theorem. Note that  $\calM$ is neither  linear, nor convex set.
 
 The problem is formulated as
@@ -228,7 +228,7 @@ $\Pi_\calH$, we have $\|\Pi_{\calM} y_k - z\| \ge \|z - \Pi_{\calM} z\|$, where 
 		\|y_k\|^2 = \|\Pi_{\calM} y_k\|^2 + \|y_k - \Pi_{\calM} y_k\|^2 =\\ \|y_k - \Pi_{\calM} y_k\|^2 + \|\Pi_{\calM} y_k - y_{k + 1}\|^2 + \|y_{k + 1}\|^2.
 		\end{multline*}
 		Thus, $\|y_{k+1}\|^2 < \|y_k\|^2 - 2d^2$. Expanding this inequality by the same way, we obtain that $\|y_{k+j}\|^2 < \|y_k\|^2 - 2 j d^2$ for any $j = 1, 2, \ldots$. Choose $k = 1$, and $j = \lceil \|y_k\|^2 / (2d^2) \rceil + 1$. Then $\|y_{k+j}\|^2 < 0$, what is impossible. Thus, $c=0$.
-		\item Consider the sequence $(\Pi_{\calM} y_k,\, k = 1, 2, \ldots)$. It is bounded, since $\|\Pi_{\calM} z\| \le \|z\|$ (by Proposition \ref{prop:pythaprop}) and $\|\Pi_{\calH} z\| \le \|z\|$ for any $z \in \sfX$. Then a convergent subsequence $(\Pi_{\calM} y_{i_k})$ can be chosen; denote by $y^*\in\calM$ its limit, wherein $\|\Pi_{\calM} y_{i_k} - y_{i_k + 1}\| = \|\Pi_{\calM} y_{i_k} - \Pi_\calH \Pi_{\calM} y_{i_k}\| \to 0$ as $k \to + \infty$. Taking into consideration that $\|z - \Pi_\calH z\|$ is a composition of continuous mappings, we obtain that $\|y^* - \Pi_\calH y^*\| = 0$, $y^* \in \calM \cap \calH$. Finally, $\Pi_\calH$ is continuous mapping and therefore the sequence $(\Pi_\calH \Pi_{\calM} y_{i_k})$ converges to $y^*$. Thus, $y_{i_k + 1}$ is a required subsequence.
+		\item Consider the sequence $(\Pi_{\calM} y_k,\, k = 1, 2, \ldots)$. It is bounded, since $\|\Pi_{\calM} z\| \le \|z\|$ (by Proposition \ref{prop:pythaprop}) and $\|\Pi_{\calH} z\| \le \|z\|$ for any $z \in \sfX$. It belongs to compact set, since $\calM$ is closed with respect to scalar multiplication, and we can resize the unit ball to cover the sequence. Then a convergent subsequence $(\Pi_{\calM} y_{i_k})$ can be chosen; denote by $y^*\in\calM$ its limit, wherein $\|\Pi_{\calM} y_{i_k} - y_{i_k + 1}\| = \|\Pi_{\calM} y_{i_k} - \Pi_\calH \Pi_{\calM} y_{i_k}\| \to 0$ as $k \to + \infty$. Since the $\calH$ is closed, and $\sfX$ is a Banach space, the projector $\Pi_\calH$ is continuous mapping. Taking into consideration that $\|z - \Pi_\calH z\|$ is a composition of continuous mappings, we obtain that $\|y^* - \Pi_\calH y^*\| = 0$, $y^* \in \calM \cap \calH$. Finally, $\Pi_\calH$ is continuous mapping and therefore the sequence $(\Pi_\calH \Pi_{\calM} y_{i_k})$ converges to $y^*$. Thus, $y_{i_k + 1}$ is a required subsequence.
 	\end{enumerate}
 \end{proof}
 
