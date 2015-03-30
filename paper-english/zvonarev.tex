@@ -152,87 +152,91 @@ The paper is summarized and conclusions are drawn in Section~\ref{sec:concl}. Su
 \section{Approximation by rank-deficient Hankel matrices}
 \label{sec:lowrank_appr}
 \subsection{Common scheme of iterations}
-Consider a problem of projecting a point $x$ to the set $\calH \cap \calM$ in Hilbert space $\sfX$ with inner product $\langle \cdot, \cdot \rangle$, where $\calH$ is some closed linear subspace, $\calM$ is subset closed in topology, and also closed with respect to scalar multiplication, i.e.
-if $z \in \calM$, then $\alpha z\in \calM$ for any $\alpha$. This fact is crucial for the proof of the following theorem. Note that  $\calM$ is neither a linear, nor convex set.
+Consider the problem of projecting a point $x$ to a set $\calH \cap \calM$ in Hilbert space $\sfX$ with inner product $\langle \cdot, \cdot \rangle$, where $\calH$ is a closed linear subspace, $\calM$ is closed under the limit operation and also $\calM$ is closed with respect to scalar multiplication, i.e.
+if $z \in \calM$, then $\alpha z\in \calM$ for any $\alpha$. This fact is crucial for the proof of the following theorem. Note that  $\calM$ is neither  linear, nor convex set.
 
-The problem is
+The problem is formulated as
 \be
 \label{eq:gen_task}
 \|x - y\| \to \min_y, \mbox{\ where\ } y \in \calH \cap \calM,
 \ee
-$\|\cdot\|$ is the corresponding norm.
+where $\|\cdot\|$ is the norm corresponding to the inner product.
 
-To present the algorithm's scheme for this problem, let us introduce the projectors to the subset $\calM$ and subspace $\calH$ with respect to a norm $\|\cdot\|$: $\Pi_{\calM}$ is the projector to $\calM$,
+To present the algorithm's scheme for the solution of this problem, let us introduce the projectors to the subset $\calM$ and subspace $\calH$ with respect to the norm $\|\cdot\|$: $\Pi_{\calM}$ is the projector to $\calM$,
 $\Pi_{\calH}$ is the projector to $\calH$.
-Note that the projection to $\calM$ can be non-unique; further we suppose that in the case of ambiguity any closest point is chosen. The projector to $\calH$ is evidently orthogonal, while $\Pi_{\calM}$ is orthogonal due to the following proposition. 
+Note that if the projection to $\calM$ is not uniquely defined, then we suppose that in the case of ambiguity any closest point is chosen. 
+The projector to $\calH$ is evidently orthogonal, while $\Pi_{\calM}$ is orthogonal due to the following proposition.
 
-\begin{proposition} \label{pythaprop}
-	Let $\sfX$ be Hilbert space, $\calM \subset \sfX$ be a subset closed with respect to scalar multiplication, $\Pi_\calM$ be the projection operator to $\calM$. Then for any $x \in \sfX$ the following equation (``Pythagorean theorem'') is true: $\|x\|^2~=~\|x~-~\Pi_\calM x\|^2~+~\|\Pi_\calM x\|^2$.
+\begin{proposition} \label{prop:pythaprop}
+	Let $\sfX$ be Hilbert space, $\calM \subset \sfX$ be a subset closed with respect to scalar multiplication, $\Pi_\calM$ be the projection operator to $\calM$. Then for any $x \in \sfX$ the following equation (``Pythagorean equality'') is true: $\|x\|^2~=~\|x~-~\Pi_\calM x\|^2~+~\|\Pi_\calM x\|^2$.
 \end{proposition}
 %\begin{proof}
 %	By conditions, the set $\calM$ can be represented as $\calM = \bigcup\limits_{l \in \calL}l$, where $\calL$ is the set of all lines lying in $\calM$ and passing through $0$. Then the projection can be described as follows: to begin with, we choose a line $l$ such that $\dist(x, l) \rightarrow \min\limits_{l \in \calL}$; then, $y = \Pi_\calM x$ is the orthogonal projection of $x$ to the line $l$, which is a linear subspace, therefore, $x-y$ is orthogonal to the $y$. Hence, the proposition is proved.
 %\end{proof}
 
 \begin{proof}
-	Define $y = \Pi_\calM x$. Since 
+	Define $y = \Pi_\calM x$. Since
 	\begin{gather*}
 	\|x\|^2 = \|x - y \|^2 + \|y \|^2 + 2 \langle x - y, y \rangle,
 	\end{gather*}
     we should prove that $\langle x - y, y \rangle = 0$.
-	Assume the opposite: $\langle x - y, y \rangle \ne 0$. Then for 
+	Assume the opposite: $\langle x - y, y \rangle \ne 0$. Then for
 	\begin{equation*}
 	\alpha = \frac{\langle x, y \rangle}{\langle y, y \rangle}
 	\end{equation*}
     $\langle x - \alpha y, \alpha y \rangle = \alpha \langle x - \alpha y, y \rangle = 0$
     and  therefore $\|x - y\|^2 > \|x - \alpha y\|^2$:
 	\begin{gather*}
-	\|x - y\|^2 - \|x - \alpha y\|^2 = \\\langle y, y \rangle - 2 \langle x, y \rangle + \frac{\langle x, y \rangle ^ 2}{\langle y, y \rangle} = 
+	\|x - y\|^2 - \|x - \alpha y\|^2 = \\\langle y, y \rangle - 2 \langle x, y \rangle + \frac{\langle x, y \rangle ^ 2}{\langle y, y \rangle} =
     \frac{\langle x - y, y \rangle^2}{\langle y, y \rangle} > 0.
 	\end{gather*}
-	Since 	$\alpha y$ lies in $\calM$ according to the property of $\calM$, 
+	Since 	$\alpha y$ lies in $\calM$ according to the property of $\calM$,
     the contradiction with the fact that $y = \Pi_\calM x$ is the closest point to $x$ is acquired.
 \end{proof}
 
-Let us consider the \emph{iterative method of alternating projections} for the problem \eqref{eq:gen_task}, 
+Let us consider the \emph{iterative method of alternating projections} for the problem \eqref{eq:gen_task},
 which is given by the following iteration step:
 \be
 \label{eq:iter}
 y_{k+1}=\Pi_\calH \Pi_{\calM} y_{k}, \mbox{\ where\ } y_{0}=x.
 \ee
 
-Consider the convergence of the sequence~\eqref{eq:iter}.
+In the following theorem, we investigate convergence of the sequence~\eqref{eq:iter}.
 
 \begin{theorem}
 	\label{th:converg}
 	\begin{enumerate}
-		Let the set $\calM$ be closed. Then
+		Let the conditions of Proposition~\ref{prop:pythaprop} be fulfilled and also the set $\calM$ be closed under the limit operation. Then
 		\item $\|y_k - \Pi_{\calM}y_k\| \to 0$ as $k \to +\infty$, $\|\Pi_{\calM}y_k - y_{k+1}\| \to 0$ as $k \to +\infty$.
-		\item Let $\calM \cap B_1$ be compact set, where $B_1=\{z: \|z\|~\le~1\}$ is closed unit ball. Then there exists a convergent subsequence of points $y_{i_1}, y_{i_2}, \ldots$ such that its limit $y^*$ belongs to $\calM \cap \calH$.
+		\item Let $\calM \cap B_1$ be compact set, where $B_1=\{z: \|z\|~\le~1\}$ is the closed unit ball. Then there exists a convergent subsequence of points $y_{i_1}, y_{i_2}, \ldots$ such that its limit $y^*$ belongs to $\calM \cap \calH$.
 	\end{enumerate}
 \end{theorem}
 \begin{proof}
-	Let us use following inequalities:
+	Let us use the following inequalities:
 	\begin{multline}
-	\label{chuprop}
+	\label{eq:chuprop}
 	\|y_k - \Pi_{\calM} y_k\| \ge \|\Pi_{\calM} y_k - y_{k + 1}\| \ge \\ \|y_{k+1} - \Pi_{\calM} y_{k + 1}\|.
 	\end{multline}
-	This is the direct consequence from the fact that $\Pi_\calM y_{k+1}$ is not farther from $y_{k+1}$ than any other point from $\calM$ including $\Pi_\calM y_k$. Similar conclusion can be obtained with $\Pi_\calH$.
+Indeed, since the projection $\Pi_\calM z$ is not farther from $z$ than any other point from $\calM$ and the similar statement is valid for
+$\Pi_\calH$, we have $\|\Pi_{\calM} y_k - z\| \ge \|z - \Pi_{\calM} z\|$, where $z=y_{k+1}$, and $\|y_k - z\| \ge \|z - \Pi_{\calH} z\|$, where $z=\Pi_{\calM} y_k$.
 	\begin{enumerate}
-		\item According to inequalities \eqref{chuprop}, the sequences $\|y_k~-~\Pi_{\calM} y_k\|$, $k = 1, 2, \ldots$, and $\|\Pi_{\calM} y_k - y_{k + 1}\|$, $k = 1, 2, \ldots$, are non-increasing. It is obvious that they are limited below by zero. Therefore, they have the same limit $c$ due to \eqref{chuprop}.
+		\item According to inequalities \eqref{eq:chuprop}, the sequences $\|y_k~-~\Pi_{\calM} y_k\|$, $k = 1, 2, \ldots$, and $\|\Pi_{\calM} y_k - y_{k + 1}\|$, $k = 1, 2, \ldots$, are non-increasing. It is obvious that they are limited below by zero. Therefore, they have the same limit $c$ due to \eqref{eq:chuprop}.
 		
-		Let us prove that $c = 0$ assuming the opposite $c > 0$. Then there exists $d > 0$ such that $\|y_k - \Pi_{\calM} y_k\| > d$ and $\|\Pi_{\calM} y_k - y_{k + 1}\| > d$ for any $k = 1, 2, \ldots$. In accordance to Proposition~\ref{pythaprop}, the following equality is valid: $\|y_k \|^2~=~\|y_k~-~\Pi_{\calM} y_k\|^2~+~\|\Pi_{\calM} y_k \|^2$. Since the space $\calH$ is linear, the following equality is valid too:
+		Let us prove that $c = 0$ assuming the opposite $c > 0$. Then there exists $d > 0$ such that $\|y_k - \Pi_{\calM} y_k\| > d$ and $\|\Pi_{\calM} y_k - y_{k + 1}\| > d$ for any $k = 1, 2, \ldots$. In accordance to Proposition~\ref{prop:pythaprop}, the following equality is valid: $\|y_k \|^2~=~\|y_k~-~\Pi_{\calM} y_k\|^2~+~\|\Pi_{\calM} y_k \|^2$. Since the space $\calH$ is linear, the following equality is valid too:
 		$\|\Pi_{\calM} y_k \|^2~=\|\Pi_{\calM} y_k~-~\Pi_\calH \Pi_{\calM} y_k|^2~+~\|\Pi_\calH \Pi_{\calM} y_k \|^2 = \|\Pi_{\calM} y_k~-~y_{k+1}|^2~+~\|y_{k+1} \|^2$. Therefore,
 		\begin{multline*}
 		\|y_k\|^2 = \|\Pi_{\calM} y_k\|^2 + \|y_k - \Pi_{\calM} y_k\|^2 =\\ \|y_k - \Pi_{\calM} y_k\|^2 + \|\Pi_{\calM} y_k - y_{k + 1}\|^2 + \|y_{k + 1}\|^2.
 		\end{multline*}
-		Thus, $\|y_{k+1}\|^2 < \|y_k\|^2 - 2d^2$. Expanding this inequality by the same way, we obtain that $\|y_{k+j}\|^2 < \|y_k\|^2 - 2 j d^2$ for any $j = 1, 2, \ldots$. Choose $k = 1$, and $j = \lceil \|y_k\|^2 / (2d^2) \rceil + 1$. Then $\|y_{k+j}\|^2 < 0$, which is impossible. Thus, $c=0$.
-		\item Consider the sequence $(\Pi_{\calM} y_k,\, k = 1, 2, \ldots)$. It is bounded because $\|\Pi_{\calM} z\| \le \|z\|$ and $\|\Pi_{\calH} z\| \le \|z\|$ for any $z \in \sfX$ (by Proposition \ref{pythaprop}). Then a convergent subsequence $(\Pi_{\calM} y_{i_k})$ can be chosen; denote by $y^*\in\calM$ its limit, wherein $\|\Pi_{\calM} y_{i_k} - y_{i_k + 1}\| = \|\Pi_{\calM} y_{i_k} - \Pi_\calH \Pi_{\calM} y_{i_k}\| \to 0$ as $k \to + \infty$. Taking into consideration that $\|z - \Pi_\calH z\|$ is a composition of continuous mappings, we obtain that $\|y^* - \Pi_\calH y^*\| = 0$, $y^* \in \calM \cap \calH$. Finally, $\Pi_\calH$ is continuous mapping and therefore the sequence $(\Pi_\calH \Pi_{\calM} y_{i_k})$ converges to $y^*$. Thus, $y_{i_k + 1}$ is a required subsequence.
+		Thus, $\|y_{k+1}\|^2 < \|y_k\|^2 - 2d^2$. Expanding this inequality by the same way, we obtain that $\|y_{k+j}\|^2 < \|y_k\|^2 - 2 j d^2$ for any $j = 1, 2, \ldots$. Choose $k = 1$, and $j = \lceil \|y_k\|^2 / (2d^2) \rceil + 1$. Then $\|y_{k+j}\|^2 < 0$, what is impossible. Thus, $c=0$.
+		\item Consider the sequence $(\Pi_{\calM} y_k,\, k = 1, 2, \ldots)$. It is bounded, since $\|\Pi_{\calM} z\| \le \|z\|$ (by Proposition \ref{prop:pythaprop}) and $\|\Pi_{\calH} z\| \le \|z\|$ for any $z \in \sfX$. Then a convergent subsequence $(\Pi_{\calM} y_{i_k})$ can be chosen; denote by $y^*\in\calM$ its limit, wherein $\|\Pi_{\calM} y_{i_k} - y_{i_k + 1}\| = \|\Pi_{\calM} y_{i_k} - \Pi_\calH \Pi_{\calM} y_{i_k}\| \to 0$ as $k \to + \infty$. Taking into consideration that $\|z - \Pi_\calH z\|$ is a composition of continuous mappings, we obtain that $\|y^* - \Pi_\calH y^*\| = 0$, $y^* \in \calM \cap \calH$. Finally, $\Pi_\calH$ is continuous mapping and therefore the sequence $(\Pi_\calH \Pi_{\calM} y_{i_k})$ converges to $y^*$. Thus, $y_{i_k + 1}$ is a required subsequence.
 	\end{enumerate}
 \end{proof}
 
-Actually Proposition \ref{pythaprop} was in fact proved in \cite{Gillard.Zhigljavsky2013} for a particular case, furthermore inequalities (4.1) from \cite{Chu.etal2003} is the particular case of inequalities \eqref{chuprop}.
+Actually, Proposition \ref{prop:pythaprop} was in fact proved in \cite{Gillard.Zhigljavsky2013} for a particular case, while inequalities \eqref{eq:chuprop} are extensions of \cite[inequalities (4.1)]{Chu.etal2003}. 
+%Note that the theorem result can be deduced from \cite{Cadzow1988}; however, our proof is based on different assumptions. In particular, we stress on the Pythagorean equality for projections to sets which are closed with respect to multiplication.
 
-Now we substitute needed sets into common abstract scheme: let us take $X = \spaceR^{L\times K}$, i.e. the space of matrices of size $L \times K$ with some inner product, $\calH \subset \spaceR^{L\times K}$ is the space of Hankel matrices, $\calM = \calM_r\subset \spaceR^{L\times K}$ is the set of matrices of rank not larger than $r$. Iterative step \ref{eq:iter} for method of alternating projections is as follows:
+\medskip
+Let us apply Theorem~\ref{th:converg} to the case of matrix approximation by rank-deficient Hankel matrices. Let $\sfX = \spaceR^{L\times K}$, i.e. $\sfX$ be the space of matrices of size $L \times K$ equipped with some inner product, $\calH \subset \spaceR^{L\times K}$ be the space of Hankel matrices, $\calM = \calM_r\subset \spaceR^{L\times K}$ be the set of matrices of rank not larger than $r$. The the the iterative step \ref{eq:iter} for method of alternating projections has the following form:
 \begin{equation*}
 \bfY_{k+1}=\Pi_\calH \Pi_{\calM_r} \bfY_{k}, \mbox{\ where\ } \bfY_{0}=\bfX \in \spaceR^{L\times K}.
 \end{equation*}
@@ -243,15 +247,17 @@ Now we substitute needed sets into common abstract scheme: let us take $X = \spa
 %if $\bfZ\in \calM_r$, then $a\bfZ\in \calM_r$ for any $a$. This fact is crucial for the proof of the following theorem.
 %The space $\calH$ is linear.
 
-Below we will consider the norms generated by weighted Frobenius inner products in the form, which is parameterized by a matrix $\bfM$ with non-negative entries $m_{i,j}$:
+It is well known that the set $\calM_r$ is closed with respect to the conventional Frobenius norm and therefore is closed
+to any norm, since in the matrix space all the norm are equivalent. 
+The closed unit ball is obviously compact set in finite-dimensional Euclidean space.
+Therefore the conclusion of Theorem~\ref{th:converg} holds.
+
+In this paper, we consider norms (semi-norms) in $\sfX$ generated by weighted Frobenius inner products in the form, which is parameterized by a matrix $\bfM$ with positive (non-negative) entries $m_{i,j}$:
 \be
 \label{eq:w_inner_prod}
 \langle\bfY, \bfZ\rangle_\bfM = \sum_{l = 1}^L \sum_{k = 1}^K m_{l, k} y_{l, k} z_{l, k}.
 \ee
-
-It is well known that the set $\calM_r$ is closed with respect to the conventional Frobenius norm. It can be proved that $\calM_r$ is closed with respect to any weighted norm \eqref{eq:w_inner_prod} when $m_{l,k} > 0$ and therefore the conclusion of Theorem~\ref{th:converg} holds in the case of positive weights.
-\footnote{To improve the sentences about closeness}
-Unit ball is obviously compact set in finite dimensional Euclidean space.
+Therefore, the conclusion of Theorem~\ref{th:converg} holds if the weights $m_{i,j}$ are positive.
 
 \subsection{Evaluation of projections}
 
