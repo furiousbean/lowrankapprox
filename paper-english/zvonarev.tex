@@ -206,7 +206,7 @@ In the following theorem, we investigate convergence of the sequence~\eqref{eq:i
 \begin{theorem}
 	\label{th:converg}
 	\begin{enumerate}
-		Let the conditions of Proposition~\ref{prop:pythaprop} be fulfilled and also the set $\calM$ be closed under the limit operation. Then
+		Let the conditions of Proposition~\ref{prop:pythaprop} be fulfilled and also the set $\calM$ and the space $\calH$ be closed under the limit operation. Then
 		\item $\|y_k - \Pi_{\calM}y_k\| \to 0$ as $k \to +\infty$, $\|\Pi_{\calM}y_k - y_{k+1}\| \to 0$ as $k \to +\infty$.
 		\item Let $\calM \cap B_1$ be compact set, where $B_1=\{z: \|z\|~\le~1\}$ is the closed unit ball. Then there exists a convergent subsequence of points $y_{i_1}, y_{i_2}, \ldots$ such that its limit $y^*$ belongs to $\calM \cap \calH$.
 	\end{enumerate}
@@ -223,19 +223,19 @@ $\Pi_\calH$, we have $\|\Pi_{\calM} y_k - z\| \ge \|z - \Pi_{\calM} z\|$, where 
 		\item According to inequalities \eqref{eq:chuprop}, the sequences $\|y_k~-~\Pi_{\calM} y_k\|$, $k = 1, 2, \ldots$, and $\|\Pi_{\calM} y_k - y_{k + 1}\|$, $k = 1, 2, \ldots$, are non-increasing. It is obvious that they are limited below by zero. Therefore, they have the same limit $c$ due to \eqref{eq:chuprop}.
 		
 		Let us prove that $c = 0$ assuming the opposite $c > 0$. Then there exists $d > 0$ such that $\|y_k - \Pi_{\calM} y_k\| > d$ and $\|\Pi_{\calM} y_k - y_{k + 1}\| > d$ for any $k = 1, 2, \ldots$. In accordance to Proposition~\ref{prop:pythaprop}, the following equality is valid: $\|y_k \|^2~=~\|y_k~-~\Pi_{\calM} y_k\|^2~+~\|\Pi_{\calM} y_k \|^2$. Since the space $\calH$ is linear, the following equality is valid too:
-		$\|\Pi_{\calM} y_k \|^2~=\|\Pi_{\calM} y_k~-~\Pi_\calH \Pi_{\calM} y_k|^2~+~\|\Pi_\calH \Pi_{\calM} y_k \|^2 = \|\Pi_{\calM} y_k~-~y_{k+1}|^2~+~\|y_{k+1} \|^2$. Therefore,
+		$\|\Pi_{\calM} y_k \|^2~=\|\Pi_{\calM} y_k~-~\Pi_\calH \Pi_{\calM} y_k\|^2~+~\|\Pi_\calH \Pi_{\calM} y_k \|^2 = \|\Pi_{\calM} y_k~-~y_{k+1}\|^2~+~\|y_{k+1} \|^2$. Therefore,
 		\begin{multline*}
 		\|y_k\|^2 = \|\Pi_{\calM} y_k\|^2 + \|y_k - \Pi_{\calM} y_k\|^2 =\\ \|y_k - \Pi_{\calM} y_k\|^2 + \|\Pi_{\calM} y_k - y_{k + 1}\|^2 + \|y_{k + 1}\|^2.
 		\end{multline*}
 		Thus, $\|y_{k+1}\|^2 < \|y_k\|^2 - 2d^2$. Expanding this inequality by the same way, we obtain that $\|y_{k+j}\|^2 < \|y_k\|^2 - 2 j d^2$ for any $j = 1, 2, \ldots$. Choose $k = 1$, and $j = \lceil \|y_k\|^2 / (2d^2) \rceil + 1$. Then $\|y_{k+j}\|^2 < 0$, what is impossible. Thus, $c=0$.
-		\item Consider the sequence $(\Pi_{\calM} y_k,\, k = 1, 2, \ldots)$. It is bounded, since $\|\Pi_{\calM} z\| \le \|z\|$ (by Proposition \ref{prop:pythaprop}) and $\|\Pi_{\calH} z\| \le \|z\|$ for any $z \in \sfX$. It belongs to compact set, since $\calM$ is closed with respect to scalar multiplication, and we can resize the unit ball to cover the sequence. Then a convergent subsequence $(\Pi_{\calM} y_{i_k})$ can be chosen; denote by $y^*\in\calM$ its limit, wherein $\|\Pi_{\calM} y_{i_k} - y_{i_k + 1}\| = \|\Pi_{\calM} y_{i_k} - \Pi_\calH \Pi_{\calM} y_{i_k}\| \to 0$ as $k \to + \infty$. Since the $\calH$ is closed, and $\sfX$ is a Banach space, the projector $\Pi_\calH$ is continuous mapping. Taking into consideration that $\|z - \Pi_\calH z\|$ is a composition of continuous mappings, we obtain that $\|y^* - \Pi_\calH y^*\| = 0$, $y^* \in \calM \cap \calH$. Finally, $\Pi_\calH$ is continuous mapping and therefore the sequence $(\Pi_\calH \Pi_{\calM} y_{i_k})$ converges to $y^*$. Thus, $y_{i_k + 1}$ is a required subsequence.
+		\item Consider the sequence $(\Pi_{\calM} y_k,\, k = 1, 2, \ldots)$. It is bounded, since $\|\Pi_{\calM} z\| \le \|z\|$ (by Proposition \ref{prop:pythaprop}) and $\|\Pi_{\calH} z\| \le \|z\|$ for any $z \in \sfX$. It belongs to compact set, since $\calM$ is closed with respect to scalar multiplication, and we can resize the unit ball to cover the sequence. Then a convergent subsequence $(\Pi_{\calM} y_{i_k})$ can be chosen; denote by $y^*\in\calM$ its limit, wherein $\|\Pi_{\calM} y_{i_k} - y_{i_k + 1}\| = \|\Pi_{\calM} y_{i_k} - \Pi_\calH \Pi_{\calM} y_{i_k}\| \to 0$ as $k \to + \infty$. Since the $\calH$ is closed, and $\sfX$ is a Banach space, the projector $\Pi_\calH$ is a continuous mapping. Taking into consideration that $\|z - \Pi_\calH z\|$ is a composition of continuous mappings, we obtain that $\|y^* - \Pi_\calH y^*\| = 0$, $y^* \in \calM \cap \calH$. Finally, $\Pi_\calH$ is a continuous mapping and therefore the sequence $(\Pi_\calH \Pi_{\calM} y_{i_k})$ converges to $y^*$. Thus, $y_{i_k + 1}$ is a required subsequence.
 	\end{enumerate}
 \end{proof}
 
 Actually, Proposition \ref{prop:pythaprop} was in fact proved in \cite{Gillard.Zhigljavsky2013} for a particular case, while inequalities \eqref{eq:chuprop} are extensions of \cite[inequalities (4.1)]{Chu.etal2003}. 
 
 \medskip
-Let us apply Theorem~\ref{th:converg} to the case of matrix approximation by rank-deficient Hankel matrices. Let $\sfX = \spaceR^{L\times K}$, i.e. $\sfX$ be the space of matrices of size $L \times K$ equipped with some inner product, $\calH \subset \spaceR^{L\times K}$ be the space of Hankel matrices, $\calM = \calM_r\subset \spaceR^{L\times K}$ be the set of matrices of rank not larger than $r$. The the the iterative step \ref{eq:iter} for method of alternating projections has the following form:
+Let us apply Theorem~\ref{th:converg} to the case of matrix approximation by rank-deficient Hankel matrices. Let $\sfX = \spaceR^{L\times K}$, i.e. $\sfX$ be the space of matrices of size $L \times K$ equipped with some inner product, $\calH \subset \spaceR^{L\times K}$ be the space of Hankel matrices, $\calM = \calM_r\subset \spaceR^{L\times K}$ be the set of matrices of rank not larger than $r$. Then the iterative step \ref{eq:iter} for method of alternating projections has the following form:
 \begin{equation*}
 \bfY_{k+1}=\Pi_\calH \Pi_{\calM_r} \bfY_{k}, \mbox{\ where\ } \bfY_{0}=\bfX \in \spaceR^{L\times K}.
 \end{equation*}
@@ -248,7 +248,7 @@ Let us apply Theorem~\ref{th:converg} to the case of matrix approximation by ran
 
 It is well known that the set $\calM_r$ is closed with respect to the conventional Frobenius norm and therefore is closed
 to any norm, since in the matrix space all the norm are equivalent. 
-The closed unit ball is obviously compact set in finite-dimensional Euclidean space.
+The closed unit ball is obviously a compact set in finite-dimensional Euclidean space.
 Therefore the conclusion of Theorem~\ref{th:converg} holds.
 Note that the existence of convergent subsequence can be deduced from \cite{Cadzow1988}. 
 However, our proof of this fact is based on different assumptions; in particular, we stress on the Pythagorean equality for projections to sets which are closed with respect to multiplication.
