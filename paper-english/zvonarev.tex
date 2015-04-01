@@ -854,7 +854,7 @@ The same simulations were performed with the adjusted algorithms (see Remark~\re
 
 		\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}ccccc}
 			\hline
-			$P$: & $\tsS$, $k = 1$ & $\tsX$, $k = 1$ & $\tsS$, $k = 100$ & $\tsX$, $k = 100$  \\
+			Method: & $\tsS$, $k = 1$ & $\tsX$, $k = 1$ & $\tsS$, $k = 100$ & $\tsX$, $k = 100$  \\
 			\hline
 			Cadzow, $\alpha = 1$ & 0.3758 & 0.9195 & 0.3782 & 0.9664 \\
 			\hline
@@ -874,7 +874,7 @@ The same simulations were performed with the adjusted algorithms (see Remark~\re
 		\caption{Comparison of adjusted methods by RMSE, $L = 20$}\label{fintable_improved}
 		\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}ccccc}
 			\hline
-			$P$: & $\tsS$, $k = 1$ & $\tsX$, $k = 1$ & $\tsS$, $k = 100$ & $\tsX$, $k = 100$  \\
+			Method: & $\tsS$, $k = 1$ & $\tsX$, $k = 1$ & $\tsS$, $k = 100$ & $\tsX$, $k = 100$  \\
 			\hline
 			Cadzow, $\alpha = 1$ & 0.3714 & 0.9175 & 0.3667 & 0.9622 \\
 			\hline
@@ -949,13 +949,19 @@ RMSE of model series approximation (the column $\tsX$) and the approximation acc
 		\hline
 		Method: & $\tsS$ & $\tsX$ & $\tsX^*$ \\
 		\hline
-		Cadzow, $\alpha = 1$ & 130.45 & 264.94 & 283.58 \\
+		Cadzow, $\alpha = 1$ & 127.71 & 263.20 & 283.58 \\
 		\hline
-		Cadzow, $\alpha = 0.3$ & 127.25 & 263.25 & 280.94 \\
+		Cadzow, $\alpha = 0.8$ & 127.18 & 262.98 & 283.25 \\
 		\hline
-		Cadzow, $\alpha = 0.1$ & 127.41 & 262.21 & 276.67 \\
+		Cadzow, $\alpha = 0.6$ & 126.42 & 262.63 & 282.72 \\
 		\hline
-		Cadzow, $\alpha = 0.05$ & 130.77 & 262.71 & 274.00 \\
+		Cadzow, $\alpha = 0.4$ & 125.39 & 262.06 & 281.77 \\
+		\hline
+		Cadzow, $\alpha = 0.2$ & 124.10 & 260.94 & 279.55 \\
+		\hline
+		Cadzow, $\alpha = 0.1$ & 125.09 & 260.52 & 276.70 \\
+		\hline
+		Cadzow, $\alpha = 0.05$ & 129.44 & 261.47 & 274.00 \\
 		\hline
 	\end{tabular*}
 \end{table*}
@@ -963,14 +969,14 @@ RMSE of model series approximation (the column $\tsX$) and the approximation acc
 Table~\ref{tab:rltable} shows that ...  \footnote{lack of results to confirm something}
 Since the noise model is not actually white, smaller $\alpha$ tends to overfitting of the series and worse signal estimation.
 
-As we can see, smaller $\alpha$ tends to better approximation of $\tsX^*$ and estimation of signal $\tsS$, but, according to our investigation, only $\alpha = 1$ and $\alpha = 0.3$ can be trusted. If $\alpha = 0.05$, the separability becomes worse, and small signal-to-noise ratio causes far away from global minimum convergence of algorithm.
+As we can see, smaller $\alpha$ tends to better approximation of $\tsX^*$ and estimation of signal $\tsS$, but, according to our investigation, only $\alpha = 1$, $0.8$, $0.6$, $0.4$ and $0.2$  can be trusted. If $\alpha = 0.05$, the separability becomes worse, and small signal-to-noise ratio causes far away from global minimum convergence of algorithm.
 
-Figure \ref{fig:rl} shows the best approximation of the actual series $\tsX^*$ obtained by Cadzow($0.3$) algorithm. Dotted line shows actual series, while solid line shows L-rank approximation obtained by the algorithm.
+Figure \ref{fig:rl} shows the best approximation of the actual series $\tsX^*$ obtained by Cadzow($0.2$) algorithm. Dotted line shows actual series, while solid line shows L-rank approximation obtained by the algorithm.
 
 \begin{figure}[!hhh]
 	%	\begin{center}
 	\includegraphics[width = \columnwidth]{rlimage.pdf}
-	\caption{`Fortified wine' series: application of Cadzow($0.3$) algorithm}
+	\caption{`Fortified wine' series: application of Cadzow($0.2$) algorithm}
 	\label{fig:rl}
 	%	\end{center}
 \end{figure}
