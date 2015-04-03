@@ -818,7 +818,7 @@ Note that the limit errors do not differ strongly, they change from 0.31 ($\alph
 	\label{img_2axis}
 	%	\end{center}
 \end{figure}
-The same signal with $L = 20$ was taken to investigate how RMSE and convergency speed depends on $\alpha$ for Cadzow($\alpha$) algorithms. The following STOP1 criterion was taken: $\frac{\|\calT^{-1}(\tsY_k) - \calT^{-1}(\tsY_{k + 1})\|^2}{N} < 10^{-8}$. Figure~\ref{img_2axis} shows that smaller $\alpha$ leads to better estimates of the signal, but decreases the speed of algorithm.
+The same signal with $L = 20$ was taken to investigate how RMSE and convergency speed depends on $\alpha$ for Cadzow($\alpha$) algorithms. The following STOP1 criterion was taken: $\frac{\|\calT^{-1}(\bfY_k) - \calT^{-1}(\bfY_{k + 1})\|^2}{N} < 10^{-8}$. Figure~\ref{img_2axis} shows that smaller $\alpha$ leads to better estimates of the signal, but decreases the speed of algorithm.
 
 This general rule sometimes does not work for very small values of the parameter $\alpha$, see Figure~\ref{img_2axis-3}, where
 the noise standard was increased from 1 to 3. One can see that for $\alpha$ smaller than 0.1 the dependence of estimation errors on $\alpha$
@@ -942,9 +942,9 @@ The model of the whole series $\tsX=(x_1,\ldots,x_N)$ is $x_i=s_i + 353.17 (0.99
 where  $\ve_i$, $i=1,\ldots,N$,  is Gaussian white noise with mean equal to $0$ and variance equal to $1$.
 %, $\odot$ is element-wise vector product, $\tsU = (u_{1}, \ldots, u_N)$, $u_k = 353.17 (0.9967)^k$.
 %Note that the noise is actually modulated gaussian white noise.
-We set $L=84$ and apply the Cadzow($\alpha$) algorithm with $\alpha=1, 0.3, 0.1, 0.05$.
+We set $L=84$ and apply the Cadzow($\alpha$) algorithm with $\alpha=1, 0.8, 0.6, 0.4, 0.2, 0.1, 0.05$.
 The following STOP1 criterion is taken in Algorithm~\ref{alg:obliqueCadzow}:
-$\frac{\|\calT^{-1}(\tsY_k) - \calT^{-1}(\tsY_{k + 1})\|^2}{N} < 10^{-4}$.
+$\frac{\|\calT^{-1}(\bfY_k) - \calT^{-1}(\bfY_{k + 1})\|^2}{N} < 10^{-4}$.
 The algorithm was applied to 1000 copies of the model series and to the `Fortified wine' series.
 Table~\ref{tab:rltable} contains RMSE of model signal estimation (the column $\tsS$),
 RMSE of model series approximation (the column $\tsX$) and the approximation accuracy for
@@ -957,13 +957,12 @@ RMSE of model series approximation (the column $\tsX$) and the approximation acc
 %Consider Table~\ref{rltable} which shows RMSE for $\tilde \tsS$ as an estimate of $\tsS$ (i.e., signal estimation error), RMSE for $\tilde \tsS$ as an estimate of the initial series $\tsX$ (i.e., series approximation error), and distance to the actual $\tsX^*$ series.
 
 \begin{table*}
-	\caption{Comparison of methods errors of signal estimation and series approximation for `Fortifide wine' series and its simulated copies.}
+	\caption{Comparison of methods errors of signal estimation and series approximation for `Fortified wine' series and its simulated copies.}
 \label{tab:rltable}
 	
 	\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}ccccc}
 		\hline
 		Method: & $\tsS$ & $\tsX$ & $\tsX^*$ \\
-		\hline
 		\hline
 		Cadzow, $\alpha = 1$ & 127.71 & 263.20 & 283.58 \\
 		\hline
@@ -974,7 +973,6 @@ RMSE of model series approximation (the column $\tsX$) and the approximation acc
 		Cadzow, $\alpha = 0.4$ & 125.39 & 262.06 & 281.77 \\
 		\hline
 		Cadzow, $\alpha = 0.2$ & 124.10 & 260.94 & 279.55 \\
-		\hline
 		\hline
 		Cadzow, $\alpha = 0.1$ & 125.09 & 260.52 & 276.70 \\
 		\hline
