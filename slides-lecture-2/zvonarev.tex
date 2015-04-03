@@ -52,6 +52,7 @@
 }
 
 \subject{Beamer}
+\setbeamertemplate{bibliography item}{[\theenumiv]}
 % This is only inserted into the PDF information catalog. Can be left
 % out.
 
@@ -76,8 +77,12 @@
 	\begin{itemize}
 		\item Дано: $\tsX$ --- временной ряд, $\tsX \in \calX_N$ --- множество всех временных рядов длины $N$.
 		\item $\calX_N^r$ --- подмножество $\calX_N$ рядов \structure{некоторой структуры}.
-		\item Найти: $\tsY = (y_1, \ldots, y_N)$: $f_q(\tsY) \to \min, \tsY \in \calX_N^r$, $f_q(\tsY) = \sum \limits_{i=1}^N q_i(x_i - y_i)^2$, $q_i \ge 0$ --- неотрицательные веса.
-		\item Приложение в статистике: наблюдаем $\tsX$ = $\tsY$ + $\tsN$, где $\tsY \in \calX_N^r$ --- сигнал, $\tsN$ --- белый гауссовский шум с нулевым матожиданием. Требуется найти оценку для $\tsY$. В качестве оценки можно рассматривать решение задачи.
+		\item Найти: 
+		\begin{equation} \label{maintask}
+				f_q(\tsY) \to \min_{\tsY \in \calX_N^r}, \quad f_q(\tsY) = \sum \limits_{i=1}^N q_i(x_i - y_i)^2,
+		\end{equation} 
+		$q_i \ge 0$ --- неотрицательные веса.
+		\item Приложение в статистике: наблюдаем $\tsX$ = $\tsY$ + $\tsN$, где $\tsY \in \calX_N^r$ --- сигнал, $\tsN$ --- белый шум с нулевым матожиданием. Требуется найти оценку для $\tsY$. В качестве оценки можно рассматривать решение задачи \eqref{maintask}.
 	\end{itemize}
 	
 \end{frame}
@@ -153,80 +158,73 @@
 
 \begin{frame}
 	\frametitle{Предварительные утверждения}
-	$\bfY = (\Pi_\calH \circ \Pi_{\calM_r})^I (\bfX)$, $\Pi_\calH$ --- проектор на ганкелевы матрицы, $\Pi_{\calM_r}$ --- проектор на матрицы ранга $\le r$ по норме $||\cdot||$.
+	\begin{itemize} \small
+		\item Доказательство расширено на случай абстрактного гильбертового пространства 
+		\item Ключевое свойство -- ``конусность'' соответствующих подмножеств. В \cite{Cadzow1988} используется другое доказательство
+	\end{itemize}
+	%$\bfY = (\Pi_\calH \circ \Pi_{\calM_r})^I (\bfX)$, $\Pi_\calH$ --- проектор на ганкелевы матрицы, $\Pi_{\calM_r}$ --- проектор на матрицы ранга $\le r$ по норме $||\cdot||$.
 	
-    \vspace{0.3cm}
-	$\calH$ --- линейное подпространство. $\calM_r$ --- ни линейное, ни выпуклое множество. Тем не менее, $\calM_r$ замкнуто относительно умножения на константу, т.е. если $\bfZ \in \calM_r$, то $a \bfZ \in \calM_r$ для любого $a \in \sfR$.
-	\begin{proposition}
-		Пусть $\calX$ --- гильбертово пространство, $\calM \subset \calX$ --- замкнутое относительно умножения на константу подпространство, $\Pi_\calM$ --- проектор на $\calM$. Тогда для любого $x \in \calX$ выполнена теорема Пифагора: $\|x\|^2~=~\|x~-~\Pi_\calM x\|^2~+~\|\Pi_\calM x\|^2$.
-	\end{proposition}
+	Рассмотрим $\sfX$ -- гильбертово пространство со скалярным произведением $\langle \cdot, \cdot \rangle$, $\calH$ --- замкнутое (топологически) линейное подпространство. $\calM$ --- ни линейное, ни выпуклое замкнутое множество. Тем не менее, $\calM$ замкнуто относительно умножения на константу, т.е. если $z \in \calM$, то $\alpha z \in \calM$ для любой $\alpha \in \sfR$.
+	
+	Требуется спроектировать заданную точку $x$ на $\calH \cap \calM$, т.е. решить следующую задачу: $\|x - y\| \to \min_y$ где $y \in \calH \cap \calM$, $\|\cdot\|$ -- норма, порождённая скалярным произведением.
+	\bibliography{zvonarev}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Доказательство утверждения}
+	\frametitle{``Теорема Пифагора''}
 	\begin{proposition}
-		Пусть $\calX$ --- гильбертово пространство, $\calM \subset \calX$ --- замкнутое относительно умножения на константу подпространство, $\Pi_\calM$ --- проектор на $\calM$. Тогда для любого $x \in \calX$ выполнена теорема Пифагора: $\|x\|^2~=~\|x~-~\Pi_\calM x\|^2~+~\|\Pi_\calM x\|^2$.
-	\end{proposition}
-	
-	\begin{proof}
-	По условию, множество $\calM$ можно представить как $\calM = \bigcup\limits_{l \in \calL}l$, где $\calL$ это множество всех прямых, лежащих в $\calM$ и проходящих через $0$. Тогда проекцию можно описать так: вначале мы выбираем прямую $l$ такую, что $\dist(x, l) \rightarrow \min\limits_{l \in \calL}$; далее, $y = \Pi_\calM x$ --- ортогональная проекция $x$ на прямую $l$, которая является линейным подпространством.
-	\end{proof}	
-\end{frame}
-
-\begin{frame}
-	\frametitle{Замкнутость $\calM_r$}
-	\begin{proposition} \small
-		Множество матриц ранга $\le r$ $\calM_r$ замкнуто в топологии, порожденной фробениусовской нормой.
-	\end{proposition}
-	
-	\begin{proof} \small
-		Рассмотрим функцию-``индикатор'' $f: \sfR^{L \times K} \to \sfR$, определенную как \begin{equation*}
-		f(\bfX) = \sum_{\bfU \in \sfU(\bfX)} |\det(\bfU)|,
+		Пусть $\sf$ --- гильбертово пространство, $\calM \subset \sfX$ --- замкнутое относительно умножения на константу подпространство, $\Pi_\calM$ --- проектор на $\calM$. Тогда для любого $x \in \calX$ выполнено следующее равенство (``теорема Пифагора''):
+		\begin{equation*} 
+		\|x\|^2~=~\|x~-~\Pi_\calM x\|^2~+~\|\Pi_\calM x\|^2.
 		\end{equation*}
-		где $\sfU(\bfX)$ --- множество всевозможных квадратных подматриц порядка $r+1$ матрицы $\bfX$. Заметим, что $f$ --- непрерывная, и $\bfX \in \calM_r \Leftrightarrow f(\bfX) = 0$.
-		
-		$\bfX_1, \bfX_2, \ldots$ --- сходящаяся последовательность, $\bfX_k \in \calM_r$ $\forall k$, $\bfX'$ --- ее предел. Тогда $f(\bfX_k) = 0$ $\forall k$; используя непрерывность $f$, получаем $f(\bfX') = 0$.
-	\end{proof}	
+	\end{proposition}
 \end{frame}
+
+%\begin{frame}
+%	\frametitle{Замкнутость $\calM_r$}
+%	\begin{proposition} \small
+%		Множество матриц ранга $\le r$ $\calM_r$ замкнуто в топологии, порожденной фробениусовской нормой.
+%	\end{proposition}
+	
+%	\begin{proof} \small
+%		Рассмотрим функцию-``индикатор'' $f: \sfR^{L \times K} \to \sfR$, определенную как \begin{equation*}
+%		f(\bfX) = \sum_{\bfU \in \sfU(\bfX)} |\det(\bfU)|,
+%		\end{equation*}
+%		где $\sfU(\bfX)$ --- множество всевозможных квадратных подматриц порядка $r+1$ матрицы $\bfX$. Заметим, что $f$ --- непрерывная, и $\bfX \in \calM_r \Leftrightarrow f(\bfX) = 0$.
+		
+%		$\bfX_1, \bfX_2, \ldots$ --- сходящаяся последовательность, $\bfX_k \in \calM_r$ $\forall k$, $\bfX'$ --- ее предел. Тогда $f(\bfX_k) = 0$ $\forall k$; используя непрерывность $f$, получаем $f(\bfX') = 0$.
+%	\end{proof}	
+%\end{frame}
 
 \begin{frame}
 	\frametitle{Основная теорема}
 	Рассмотрим один шаг алгоритма:
-	$\bfY_{k+1}=\Pi_\calH \Pi_{\calM_r} \bfY_{k}, \mbox{\ где\ } \bfY_{0}=\bfX.$
+	$y_{k+1}=\Pi_\calH \Pi_\calM y_{k}, \mbox{\ где\ } y_{0}=x.$
 	\begin{theorem}
-			 Пусть множество $\calM_r$ замкнуто в топологии, порожденной нормой $\|\cdot\|$. Тогда
+			 Пусть выполнены условия Утверждения, а также множество $\calM$ и подпространство $\calH$ топологически замкнуты. Тогда
 			\begin{enumerate}
-				\item $\|\bfY_k - \Pi_{\calM_r}\bfY_k\| \to 0$ при $k \to +\infty$, $\|\Pi_{\calM_r}\bfY_k - \bfY_{k+1}\| \to 0$ при $k \to +\infty$.
-				\item Существует сходящаяся подпоследовательность матриц $\bfY_{i_1}, \bfY_{i_2}, \ldots$ такая, что ее предел $\bfY^*$  лежит в $\calM_r \cap \calH$.
+				\item $\|y_k - \Pi_{\calM} y_k\| \to 0$ при $k \to +\infty$, $\|\Pi_{\calM}y_k - y_{k+1}\| \to 0$ при $k \to +\infty$.
+				\item Пусть $\calM \cap B_1$ является компактом, где $B_1 = \{z: \|z\| \le 1\}$~---~замкнутый единичный шар. Тогда существует сходящаяся подпоследовательность точек $y_{i_1}, y_{i_2}, \ldots$ такая, что ее предел $y^*$  лежит в $\calM \cap \calH$.
 			\end{enumerate}
 	\end{theorem}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Доказательство теоремы (первый пункт)}
-	\begin{proof} \small
-    Используем следующее неравенство:
-    \begin{equation*}
-    \|\bfY_k - \Pi_{\calM_r} \bfY_k\| \ge \|\Pi_{\calM_r} \bfY_k - \bfY_{k + 1}\| \ge \|\bfY_{k+1} - \Pi_{\calM_r} \bfY_{k + 1}\|.
-    \end{equation*}
-    Согласно неравенству, последовательности $\|\bfY_k~-~\Pi_{\calM_r} \bfY_k\|$ и $\|\Pi_{\calM_r} \bfY_k - \bfY_{k + 1}\|$, $k = 1, 2, \ldots$, невозрастающие. Очевидно, что снизу они ограничены нулем.  Следовательно, они имеют один и тот же предел $c$.
-	
-    Докажем, что $c = 0$, предполагая противное $c > 0$. Тогда существует $d > 0$ такое, что $\|\bfY_k - \Pi_{\calM_r} \bfY_k\| > d$ и $\|\Pi_{\calM_r} \bfY_k - \bfY_{k + 1}\| > d$ для любых $k = 1, 2, \ldots$. Согласно первому предложению, следующее выражение верно:
-	$\|\bfY_k\|^2 = \|\bfY_k - \Pi_{\calM_r} \bfY_k\|^2 + \|\Pi_{\calM_r} \bfY_k - \bfY_{k + 1}\|^2 + \|\bfY_{k + 1}\|^2.$
-	Таким образом, $\|\bfY_{k+1}\|^2 < \|\bfY_k\|^2 - 2d^2$. По индукции получаем $\|\bfY_{k+j}\|^2 < \|\bfY_k\|^2 - 2 j d^2$ для любых $j = 1, 2, \ldots$. Выберем $k = 1$, и $j = \lceil \|\bfY_k\|^2 / (2d^2) \rceil + 1$. Тогда $\|\bfY_{k+j}\|^2 < 0$, что невозможно.
-	\end{proof}
-\end{frame}
-
-\begin{frame}
-	\frametitle{Доказательство теоремы (второй пункт)}
-	\begin{proof}
-		Рассмотрим последовательность $(\Pi_{\calM_r} \bfY_k,\, k = 1, 2, \ldots)$. Она ограничена, потому что $\|\Pi_{\calM_r} \bfZ\| \le \|\bfZ\|$ и $\|\Pi_{\calH} \bfZ\| \le \|\bfZ\|$ для любых $\bfZ \in \sfR^{L \times K}$ (согласно первому предложению). Тогда из нее можно выбрать сходящуюся подпоследовательность $(\Pi_{\calM_r} \bfY_{i_k})$; обозначим ее предел как $\bfY^*\in\calM_r$, где $\|\Pi_{\calM_r} \bfY_{i_k} - \bfY_{i_k + 1}\| = \|\Pi_{\calM_r} \bfY_{i_k} - \Pi_\calH \Pi_{\calM_r} \bfY_{i_k}\| \to 0$ при $k \to + \infty$. Используя тот факт, что $\|\bfZ - \Pi_\calH \bfZ\|$ это композиция непрерывных отображений, мы получаем, что $\|\bfY^* - \Pi_\calH \bfY^*\| = 0$, $\bfY^* \in \calM_r \cap \calH$. Наконец, $\Pi_\calH$ это непрерывное отображение, и поэтому последовательность $(\Pi_\calH \Pi_{\calM_r} \bfY_{i_k})$ сходится к $\bfY^*$. Таким образом, $\bfY_{i_k + 1}$ --- требуемая подпоследовательность.
-	\end{proof}
-\end{frame}
-
-\begin{frame}
 	\frametitle{Замечания}
-	Замкнутость $\calM_r$ была доказана для фробениусовской нормы. Естественно, она сохраняется и для любой эквивалентной нормы.
+	Применяем Теорему к нашему случаю: $\sfX = \sfR^{L \times K}$, $\calH$~---~ганкелевы матрицы, $\calM_r$ --- матрицы ранга $\le r$.
+	
+	\vspace{0.2cm}
+	
+	Соответствующий вид переменных проекций:
+	\begin{equation*}
+	\bfY_{k+1}=\Pi_\calH \Pi_{\calM_r} \bfY_{k}, \mbox{\ где\ } \bfY_{0}=\bfX \in \sfR^{L\times K}.
+	\end{equation*}
+	
+	\vspace{0.2cm}
+	
+	$\calM_r$ замкнуто при любой матричной норме.
+	
+	\vspace{0.2cm}
 	
 	В дальнейшем, мы будем рассматривать нормы, порожденные следующими взвешенными фробениусовскими скалярными произведениями: 
 	\begin{equation*}
@@ -286,11 +284,11 @@
 	\frametitle{Проектор $\Pi_{\calM_r}$}
 	Варианты:
 	\begin{enumerate}
-		\item $||\bfX||_M$, все $m_{l, k} = 1$: через стандартное SVD-разложение. $\Pi_{\calM_r}(\bfX) = \bfU \Sigma_r \bfV^\rmT$, где $\bfX = \bfU \Sigma \bfV^\rmT$.
-		\vspace{0.2cm}
 		\item $||\bfX||_M$, общий случай: EM-подобный алгоритм.
 		\vspace{0.2cm}
-		\item $||\bfX||_\bfC$: косоугольное SVD-разложение. $\bfC = \bfO_{\bfC}^\rmT \bfO_\bfC$, $\bfB = \bfX \bfO_{\bfC}^\rmT$, $\Pi_{\calM_r}^\bfC(\bfX) = \Pi_{\calM_r}(\bfB)(\bfO_{\bfC}^\rmT)^\dagger$.
+        \item $||\bfX||_\bfC$: косоугольное SVD-разложение. $\bfC = \bfO_{\bfC}^\rmT \bfO_\bfC$, $\bfB = \bfX \bfO_{\bfC}^\rmT$, $\Pi_{\calM_r}^\bfC(\bfX) = \Pi_{\calM_r}(\bfB)(\bfO_{\bfC}^\rmT)^\dagger$.
+        \vspace{0.2cm}		
+		\item $||\bfX||_M$, все $m_{l, k} = 1$: через стандартное SVD-разложение. $\Pi_{\calM_r}(\bfX) = \bfU \Sigma_r \bfV^\rmT$, где $\bfX = \bfU \Sigma \bfV^\rmT$.
 	\end{enumerate}
 \end{frame}
 
@@ -373,7 +371,7 @@
 		\item $q_i = 1$, $i = 1, \ldots, N$, но задача несколько иная
 		\item $\tilde \calT$ : $\tilde \calT(\tsX) = \calX$ --- биекция между рядами и матрицами с пропусками.
 		\item Проектор на множество матриц неполного ранга $\Pi_{\widetilde \calM_r}$ (EM-алгоритм).
-		\item Проектор на множество траекторных псевдоматриц $\Pi_\gX$ (диагональное усреднение).
+		\item Проектор на множество траекторных матриц с пропусками $\Pi_\gX$ (диагональное усреднение).
 		\item Сам алгоритм: $\tsY = \tilde \calT^{-1}((\Pi_\gX \circ \Pi_{\widetilde \calM_r})^I (\tilde \calT(\tsX)))$.
 	\end{enumerate}
 \end{frame}
@@ -424,8 +422,8 @@
 \end{frame}
 
 \begin{frame}
-\begin{proposition}
 	\frametitle{Слабая разделимость: новые результаты}
+\begin{proposition}
 	Пусть $\tsX_1^\infty = (\cos(2 \pi \omega k), k = 1, 2, \ldots)$, где $0<\omega <0.5$ --- синусоида, $\tsX_2^\infty = (c, c, \ldots)$ --- константа,  $L,K \to \infty$ так, что $h = h_L = N/L$, где $N=L+K-1$, целое, и $\bfC=\bfC(\alpha)$ диагональная с диагональными элементами (алгоритм Cadzow($\alpha$)):
 	\begin{equation*}
 	c_k = \begin{cases}
@@ -434,15 +432,27 @@
 	\end{cases}
 	\end{equation*}
 	где $0 \le \alpha \le 1$. Тогда $\rho$ имеет порядок $\max\left(\frac{1}{L}, \frac{(1-\alpha)C_{L,K}+\alpha}{(1-\alpha)N/L+\alpha K}\right)$, где порядок $C_{L,K}$
-	может меняться от $O(1)$ to $O(N/L)$ в зависимости от того, как $K$ стремится к бесконечности.
+	может меняться от $O(1)$ to $O(N/L)$ в зависимости от того, как $L$ стремится к бесконечности.
 	\end{proposition}
-    \small При $\alpha \approx 0$, $C_{L, K} = O(1)$: оптимальное $L \approx \sqrt{N}$, а $\rho$ имеет порядок $ 1/\sqrt{N}$.
+    \small Если $\exists \delta,$ $0 < \delta < 0.5$: $L \omega \in [k + \delta, \, k + 1 - \delta]$ для всех целых $k$, всех $L$ из последовательности, то $C_{L, K} = O(1)$.
 \end{frame}
+
+\begin{frame}
+	\frametitle{Слабая разделимость: порядок}
+	\begin{itemize}
+		\item Оптимальный выбор для $L$ это $L \approx \frac{\alpha(N + 1) + \sqrt{\alpha^2(N+1)^2 + 4N(1  - \alpha^2)}}{2(1 + \alpha)}$
+		\item В этом случае порядок разделимости $\rho = O \left(\frac{1}{\alpha N + \sqrt{N(1 - \alpha ^ 2)}} \right)$
+		\item Для фиксированного $\alpha$ порядок разделимости остаётся равным $1/N$
+		\item Если рассматривать $\alpha(N) = O(N^{-\beta})$, то порядок становится равным $O(N^{\beta - 1})$ для $0 \le \beta \le 0.5$, и $O(1/\sqrt{N})$ для $\beta > 0.5$.
+	\end{itemize}
+\end{frame}
+
  
 \section{Эксперименты}
 \begin{frame}
 	\frametitle{Пример №1 (одна итерация)}
-	Задача оценки сигнала: $N = 40$, $L = 20$, $r = 2$, $\tsX = (x_{1}, \ldots, x_N),$  $x_k = 5\sin{\frac{2 k \pi}{6}}$.
+	Задача оценки сигнала: $N = 40$, $L = 20$, $r = 2$, $\tsX = (x_{1}, \ldots, x_N),$  $x_k = 5\sin{\frac{2 k \pi}{6}} + \varepsilon_k$; $\varepsilon_k$, $k = 1, \ldots N$ --- гауссовский белый шум с нулевым средним и единичной дисперсией.
+	\vspace{-0.8cm}
 	\begin{center}
 		\includegraphics*[width = 9cm]{s1_it1.pdf}
 	\end{center}
@@ -452,7 +462,8 @@
 
 \begin{frame}
 	\frametitle{Пример №2 (много итераций)}
-	Задача оценки сигнала: $N = 40$, $L = 20$, $r = 2$, $\tsX = (x_{1}, \ldots, x_N),$  $x_k = 5\sin{\frac{2 k \pi}{6}}$.
+	Задача оценки сигнала: $N = 40$, $L = 20$, $r = 2$, $\tsX = (x_{1}, \ldots, x_N),$  $x_k = 5\sin{\frac{2 k \pi}{6}} + \varepsilon_k$; $\varepsilon_k$, $k = 1, \ldots N$ --- гауссовский белый шум с нулевым средним и единичной дисперсией.
+	\vspace{-0.8cm}
 	
 	\begin{center}
 		\includegraphics*[width = 9cm]{s1_it100.pdf}
@@ -462,13 +473,103 @@
 
 \begin{frame}
 	\frametitle{Пример №3}
-	Сходимость алгоритма: $N = 40$, $L_1 = 8$, $L_2 = 20$, $r = 2$, $\tsX = (x_{1}, \ldots, x_N),$  $x_k = 5\sin{\frac{2 k \pi}{6}}$.
+	Задача оценки сигнала: $N = 40$, $L = 20$, $r = 2$, $\tsX = (x_{1}, \ldots, x_N),$  $x_k = 5\sin{\frac{2 k \pi}{6}} + \varepsilon_k$.
 	
 	\begin{center}
 		\includegraphics*[width = 9cm]{cadzowspeed_2.pdf}
 	\end{center}
-	
 \end{frame}
+
+\begin{frame}
+	\frametitle{Пример №4: среднее количество итераций и RMSE}
+	Задача оценки сигнала: $N = 40$, $L = 20$, $r = 2$, $\tsX = (x_{1}, \ldots, x_N),$  $x_k = 5\sin{\frac{2 k \pi}{6}} + \varepsilon_k$.
+	
+	Критерий остановки: $\frac{\|\calT^{-1}(\bfY_k) - \calT^{-1}(\bfY_{k + 1})\|^2}{N} < 10^{-8}$
+	\vspace{-0.4cm}
+	\begin{center}
+		\includegraphics*[width = 9cm]{2axis.pdf}
+	\end{center}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Пример №4.5: $\sigma = 3$}
+	Задача оценки сигнала: $N = 40$, $L = 20$, $r = 2$, $\tsX = (x_{1}, \ldots, x_N),$  $x_k = 5\sin{\frac{2 k \pi}{6}} + 3 \varepsilon_k$.
+	
+	Критерий остановки: $\frac{\|\calT^{-1}(\bfY_k) - \calT^{-1}(\bfY_{k + 1})\|^2}{N} < 10^{-8}$
+	\vspace{-0.4cm}
+	\begin{center}
+		\includegraphics*[width = 9cm]{2axis-3.pdf}
+	\end{center}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Пример из жизни}
+    Ряд `Fortified wine', первые 168 значений.
+    \begin{itemize}
+    	\item Построена параметрическая модель ``похожего'' ряда с помощью SSA + ESPRIT: 
+    	\small
+    	\begin{multline*} 
+    	s_{k} = 3997.74 (0.9967)^k +
+    	1174.75 (0.9942)^k \sin(\frac{\pi k}{6} - 2.249) + \\
+    	425.75 (1.0001)^k \sin(\frac{\pi k}{2} + 2.333) + 
+    	211.55 (1.004)^k \sin(\frac{\pi k}{3} + 1.677) + \\
+    	169.33 (1.0007)^k \sin(\frac{5 \pi k}{6} + 1.533) + 
+    	361.07 (0.9884)^k \sin(\frac{2 \pi k}{3} - 2.901),
+    	\end{multline*}
+    	\normalsize
+    	$\tsX=(x_1,\ldots,x_N)$, $x_i=s_i + 353.17 (0.9967)^k \varepsilon_i$.
+    	\item С помощью моделирования получено качество оценки искусственного сигнала и точность аппроксимации ряда
+    	\item Метод применён к настоящему ряду
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Пример из жизни: результаты моделирования}
+\begin{table}
+	\caption{Сравнение методов по оценке сигнала, аппроксимации ряда `Fortifide wine' и его промоделированных копий.}
+	\label{tab:rltable}
+	
+	\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}ccccc}
+		\hline
+		Метод: & $\tsS$ & $\tsX$ & $\tsX^*$ \\
+		\hline
+		Cadzow, $\alpha = 1$ & 127.71 & 263.20 & 283.58 \\
+		\hline
+		Cadzow, $\alpha = 0.8$ & 127.18 & 262.98 & 283.25 \\
+		\hline
+		Cadzow, $\alpha = 0.6$ & 126.42 & 262.63 & 282.72 \\
+		\hline
+		Cadzow, $\alpha = 0.4$ & 125.39 & 262.06 & 281.77 \\
+		\hline
+		Cadzow, $\alpha = 0.2$ & 124.10 & 260.94 & 279.55 \\
+		\hline
+		Cadzow, $\alpha = 0.1$ & 125.09 & 260.52 & 276.70 \\
+		\hline
+		Cadzow, $\alpha = 0.05$ & 129.44 & 261.47 & 274.00 \\
+		\hline
+	\end{tabular*}
+\end{table}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Пример из жизни: наилучшее приближение}
+	Получено алгоритмом Cadzow($0.2$). Пунктирная линия --- исходный ряд, сплошная линия --- аппроксимация рядом конечного ранга.
+	\vspace{-0.2cm}
+	\begin{center}
+		\includegraphics*[width = 9cm]{rlimage.pdf}
+	\end{center}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Пример № последний: красные против белых, $\sigma = 2$}
+	$N = 40$, $L = 20$, $r = 2$, $\tsX = (x_{1}, \ldots, x_N),$  $x_k = 5\sin{\frac{2 k \pi}{6}} + 2 \varepsilon_k$.
+	$\tsY = (y_{1}, \ldots, y_N),$  $y_k = 5\sin{\frac{2 k \pi}{6}} + 2 \gamma_k$, $\gamma_k = \varphi \gamma_{k - 1} + \sqrt{1 - \varphi^2} \epsilon_k$, $\varphi = 0.8$.
+	\vspace{-0.4cm}
+	\begin{center}
+		\includegraphics*[width = 9cm]{2axis-2.pdf}
+	\end{center}
+\end{frame}
+
 \section{Итоги}
 
 %\begin{frame}
@@ -504,5 +605,7 @@
 	\end{itemize}
 	
 \end{frame}
+
+\bibliographystyle{plain}
 
 \end{document}
