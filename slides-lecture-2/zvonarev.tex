@@ -442,7 +442,7 @@
 	\begin{itemize}
 		\item Оптимальный выбор для $L$ это $L \approx \frac{\alpha(N + 1) + \sqrt{\alpha^2(N+1)^2 + 4N(1  - \alpha^2)}}{2(1 + \alpha)}$
 		\item В этом случае порядок разделимости $\rho = O \left(\frac{1}{\alpha N + \sqrt{N(1 - \alpha ^ 2)}} \right)$
-		\item Для фиксированного $\alpha$ порядок разделимости остаётся равным $1/N$
+		\item Для фиксированного $\alpha$ порядок разделимости остаётся равным $1/N$ (и $O(N/L) = O(1)$, т.к. $N/L$ ограничено)
 		\item Если рассматривать $\alpha(N) = O(N^{-\beta})$, то порядок становится равным $O(N^{\beta - 1})$ для $0 \le \beta \le 0.5$, и $O(1/\sqrt{N})$ для $\beta > 0.5$.
 	\end{itemize}
 \end{frame}
@@ -561,7 +561,7 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Пример № последний: красные против белых, $\sigma = 2$}
+	\frametitle{Пример № последний: красный и белый шум, $\sigma = 2$}
 	$N = 40$, $L = 20$, $r = 2$, $\tsX = (x_{1}, \ldots, x_N),$  $x_k = 5\sin{\frac{2 k \pi}{6}} + 2 \varepsilon_k$.
 	$\tsY = (y_{1}, \ldots, y_N),$  $y_k = 5\sin{\frac{2 k \pi}{6}} + 2 \gamma_k$, $\gamma_k = \varphi \gamma_{k - 1} + \sqrt{1 - \varphi^2} \epsilon_k$, $\varphi = 0.8$.
 	\vspace{-0.4cm}
