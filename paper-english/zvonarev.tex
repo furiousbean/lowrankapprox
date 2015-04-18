@@ -1068,19 +1068,30 @@ Let us consider the separability rate for the Cadzow($\alpha$) iterations introd
 
 \begin{proposition}
 	\label{prop:separ1}
-	Let $\tsX_1^\infty = (\cos(2 \pi \omega k), k = 1, 2, \ldots)$, where $0<\omega <0.5$, be a sine wave, $\tsX_2^\infty = (c, c, \ldots)$ be a constant series,  $L,K\ra \infty$ such that $h = h_L = N/L$, where $N=L+K-1$, is integer, and $\bfC=\bfC(\alpha)$ be defined in \eqref{zhigweights}, i.e.  $\bfC$ is a diagonal matrix with diagonal elements:
+	Let $\tsX_1^\infty = (\cos(2 \pi \omega k), k = 1, 2, \ldots)$, where $0<\omega <0.5$, be a sine wave, $\tsX_2^\infty = (c, c, \ldots)$ be a constant series,  $L(N),K(N)\ra \infty$, where $N=L+K-1$, $h = h_N = \lfloor N/L \rfloor$, and $\bfC=\bfC(\alpha(N))$ be defined in \eqref{zhigweights}, i.e.  $\bfC$ is a diagonal matrix with diagonal elements:
 	\begin{equation*}
 	c_k = \begin{cases}
 	1, & \text{if} \quad k = jL+1 \quad \text{for some} \ j = 0, \ldots, h-1,\\
 	\alpha, & \text{otherwise},
 	\end{cases}
 	\end{equation*}
-	where $0 \le \alpha \le 1$. Then $\rho$ given by \eqref{weak_sep_eq} has order $\max\left(\frac{1}{L}, \frac{(1-\alpha)C_{L,K}+\alpha}{(1-\alpha)N/L+\alpha K}\right)$, where the order of $C_{L,K}$
-	can vary from $O(1)$ to $O(N/L)$ depending on how $L$ and $K$ tends to infinity.
+	where $0 \le \alpha \le 1$. Then
+	\begin{enumerate}
+		\item $\rho$ given by \eqref{weak_sep_eq} has order $\max\left(\frac{1}{L}, \frac{(1-\alpha)C_{L,K}+\alpha}{(1-\alpha)D_{L,K}+\alpha K}\right)$, where
+		\begin{equation*}
+		C_{L,K} = C_{L(N),K(N)} = \sum_{\substack{1 \le k \le K: \\ c_k = 1}}\cos(2 \pi \omega (j + k - 1)),
+		\end{equation*} and
+		\begin{equation*}
+		D_{L,K} = D_{L(N),K(N)} = \sum_{\substack{1 \le k \le K: \\ c_k = 1}}\cos^2(2 \pi \omega (j + k - 1)).
+		\end{equation*}
+		\item If $h$ is limited above by a constant, then $C_{L,K} = O(1)$, and $\rho$ has order $\max\left(\frac{1}{L}, \frac{1}{\alpha K}\right)$.
+		\item If there exists small $\delta$, $0 < \delta < 1/2$, such that $2 L(N) \omega \in \bigcup_{k \in \sfZ} [k + \delta, k + 1 - \delta]$ for every $N$, $\sfZ$ is the set of integers, then $C_{L, K}$ has order $O(1)$, $D_{L, K}$ has order $\Theta(N/L)$, and $\rho$ has order $\max\left(\frac{1}{L}, \frac{1}{(1-\alpha)N/L+\alpha K}\right)$.
+	\end{enumerate}
+	
 \end{proposition}
 
 \begin{proof}
-To prove the theorem, we should evaluate the order of the expressions:
+1. To prove the theorem, we should evaluate the order of the expressions:
 	\begin{equation}\label{th5_sep1}
 	\rho^c_{i,j} = \frac{\sum_{k=j}^{j + L - 1} \cos(2 \pi \omega k)}{\sqrt{L \left(\sum_{k=j}^{j + L - 1} \cos^2(2 \pi \omega k)\right)}},
 	\end{equation}
@@ -1088,10 +1099,14 @@ To prove the theorem, we should evaluate the order of the expressions:
 	\rho^r_{i,j} = \frac{\sum_{k=1}^K c_k\cos(2 \pi \omega (j + k - 1))}{\sqrt{\left(\sum_{k=1}^K c_k\right) \left(\sum_{k=1}^K c_k\cos^2(2 \pi \omega (j + k - 1))\right)}}.
 	\end{equation}
 	The following trigonometric equalities hold:
-	\begin{multline*}
-	\sum_{k=1}^n \cos(ak + b) = \csc(a/2) \sin(an / 2) \cos \left(\frac{an + a + 2b}{2} \right), \\
+	\begin{equation}
+	\label{sumcos}
+	\sum_{k=1}^n \cos(ak + b) = \csc(a/2) \sin(an / 2) \cos \left(\frac{an + a + 2b}{2} \right), 
+	\end{equation}
+	\begin{multline}
+	\label{sumsqcos}
 	\sum_{k=1}^n \cos^2(ak + b) = \frac{1}{4}(\csc(a) \sin(2an + a + 2b) -\\ - \csc(a)\sin(a + 2b) + 2n),
-	\end{multline*}
+	\end{multline}
 	for any real $a, b$ and positive integer $n$.
 	Therefore, since the series $\tsX_1$ is not constant, the numerator in \eqref{th5_sep1} has order $O(1)$, while the denominator has order $O(L)$. Thus, we obtain the order $1/L$.
 	
@@ -1103,17 +1118,20 @@ where
     \begin{gather*}
 	C_{L, K} = \sum_{\substack{1 \le k \le K: \\ c_k = 1}}\cos(2 \pi \omega (j + k - 1)),
 	\\
-	\sum_{k=1}^K c_k = (1-\alpha) N/L + \alpha K,
+	\sum_{k=1}^K c_k = (1-\alpha) h + \alpha K,
 	\end{gather*}
 and
     \begin{multline*}
-	\sum_{k=1}^K c_k\cos^2(2 \pi \omega (j + k - 1)) = \\ (1-\alpha)\sum_{\substack{1 \le k \le K: \\ c_k = 1}}\cos^2(2 \pi \omega (j + k - 1)) +\\ +\sum_{1 \le k \le K }\alpha \cos^2(2 \pi \omega (j + k - 1)) = (1-\alpha) \Theta(N/L) + \alpha\, \Theta(K).
+	\sum_{k=1}^K c_k\cos^2(2 \pi \omega (j + k - 1)) = \\ (1-\alpha)\sum_{\substack{1 \le k \le K: \\ c_k = 1}}\cos^2(2 \pi \omega (j + k - 1)) +\\ +\sum_{1 \le k \le K }\alpha \cos^2(2 \pi \omega (j + k - 1)) = (1-\alpha) D_{N,L} + \alpha\, \Theta(K).
     \end{multline*}
-	In the worst case when $L\omega$ is integer we obtain that $\cos(2 \pi \omega (j + k - 1))$ is a constant not depending on $j$ and $k$, and then $C_{L,K}$ has order $O(N/L)$. If there exist small $0 < \delta < 0.5$ such that $L \omega \in [k + \delta, k + 1 - \delta]$ for every integer $k$ and every $L$ from the sequence, then $C_{L,K}$ has order $O(1)$.
+
+    2. $C_{L,K}$ is exactly the sum of $h$ cosines, therefore, the absolute value of $C_{L,K}$ is not larger than $h$, and, if $h$ is limited above by a constant, then $|C_{L,K}|$ is limited by the same constant.
+    
+    3. The condition $2 L(N) \omega \in \bigcup_{k \in \sfZ} [k + \delta, k + 1 - \delta]$ provides the upper bound for $C_{L,K}$ and lower bound for $D_{L,K}$, since it limits $|\csc(\pi L(N) \omega)|$ in \eqref{sumcos} for $C_{L,K}$ and $|\csc(2 \pi L(N) \omega)|$ in \eqref{sumsqcos} for $D_{L,K}$.
 \end{proof}
 
-Thus, even in the best case when $C_{L,K}$ has order $O(1)$, separability of sine-wave and constant signals becomes worse than in the standard Cadzow($1$) iterations: the optimal choice for $L$ is $L \approx \frac{\alpha(N + 1) + \sqrt{\alpha^2(N+1)^2 + 4N(1  - \alpha^2)}}{2(1 + \alpha)}$; for fixed $\alpha$ the rate of separability remains its order $1/N$ (and $C_{L,K}$ is bounded above, therefore, $C_{L,K} = O(1)$ always in this case), but in the case of smaller $\alpha(N) = O(N^{-\beta})$ rate of separability becomes equal $O(N^{\beta - 1})$ for $0 \le \beta \le 0.5$, and $O(1/\sqrt{N})$ for $\beta > 0.5$.
-In the worst case, the separability vanishes as $\alpha$ tends to zero.
+Let us suppose we choose $L(N)$ such that $\rho$ has order $\max\left(\frac{1}{L}, \frac{1}{(1-\alpha)N/L+\alpha K}\right)$. Then the optimal choice for $L$ is $L \approx \frac{\alpha(N + 1) + \sqrt{\alpha^2(N+1)^2 + 4N(1  - \alpha^2)}}{2(1 + \alpha)}$; the rate of separability remains its order $1/N$ for fixed $\alpha$, but in the case of smaller $\alpha(N) = O(N^{-\beta})$ rate of separability becomes equal $O(N^{\beta - 1})$ for $0 \le \beta \le 0.5$, and $O(1/\sqrt{N})$ for $\beta > 0.5$.
+%In the worst case, the separability vanishes as $\alpha$ tends to zero.
 
 %\smallskip
 %Now let us consider Cadzow-$\widehat\bfC$ iterations introduced in Section~\ref{sec:cadzow_hat}.
