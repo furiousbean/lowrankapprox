@@ -1079,10 +1079,10 @@ Let us consider the separability rate for the Cadzow($\alpha$) iterations introd
 	\begin{enumerate}
 		\item $\rho$ given by \eqref{weak_sep_eq} has order $\max\left(\frac{1}{L}, \frac{(1-\alpha)C_{L,K}+\alpha}{(1-\alpha)D_{L,K}+\alpha K}\right)$, where
 		\begin{equation*}
-		C_{L,K} = C_{L(N),K(N)} = \sum_{\substack{1 \le k \le K: \\ c_k = 1}}\cos(2 \pi \omega (j + k - 1)),
+		C_{L,K} = C_{L(N),K(N)} = \sum_{\substack{1 \le k \le K: \\ c_k = 1}}\cos(2 \pi \omega k),
 		\end{equation*} and
 		\begin{equation*}
-		D_{L,K} = D_{L(N),K(N)} = \sum_{\substack{1 \le k \le K: \\ c_k = 1}}\cos^2(2 \pi \omega (j + k - 1)).
+		D_{L,K} = D_{L(N),K(N)} = \sum_{\substack{1 \le k \le K: \\ c_k = 1}}\cos^2(2 \pi \omega k).
 		\end{equation*}
 		\item If $h$ is limited above by a constant, then $C_{L,K} = O(1)$, and $\rho$ has order $\max\left(\frac{1}{L}, \frac{1}{\alpha K}\right)$.
 		\item If there exists small $\delta$, $0 < \delta < 1/2$, such that $2~L(N)~\omega~\in~\bigcup_{k \in \sfZ} [k + \delta, k + 1 - \delta]$ for every $N$, where $\sfZ$ is the set of integers, then $C_{L, K}$ has order $O(1)$, $D_{L, K}$ has order $\Theta(N/L)$, and $\rho$ has order $\max\left(\frac{1}{L}, \frac{1}{(1-\alpha)N/L+\alpha K}\right)$.
@@ -1112,17 +1112,17 @@ Let us consider the separability rate for the Cadzow($\alpha$) iterations introd
 	
 	To evaluate the order of \eqref{th5_sep2}, consider the sum over $k$ such that $c_k=1$ separately:
 	\begin{multline*}
-	\sum_{k=1}^K c_k\cos(2 \pi \omega (j + k - 1)) = \\ (1-\alpha) \sum_{\substack{1 \le k \le K: \\ c_k = 1}}\cos(2 \pi \omega (j + k - 1)) +\\ +\sum_{1 \le k \le K}\alpha \cos(2 \pi \omega (j + k - 1)) = (1-\alpha) C_{L,K} + \alpha\, O(1),
+	\sum_{k=1}^K c_k\cos(2 \pi \omega (j + k - 1)) = \\ (1-\alpha) \sum_{\substack{1 \le k \le K: \\ c_k = 1}}\cos(2 \pi \omega (j + k - 1)) +\\ +\sum_{1 \le k \le K}\alpha \cos(2 \pi \omega (j + k - 1)) = (1-\alpha)O(C_{L,K}) + \alpha\, O(1),
 	\end{multline*}
 where
     \begin{gather*}
-	C_{L, K} = \sum_{\substack{1 \le k \le K: \\ c_k = 1}}\cos(2 \pi \omega (j + k - 1)),
+	C_{L, K} = \sum_{\substack{1 \le k \le K: \\ c_k = 1}}\cos(2 \pi \omega k),
 	\\
 	\sum_{k=1}^K c_k = (1-\alpha) h + \alpha K,
 	\end{gather*}
 and
     \begin{multline*}
-	\sum_{k=1}^K c_k\cos^2(2 \pi \omega (j + k - 1)) = \\ (1-\alpha)\sum_{\substack{1 \le k \le K: \\ c_k = 1}}\cos^2(2 \pi \omega (j + k - 1)) +\\ +\sum_{1 \le k \le K }\alpha \cos^2(2 \pi \omega (j + k - 1)) = (1-\alpha) D_{N,L} + \alpha\, \Theta(K).
+	\sum_{k=1}^K c_k\cos^2(2 \pi \omega (j + k - 1)) = \\ (1-\alpha)\sum_{\substack{1 \le k \le K: \\ c_k = 1}}\cos^2(2 \pi \omega (j + k - 1)) +\\ +\sum_{1 \le k \le K }\alpha \cos^2(2 \pi \omega (j + k - 1)) = (1-\alpha) \Theta(D_{L,K}) + \alpha\, \Theta(K).
     \end{multline*}
 
     2. $C_{L,K}$ is exactly the sum of $h$ cosines, therefore, the absolute value of $C_{L,K}$ is not larger than $h$, and, if $h$ is limited above by a constant, then $|C_{L,K}|$ is limited by the same constant.
