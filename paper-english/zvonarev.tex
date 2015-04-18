@@ -1085,7 +1085,7 @@ Let us consider the separability rate for the Cadzow($\alpha$) iterations introd
 		D_{L,K} = D_{L(N),K(N)} = \sum_{\substack{1 \le k \le K: \\ c_k = 1}}\cos^2(2 \pi \omega (j + k - 1)).
 		\end{equation*}
 		\item If $h$ is limited above by a constant, then $C_{L,K} = O(1)$, and $\rho$ has order $\max\left(\frac{1}{L}, \frac{1}{\alpha K}\right)$.
-		\item If there exists small $\delta$, $0 < \delta < 1/2$, such that $2 L(N) \omega \in \bigcup_{k \in \sfZ} [k + \delta, k + 1 - \delta]$ for every $N$, $\sfZ$ is the set of integers, then $C_{L, K}$ has order $O(1)$, $D_{L, K}$ has order $\Theta(N/L)$, and $\rho$ has order $\max\left(\frac{1}{L}, \frac{1}{(1-\alpha)N/L+\alpha K}\right)$.
+		\item If there exists small $\delta$, $0 < \delta < 1/2$, such that $2~L(N)~\omega~\in~\bigcup_{k \in \sfZ} [k + \delta, k + 1 - \delta]$ for every $N$, where $\sfZ$ is the set of integers, then $C_{L, K}$ has order $O(1)$, $D_{L, K}$ has order $\Theta(N/L)$, and $\rho$ has order $\max\left(\frac{1}{L}, \frac{1}{(1-\alpha)N/L+\alpha K}\right)$.
 	\end{enumerate}
 	
 \end{proposition}
@@ -1127,10 +1127,10 @@ and
 
     2. $C_{L,K}$ is exactly the sum of $h$ cosines, therefore, the absolute value of $C_{L,K}$ is not larger than $h$, and, if $h$ is limited above by a constant, then $|C_{L,K}|$ is limited by the same constant.
     
-    3. The condition $2 L(N) \omega \in \bigcup_{k \in \sfZ} [k + \delta, k + 1 - \delta]$ provides the upper bound for $C_{L,K}$ and lower bound for $D_{L,K}$, since it limits $|\csc(\pi L(N) \omega)|$ in \eqref{sumcos} for $C_{L,K}$ and $|\csc(2 \pi L(N) \omega)|$ in \eqref{sumsqcos} for $D_{L,K}$.
+    3. The condition $2 L(N) \omega \in \bigcup_{k \in \sfZ} [k + \delta, k + 1 - \delta]$ provides upper bound for $C_{L,K}$ and lower bound for $D_{L,K}$, since it limits $|\csc(\pi L(N) \omega)|$ in \eqref{sumcos} for $C_{L,K}$ and $|\csc(2 \pi L(N) \omega)|$ in \eqref{sumsqcos} for $D_{L,K}$.
 \end{proof}
 
-Let us suppose we choose $L(N)$ such that $\rho$ has order $\max\left(\frac{1}{L}, \frac{1}{(1-\alpha)N/L+\alpha K}\right)$. Then the optimal choice for $L$ is $L \approx \frac{\alpha(N + 1) + \sqrt{\alpha^2(N+1)^2 + 4N(1  - \alpha^2)}}{2(1 + \alpha)}$; the rate of separability remains its order $1/N$ for fixed $\alpha$, but in the case of smaller $\alpha(N) = O(N^{-\beta})$ rate of separability becomes equal $O(N^{\beta - 1})$ for $0 \le \beta \le 0.5$, and $O(1/\sqrt{N})$ for $\beta > 0.5$.
+Let us suppose that we choose $L(N)$ such that $\rho$ has order $\max\left(\frac{1}{L}, \frac{1}{(1-\alpha)N/L+\alpha K}\right)$. Then the optimal choice for $L$ is $L \approx \frac{\alpha(N + 1) + \sqrt{\alpha^2(N+1)^2 + 4N(1  - \alpha^2)}}{2(1 + \alpha)}$; the rate of separability remains its order $1/N$ for fixed $\alpha$, but in the case of smaller $\alpha(N) = O(N^{-\beta})$ rate of separability becomes equal $O(N^{\beta - 1})$ for $0 \le \beta \le 0.5$, and $O(1/\sqrt{N})$ for $\beta > 0.5$.
 %In the worst case, the separability vanishes as $\alpha$ tends to zero.
 
 %\smallskip
