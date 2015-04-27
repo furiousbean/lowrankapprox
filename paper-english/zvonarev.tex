@@ -112,7 +112,7 @@ s_L & s_{L + 1} & \ldots & s_N
 \end{pmatrix}.
 \end{equation*}
 Note that $\bfS\in \calH$, where $\calH$ is the set of Hankel matrices with equal values on their anti-diagonals $i+j=\mathrm{const}$.
-If $\tsS$ is governed by an LRR of order $r$, $r < \min(L, K)$, and is not governed by an LRR of smaller order, then $\rank \bfS = r$ and therefore $\bfS$ is a Hankel matrix of low-rank $r$. The column space of $\bfS$, that is, the  signal subspace, provides estimates of $\alpha_i$ and $\omega_i$ in \eqref{parametricform} by the ESPRIT method \cite{Roy.Kailath1989, Golyandina.Zhigljavsky2012} applied to $\tsS$.
+If $\tsS$ is governed by an LRR of order $r$, $r < \min(L, K)$, and is not governed by an LRR of smaller order, then $\rank \bfS = r$ and therefore $\bfS$ is a Hankel matrix of low-rank $r$. The column space of $\bfS$, that is, the  signal subspace, provides estimates of $\alpha_i$ and $\omega_i$ in \eqref{parametricform} by the ESPRIT method \cite{Roy.Kailath1989, Golyandina.Zhigljavsky2012} applied to $\bfS$.
 
 Let $\bfX$ be the trajectory matrix of the series $\tsX$. Then the problem of estimation of $\tsS$ and the signal subspace can be considered as a problem of approximation of the matrix $\bfX$ by a Hankel matrix of rank not larger than $r$:
 \begin{equation}\label{introd_task}
@@ -984,11 +984,11 @@ RMSE of model series approximation (the column $\tsX$) and the approximation acc
 Table~\ref{tab:rltable} shows that for $\alpha$ from the range from 1 to 0.2
 a smaller approximation error yields a smaller reconstruction error. However, for smaller $\alpha$
 the tendency is broken. Probably, small values of $\alpha$ does not provide a sufficient separability from noise
-to converge toward the global minimum. 
+to converge toward the global minimum.
 
 %As we can see, smaller $\alpha$ tends to better approximation of $\tsX^*$ and estimation of signal $\tsS$, but, according to our investigation, only $\alpha = 1$, $0.8$, $0.6$, $0.4$ and $0.2$  can be trusted. If $\alpha = 0.05$, the separability becomes worse, and small signal-to-noise ratio causes far away from global minimum convergence of algorithm.
 
-Figure \ref{fig:rl} depicts the approximation of the original `Fortified wine' series $\tsX^*$ obtained by Cadzow($0.2$) algorithm. 
+Figure \ref{fig:rl} depicts the approximation of the original `Fortified wine' series $\tsX^*$ obtained by Cadzow($0.2$) algorithm.
 One can expect that this is a more accurate finite-rank estimation of the signal.
 The dotted line corresponds to the original series, while the solid line shows finite-rank estimation of the signal of rank 11.
 
@@ -1101,7 +1101,7 @@ Let us consider the separability rate for the Cadzow($\alpha$) iterations introd
 	The following trigonometric equalities hold:
 	\begin{equation}
 	\label{sumcos}
-	\sum_{k=1}^n \cos(ak + b) = \csc(a/2) \sin(an / 2) \cos \left(\frac{an + a + 2b}{2} \right), 
+	\sum_{k=1}^n \cos(ak + b) = \csc(a/2) \sin(an / 2) \cos \left(\frac{an + a + 2b}{2} \right),
 	\end{equation}
 	\begin{multline}
 	\label{sumsqcos}
@@ -1126,7 +1126,7 @@ and
     \end{multline*}
 
     2. $C_{L,K}$ is exactly the sum of $h$ cosines, therefore, the absolute value of $C_{L,K}$ is not larger than $h$, and, if $h$ is limited above by a constant, then $|C_{L,K}|$ is limited by the same constant.
-    
+
     3. The condition $2 L(N) \omega \in \bigcup_{k \in \sfZ} [k + \delta, k + 1 - \delta]$ provides upper bound for $C_{L,K}$ and lower bound for $D_{L,K}$, since it limits $|\csc(\pi L(N) \omega)|$ in \eqref{sumcos} for $C_{L,K}$ and $|\csc(2 \pi L(N) \omega)|$ in \eqref{sumsqcos} for $D_{L,K}$.
 \end{proof}
 
