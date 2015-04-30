@@ -1034,7 +1034,7 @@ one of the best reconstructions at the first iteration.
 \label{sec:app}
 
 Let us consider modifications of SSA, which are produced by the first iteration of the Cadzow($\alpha$) iterative algorithms described in Section~\ref{sec:cadzow_alpha}. Recall that the Cadzow($1$) iterative algorithm produces the conventional Basic SSA method \cite{Golyandina.etal2001,Golyandina.Zhigljavsky2012}, while the first iteration of a general Cadzow($\alpha$) algorithm can be considered as a
-particular case of Oblique SSA \cite{Golyandina2013} with the Euclidean inner product in the row column and a special inner product in the row space.
+particular case of Oblique SSA \cite{Golyandina2013} with the Euclidean inner product in the column space and a special inner product in the row space.
 
 Separability of signals from residuals in SSA is deeply investigated in \cite{Golyandina.etal2001,Golyandina2010}. Separability of a signal means the ability of the method to extract the signal. In fact, separability is related to the accuracy of signal estimation obtained at the first iteration
 of the considered iterative algorithms. Notions of exact, approximate and asymptotical (as the series length tends to infinity) separability together with examples of the asymptotic separability rates are introduced for
@@ -1075,7 +1075,7 @@ Let us consider the separability rate for the Cadzow($\alpha$) iterations introd
 	\alpha, & \text{otherwise},
 	\end{cases}
 	\end{equation*}
-	where $0 \le \alpha \le 1$. Then
+	where $0 < \alpha(N) \le 1$. Then
 	\begin{enumerate}
 		\item $\rho$ given by \eqref{weak_sep_eq} has following order: $\rho~=~O\left(\max\left(\frac{1}{L}, \frac{(1-\alpha)C_{L,K}+\alpha}{(1-\alpha)D_{L,K}+\alpha K}\right)\right)$, where
 		\begin{equation*}
@@ -1107,7 +1107,7 @@ Let us consider the separability rate for the Cadzow($\alpha$) iterations introd
 	\sum_{k=1}^n \cos^2(ak + b) = \frac{1}{4}(\csc(a) \sin(2an + a + 2b) -\\ - \csc(a)\sin(a + 2b) + 2n),
 	\end{multline}
 	for any real $a, b$ and positive integer $n$.
-	Therefore, since the series $\tsX_1$ is not constant, the numerator in \eqref{th5_sep1} has order $O(1)$, while the denominator has order $O(L)$. Thus, we obtain the order $1/L$.
+	Therefore, since the series $\tsX_1$ is not constant, the numerator in \eqref{th5_sep1} has order $O(1)$, while the denominator has order $\Omega(L)$. Thus, we obtain the order $1/L$.
 	
 	To evaluate the order of \eqref{th5_sep2}, consider the sum over $k$ such that $c_k=1$ separately:
 	\begin{multline*}
@@ -1118,15 +1118,25 @@ Let us consider the separability rate for the Cadzow($\alpha$) iterations introd
 	\end{equation*}
 and
     \begin{multline*}
-	\sum_{k=1}^K c_k\cos^2(2 \pi \omega (j + k - 1)) = \\ (1-\alpha)\sum_{\substack{1 \le k \le K: \\ c_k = 1}}\cos^2(2 \pi \omega (j + k - 1)) +\\ +\sum_{1 \le k \le K }\alpha \cos^2(2 \pi \omega (j + k - 1)) = (1-\alpha) \Theta(D_{L,K}) + \alpha\, \Theta(K).
+	\sum_{k=1}^K c_k\cos^2(2 \pi \omega (j + k - 1)) = \\ (1-\alpha)\sum_{\substack{1 \le k \le K: \\ c_k = 1}}\cos^2(2 \pi \omega (j + k - 1)) +\\ +\sum_{1 \le k \le K }\alpha \cos^2(2 \pi \omega (j + k - 1)) = (1-\alpha) \Omega(D_{L,K}) + \alpha\, \Omega(K).
     \end{multline*}
 
     2. $C_{L,K}$ is exactly the maximum of sums, each of $h$ cosines, therefore, the absolute value of $C_{L,K}$ is not larger than $h$, and, if $h$ is bounded by a constant, then $|C_{L,K}|$ is bounded by the same constant, so, $C_{L,K} = O(1)$.
 
-    3. The condition $2~L(N)~\omega~\in~ \sfR \setminus \left(\bigcup_{k \in \sfZ} [k - \delta, k + \delta] \right)$ provides upper bound for $C_{L,K}$ and lower bound for $D_{L,K}$, since it limits $|\csc(\pi L(N) \omega)|$ in \eqref{sumcos} for $C_{L,K}$ and $|\csc(2 \pi L(N) \omega)|$ in \eqref{sumsqcos} for $D_{L,K}$, therefore, $C_{L, K}$ has order $O(1)$, $D_{L, K}$ has order $\Theta(N/L)$.
+    3. The condition $2~L(N)~\omega~\in~ \sfR \setminus \left(\bigcup_{k \in \sfZ} [k - \delta, k + \delta] \right)$ provides upper bound for $C_{L,K}$ and lower bound for $D_{L,K}$, since it limits $|\csc(\pi L(N) \omega)|$ in \eqref{sumcos} for $C_{L,K}$ and $|\csc(2 \pi L(N) \omega)|$ in \eqref{sumsqcos} for $D_{L,K}$, therefore, $C_{L, K}$ has order $O(1)$, $D_{L, K}$ has order $\Omega(N/L)$.
 \end{proof}
 
-Let us suppose that we choose $L(N)$ such that $\rho$ has order $\max\left(\frac{1}{L}, \frac{1}{(1-\alpha)N/L+\alpha K}\right)$. Then the optimal choice for $L$ is $L \approx \frac{\alpha(N + 1) + \sqrt{\alpha^2(N+1)^2 + 4N(1  - \alpha^2)}}{2(1 + \alpha)}$; the rate of separability remains its order $1/N$ for fixed $\alpha$, but in the case of smaller $\alpha(N) = O(N^{-\beta})$ rate of separability becomes equal $O(N^{\beta - 1})$ for $0 \le \beta \le 0.5$, and $O(1/\sqrt{N})$ for $\beta > 0.5$.
+\begin{remark}
+	Here we use the following definitions for Big-O notation:
+	\begin{gather*}
+	f(n) \in O(g(n)) \Leftrightarrow \exists k>0 \exists n_0 \forall n > n_0: \, |f(n)| \le k |g(n)|, \\
+	f(n) \in \Omega(g(n)) \Leftrightarrow \exists k>0 \exists n_0 \forall n > n_0: \, |f(n)| \ge k |g(n)|.
+	\end{gather*}
+\end{remark}
+
+\begin{remark}
+	Let us suppose that we choose $L(N)$ such that $\rho$ has order $\max\left(\frac{1}{L}, \frac{1}{(1-\alpha)N/L+\alpha K}\right)$. Then the optimal choice for $L$ is $L \approx \frac{\alpha(N + 1) + \sqrt{\alpha^2(N+1)^2 + 4N(1  - \alpha^2)}}{2(1 + \alpha)}$; the rate of separability remains its order $1/N$ (but with worse multiplier) for $\alpha(N) \to c > 0$, where $c$ is some constant. In the case of smaller $\alpha(N) = O(N^{-\beta})$ rate of separability becomes equal $O(N^{\beta - 1})$ for $0 \le \beta \le 0.5$, and $O(1/\sqrt{N})$ for $\beta > 0.5$.
+\end{remark}
 %In the worst case, the separability vanishes as $\alpha$ tends to zero.
 
 %\smallskip
