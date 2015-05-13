@@ -77,11 +77,11 @@ Several new methods are suggested and examined together with the Cadzow's iterat
 
 \begin{keyword}
 \kwd{time series}
-\kwd{Cadzow's iterative method}
 \kwd{time series of finite rank}
 \kwd{weighted low-rank approximation}
 \kwd{signal estimation}
 \kwd{singular spectrum analysis}
+\kwd{Cadzow's iterative method}
 \end{keyword}
 
 % history:
@@ -96,13 +96,13 @@ Consider the problem of extracting a signal $\tsS~=~(s_1, \ldots, s_N)$ from an 
 \begin{equation*}
 s_n = \sum_{i = 1}^{r} a_i s_{n-i}, \quad n = r + 1, \ldots, N;\  a_r\neq 0.
 \end{equation*}
-Generally, series governed by an LRR may be written in a parametric form
+Generally, series, which are governed by LRRs, may be written in a parametric form
 \begin{equation} \label{parametricform}
 s_n = \sum_i P_i(n) \exp(\alpha_i n) \cos(2 \pi \omega_i n + \psi_i),
 \end{equation}
-where $P_i(n)$ are polynomials of $n$. However, a parametric regression approach for the problem does not lead to accurate estimation of parameters due to their large amount and instability of estimators.
+where $P_i(n)$ are polynomials of $n$. However, a parametric regression approach for the problem does not lead to accurate estimation of parameters due instability of estimates.
 
-It is known that methods based on signal subspace estimation (subspace-based methods) work well \cite{Broomhead.King1986, Vautard.etal1992, Elsner.Tsonis1996, Golyandina.etal2001}. These subspace-based methods use the following approach. Let us fix a window length $L$, $1 \le L \le N$, set $K = N - L + 1$, and build the \emph{trajectory matrix} for the series $\tsS$:
+It is known that methods based on signal subspace estimation (subspace-based methods) work well \cite{Broomhead.King1986, Vautard.etal1992, Elsner.Tsonis1996, Golyandina.etal2001}. These subspace-based methods use the following approach. Let us fix a window length $L$, $1 < L < N$, set $K = N - L + 1$, and build the \emph{trajectory matrix} for the series $\tsS$:
 \begin{equation*}
 \bfS = \begin{pmatrix}
 s_1 & s_2 & \ldots & s_K \\
@@ -120,9 +120,9 @@ Let $\bfX$ be the trajectory matrix of the series $\tsX$. Then the problem of es
 \end{equation}
 where $\|\cdot\|_\rmF$ is the Frobenius norm.
 
-A lot of papers are devoted to this problem, e.g., \cite{Cadzow1988, Markovsky2011, Usevich.Markovsky2014, Gillard.Zhigljavsky2013} among them, where the problem is called Structured Low-Rank Approximation. Numerical solutions of the problem are iterative; e.g., the Cadzow's iterative method \cite{Cadzow1988} consists of alternating projections to the sets of Hankel matrices and of matrices of rank not larger than $r$. The target function is not unimodal in such class of problems, and convergence to global minimum is not guaranteed; despite this, problem \eqref{introd_task} is considered to be well-researched, though it has many open questions yet.
+Many papers are devoted to this problem, e.g., \cite{Cadzow1988, Markovsky2011, Usevich.Markovsky2014, Gillard.Zhigljavsky2013} among others, where the problem is called Structured Low-Rank Approximation. Numerical solutions of the problem are iterative; e.g., the Cadzow's iterative method \cite{Cadzow1988} consists of alternating projections to the sets of Hankel matrices and of matrices of rank not larger than $r$. The target function is not unimodal in such class of problems, and convergence to the global minimum is not guaranteed; despite this, the problem \eqref{introd_task} is considered to be well-researched, though it still has many open questions.
 
-Note that problem \eqref{introd_task} is equivalent to the problem of weighted approximation of the series $\tsX = (x_1, \ldots, x_N)$:
+Note that the problem \eqref{introd_task} is equivalent to the problem of weighted approximation of the series $\tsX = (x_1, \ldots, x_N)$:
 \begin{equation}\label{introd_task_2}
 \sum_{i = 1}^N w_i(x_i - y_i)^2 \to \min_{\substack{\tsY: \rank \bfY \le r \\ \bfY \in \calH}},
 \end{equation}
@@ -139,15 +139,15 @@ and $\bfY$ is the  trajectory matrix of the series $\tsY$.
 
 The weights \eqref{eq:w} at both ends of the series are smaller than that in the center, i.e. the ordinary least-square problem \eqref{introd_task} for matrices corresponds to a weighted least-squares problem for series.
 
-The aim of this paper is to consider methods which solve problem \eqref{introd_task_2} with equal weights instead of $w_i$ and then to compare the constructed methods in terms of accuracy of the signal estimation. All described methods are iterative.
-If one is interested in a signal estimate, which is not necessarily governed by an LRR, then the first iteration can be taken as a low-cost estimator of the signal.
+The aim of this paper is to consider methods which solve the problem \eqref{introd_task_2} with equal weights instead of $w_i$ and then to compare the constructed methods in terms of accuracy of the signal estimation. All described methods are iterative.
+If one is interested in a signal estimate, which is not necessarily governed by an LRR, then the first iteration can be taken as a low-cost estimate of the signal.
 Hence, the described methods are compared by accuracy of the signal estimation at the first iteration and in the limit. Note that Singular Spectrum Analysis (SSA) \cite{Broomhead.King1986, Vautard.etal1992, Elsner.Tsonis1996, Golyandina.etal2001, Ghil.etal2002, Golyandina.Zhigljavsky2012} applied to the problem of signal estimation can be represented as the first iteration of the Cadzow method.
 
-The structure of the paper is as follows.  In Section~\ref{sec:lowrank_appr}, a problem of approximation of a matrix by a Hankel rank-deficient matrix is considered. Common structure of iterative alternating-projection algorithms is described, approaches to construction of the projectors are given, the convergence theorem is proved.
+The structure of the paper is as follows.  In Section~\ref{sec:lowrank_appr}, the problem of approximating a matrix by a Hankel rank-deficient matrix is considered. The common structure of iterative alternating-projection algorithms is described, approaches to construction of the projectors are given, the convergence theorem is proved.
 
-In Section~\ref{sec:ts_matrices}, relation between the problems of approximation of time series and of their trajectory matrices is described, relationship between weights in equivalent weighted least-squares problems is also given. Section~\ref{sec:alg} contains the suggested time-series approximation algorithms. In Section~\ref{sec:simul}, a numeric comparison of algorithms on a typical simulated example is performed. Section~\ref{sec:ex_real} contains a real-life example.
+In Section~\ref{sec:ts_matrices}, the relation between the problems of approximation of time series and of their trajectory matrices is described. The relationship between weights in equivalent weighted least-squares problems is also given. Section~\ref{sec:alg} contains the suggested time-series approximation algorithms. In Section~\ref{sec:simul}, a numeric comparison of algorithms on a typical simulated example is performed. Section~\ref{sec:ex_real} contains an example with analysis of real-life data.
 
-The paper is summarized and conclusions are drawn in Section~\ref{sec:concl}. Supplementary results on SSA separability, which has a connection with convergence rate, are proved in Appendix~\ref{sec:app}.
+The paper is summarized and conclusions are drawn in Section~\ref{sec:concl}. Supplementary results on SSA separability, which has a connection with the convergence rate, are proved in Appendix~\ref{sec:app}.
 
 \section{Approximation by rank-deficient Hankel matrices}
 \label{sec:lowrank_appr}
@@ -155,7 +155,7 @@ The paper is summarized and conclusions are drawn in Section~\ref{sec:concl}. Su
 Consider the problem of projecting a point $x$ to a set $\calH~ \cap~\calM$ in a Hilbert space $\sfX$ with a inner product $\langle \cdot, \cdot \rangle$, where $\calH$ and $\calM$ are closed under the limit operation, $\calH$ is linear subspace, while $\calM$ is closed with respect to scalar multiplication, i.e.
 if $z \in \calM$, then $\alpha z\in \calM$ for any $\alpha$. Note that  $\calM$ is not necessarily a linear or convex set.
 
-The problem is formulated as
+Thus, the problem is formulated as
 \be
 \label{eq:gen_task}
 \|x - y\| \to \min_y, \mbox{\ where\ } y \in \calH \cap \calM,
@@ -197,7 +197,7 @@ The projector to $\calH$ is evidently orthogonal, while $\Pi_{\calM}$ is orthogo
 \begin{remark}
 \label{rem:adj}
 The proof of Proposition~\ref{prop:pythaprop} yields that for any $y\in \calM$ one can perform an adjustment $\calA(y)=\frac{\langle x, y \rangle}{\langle y, y \rangle} y \in \calM$ such that $\calA(y)$
-is not farther from $x$ than the original $y$. Moreover, $\calA(y)$ is
+is not further from $x$ than the original $y$. Moreover, $\calA(y)$ is
 orthogonal to $x - \calA(y)$.
 \end{remark}
 
@@ -224,7 +224,7 @@ In the following theorem, we investigate convergence of the sequence~\eqref{eq:i
 	\label{eq:chuprop}
 	\|y_k - \Pi_{\calM} y_k\| \ge \|\Pi_{\calM} y_k - y_{k + 1}\| \ge \\ \|y_{k+1} - \Pi_{\calM} y_{k + 1}\|.
 	\end{multline}
-Indeed, since the projection $\Pi_\calM z$ is not farther from $z$ than any other point from $\calM$ and the similar statement is valid for
+Indeed, since the projection $\Pi_\calM z$ is not further from $z$ than any other point from $\calM$ and the similar statement is valid for
 $\Pi_\calH$, we have $\|\Pi_{\calM} y_k - z\| \ge \|z - \Pi_{\calM} z\|$, where $z=y_{k+1}$, and $\|y_k - z\| \ge \|z - \Pi_{\calH} z\|$, where $z=\Pi_{\calM} y_k$.
 	\begin{enumerate}
 		\item According to inequalities \eqref{eq:chuprop}, the sequences $\|y_k~-~\Pi_{\calM} y_k\|$, $k = 1, 2, \ldots$, and $\|\Pi_{\calM} y_k - y_{k + 1}\|$, $k = 1, 2, \ldots$, are non-increasing. It is obvious that they are limited below by zero. Therefore, they have the same limit $c$ due to \eqref{eq:chuprop}.
@@ -234,8 +234,8 @@ $\Pi_\calH$, we have $\|\Pi_{\calM} y_k - z\| \ge \|z - \Pi_{\calM} z\|$, where 
 		\begin{multline*}
 		\|y_k\|^2 = \|\Pi_{\calM} y_k\|^2 + \|y_k - \Pi_{\calM} y_k\|^2 =\\ \|y_k - \Pi_{\calM} y_k\|^2 + \|\Pi_{\calM} y_k - y_{k + 1}\|^2 + \|y_{k + 1}\|^2.
 		\end{multline*}
-		Thus, $\|y_{k+1}\|^2 < \|y_k\|^2 - 2d^2$. Expanding this inequality by the same way, we obtain that $\|y_{k+j}\|^2 < \|y_k\|^2 - 2 j d^2$ for any $j = 1, 2, \ldots$. Choose $k = 1$, and $j = \lceil \|y_k\|^2 / (2d^2) \rceil + 1$. Then $\|y_{k+j}\|^2 < 0$, what is impossible. Thus, $c=0$.
-		\item Consider the sequence $(\Pi_{\calM} y_k,\, k = 1, 2, \ldots)$. It is bounded, since $\|\Pi_{\calM} z\| \le \|z\|$ (by Proposition \ref{prop:pythaprop}) and $\|\Pi_{\calH} z\| \le \|z\|$ for any $z \in \sfX$. The sequence belongs to a compact set, since $\calM$ is closed with respect to scalar multiplication, and we can resize the unit ball to cover the sequence. Then a convergent subsequence $(\Pi_{\calM} y_{i_k})$ can be chosen; denote by $y^*\in\calM$ its limit, wherein $\|\Pi_{\calM} y_{i_k} - y_{i_k + 1}\| = \|\Pi_{\calM} y_{i_k} - \Pi_\calH \Pi_{\calM} y_{i_k}\| \to 0$ as $k \to + \infty$. Since  $\calH$ is closed, and $\sfX$ is a Banach space, the projector $\Pi_\calH$ is a continuous mapping. Taking into consideration that $\|z - \Pi_\calH z\|$ is a composition of continuous mappings, we obtain that $\|y^* - \Pi_\calH y^*\| = 0$, $y^* \in \calM \cap \calH$. Finally, $\Pi_\calH$ is a continuous mapping and therefore the sequence $(\Pi_\calH \Pi_{\calM} y_{i_k})$ converges to $y^*$. Thus, $y_{i_k + 1}$ is a required subsequence.
+		Thus, $\|y_{k+1}\|^2 < \|y_k\|^2 - 2d^2$. Expanding this inequality by the same way, we obtain that $\|y_{k+j}\|^2 < \|y_k\|^2 - 2 j d^2$ for any $j = 1, 2, \ldots$. Choose $k = 1$, and $j = \lceil \|y_k\|^2 / (2d^2) \rceil + 1$. Then $\|y_{k+j}\|^2 < 0$, which is impossible. Thus, $c=0$.
+		\item Consider the sequence $\Pi_{\calM} y_k$, $k = 1, 2, \ldots$, which is bounded, since $\|\Pi_{\calM} z\| \le \|z\|$ (by Proposition \ref{prop:pythaprop}) and $\|\Pi_{\calH} z\| \le \|z\|$ for any $z \in \sfX$. The sequence belongs to a compact set, since $\calM$ is closed with respect to scalar multiplication, and we can resize the unit ball to cover the sequence. Then a convergent subsequence $(\Pi_{\calM} y_{i_k})$ can be chosen; denote by $y^*\in\calM$ its limit, wherein $\|\Pi_{\calM} y_{i_k} - y_{i_k + 1}\| = \|\Pi_{\calM} y_{i_k} - \Pi_\calH \Pi_{\calM} y_{i_k}\| \to 0$ as $k \to + \infty$. Since  $\calH$ is closed, and $\sfX$ is a Banach space, the projector $\Pi_\calH$ is a continuous mapping. Taking into consideration that $\|z - \Pi_\calH z\|$ is a composition of continuous mappings, we obtain that $\|y^* - \Pi_\calH y^*\| = 0$, $y^* \in \calM \cap \calH$. Finally, $\Pi_\calH$ is a continuous mapping and therefore the sequence $(\Pi_\calH \Pi_{\calM} y_{i_k})$ converges to $y^*$. Thus, $y_{i_k + 1}$ is the required subsequence.
 	\end{enumerate}
 \end{proof}
 
@@ -247,17 +247,11 @@ Let us apply Theorem~\ref{th:converg} to the case of matrix approximation by ran
 \bfY_{k+1}=\Pi_\calH \Pi_{\calM_r} \bfY_{k}, \mbox{\ where\ } \bfY_{0}=\bfX \in \spaceR^{L\times K}.
 \end{equation*}
 
-%by a Hankel rank-deficient matrix with respect to some (semi)norm $\|\cdot\|$. Define by $\spaceR^{L\times K}$ the space of matrices of size $L \times K$, $\calM_r\subset \spaceR^{L\times K}$ is the set of matrices of rank not larger than $r$,
-%$\calH \subset \spaceR^{L\times K}$ is the set of Hankel matrices.
-%Note that  $\calM_r$ is neither a linear, nor convex set. However, $\calM_r$ is closed with respect to scalar multiplication, i.e.
-%if $\bfZ\in \calM_r$, then $a\bfZ\in \calM_r$ for any $a$. This fact is crucial for the proof of the following theorem.
-%The space $\calH$ is linear.
-
 It is well known that the set $\calM_r$ is closed with respect to the conventional Frobenius norm and therefore is closed
 to any norm, since in the matrix space all the norm are equivalent.
 The closed unit ball is obviously a compact set in finite-dimensional Euclidean space.
 Therefore the conclusion of Theorem~\ref{th:converg} holds.
-Note that the existence of convergent subsequence can be deduced from \cite{Cadzow1988}.
+Note that the existence of a convergent subsequence can be deduced from \cite{Cadzow1988}.
 However, our proof of this fact is based on different assumptions; in particular, we stress on the Pythagorean equality for projections to sets which are closed with respect to multiplication.
 
 In this paper, we consider norms (semi-norms) in $\sfX$ generated by weighted Frobenius inner products in the form, which is parameterized by a matrix $\bfM$ with positive (non-negative) entries $m_{i,j}$:
@@ -270,13 +264,13 @@ Therefore, the conclusion of Theorem~\ref{th:converg} holds if the weights $m_{i
 \subsection{Evaluation of projections}
 Let us consider the weighted norm $\|\cdot\|_\bfM$ generated by \eqref{eq:w_inner_prod}, that is, $\|\bfX\|^2 = \|\bfX\|^2_\bfM = \sum_{l = 1}^L \sum_{k = 1}^K m_{l, k} x^2_{l, k}$.
 
-\subsubsection{Projector $\Pi_\calH$.} 
+\subsubsection{Projector $\Pi_\calH$.}
 \label{sec:projH}
 It is easy to show that $\Pi_\calH$
 can be evaluated explicitly using the following proposition.
 
 \begin{proposition}
-	For $\widehat{\bfY}=\Pi_\calH \bfY$
+	For $\widehat{\bfY}=\Pi_\calH \bfY$ we have
 	\begin{equation*}
 	\hat{y}_{ij} = \frac{\sum_{l,k:\, l+k=i+j} m_{l,k} y_{l,k}}{\sum_{l,k:\, l+k=i+j} m_{l,k}}.
 	\end{equation*}
@@ -285,11 +279,11 @@ can be evaluated explicitly using the following proposition.
 It is impossible to derive an explicit form of $\Pi_{\calM_r}$ in the case of arbitrary weights.
 Consider one specific case and suggest an iterative approach to the general case.
 
-\subsubsection{Case of explicit form of projector $\Pi_{\calM_r}$.}
+\subsubsection{Case of the explicit form of the projector $\Pi_{\calM_r}$.}
 \label{sec:projMr}
 \label{sec:obliqueSVD}
 For equal weights $m_{ij}=1$, denote $\Pi_r=\Pi_{\calM_r}$.
-It is well-known that the projector $\Pi_{r} \bfY$ can be evaluated as a sum of $r$ leading components of the singular value decomposition (SVD) of the matrix $\bfY$. More precisely, let $L\le K$ for simplicity and $\bfY = \bfU \mathbf{\Sigma} \bfV^\rmT$ be the SVD, where $\bfU$ is an orthogonal matrix of size $L \times L$, $\mathbf{\Sigma}$ is a quasi-diagonal matrix of size $L \times K$ with non-negative diagonal elements $(\sigma_1, \ldots, \sigma_L)$ in non-increasing order, and $\bfV$ is an orthogonal matrix of size $K \times K$. Denote by $\mathbf{\Sigma}_r = (\sigma^r_{l k})$ the following matrix:
+It is well-known that the projector $\Pi_{r} \bfY$ can be evaluated as the sum of $r$ leading components of the singular value decomposition (SVD) of the matrix $\bfY$. More precisely, let $L\le K$ for simplicity and $\bfY = \bfU \mathbf{\Sigma} \bfV^\rmT$ be the SVD, where $\bfU$ is an orthogonal matrix of size $L \times L$, $\mathbf{\Sigma}$ is a quasi-diagonal matrix of size $L \times K$ with non-negative diagonal elements $(\sigma_1, \ldots, \sigma_L)$ in non-increasing order, and $\bfV$ is an orthogonal matrix of size $K \times K$. Denote by $\mathbf{\Sigma}_r = (\sigma^r_{l k})$ the following matrix:
 \begin{equation*}
 \sigma^r_{i j} = \begin{cases}
 \sigma_i & \text{if $i = j, i \le r,$}\\
@@ -312,7 +306,7 @@ The next proposition describes the case when evaluation of a projector $\Pi_{\ca
 	$\bfB = \bfY \bfO_\bfC^{\rmT}$, $(\bfO_\bfC^{\rmT})^\dagger$ denotes  Moore-Penrose pseudoinverse to the matrix $\bfO_\bfC^{\rmT}$.
 \end{proposition}
 \begin{proof}
-	The proof is a direct consequence of the fact that the considered norm is generated by an oblique inner product in the row space of $\bfY$, see details in \cite{Golyandina2013}, \cite{Allen2014}.
+	The proof is a direct consequence of the fact that the considered norm is generated by an oblique inner product in the row space of $\bfY$, see details in \cite{Golyandina2013,Allen2014}.
 \end{proof}
 
 \begin{remark}
@@ -320,7 +314,7 @@ The next proposition describes the case when evaluation of a projector $\Pi_{\ca
 	In fact, the condition $\|\bfZ\|_\bfM^2 = \tr(\bfZ \bfC \bfZ^\rmT)$ of Proposition~\ref{prop:projS} can be fulfilled only if $\bfC$ is diagonal and $\bfM$ has a specific form, see Proposition~\ref{prop:equiv_tasks}.
 \end{remark}
 
-\subsubsection{Projector $\Pi_{\calM_r}$ in general case.}
+\subsubsection{The projector $\Pi_{\calM_r}$ in the general case.}
 Since the projector can not be found explicitly for arbitrary weights $m_{ij}$, iterative algorithms are used in the general case.
 One of these algorithms is described in \cite{Srebro2003}. Denote by $\odot$ the element-wise matrix product.
 
@@ -350,7 +344,7 @@ One of these algorithms is described in \cite{Srebro2003}. Denote by $\odot$ the
 \end{algorithm}
 
 Note that in the case, when $m_{ij}$ are equal to either 0 or 1, this algorithm is an EM-algorithm \cite{Srebro2003};
-hence, properties of EM-algorithms are carried out and the sequence $\bfY_k$ converges to local minimum. Formally, it does not matter what values are in $\bfY$ at positions of zero weights. However, these values can influence the algorithm's convergence rate and the limiting values.
+hence, properties of EM-algorithms are carried out and the sequence $\bfY_k$ converges to a local minimum. Formally, it does not matter what values are in $\bfY$ at positions of zero weights. However, these values can influence the algorithm's convergence rate and the limiting values.
 
 \section{Time series and problem of matrix approximation}
 \label{sec:ts_matrices}
@@ -378,9 +372,9 @@ Let $\sfX_N$ be the set of time series of length $N$, $\sfX_N^r$ be the set of t
 f_q(\tsY) \to \min_{\tsY \in \sfX_N^r}, \quad f_q(\tsY) = \sum \limits_{i=1}^N q_i(x_i - y_i)^2,
 \end{equation}
 where $\tsY = (y_1, \ldots, y_N)$ and $q_1, \ldots, q_N$ are some non-negative weights,
-$q_i \ge 0$, $i = 1, \ldots, N$. A one of reasonable target functions is the squared Euclidean distance to $\tsX$ in $\sfR^N$. It coincides with $f_q(\tsY)$ when $q_i = 1$, $i = 1, \ldots, N$.
+$q_i \ge 0$, $i = 1, \ldots, N$. The squared Euclidean distance to $\tsX$ in $\sfR^N$ is one of reasonable target functions. It coincides with $f_q(\tsY)$ when $q_i = 1$, $i = 1, \ldots, N$.
 
-\paragraph*{Adjustment.} Let an estimate $\tsY \in \sfX_N^r$ of the solution of problem \eqref{L-rank_task} for approximation of $\tsX \in \sfX_N$ be obtained. Then, according to Remark~\ref{rem:adj}, the estimate can be adjusted to obtain a better estimate $\tsY^*=\calA(\tsY)$, which is called \emph{an adjustment of $\tsY$}.
+\paragraph*{Adjustment.} Let an estimate $\tsY \in \sfX_N^r$ of the solution of the problem \eqref{L-rank_task} for approximation of $\tsX \in \sfX_N$ be obtained. Then, according to Remark~\ref{rem:adj}, the estimate can be adjusted to obtain a better estimate $\tsY^*=\calA(\tsY)$, which is called \emph{an adjustment of $\tsY$}.
 
 \subsection{Equivalent target functions}
 
@@ -389,7 +383,7 @@ Let $\tsX = (x_1, \ldots, x_N) \in \sfX_N$ be a time series of length $N$, $\bfX
 \calT(\tsX) = \bfX,\ \text{where} \ \hat x_{l, k} = x_{l + k - 1}.
 \end{equation*}
 
-Due to this one-to-one mapping, problem~\eqref{L-rank_task} of time series approximation can be expressed in terms of matrices.
+Due to this one-to-one mapping, the problem~\eqref{L-rank_task} of time series approximation can be expressed in terms of matrices.
 
 In the space $\sfX_N$ of time series, the target function \eqref{L-rank_task} can be given explicitly $f_q(\tsY)=\|\tsY-\tsX\|_q^2$ using a (semi)inner product
 \begin{equation}
@@ -398,7 +392,7 @@ In the space $\sfX_N$ of time series, the target function \eqref{L-rank_task} ca
 \end{equation}
 where $q_i$ are positive (non-negative) weights.
 
-Consider two (semi)inner products in the space $\sfR^{L \times K}$ of matrices which are extension of the conventional Frobenius inner product.
+Consider two (semi)inner products in the space $\sfR^{L \times K}$ of matrices which are extensions of the conventional Frobenius inner product.
 
 Denote, as before,
 \begin{equation}
@@ -441,7 +435,7 @@ The proof of the second statement is a consequence of the fact that only for a d
 
 \begin{corollary}
 	\label{cor:base_weights}
-	If $m_{i,j}=1$, $i =1, \ldots, L$, $j = 1, \ldots, K$, then the equivalent series weights $q_i$, $i = 1, \ldots, N$, given by \eqref{qi_mi} are equal to $w_i$ introduced by \eqref{eq:w}.
+	If $m_{i,j}=1$, $i =1, \ldots, L$, $j = 1, \ldots, K$, then the equivalent series weights $q_i$, $i = 1, \ldots, N$, given by \eqref{qi_mi} are equal to $w_i$ introduced in \eqref{eq:w}.
 \end{corollary}
 
 Note that the matrix norm $\|\cdot\|_{2, \bfC}$ with a diagonal matrix $\bfC$ is a particular case of the norm $\|\cdot\|_{1, \bfM}$.
@@ -449,7 +443,7 @@ However, this particular case is of special interest, since the corresponding ap
 
 \begin{remark}
 	\label{rem:2tasks}
-	If condition~\eqref{qi_mi} is carried out and all weights $q_i$ and $m_{i,j}$ are positive, then problem~\eqref{L-rank_task}
+	If the condition~\eqref{qi_mi} is carried out and all weights $q_i$ and $m_{i,j}$ are positive, then the problem~\eqref{L-rank_task}
 	is equivalent to the problem
 	\begin{multline}
 	\label{rank_task}
@@ -459,14 +453,14 @@ However, this particular case is of special interest, since the corresponding ap
 
 \section{Algorithms}
 \label{sec:alg}
-In this section we suggest a range of algorithms for solving problem~\eqref{L-rank_task}.
+In this section we suggest a range of algorithms for solving the problem~\eqref{L-rank_task}.
 In the model of series $\tsX=\tsS+\tsN$, where $\tsS$ is a time series of finite rank $r$ and $\tsN$ is a noise series, results of the algorithms serve as  estimates of the signal $\tsS$.
 
 \subsection{Cadzow iterations}
-The aim of the Cadzow algorithm \cite{Cadzow1988} is the least-squares approximation \eqref{rank_task} of the trajectory matrix of a series with respect to the norm $\|\cdot\|_{1, \bfM}$ with the weights $m_{ij}=1$ (i.e. the algorithm solves problem \eqref{introd_task}, which, by Corollary \ref{cor:base_weights}, corresponds to problem~\eqref{introd_task_2} (or, the same, to problem ~\eqref{L-rank_task} with the weights $q_i=w_i$ given by \eqref{eq:w}). The drawback of this algorithm consists in the unequal series weights $w_i$: they are larger in the center than at both ends of the time series. Note that smaller window lengths leads to more uniform weights.
+The aim of the Cadzow algorithm \cite{Cadzow1988} is the least-squares approximation \eqref{rank_task} of the trajectory matrix of a series with respect to the norm $\|\cdot\|_{1, \bfM}$ with the weights $m_{ij}=1$ (i.e. the algorithm solves the problem \eqref{introd_task}, which, by Corollary \ref{cor:base_weights}, corresponds to the problem~\eqref{introd_task_2} (or, the same, to the problem~\eqref{L-rank_task} with the weights $q_i=w_i$ given in \eqref{eq:w}). The drawback of this algorithm consists in the unequal series weights $w_i$: they are larger in the center than at both ends of the time series. Note that smaller window lengths leads to more uniform weights.
 
 Note that in the case of unit weights $m_{ij}=1$, the projections $\Pi_\calH$ and $\Pi_{\calM_r}=\Pi_{r}$ can be easily calculated, see Sections~\ref{sec:projH}
-and~\ref{sec:projMr}
+and~\ref{sec:projMr}.
 
 \begin{algorithm}[Cadzow iterations]
 	\textbf{Input}: Time series $\tsX$, window length $L$, rank $r$,
@@ -488,7 +482,7 @@ and~\ref{sec:projMr}
 
 \subsection{Weighted Cadzow iterations}
 
-Let $q_{i}=1$, $i = 1, \ldots, N$, be chosen in \eqref{L-rank_task}. According to Proposition ~\ref{prop:equiv_tasks},  problem \eqref{L-rank_task} is equivalent to problem \eqref{rank_task} with weights
+Let $q_{i}=1$, $i = 1, \ldots, N$, be chosen in \eqref{L-rank_task}. According to Proposition ~\ref{prop:equiv_tasks}, the problem \eqref{L-rank_task} is equivalent to the problem \eqref{rank_task} with weights
 \begin{equation}
 \label{Mw}
 m_{l, k} = \frac{1}{w_{l + k - 1}},
@@ -515,7 +509,7 @@ where $w_i$ are introduced in \eqref{eq:w}.
 \end{algorithm}
 
 \subsection{Extended Cadzow iterations}
-Let us introduce the Extended Cadzow algorithm, which presents a different approach to problem \eqref{L-rank_task} with equal weights than the Weighted Cadzow algorithm does.
+Let us introduce the Extended Cadzow algorithm, which presents a different approach to the problem \eqref{L-rank_task} with equal weights than the Weighted Cadzow algorithm does.
 Formally, let the series $\tsX$ be extended to both sides on $L-1$ measurements with some values having zero weights, i.e., the added measurements are considered as gaps.
 Thus, the length of the extended series $\widetilde\tsX$ is $N+2L-2$, and the size of its trajectory matrix $\widetilde\bfX$ is $L$ by $N+L-1$ (instead of $N-L+1$ for the non-extended trajectory matrix).
 
@@ -555,7 +549,7 @@ m_{i,j} = \begin{cases}
 
 \subsection{Oblique Cadzow iterations}
 \label{sec:ObliqueCadzow}
-Algorithms considered in this section generalize the conventional Cadzow algorithm based on Euclidean inner product to the use of an oblique inner product given by a matrix $\bfC$.
+Algorithms considered in this section generalize the conventional Cadzow algorithm based on the Euclidean inner product to the use of an oblique inner product given by a matrix $\bfC$.
 These algorithms can be applied if the conditions of Proposition~\ref{prop:projS} hold.
 
 \begin{algorithm}[Oblique Cadzow iterations]
@@ -581,11 +575,12 @@ To solve the problem \eqref{L-rank_task} of approximation of time series with eq
 
 \subsubsection{Cadzow($\alpha$) iterations}
 \label{sec:cadzow_alpha}
-The following lemma describes a case, when the conditions of Proposition~\ref{prop:equiv_tasks} are fulfilled for equivalence of \eqref{L-rank_task} with equal weights $q_i$ and \eqref{rank_task}.
+The following lemma describes a case, when the conditions of Proposition~\ref{prop:equiv_tasks} are fulfilled and therefore 
+the problem \eqref{L-rank_task} with equal weights $q_i$ is equivalent to the problem \eqref{rank_task}.
 
 \begin{lemma}[\cite{Gillard2014}]
 	\label{zhiglemma}
-	Let $\tsX \in \sfX_N$, $\bfX = \calT(\tsX) \in \sfR^{L \times K}$. If $h = N/L$ is integer, then for $q_i\equiv 1$,  $\|\tsX\|^2_q = \|\bfX\|^2_{2, \bfC}$, where $\bfC=\diag(c_1,\ldots,c_K)$ with diagonal elements
+	Let $\tsX \in \sfX_N$, $\bfX = \calT(\tsX) \in \sfR^{L \times K}$. If $h = N/L$ is integer, then for $q_i\equiv 1$ we have $\|\tsX\|^2_q = \|\bfX\|^2_{2, \bfC}$, where $\bfC=\diag(c_1,\ldots,c_K)$ with diagonal elements
 	\begin{equation*}
 	c_k = \begin{cases}
 	1, & \text{if} \; k = jL+1 \;\text{for some} \; j = 0, \ldots, h-1, \\
@@ -603,7 +598,7 @@ c_k = c_k(\alpha) =\\ \begin{cases}
 \alpha, & \text{otherwise.}
 \end{cases}
 \end{multline}
-Then the matrix $\bfC(\alpha)=\diag(c_1(\alpha),\ldots,c_K(\alpha))$ with the diagonal given by \eqref{zhigweights} is of full rank.
+Then the matrix $\bfC(\alpha)=\diag(c_1(\alpha),\ldots,c_K(\alpha))$ with the diagonal given in \eqref{zhigweights} is of full rank.
 However, the corresponding series weights are not equal.
 
 Let Cadzow($\alpha$) denote the iterations performed by Algorithm~\ref{alg:obliqueCadzow} with the diagonal matrix $\bfC=\bfC(\alpha)$.
@@ -624,7 +619,7 @@ Equality \eqref{sk_mlk} provides the form of a matrix $\bfM$ to obtain $\|\cdot\
 %So, distance is taken using only $h$ columns instead of $K$, while multiplicating by $\bfO_\bfC^{\rmT}$ sets to zero $K - h$ columns of $\bfC$.
 
 \begin{remark}
-	The optimization problem \eqref{rank_task} with the matrix $\bfM$ given by \eqref{eq:degenerateM} corresponds to the search of an arbitrary (not necessary Hankel) matrix of rank not larger than $r$, which is closest in the Frobenius norm to the matrix
+	The optimization problem \eqref{rank_task} with the matrix $\bfM$ given in \eqref{eq:degenerateM} corresponds to the search of an arbitrary (not necessary Hankel) matrix of rank not larger than $r$, which is closest in the Frobenius norm to the matrix
 	\be
 	\label{eq:traj_noinersect}
 	\begin{pmatrix}
@@ -633,7 +628,7 @@ Equality \eqref{sk_mlk} provides the form of a matrix $\bfM$ to obtain $\|\cdot\
 		x_L&x_{2L}&\cdots&x_N
 	\end{pmatrix}.
 	\ee
-	This problem quite differs from problem \eqref{L-rank_task} of approximation by finite-rank series. Therefore, the Cadzow($0$) algorithm does not solve the problem \eqref{L-rank_task}.
+	This problem is quite different from the problem \eqref{L-rank_task} of approximation by finite-rank series. Therefore, the Cadzow($0$) algorithm does not solve the problem \eqref{L-rank_task}.
 \end{remark}
 
 
@@ -642,7 +637,7 @@ Equality \eqref{sk_mlk} provides the form of a matrix $\bfM$ to obtain $\|\cdot\
 Let us correct the rank-deficiency of $\bfC(0)$ by another way.
 
 To obtain equal series weights $q_i\equiv 1$ in \eqref{L-rank_task}, we
-should choose the weight matrix $\bfM$ in \eqref{rank_task} with weights $m_{i,j}$ defined by \eqref{Mw}.
+should choose the weight matrix $\bfM$ in \eqref{rank_task} with weights $m_{i,j}$ defined in \eqref{Mw}.
 Generally, there is no a matrix $\bfC$ providing the equivalent norm
 $\|\cdot\|_{2,\bfC}=\|\cdot\|_{1,\bfM}$, since the matrix $\bfC$ should
 be diagonal and therefore the matrix $\bfM$ should have columns consisting of equal elements (see Proposition~\ref{prop:equiv_tasks}).
@@ -668,12 +663,12 @@ We call Algorithm~\ref{alg:obliqueCadzow} with the matrix $\bfC=\widehat\bfC$ Ca
 Since the norm $\|\cdot\|_{2, \bfC}$ with $\bfC(\alpha)$ or $\widehat\bfC$ in place of $\bfC$ does not correspond to equal series weights,
 let us find $q_i(\alpha)$ and $\hat{q}_i$ from the equalities
 $\|\bfY\|_{2,\widehat\bfC}=\|\tsY\|_{\hat{q}}$ and $\|\bfY\|_{2,\bfC(\alpha)}=\|\tsY\|_{q(\alpha)}$.
-Formulas for calculation are provided by Proposition~\ref{prop:equiv_tasks}.
+Formulas for calculation are provided in Proposition~\ref{prop:equiv_tasks}.
 
 The following statements are valid.
 
 \begin{proposition}\label{prop:zhigconseq}
-	Let $h = N/L$ be integer, $\bfC(\alpha) = \diag(c_1(\alpha), \ldots, c_K(\alpha))$, where $c_i(\alpha)$ are given by \eqref{zhigweights}, $0 \le \alpha \le 1$. Then the weights $q_i(\alpha)$ have the form
+	Let $h = N/L$ be integer, $\bfC(\alpha) = \diag(c_1(\alpha), \ldots, c_K(\alpha))$, where $c_i(\alpha)$ are given in \eqref{zhigweights}, $0 \le \alpha \le 1$. Then the weights $q_i(\alpha)$ have the form
 	\begin{equation*}
 	q_i (\alpha) = \begin{cases}
 	1 + (i - 1) \alpha & \text{для $i = 1, \ldots, L-1,$}\\
@@ -753,61 +748,61 @@ and $\hat{q}_i$ for $N = 40$, $L = 8$, are shown in Figure~\ref{img_weights}.
 	
 	\begin{itemize}
 		\item \textit{Theoretical convergence.}
-		Theorem \ref{th:converg} provides conditions for existence of subsequences convergent to a matrix from $\calM_r \cap \calH$. This theorem is applicable directly to Algorithm \ref{alg:obliqueCadzow} if all weights are positive and to Algorithm \ref{alg:WCIt} if to suppose that the weighted projection to $\calM_r$ can be calculated with no error. It is easy to extend Theorem \ref{th:converg} to be applicable to Algorithm \ref{alg:ECIt} where the weights for added values are zero, if to consider the sequence  $\bfY_k$ instead of $\widetilde\bfY_k$.
+		Theorem \ref{th:converg} provides conditions for the existence of a subsequence, which converges to a matrix from $\calM_r \cap \calH$. This theorem is applicable directly to Algorithm \ref{alg:obliqueCadzow} if all weights are positive and to Algorithm \ref{alg:WCIt} if to suppose that the weighted projection to $\calM_r$ can be calculated with no error. It is easy to extend Theorem \ref{th:converg} to be applicable to Algorithm \ref{alg:ECIt} where the weights for added values are zero, if to consider the sequence  $\bfY_k$ instead of $\widetilde\bfY_k$.
 %consisting of columns of matrices $\Pi_{\calM_r} \bfY_k$ from $L$-th to $N$-th and having positive weight of each element are matrices of rank not larger than $r$, and their Frobenius norms are not larger than seminorm of original matrix: $\|\widetilde \bfY_k\|_F \le \|\Pi_{\calM_r} \bfY_k\|_\bfM$. Hence it is bounded sequence which contains a subsequence converging to needed set.
-		\item \textit{Convergence in practice.} Although the theory says about existence of converging subsequences, the convergence of the constructed sequences took place in all the training examples.
+		\item \textit{Convergence in practice.} Although the theory says about the existence of converging subsequences, the convergence of the constructed sequences took place in all the training examples.
 		\item \textit{Comparison by accuracy.}
-		The methods are iterative, and convergence to the global minimum in the corresponding least-squares problem does not necessarily take place. Therefore, different algorithms corresponding to the same weights can yield different approximations. Thereby, comparison of the algorithms by the approximation accuracy has sense.		
+		The methods are iterative, and convergence to the global minimum in the corresponding least-squares problem does not necessarily take place. Therefore, different algorithms corresponding to the same weights can yield different approximations. Hence, the comparison of the algorithms by the approximation accuracy makes sense.		
 %\item \textit{Comparison by computational cost.}
 %Note that we can compare numbers of iterations providing a given accuracy to compare the methods without inner iterations by computational complexity, since computational costs of one iteration are approximately the same.
 \item \textit{Signal estimation and series approximation.}
 		The proposed methods can be considered as both approximation methods of the initial series by finite-rank series and weighted least-squares methods for signal estimation. Note that generally the approximation quality can contradict to the estimation accuracy due to possible over-fitting.
 		\item \textit{Algorithms and series weights.}
-		The Weighted Cadzow and Extended Cadzow methods try to solve problem \eqref{L-rank_task} with equal weights $q_i$. The other methods work with weights with different levels of non-uniformity.
+		The Weighted Cadzow and Extended Cadzow methods try to solve the problem \eqref{L-rank_task} with equal weights $q_i$. The other methods work with weights with different levels of non-uniformity.
 		\item \textit{Algorithms and computational costs.}
 		All suggested algorithms are iterative. However, each outer iteration in the Weighted Cadzow and Extended Cadzow algorithms has a step with inner iterations. Therefore, these algorithms are very time-consuming. The other algorithms do not contain inner iterations; moreover, they have similar computational costs of one iteration and can be compared by the number of iterations.
 		Computational complexity is described by both complexity of one iteration and the number of iterations. Evidently, the necessary number of iterations is determined by the convergence rate.
 \item \textit{Fast implementation.}
 There is a very fast implementation of iterations of the Cadzow algorithm suggested in \cite{Korobeynikov2010} and extended in \cite{Golyandina.etal2015}. However, it can be shown that the same implementation approach can be applied to the Cadzow($\alpha$) and Cadzow-$\widehat{\bfC}$ algorithms. Therefore, fast implementations of these algorithms still can be compared by the number of iterations.
 		\item \textit{Use of the first iteration for signal estimation.}
-		One iteration of the Cadzow iterations is exactly the well-known Singular Spectrum Analysis (SSA) method, which can solve significantly wider range of tasks than the iterative method does. By analogy, together with the limiting series, we are interested in the signal estimations by means of the first iteration of the considered algorithms. In a sense, each iterative method produces a modification of SSA. The first iteration is generally not of finite rank; however, it has low computational complexity and can provide sufficient accuracy.
-		\item \textit{Separability, the first iteration and convergence rate.}
-		Separability of a signal, which is an important concept of the SSA method, means the ability of a method to (approximately) separate the signal from a residual. From the viewpoint of the iterative methods,  separability quality is closely related to accuracy of the first iteration of the method. On the other hand, we can expect that the accuracy of the first iteration is connected with the method's convergence rate. Therefore, the separability accuracy is connected with the convergence rate of iterative methods.
+		One iteration of the Cadzow iterations is exactly the well-known Singular Spectrum Analysis (SSA) method, which can solve a significantly wider range of tasks than the iterative method does. By analogy, together with the limiting series, we are interested in the signal estimation by means of the first iteration of the considered algorithms. In a sense, each iterative method produces a modification of SSA. The first iteration is generally not of finite rank; however, it has low computational complexity and can provide sufficient accuracy.
+		\item \textit{Separability, the first iteration and the convergence rate.}
+		Separability of a signal, which is an important concept of the SSA method, means the ability of a method to (approximately) separate the signal from a residual. From the viewpoint of the iterative methods,  the separability quality is closely related to the accuracy of the first iteration of the method. On the other hand, we can expect that the accuracy of the first iteration is connected with the method's convergence rate. Therefore, the separability accuracy is connected with the convergence rate of iterative methods.
 		\item \textit{Separability and choice of parameters.}
 		The connection between the separability and the window length $L$ is well studied for the SSA method, see \cite{Golyandina2010}. In particular, optimal window lengths are close to half of the series length. A small window length $L$ provides poor separability. We can expect that this is valid for the other algorithms too.
 The Cadzow($\alpha$) method has an additional parameter $\alpha$.
-Influence of parameter $\alpha$ on separability in the class of Cadzow($\alpha$) iterations is investigated in Appendix~\ref{sec:app}.
+Influence of the parameter $\alpha$ on separability in the class of Cadzow($\alpha$) iterations is investigated in Appendix~\ref{sec:app}.
  The studied example of separability of a sine-wave signal from a constant residual shows that small values of $\alpha$ provide poor separability.
         \item \textit{Equal series weights and choice of parameters.}
         Let us consider the dependence of series weights produced by the Cadzow($\alpha$) algorithm on the window length $L$ or $\alpha$. Proposition~\ref{prop:zhigconseq} shows that more uniform weights are achieved for small $L$ and small $\alpha$. This is exactly
-        the cases corresponding to poor separability.
+        the case corresponding to poor separability.
  		\item \textit{Equal series weights and accuracy of signal estimation.}
  Thus, the weights, which are close to equal ones, correspond to algorithms, which either have a time-consuming iteration step with inner iterations or are slowly convergent; therefore such algorithms have high computational complexity.
 There are no theoretical results about the behavior of the estimation accuracy in dependence on algorithms and their parameters. However, the numerical study shows that the best accuracy is achieved in the algorithms corresponding to the weights, which are equal or almost equal.	 \end{itemize}
 	
 	\begin{remark}
 		\label{rem:adjust}
-		The adjustment $\calA$, which is suggested in Section~\ref{sec:ts} for improvement of estimates, can be applied to the resultant signal estimation $\widehat\tsS$ for any considered algorithm. The inner product used in Remark~\ref{rem:adj} for definition of $\calA$ is the standard Euclidean inner product not depending on the weight matrix $\bfM$ used in the algorithms, since this norm $\|\cdot\|$ corresponds to problem \eqref{L-rank_task} with equal weights $q_i$. We will call the algorithms with the adjustment $\calA$ \emph{adjusted algorithms}. For example, the result of the $k$-th iteration of the Cadzow iterations method can be expressed as $\widehat\tsS_k = \calT^{-1}(\Pi_\calH \Pi_{\calM_r})^k \calT \tsX$. Then the result of the $k$-th iteration of the adjusted Cadzow iterative method is $\widehat\tsS_k^*=\calA(\widehat\tsS_k)$.
+		The adjustment $\calA$, which is suggested in Section~\ref{sec:ts} for improvement of estimates, can be applied to the resultant signal estimation $\widehat\tsS$ for any considered algorithm. The inner product used in Remark~\ref{rem:adj} for definition of $\calA$ is the standard Euclidean inner product not depending on the weight matrix $\bfM$ used in the algorithms, since this norm $\|\cdot\|$ corresponds to the problem \eqref{L-rank_task} with equal weights $q_i$. We will call the algorithms with the adjustment $\calA$ \emph{adjusted algorithms}. For example, the result of the $k$-th iteration of the Cadzow iterations method can be expressed as $\widehat\tsS_k = \calT^{-1}(\Pi_\calH \Pi_{\calM_r})^k \calT \tsX$. Then the result of the $k$-th iteration of the adjusted Cadzow iterative method is $\widehat\tsS_k^*=\calA(\widehat\tsS_k)$.
 	\end{remark}
 
 \section{Numerical comparison}
 \label{sec:simul}
-Let us carry out numerical experiments for analysis of performance of the considered methods. Comparison of the methods was performed on several examples, with a sine-wave signal and an exponentially-modulated sine-wave signal.
+Let us carry out numerical experiments for analysis of the performance of the considered methods. Comparison of the methods was performed on several examples, with a sine-wave signal and an exponentially-modulated sine-wave signal.
 Since the obtained comparison results are very similar, only the results for a sine-wave signal are presented.
 
-Let the signal $\tsS = (s_{1}, \ldots, s_N)$ of length $N = 40$ and rank $r=2$ have the form:
+Suppose that the signal $\tsS = (s_{1}, \ldots, s_N)$ of length $N = 40$ and rank $r=2$ has the form:
 \begin{equation}
 \label{eq:signal}
 s_{k} = 5\sin{\frac{2 \pi k}{6}}, \quad k = 1, \ldots, N,
 \end{equation}
-and the series $\tsX = \tsS + \tsN$ be observed, where  $\tsN$ is Gaussian white noise with mean equal to $0$ and variance equal to $1$. Accuracy of a signal estimate $\widehat\tsS$ is measured as root mean-square error (RMSE) using 1000 simulations. Comparison is performed on the same simulated samples. It was checked that the stated comparison results are significant at 5\% level of significance.
+and the series $\tsX = \tsS + \tsN$ is observed, where  $\tsN$ is Gaussian white noise with mean equal to $0$ and variance equal to $1$. Accuracy of a signal estimate $\widehat\tsS$ is measured as the root mean-square error (RMSE) using 1000 simulations. Comparison is performed on the same simulated samples. It was checked that the stated comparison results are significant at the 5\% level of significance.
 
-We start with the investigation of the Cadzow-$\widehat\bfC$ method and a set of the Cadzow($\alpha$) methods. These methods use an oblique SVD; the Cadzow($1$) method is the conventional Cadzow method. Figure~\ref{img_cadzowspeed2} shows the rate of convergence for $\alpha = 0.1$ and $\alpha = 1$ and for two different window lengths $L$. The RMSE values are depicted versus the number of performed iterations.
+We start with the investigation of the Cadzow-$\widehat\bfC$ method and the Cadzow($\alpha$) methods for several values of $\alpha$. These methods use an oblique SVD; the Cadzow($1$) method is the conventional Cadzow method. Figure~\ref{img_cadzowspeed2} shows the rate of convergence for $\alpha = 0.1$ and $\alpha = 1$ and for two different window lengths $L$. The RMSE values are depicted versus the number of performed iterations.
 
 \begin{figure}[!hhh]
 %	\begin{center}
 		\includegraphics[width = \columnwidth]{cadzowspeed_2.pdf}
-		\caption{RMSE of signal estimate depending on number of iterations,
+		\caption{The RMSE of the signal estimate depending on the number of iterations,
         $\sigma=1$.}
 		\label{img_cadzowspeed2}
 %	\end{center}
@@ -815,28 +810,27 @@ We start with the investigation of the Cadzow-$\widehat\bfC$ method and a set of
 
 One can see that a method with a smaller limit error is the one with a slower convergence rate. For parameters involved to the simulations, the Cadzow($0.1$) method with the window length $L=8$ has the smallest limit error. At the same time, these values of parameters correspond to both the slowest convergence and the most uniform weights.
 
-Note that the limit errors do not differ strongly, they change from 0.31 ($\alpha=0.1$, $L=8$) in the best case to 0.35 ($\alpha=1$, $L=20$) in the worst case. However, error equal to 0.35 is achieved at the first iteration in the worst case, while it takes 4--5 iterations to achieve error 0.35 in the best case.
+Note that the limit errors do not differ strongly, they change from 0.31 ($\alpha=0.1$, $L=8$) in the best case to 0.35 ($\alpha=1$, $L=20$) in the worst case. However, the error equal to 0.35 is achieved at the first iteration in the worst case, while it takes 4--5 iterations to achieve the error 0.35 in the best case.
 
 \smallskip
 \begin{figure}[!hhh]
 	%	\begin{center}
 	\includegraphics[width = \columnwidth]{2axis.pdf}
-	\caption{RMSE and average number of iterations depending on $\alpha$ (log-scale), $L=20$, $\sigma=1$.}
+	\caption{The RMSE and the average number of iterations depending on $\alpha$ (log-scale), $L=20$, $\sigma=1$.}
 	\label{img_2axis}
 	%	\end{center}
 \end{figure}
-The same signal \eqref{eq:signal} was taken to investigate how RMSE and convergence rate depend on $\alpha$ for Cadzow($\alpha$) algorithms with $L = 20$. The following STOP1 criterion was taken: $\frac{\|\calT^{-1}(\bfY_k) - \calT^{-1}(\bfY_{k + 1})\|^2}{N} < 10^{-8}$. Figure~\ref{img_2axis} shows that smaller $\alpha$ leads to more accurate estimates of the signal, but increases their computational costs.
+The same signal \eqref{eq:signal} was taken to investigate how the RMSE and the convergence rate depend on $\alpha$ for Cadzow($\alpha$) algorithms with $L = 20$. The following STOP1 criterion was taken: $\frac{\|\calT^{-1}(\bfY_k) - \calT^{-1}(\bfY_{k + 1})\|^2}{N} < 10^{-8}$. Figure~\ref{img_2axis} shows that smaller $\alpha$ leads to more accurate estimates of the signal, but increases their computational costs.
 
 This general rule sometimes does not work for very small values of the parameter $\alpha$, see Figure~\ref{img_2axis-3}, where
-the noise standard deviation was increased from 1 to 3. One can see that for $\alpha$ smaller than 0.1 the dependence of estimation errors on $\alpha$
-changes.
-It seems that the threshold $\alpha$, which corresponds to the change of accuracy behaviour, depends on the 1-iteration separability of the signal from noise.
+the noise standard deviation was increased from 1 to 3. One can see that for $\alpha$ smaller than 0.1 the dependence of the estimation errors on $\alpha$ changes.
+It seems that the threshold $\alpha$, which corresponds to the change of the accuracy behaviour, depends on the 1-iteration separability of the signal from noise.
 Indeed, as we can expect, for small $\alpha$ the separability quality is poor (see an example in Appendix).
 
 \begin{figure}[!hhh]
 	%	\begin{center}
 	\includegraphics[width = \columnwidth]{2axis-3.pdf}
-	\caption{RMSE and average number of iterations depending on $\alpha$ (log-scale), $L=20$, $\sigma=3$.}
+	\caption{The RMSE and the average number of iterations depending on $\alpha$ (log-scale), $L=20$, $\sigma=3$.}
 	\label{img_2axis-3}
 	%	\end{center}
 \end{figure}
@@ -846,12 +840,12 @@ Indeed, as we can expect, for small $\alpha$ the separability quality is poor (s
 Let us take the Extended and Weighted Cadzow iterations into consideration and examine the spreading of the estimation errors along the series. The maximal number of iterations equal to 100 is taken for the stop criterion STOP1 (this choice yields the error close to the limiting value); the stop criterion STOP2 for inner iterations is as follows:
 $\frac{\|\bfY_k - \bfY_{k+1}\|^2}{LK} < 10^{-4}$. The initial left and right extended values $\tsL_{L-1}$ and $\tsR_{L-1}$ in the Extended Cadzow iterations are obtained using the vector SSA-forecasting method \cite[chapter 2.3.1]{Golyandina.etal2001}.
 
-Figures~\ref{fig:s1_it1}~and~\ref{fig:s1_it100} show the dependence of RMSE on numbers of the series points. Figure~\ref{fig:s1_it1} shows errors at the first iteration, Figure~\ref{fig:s1_it100} shows errors at the 100-th iteration. It is clearly seen that the Extended Cadzow method is the most precise in both cases. The Cadzow($1$) and Cadzow-$\widehat\bfC$ methods are the best at the first iteration among the set of methods without inner iterations. The best method in the limit (after 100-th iteration, errors do not change significantly further) is the Cadzow($0.1$) one; this is not surprising according to Figure~\ref{img_cadzowspeed2}.
+Figures~\ref{fig:s1_it1}~and~\ref{fig:s1_it100} show the dependence of the RMSE on numbers of the series points. Figure~\ref{fig:s1_it1} shows the errors at the first iteration, Figure~\ref{fig:s1_it100} shows the errors at the 100-th iteration. It is clearly seen that the Extended Cadzow method is the most precise in both cases. The Cadzow($1$) and Cadzow-$\widehat\bfC$ methods are the best at the first iteration among the set of methods without inner iterations. The best method in the limit (after 100-th iteration, the errors do not change significantly further) is the Cadzow($0.1$) method; this is not surprising according to Figure~\ref{img_cadzowspeed2}.
 
 \begin{figure}[!hhh]
 %	\begin{center}
 		\includegraphics[width = \columnwidth]{s1_it1.pdf}
-		\caption{RMSE of signal estimates at each series point; iteration 1; $L=20$, $\sigma=1$.}
+		\caption{The RMSE of signal estimates at each series point; iteration 1; $L=20$, $\sigma=1$.}
 		\label{fig:s1_it1}
 %	\end{center}
 \end{figure}
@@ -859,24 +853,24 @@ Figures~\ref{fig:s1_it1}~and~\ref{fig:s1_it100} show the dependence of RMSE on n
 \begin{figure}[!hhh]
 %	\begin{center}
 		\includegraphics[width = \columnwidth]{s1_it100.pdf}
-		\caption{RMSE of signal estimate at each series point; iteration 100; $L=20$, $\sigma=1$.}
+		\caption{The RMSE of signal estimate at each series point; iteration 100; $L=20$, $\sigma=1$.}
 		\label{fig:s1_it100}
 %	\end{center}
 \end{figure}
 
 \smallskip
-Since we used the least-squares method for estimation of the signal $\tsS$, consider Table~\ref{fintable} which shows RMSE for $\tilde \tsS$ as an estimate of $\tsS$ (i.e., signal estimation errors) and RMSE for $\tilde \tsS$ as an estimate of the initial series $\tsX$ (i.e., series approximation errors). Here $k$ is the number of iterations, $L=20$. Table~\ref{fintable} confirms the conclusions about comparison of the methods by accuracy of signal estimation. Also it is seen that the quality of initial series approximation does not always correspond with the quality of signal estimation. For example, overfitting is clearly present for the Cadzow($0.1$) iterations at first iteration. However, methods are ordered identically by errors of series approximation and signal estimation in the limit. This means that minimization of the error of approximation likely yields minimization of error of signal reconstruction.
-This assumption is very important for practice, since for real-life data we can choose a better methods and its parameters by smaller approximation errors.
-Certainly, a proper rank should be set before the method comparison.
+Since we used the least-squares method for estimation of the signal $\tsS$, consider Table~\ref{fintable} which shows the RMSE for $\tilde \tsS$ as an estimate of $\tsS$ (i.e., the signal estimation errors) and the RMSE for $\tilde \tsS$ as an estimate of the initial series $\tsX$ (i.e., the series approximation errors). Here $k$ is the number of iterations, $L=20$. Table~\ref{fintable} confirms the conclusions about comparison of the methods by accuracy of signal estimation. Also it is seen that the quality of initial series approximation does not always correspond with the quality of signal estimation. For example, overfitting is clearly present for the Cadzow($0.1$) iterations at the first iteration. However, the methods are ordered identically by errors of series approximation and signal estimation in the limit. This means that minimization of the error of approximation likely yields minimization of the error of signal reconstruction.
+The same ordering of the errors is very important for practice, since for real-life data we can choose a better method and its parameters by smaller approximation errors.
+Certainly, a proper rank should be set before the comparison of the methods.
 
-The same simulations were performed with the adjusted algorithms (see Remark~\ref{rem:adjust}). One can see in Table~\ref{fintable_improved} that the accuracy is almost the same. By its definition, the adjustment always improves approximation of the initial series; however, the influence on accuracy of signal approximation is ambiguous (the adjustment improves accuracy at the 100-th iteration; results are various at the first iteration).
+The same simulations were performed with the adjusted algorithms (see Remark~\ref{rem:adjust}). One can see in Table~\ref{fintable_improved} that the accuracy is almost the same. By its definition, the adjustment always improves the approximation of the initial series; however, the influence on the accuracy of signal approximation is ambiguous (the adjustment improves the accuracy at the 100-th iteration; results are various at the first iteration).
 
 \begin{table*}
-		\caption{Comparison of methods by RMSE, $L = 20$, $\sigma=1$}\label{fintable}
+		\caption{Comparison of methods by the RMSE, $L = 20$, $\sigma=1$}\label{fintable}
 
 		\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}ccccc}
 			\hline
-			Method: & $\tsS$, $k = 1$ & $\tsX$, $k = 1$ & $\tsS$, $k = 100$ & $\tsX$, $k = 100$  \\
+			Method & $\tsS$, $k = 1$ & $\tsX$, $k = 1$ & $\tsS$, $k = 100$ & $\tsX$, $k = 100$  \\
 			\hline
 			Cadzow, $\alpha = 1$ & 0.3758 & 0.9195 & 0.3782 & 0.9664 \\
 			\hline
@@ -893,10 +887,10 @@ The same simulations were performed with the adjusted algorithms (see Remark~\re
 
 \begin{table*}
 	\begin{center}
-		\caption{Comparison of adjusted methods by RMSE, $L = 20$, $\sigma=1$}\label{fintable_improved}
+		\caption{Comparison of adjusted methods by the RMSE, $L = 20$, $\sigma=1$}\label{fintable_improved}
 		\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}ccccc}
 			\hline
-			Method: & $\tsS$, $k = 1$ & $\tsX$, $k = 1$ & $\tsS$, $k = 100$ & $\tsX$, $k = 100$  \\
+			Method & $\tsS$, $k = 1$ & $\tsX$, $k = 1$ & $\tsS$, $k = 100$ & $\tsX$, $k = 100$  \\
 			\hline
 			Cadzow, $\alpha = 1$ & 0.3714 & 0.9175 & 0.3667 & 0.9622 \\
 			\hline
@@ -912,43 +906,38 @@ The same simulations were performed with the adjusted algorithms (see Remark~\re
 	\end{center}
 \end{table*}
 
-Thus, the numerical examples mostly confirm the hypotheses and conclusions itemized in Section~\ref{sec:comments}.
+Thus, the numerical examples mostly confirm the statements itemized in Section~\ref{sec:comments}.
 
 \section{Real-life example}
 \label{sec:ex_real}
 Let us consider the series `Fortified wine' (fortified wine sales, Australia, monthly, from January 1980 till December 1993) \citep{HyndmanTSDL}. This series has the following structure: a signal consisting of an exponential trend and a seasonality of a complex form and of noise.
-We compare Cadzow($\alpha$) algorithms for different $\alpha$ and demonstrate that a smaller $\alpha$ provides
+We compare the Cadzow($\alpha$) algorithms for different $\alpha$ and demonstrate that a smaller $\alpha$ provides
 a smaller approximation error.
 
 In Section~\ref{sec:simul} we considered a simple example with a signal consisting of one sine wave.
-The considered real-life time series has much more complex form. To confirm the assumption that we can minimize
+However, the real-life time series has much more complex form. To confirm the approach that we can minimize
 the approximation errors to diminish the signal estimation error,
 let us construct a model of the `Fortified wine' series and use this model for simulation to
-check the assumption.
+check the approach.
 
 The series `Fortified wine' has been analyzed in several papers (see e.g. \cite{Golyandina.etal2015} for a bit longer time series).
-A typical analysis of the time series by Basic SSA 
+A typical analysis of the time series by Basic SSA
 \cite[Chapter 1]{Golyandina.etal2001}
 with window length $L=84$ shows that the leading 11 eigentriples
 correspond to the signal. The ESPRIT method~\cite{Roy.Kailath1989,Golyandina.Zhigljavsky2012} applied to the found signal subspace provides
-estimates of exponential rates for the trend and for modulations of seasonality components.
-Coefficients before the found series components and phases of seasonal components were estimated by
-the least-squares method. Noise was taken multiplicative, that is its variance increases proportional to the trend.
-Thus, the model of the signal $\tsS = (s_{1}, \ldots, s_N)$, $N=168$, was estimated as
-%
-%%We truncate the series by the first 168 steps,
-%We build the parametric form using SSA framework with nested O-SSA iterations \cite{Golyandina2013a} and ESPRIT, estimate the RMSE for various Cadzow($\alpha$), and apply methods to the actual series.
-%
-%The theoretical signal $\tsS$ was estimated by applying SSA technique to the actual series $\tsX^*$. Let $\tsS = (s_{1}, \ldots, s_N)$ have the length $N = 168$, rank $r=11$, and the form:
+estimates of exponential bases $\rho_m$ for the trend and for modulations of seasonal components in the series components, where the $k$-th term in the $m$th component is given in the form $C_m \rho^k \sin(2\pi\omega_m k +\phi_m)$, $k=1,\ldots,N$. The ESPRIT method also estimates the frequencies $\omega_m$; however, for seasonal components the possible frequencies are known and therefore we changed their estimates to  nearest values in the form $j/12$.
+The coefficients $C_m$ before the found series components and the phases $\phi_m$ of seasonal components were estimated by
+the least-squares method. Noise was taken multiplicative, that is its variance increases proportionally to the trend.
+Thus, the model of the signal $\tsS = (s_{1}, \ldots, s_N)$, $N=168$, is estimated as
 \begin{multline*}
 s_{k} = 3997.74\, (0.9967)^k + \\
-1174.75\, (0.9942)^k \sin(\frac{\pi k}{6} - 2.249) + \\
-425.75\, (1.0001)^k \sin(\frac{\pi k}{2} + 2.333) + \\
-211.55\, (1.004)^k \sin(\frac{\pi k}{3} + 1.677) + \\
-169.33\, (1.0007)^k \sin(\frac{5 \pi k}{6} + 1.533) + \\
+1174.75\, (0.9942)^k \sin(\frac{2\pi k}{12} - 2.249) + \\
+425.75\, (1.0001)^k \sin(\frac{2\pi k}{4} + 2.333) + \\
+211.55\, (1.004)^k \sin(\frac{2\pi k}{6} + 1.677) + \\
+169.33\, (1.0007)^k \sin(\frac{2 \pi k}{2.4} + 1.533) + \\
 361.07\, (0.9884)^k \sin(\frac{2 \pi k}{3} - 2.901).
 \end{multline*}
-The model of the whole series $\tsX=(x_1,\ldots,x_N)$ is 
+The model of the whole series $\tsX=(x_1,\ldots,x_N)$ is
 $x_i=s_i + 353.17\, (0.9967)^k \ve_i$,
 %where and the series $\tsX = \tsS + \tsU \odot \tsN$ be observed,
 where  $\ve_i$, $i=1,\ldots,N$,  is Gaussian white noise with mean equal to $0$ and variance equal to $1$.
@@ -957,19 +946,13 @@ where  $\ve_i$, $i=1,\ldots,N$,  is Gaussian white noise with mean equal to $0$ 
 We set $L=84$ and apply the Cadzow($\alpha$) algorithm with $\alpha=1, 0.8, 0.6, 0.4, 0.2, 0.1, 0.05$.
 The following STOP1 criterion is taken in Algorithm~\ref{alg:obliqueCadzow}:
 $\frac{\|\calT^{-1}(\bfY_k) - \calT^{-1}(\bfY_{k + 1})\|^2}{N} < 10^{-4}$.
-The algorithm was applied to 1000 independent copies of the model series and also to the original `Fortified wine' series.
-Table~\ref{tab:rltable} contains RMSE of model signal estimation (the column $\tsS$),
-RMSE of model series approximation (the column $\tsX$) and the approximation accuracy for
+The algorithm was applied to 1000 independent realizations of the model and also to the original `Fortified wine' series.
+Table~\ref{tab:rltable} contains the RMSE of model signal estimation (the column $\tsS$),
+the RMSE of model series approximation (the column $\tsX$) and the approximation accuracy for
 `Fortified wines' series (the column $\tsX^*$).
 
-%Accuracy of a signal estimate $\widehat\tsS$ by Cadzow($\alpha$)
-%is measured as the root mean-square error (RMSE) using 1000 simulations.
-%
-%
-%Consider Table~\ref{rltable} which shows RMSE for $\tilde \tsS$ as an estimate of $\tsS$ (i.e., signal estimation error), RMSE for $\tilde \tsS$ as an estimate of the initial series $\tsX$ (i.e., series approximation error), and distance to the actual $\tsX^*$ series.
-
 \begin{table*}
-	\caption{Comparison of methods errors of signal estimation and series approximation for `Fortified wine' series and its simulated copies.}
+	\caption{Comparison of methods by the errors of signal estimation and series approximation for the `Fortified wine' series and its simulated copies.}
 \label{tab:rltable}
 	
 	\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}ccccc}
@@ -993,15 +976,12 @@ RMSE of model series approximation (the column $\tsX$) and the approximation acc
 	\end{tabular*}
 \end{table*}
 
-Table~\ref{tab:rltable} shows that for $\alpha$ from the range from 1 to 0.2
-a smaller approximation error yields a smaller reconstruction error. However, for the smaller values $\alpha$
-the tendency is broken. Probably, small values of $\alpha$ does not provide a sufficient separability from noise
+Table~\ref{tab:rltable} shows that for $\alpha\in [0.2,1]$ a smaller approximation error yields a smaller reconstruction error. However, for the smaller values $\alpha$
+the tendency is broken. Probably, small values of $\alpha$ do not provide a sufficient separability from noise
 to converge toward the global minimum.
 
-%As we can see, smaller $\alpha$ tends to better approximation of $\tsX^*$ and estimation of signal $\tsS$, but, according to our investigation, only $\alpha = 1$, $0.8$, $0.6$, $0.4$ and $0.2$  can be trusted. If $\alpha = 0.05$, the separability becomes worse, and small signal-to-noise ratio causes far away from global minimum convergence of algorithm.
-
 Figure \ref{fig:rl} depicts the approximation of the original `Fortified wine' series $\tsX^*$ obtained by the Cadzow($0.2$) algorithm.
-The dotted line corresponds to the original series, while the solid line shows finite-rank estimation of the signal of rank 11.
+The dotted line corresponds to the original series, while the solid line shows the finite-rank estimate of the signal of rank 11.
 One can expect that the Cadzow($0.2$) algorithm provides one of the most accurate finite-rank estimations of the signal.
 
 \begin{figure}[!hhh]
@@ -1070,7 +1050,7 @@ We are interested in the order of $\varepsilon$ as $N\ra \infty$ for different m
 
 Here we apply the theory to an example with a sine-wave signal and a constant residual. By analogy with SSA, we can expect that the asymptotic separability rate will be the same if the residual is Gaussian white noise.
 Thus, let
-$\tsX_1^\infty = (\cos(2 \pi \omega k), k = 1, 2, \ldots)$ and  $\tsX_2^\infty = (c, c, \ldots)$. 
+$\tsX_1^\infty = (\cos(2 \pi \omega k), k = 1, 2, \ldots)$ and  $\tsX_2^\infty = (c, c, \ldots)$.
 Consider $N \to \infty$ and $L(N),\,K(N) \to \infty$ such that $N = L + K - 1$.
 When $\bfC$ is the identity matrix, the answer is known: $\varepsilon$ has order $1/\min(L,K)$, i.e. the rate of separability has order $1/N$ for $L$ proportional to $N$.
 This result can be found in \cite[Chapter 6.1]{Golyandina.etal2001}.
@@ -1093,7 +1073,7 @@ a function $f \in \Omega(g(n))$ as $n\ra \infty$ if there exist $k>0$ and $n_0>0
 	\alpha, & \text{otherwise},
 	\end{cases}
 	\end{equation*}
-%	where $0 < \alpha(N) \le 1$. 
+%	where $0 < \alpha(N) \le 1$.
 Then
 	\begin{enumerate}
 		\item $\rho$ given by \eqref{weak_sep_eq} has the following order: $\rho~=~O\left(\max\left(\frac{1}{L}, \frac{(1-\alpha)C_{L,K}+\alpha}{(1-\alpha)D_{L,K}+\alpha K}\right)\right)$, where
