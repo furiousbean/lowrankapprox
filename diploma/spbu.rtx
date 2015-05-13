@@ -32,8 +32,8 @@
 \ifundeflength\firstskip{1.5cm}
 \ifundeflength\secondskip{1.5cm}
 \ifundeflength\thirdskip{3ex}
-\ifundeflength\fourthskip{1ex}
-\ifundeflength\fifthskip{1ex}
+\ifundeflength\fourthskip{2ex}
+\ifundeflength\fifthskip{4ex}
 \ifundeflength\sixthskip{2.5cm}
 \ifundeflength\seventhskip{1ex}
 
@@ -55,13 +55,12 @@
 \vskip\firstskip
 \vskip\secondskip
 \begin{center}
-  {\titlefont\@title}
   \vskip\thirdskip
-  {\@group}
-  \vskip\fourthskip
   {\@author}
-  \vskip\fifthskip
+  \vskip\fourthskip
   {\topicfont\@topic}
+  \vskip\fifthskip
+  {\@title}
 \end{center}
 \normalfont
 \vskip\sixthskip
