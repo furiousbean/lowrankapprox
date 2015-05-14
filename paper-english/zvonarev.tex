@@ -120,7 +120,7 @@ Let $\bfX$ be the trajectory matrix of the series $\tsX$. Then the problem of es
 \end{equation}
 where $\|\cdot\|_\rmF$ is the Frobenius norm.
 
-Many papers are devoted to this problem, e.g., \cite{Cadzow1988, Markovsky2011, Usevich.Markovsky2014, Gillard.Zhigljavsky2013} among others, where the problem is called Structured Low-Rank Approximation. Numerical solutions of the problem are iterative; e.g., the Cadzow's iterative method \cite{Cadzow1988} consists of alternating projections to the sets of Hankel matrices and of matrices of rank not larger than $r$. The target function is not unimodal in such class of problems, and convergence to the global minimum is not guaranteed; despite this, the problem \eqref{introd_task} is considered to be well-researched, though it still has many open questions.
+Many papers are devoted to this problem, e.g., \cite{Cadzow1988, Markovsky2011, Usevich.Markovsky2014, Gillard.Zhigljavsky2013} among others, where the problem is called Structured Low-Rank Approximation. Numerical solutions of the problem are iterative; e.g., the Cadzow iterative method \cite{Cadzow1988} consists of alternating projections to the sets of Hankel matrices and of matrices of rank not larger than $r$. The target function is not unimodal in such class of problems, and convergence to the global minimum is not guaranteed; despite this, the problem \eqref{introd_task} is considered to be well-researched, though it still has many open questions.
 
 Note that the problem \eqref{introd_task} is equivalent to the problem of weighted approximation of the series $\tsX = (x_1, \ldots, x_N)$:
 \begin{equation}\label{introd_task_2}
@@ -782,7 +782,7 @@ There are no theoretical results about the behavior of the estimation accuracy i
 	
 	\begin{remark}
 		\label{rem:adjust}
-		The adjustment $\calA$, which is suggested in Section~\ref{sec:ts} for improvement of estimates, can be applied to the resultant signal estimation $\widehat\tsS$ for any considered algorithm. The inner product used in Remark~\ref{rem:adj} for definition of $\calA$ is the standard Euclidean inner product not depending on the weight matrix $\bfM$ used in the algorithms, since this norm $\|\cdot\|$ corresponds to the problem \eqref{L-rank_task} with equal weights $q_i$. We will call the algorithms with the adjustment $\calA$ \emph{adjusted algorithms}. For example, the result of the $k$-th iteration of the Cadzow iterations method can be expressed as $\widehat\tsS_k = \calT^{-1}(\Pi_\calH \Pi_{\calM_r})^k \calT \tsX$. Then the result of the $k$-th iteration of the adjusted Cadzow iterative method is $\widehat\tsS_k^*=\calA(\widehat\tsS_k)$.
+		The adjustment $\calA$, which is suggested in Section~\ref{sec:ts} for improvement of estimates, can be applied to the resultant signal estimation $\widehat\tsS$ for any considered algorithm. The inner product used in Remark~\ref{rem:adj} for definition of $\calA$ is the standard Euclidean inner product not depending on the weight matrix $\bfM$ used in the algorithms, since this norm $\|\cdot\|$ corresponds to the problem \eqref{L-rank_task} with equal weights $q_i$. We will call the algorithms with the adjustment $\calA$ \emph{adjusted algorithms}. For example, the result of the $k$-th iteration of the Cadzow iterations can be expressed as $\widehat\tsS_k = \calT^{-1}(\Pi_\calH \Pi_{\calM_r})^k \calT \tsX$. Then the result of the $k$-th iteration of the adjusted Cadzow iterative method is $\widehat\tsS_k^*=\calA(\widehat\tsS_k)$.
 	\end{remark}
 
 \section{Numerical comparison}
@@ -820,7 +820,7 @@ Note that the limit errors do not differ strongly, they change from 0.31 ($\alph
 	\label{img_2axis}
 	%	\end{center}
 \end{figure}
-The same signal \eqref{eq:signal} was taken to investigate how the RMSE and the convergence rate depend on $\alpha$ for Cadzow($\alpha$) algorithms with $L = 20$. The following STOP1 criterion was taken: $\frac{\|\calT^{-1}(\bfY_k) - \calT^{-1}(\bfY_{k + 1})\|^2}{N} < 10^{-8}$. Figure~\ref{img_2axis} shows that smaller $\alpha$ leads to more accurate estimates of the signal, but increases their computational costs.
+The same signal \eqref{eq:signal} was taken to investigate how the RMSE and the convergence rate depend on $\alpha$ for the Cadzow($\alpha$) algorithms with $L = 20$. The following STOP1 criterion was taken: $\frac{\|\calT^{-1}(\bfY_k) - \calT^{-1}(\bfY_{k + 1})\|^2}{N} < 10^{-8}$. Figure~\ref{img_2axis} shows that smaller $\alpha$ leads to more accurate estimates of the signal, but increases their computational costs.
 
 This general rule sometimes does not work for very small values of the parameter $\alpha$, see Figure~\ref{img_2axis-3}, where
 the noise standard deviation was increased from 1 to 3. One can see that for $\alpha$ smaller than 0.1 the dependence of the estimation errors on $\alpha$ changes.
@@ -925,9 +925,9 @@ A typical analysis of the time series by Basic SSA
 \cite[Chapter 1]{Golyandina.etal2001}
 with window length $L=84$ shows that the leading 11 eigentriples
 correspond to the signal. The ESPRIT method~\cite{Roy.Kailath1989,Golyandina.Zhigljavsky2012} applied to the found signal subspace provides
-estimates of exponential bases $\rho_m$ for the trend and for modulations of seasonal components in the series components, where the $k$-th term in the $m$th component is given in the form $C_m \rho^k \sin(2\pi\omega_m k +\phi_m)$, $k=1,\ldots,N$. The ESPRIT method also estimates the frequencies $\omega_m$; however, for seasonal components the possible frequencies are known and therefore we changed their estimates to  nearest values in the form $j/12$.
+estimates of exponential bases $\rho_m$ for the trend and for modulations of seasonal components in the series components, where the $k$-th term in the $m$th component is given in the form $C_m \rho^k$ or $C_m \rho^k \sin(2\pi\omega_m k +\phi_m)$, $k=1,\ldots,N$. The ESPRIT method also estimates the frequencies $\omega_m$; however, for seasonal components the possible frequencies are known and therefore we changed the frequency estimates to  nearest values in the form $j/12$.
 The coefficients $C_m$ before the found series components and the phases $\phi_m$ of seasonal components were estimated by
-the least-squares method. Noise was taken multiplicative, that is its variance increases proportionally to the trend.
+the least-squares method. Noise is taken multiplicative, that is, its variance increases proportionally to the trend.
 Thus, the model of the signal $\tsS = (s_{1}, \ldots, s_N)$, $N=168$, is estimated as
 \begin{multline*}
 s_{k} = 3997.74\, (0.9967)^k + \\
@@ -939,10 +939,7 @@ s_{k} = 3997.74\, (0.9967)^k + \\
 \end{multline*}
 The model of the whole series $\tsX=(x_1,\ldots,x_N)$ is
 $x_i=s_i + 353.17\, (0.9967)^k \ve_i$,
-%where and the series $\tsX = \tsS + \tsU \odot \tsN$ be observed,
 where  $\ve_i$, $i=1,\ldots,N$,  is Gaussian white noise with mean equal to $0$ and variance equal to $1$.
-%, $\odot$ is element-wise vector product, $\tsU = (u_{1}, \ldots, u_N)$, $u_k = 353.17 (0.9967)^k$.
-%Note that the noise is actually modulated gaussian white noise.
 We set $L=84$ and apply the Cadzow($\alpha$) algorithm with $\alpha=1, 0.8, 0.6, 0.4, 0.2, 0.1, 0.05$.
 The following STOP1 criterion is taken in Algorithm~\ref{alg:obliqueCadzow}:
 $\frac{\|\calT^{-1}(\bfY_k) - \calT^{-1}(\bfY_{k + 1})\|^2}{N} < 10^{-4}$.
@@ -952,7 +949,7 @@ the RMSE of model series approximation (the column $\tsX$) and the approximation
 `Fortified wines' series (the column $\tsX^*$).
 
 \begin{table*}
-	\caption{Comparison of methods by the errors of signal estimation and series approximation for the `Fortified wine' series and its simulated copies.}
+	\caption{Comparison of the errors of signal estimation and series approximation using the Cadzow methods, for the `Fortified wine' series and the model realizations.}
 \label{tab:rltable}
 	
 	\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}ccccc}
@@ -982,57 +979,48 @@ to converge toward the global minimum.
 
 Figure \ref{fig:rl} depicts the approximation of the original `Fortified wine' series $\tsX^*$ obtained by the Cadzow($0.2$) algorithm.
 The dotted line corresponds to the original series, while the solid line shows the finite-rank estimate of the signal of rank 11.
-One can expect that the Cadzow($0.2$) algorithm provides one of the most accurate finite-rank estimations of the signal.
+One can expect that the Cadzow($0.2$) algorithm provides one of the most accurate finite-rank estimate of the signal.
 
 \begin{figure}[!hhh]
 	%	\begin{center}
 	\includegraphics[width = \columnwidth]{rlimage.pdf}
-	\caption{`Fortified wine' series: application of Cadzow($0.2$) algorithm}
+	\caption{`Fortified wine' series: application of the Cadzow($0.2$) algorithm}
 	\label{fig:rl}
 	%	\end{center}
 \end{figure}
 
 \section{Conclusion}
 \label{sec:concl}
-%In this paper, we suggested and investigated the methods of signal extraction based on subspace-based methods of approximation.
-%
-% We used equivalent statements of the problems for weighted matrix approximation and  weighted time-series approximations, where equal weights in the least-squares matrix problem corresponds
-%to unequal weights in the least-squares time series problem, and vice verse.
-%
 
-Several known and new iterative algorithms for approximation of a noisy series by a finite-rank series (a signal) were considered in the paper. The approximation was performed by a least-squares method and its result was considered as an estimate of the signal.
+Several known and new iterative algorithms for approximation of a noisy series by a finite-rank series (a signal) were considered in the present paper. The approximation was performed by a least-squares method and its result was considered as an estimate of the signal.
 
- We used equivalent statements of the problems for weighted matrix approximation and  weighted time-series approximation, where equal weights in the least-squares matrix problem corresponds
+ We used equivalent statements of the problems for weighted matrix approximation and  weighted time-series approximation, where equal weights in the least-squares matrix problem correspond
  to unequal weights in the least-squares time series problem, and vice verse.
 
-A wide range of iterative algorithms was reviewed with the aim to obtain equal weights in the least-squares method applied to time series.
-Equal weights were achieved by algorithms using inner iterations, which converge to a local minimum only and also make the algorithms very time-consuming. It appears that the use of methods without inner iterations (Cadzow-type methods) leads to approximately equal weights only.
+A wide range of the iterative algorithms was reviewed with the aim to obtain equal weights in the least-squares method applied to time series.
+Equal weights were achieved in the algorithms using inner iterations, which converge to a local minimum only and also make the algorithms very time-consuming. It appears that the use of methods without inner iterations (Cadzow-type methods) leads to approximately equal weights only.
 
-Convergence of outer iterations by subsequences was proved for the reviewed class of algorithms.
+Convergence of outer iterations by subsequences was proved for the reviewed algorithms.
 
-Comparison of the considered methods by accuracy and convergence rate was performed by simulation on the example of a noisy sine-wave signal. The simulation results confirmed the theoretical results. It appears that time-series weights, which are closer to equal, provides in the limit more time-consuming and simultaneously more accurate methods.
+Comparison of the accuracy and convergence rate was performed by simulation on the example of a noisy sine-wave signal. The simulation results confirmed the theoretical results. It appears that time-series weights, which are closer to equal, provides in the limit more time-consuming and simultaneously more accurate methods.
 Also, the simulations confirm that the convergence rate is in accordance with the separability rate. Therefore, for the Cadzow-type methods,
 there is the correspondence between slow convergence, poor separability,
 inaccurate approximation at the first one iteration and high accuracy in the limit; and vice verse.
-In particular, for Cadzow iterations, which produce Singular Spectrum Analysis for signal reconstruction at the first iteration, the window length equal to half the series length gives poor accuracy in the limit and
+In particular, for the Cadzow iterations, which produce Singular Spectrum Analysis for signal reconstruction at the first iteration, the window length equal to half of the series length gives poor accuracy in the limit and
 one of the best reconstructions at the first iteration.
 
 
 \appendix
 
-\section{Separability of sine-wave signal from constant residual for Cadzow($\alpha$) iterations}
+\section{Separability of sine-wave signal from constant residual for the Cadzow($\alpha$) iterations}
 \label{sec:app}
 
 Let us consider modifications of SSA, which are produced by the first iteration of the Cadzow($\alpha$) iterative algorithms described in Section~\ref{sec:cadzow_alpha}. Recall that the Cadzow($1$) iterative algorithm produces the conventional Basic SSA method \cite{Golyandina.etal2001,Golyandina.Zhigljavsky2012}, while the first iteration of a general Cadzow($\alpha$) algorithm can be considered as a
 particular case of Oblique SSA \cite{Golyandina2013} with the Euclidean inner product in the column space and a special inner product in the row space.
 
 Separability of signals from residuals in SSA is deeply investigated in \cite{Golyandina.etal2001,Golyandina2010}. Separability of a signal means the ability of the method to extract the signal. In fact, separability is related to the accuracy of signal estimation obtained at the first iteration
-of the considered iterative algorithms. Notions of exact, approximate and asymptotical (as the series length tends to infinity) separability together with examples of the asymptotic separability rates are introduced for
-SSA in \cite{Golyandina.etal2001} and can be generalized for the oblique case. Following by \cite{Golyandina.etal2001}, we will measure the separability by means of the cosines between $L$- and $K$-lagged vectors
+of the considered iterative algorithms. Notions of exact, approximate and asymptotical (as the series length tends to infinity) separability together with examples of the asymptotic separability rates are introduced in \cite{Golyandina.etal2001} and can be generalized for the oblique case. Following by \cite{Golyandina.etal2001}, we will measure the separability by means of the cosines between $L$- and $K$-lagged vectors
 of the signal and the residual.
-%Since we consider a specific Oblique SSA with Euclidean inner product
-%in the column space, we still can measure the separability through orthogonality of series subspaces as it was suggested for Basic SSA in \cite{Golyandina.etal2001}.
-
 
 Let $\bfC \in \sfR^{K \times K}$ be a symmetric positive semidefinite matrix, $\tsX_1$ and $\tsX_2$ be two different time series of length $N$, $\bfX^1$, $\bfX^2$ be their trajectory matrices. Define the so-called \emph{correlation coefficient between the $i$-th and $j$-th columns} as:
 \begin{equation}\label{col_corr}
@@ -1129,55 +1117,6 @@ and
 	Let us suppose that we have chosen $L(N)$ such that $\rho$ has order $\max\left(\frac{1}{L}, \frac{1}{(1-\alpha)N/L+\alpha K}\right)$. Then the optimal choice for $L$ is $L \approx \frac{\alpha(N + 1) + \sqrt{\alpha^2(N+1)^2 + 4N(1  - \alpha^2)}}{2(1 + \alpha)}$.
 Hence, the rate of separability has the same order $O(1/N)$  for $\alpha(N) \to c$, where $0<c\le 1$ is some constant (however, a smaller $c$ corresponds to a smaller multiplier before $1/N$). In the case of converging to zero $\alpha(N) = O(N^{-\beta})$, the rate of separability becomes equal to $O(N^{\beta - 1})$ for $0 \le \beta \le 0.5$ and to $O(1/\sqrt{N})$ for $\beta > 0.5$.
 \end{remark}
-%In the worst case, the separability vanishes as $\alpha$ tends to zero.
-
-%\smallskip
-%Now let us consider Cadzow-$\widehat\bfC$ iterations introduced in Section~\ref{sec:cadzow_hat}.
-%
-%\begin{proposition}
-%	\label{prop:separ2}
-%	Let $\tsX_1 = (\cos(2 \pi \omega k), k = 1, 2, \ldots)$, where $0<\omega <0.5$, be a sine wave, $\tsX_2 = (c, c, \ldots)$ be a constant series,   $L,K\ra \infty$, and $\bfC=\widehat\bfC$ be defined in Cadzow-$\widehat\bfC$ iterations.
-%	Then $\rho$ given by \eqref{weak_sep_eq} has order $\max \left(1/L, \frac{H_L}{\sqrt{NK}} \right)$ as $L, K \to \infty$, where $H_L$ is $L$-th harmonic number.
-%\end{proposition}
-%
-%\begin{proof}
-%	To prove the theorem, we should evaluate the order of the expressions:
-%	\begin{equation}\label{th6_sep1}
-%	\rho^c_{i,j} = \frac{\sum_{k=j}^{j + L - 1} \cos(2 \pi \omega k)}{\sqrt{L \left(\sum_{k=j}^{j + L - 1} \cos^2(2 \pi \omega k)\right)}},
-%	\end{equation}
-%	\begin{equation}\label{th6_sep2}
-%	\rho^r_{i,j} = \frac{\sum_{k=1}^K \hat c_k\cos(2 \pi \omega (j + k - 1))}{\sqrt{\left(\sum_{k=1}^K \hat c_k\right) \left(\sum_{k=1}^K \hat c_k\cos^2(2 \pi \omega (j + k - 1))\right)}}.
-%	\end{equation}
-%\eqref{th6_sep1} coincides with \eqref{th5_sep1} in Theorem \ref{prop:separ1},
-%thus the order of \eqref{th6_sep1} is already obtained, so let us just move to the estimation of order of \eqref{th6_sep2}. Consider the correlation of first rows only, since the proof for remained rows is absolutely analogous. Consider a numerator of $\rho^r_{1,1}$:
-%	\begin{gather*}
-%	\sum_{k=1}^K \hat c_k\cos(2 \pi \omega k) = \sum_{k=1}^{L-1} \hat c_k\cos(2 \pi \omega k) + \sum_{k=L}^{K - L + 1} \frac{\cos(2 \pi \omega k)}{L} +\\+ \sum_{k=K - L + 2}^{K} \hat c_k\cos(2 \pi \omega k) = I_1 + I_2 + I_3,
-%	\end{gather*}
-%	which is splitted by three parts. $I_2$ has order $O(1/L)$, and the order of $I_3$ is equal to the order of $I_1$:
-%	\begin{multline*}
-%	|I_1|=\bigg|\sum_{k=1}^{L-1}\frac{1}{L}\left(\frac{k}{L} + \sum_{j=k}^{L-1} \frac{1}{j} \right) \cos(2 \pi \omega k)\bigg| =\\= \bigg|\sum_{k=1}^{L-1} \frac{k \cos(2 \pi \omega k)}{L^2} +  \frac{1}{L}\sum_{k = 1}^{L-1}\sum_{j = k}^{L-1}\frac{\cos(2 \pi \omega k)}{j}\bigg| \le \\ \le
-%	\bigg|\sum_{k=1}^{L-1} \frac{k \cos(2 \pi \omega k)}{L^2}\bigg| + \bigg|\frac{1}{L}\sum_{k = 1}^{L-1}\sum_{j = k}^{L-1}\frac{\cos(2 \pi \omega k)}{j}\bigg|.
-%	\end{multline*}
-%	Using the fact that
-%	\begin{multline*}
-%	\sum_{k=1}^n k \cos(ak + b) = -\frac{1}{4}\csc^2(a/2)(-(n+1)\cos(an+b) + \\ + n\cos(an + a + b) + \cos b),
-%	\end{multline*}
-%	we obtain that:
-%	\begin{multline*}
-%	\bigg|\sum_{k=1}^{L-1} \frac{k \cos(2 \pi \omega k)}{L^2}\bigg| = O(1/L), \quad
-%	\bigg|\frac{1}{L}\sum_{k = 1}^{L-1}\sum_{j = k}^{L-1}\frac{\cos(2 \pi \omega k)}{j}\bigg| = \\ =\bigg|\frac{1}{L}\sum_{j = 1}^{L-1}\sum_{k = 1}^{j}\frac{\cos(2 \pi \omega k)}{j}\bigg| \le \bigg|\frac{1}{L}\sum_{j = 1}^{L-1}\frac{d}{j}\bigg| = O \left(\frac{H_L}{L} \right),
-%	\end{multline*}
-%	where $d$ is some constant.
-%	
-%	Following sum is considered for the denominator of $\rho^r_{1,1}$:
-%	\begin{equation*}
-%	\sum_{k=1}^K \hat c_k = N / L
-%	\end{equation*}
-%	by definition, and the following part has lower bound:
-%	\begin{multline*}
-%	\sum_{k=1}^K \hat c_k\cos^2(2 \pi \omega (j + k - 1)) \ge \\ \ge \sum_{k=1}^K \frac{1}{L}\cos^2(2 \pi \omega (j + k - 1)) = O \left(\frac{K}{L} \right).
-%	\end{multline*}
-%\end{proof}
 
 %\section*{Acknowledgements}
 %And this is an acknowledgements section with a heading that was produced by the
