@@ -1,0 +1,137 @@
+
+\documentclass[12pt,a4paper]{article}
+\usepackage[a4paper,
+mag=1000, includefoot,
+left=3cm, right=1.5cm, top=2cm, bottom=2cm, headsep=1cm, footskip=1cm]{geometry}
+\usepackage{mathtext}
+\usepackage{cmap}
+\usepackage[utf8x]{inputenc}
+\usepackage[russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage{amsmath,amssymb,amsthm,amscd,amsfonts}
+\usepackage{euscript}
+\usepackage{relsize}
+\usepackage{mathdots}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{caption2}
+\usepackage{indentfirst}
+\usepackage{fancyhdr}
+\usepackage{sectsty}
+\usepackage{titlesec}
+\usepackage{mathtext}%русские буквы в формулах
+
+\usepackage[colorlinks, urlcolor=blue, pdfborder={0 0 0 [0 0]}]{hyperref}
+
+\hyphenation{Struc-tu-red}
+\hyphenation{Ran-do-mized}
+\hyphenation{Ma-xi-mi-za-tion}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator{\tr}{tr}
+\providecommand*{\BibDash}{}
+
+\def\rank{\mathop{\mathrm{rank}}}
+\newtheorem{corollary}{Следствие}
+\newtheorem{proposition}{Предложение}
+\newtheorem{algorithm}{Алгоритм}
+\newtheorem{lemma}{Лемма}
+
+\usepackage{euscript}
+\input{newcommands}
+\input{letters}
+
+%\sectionfont{\centering}
+
+%\subsectionfont{\centering}
+%\subsubsectionfont{\normalsize}
+%\setcounter{page}{1}
+
+
+\author{Звонарев Никита}
+\title{Односторонние веса ряда}
+\begin{document}
+
+\section{Постановка задачи нахождения весов}
+\subsection{Общие соображения}
+В этом разделе рассмотрим различные способы нахождения матричных весов $c_i$, $i = 1, \ldots, K$ с целью получения приближённо равных весов ряда $q_i$, $i = 1, \ldots, N$. Теорема \footnote{ссылка на соотношение между весами} дает необходимые и достаточные условия существования точных единичных весов ряда. Однако, мы тут же сталкиваемся с двумя проблемами. Во-первых, $N$ должно быть кратно $L$. Чаще всего $L$ стоит брать приближенно равным $N/2$, но $N$ может быть как нечетным, так и вовсе простым числом! Естественно, как резкое ограничение на возможные длины окна $L$, так и возможное обрезание ряда $\tsX$ до кратной $L$ длины крайне нежелательны. Во-вторых, полученные в теореме (?) веса $c_i$ содержат нули, что неприменимо, согласно \footnote{замечание про кривой Cadzow(0)}. В алгоритме Cadzow($\alpha$) \footnote{ссылка на статью} предложено заменять нули на $\alpha$. Согласно \footnote{ссылка на статью}, параметр $\alpha$ напрямую влияет на скорость сходимости метода Cadzow($\alpha$): меньшие $\alpha$ замедляют сходимость метода.
+
+Введём следующие ограничения на допустимые веса $c_i$: во-первых, все $c_i > 0$. Во-вторых, по аналогии с алгоритмом Cadzow($\alpha$), введём параметр $\alpha$, задающий скорость сходимости алгоритма. Так как при умножении весов $c_i$ на константу алгоритм Oblique Cadzow нисколько не меняется, естественно рассматривать следующее ограничение на веса: 
+\begin{equation} \label{eq:ratiocond}
+\frac{\min_i c_i}{\max_i c_i} \ge \alpha.
+\end{equation}
+Именно из-за вышеназванной особенности рассматривается такое, на первый взгляд, странное ограничение (вместо, например, $c_i > \alpha$, $i = 1, \ldots, K$). Данное предположение, как будет показано позже в Разделе \footnote{ссылка}, подтверждается на численных примерах.
+
+\subsection{Общая постановка задачи аппроксимации весов}
+Для удобства перепишем уравнение (ссылка на уравнение, связывающее $c_i$ и $q_i$) в матричном виде. Для этого рассмотрим матрицу $\bfT$ порядка $N \times K$, имеющую следующий вид:
+\begin{equation} \label{eq:tmatrix}
+\bfT = (t_{i, j}), \quad t_{i, j} = \begin{cases}
+1, & \text{для} \; i = j, \ldots, j + L - 1, \\
+0, & \text{в противном случае}.
+\end{cases}
+\end{equation}
+Таким образом, вектор весов ряда $Q = (q_1, \ldots, q_N)^\rmT$ может быть выражен через вектор матричных весов $C = (c_1, \ldots, c_K)^\rmT$ как $Q = \bfT C$. Заметим, что матрица $\bfT$ является матрицей полного ранга.
+
+В общем виде задача формулируется следующим образом:
+\begin{multline} \label{eq:commonw}
+\|\bfT C - \widetilde W\|_\cdot \to \min_{c_i, i = 1, \ldots, K} \quad \text{при условиях} \;
+c_i > 0, \; i = 1, \ldots, K, \; 
+\frac{\min_i c_i}{\max_i c_i} \ge \alpha,
+\end{multline}
+где $\widetilde W = (\tilde w_1, \ldots, \tilde w_N)$ --- требуемые веса ряда (в нашем случае мы берём $\widetilde W = I_N = (1, \ldots, 1)^\rmT$ --- вектор из $N$ единиц), $0 \le \alpha \le 1$ --- параметр, регулирующий сходимость алгоритма Oblique Cadzow, $\|\cdot\|_\cdot$ --- норма в $\sfR^N$. Рассмотрим следующие стандартные нормы:
+\begin{enumerate}
+	\item $\|X\|_\cdot = \|X\|_\infty = \max_i |x_i|$,
+	\item $\|X\|_\cdot = \|X\|_1 = \sum_i |x_i|$ --- норма, порождающая манхэттенскую метрику,
+	\item $\|X\|_\cdot = \|X\|_2 = \sqrt{\sum_i x_i^2}$ --- обычная евклидова норма.
+\end{enumerate}
+Рассмотрим каждый случай по отдельности.
+
+\subsection{Случай нормы $\|X\|_\infty$}
+Покажем, что данная задача сводится к задаче линейного программирования с линейными ограничениями с помощью добавления вспомогательных переменных.
+
+Введём $c_\text{max}$ --- дополнительную переменную, хранящую максимальный вес, и перейдём к новым переменным $\hat c_i = c_\text{max} - c_i$, $i = 1, \ldots, K$ --- разницу между максимальным среди всех и текущим весом, при этом $c_\text{max} \ge 0$, $\hat c_i \ge 0$. Между векторами $C = (c_1, \ldots, c_K)^\rmT$ и $\widehat C = (\hat c_1, \ldots, \hat c_K, c_\text{max})^\rmT$ существует простое линейное преобразование: $C = \bfH \widehat C$,
+\begin{equation} \label{eq:hmatrix}
+\bfH = \left(
+\begin{array}{c|c}
+\raisebox{-15pt}{{\huge\mbox{{$-\bfI_K$}}}} &  1 \\[-4ex]
+ & \vdots \\
+ & 1
+\end{array}
+\right),
+\end{equation}
+где $\bfI_K$ --- единичная матрица порядка $K \times K$. Условие \eqref{eq:ratiocond}, устанавливающее границу снизу для весов, в новых обозначениях записывается как $(1 - \alpha) c_\text{max} - \hat c_i \ge 0$, $i = 1, \ldots, K$.
+
+Рассмотрим $\omega$ --- еще один дополнительный параметр, который хранит значение целевой функции. Заметим, что при любых дополнительных условиях, любой матрице $\bfA \in \sfR^{N \times K}$, любых $Y \in \sfR_N$, $X \in \sfR_K$ следующие задачи эквивалентны: 
+\begin{equation*}
+\|\bfA X - Y \|_\infty \to \min_{X}
+\end{equation*}
+и 
+\begin{gather*}
+\omega \to \min_{X, \omega} \quad \text{при условиях} \\ \bfA X = F = (f_1, \ldots, f_N)^\rmT, \quad f_i - y_i \le \omega, \quad f_i - y_i \ge -\omega, \quad i = 1, \ldots, N. 
+\end{gather*}
+
+Таким образом, в терминах линейного программирования задача \eqref{eq:commonw} в случае нормы $\|X\|_\infty$ переписывается следующим образом:
+\begin{gather*}
+\omega \to \min_{c_\text{max}, \, \hat c_1, \ldots, \hat c_K, \, \omega} \quad \text{при условиях} \\ \bfT \bfH \widehat C = F = (f_1, \ldots, f_N)^\rmT, \quad f_i - 1 \le \omega, \quad f_i - 1 \ge -\omega, \quad i = 1, \ldots, N, \\
+c_\text{max} \ge 0, \quad \hat c_j \ge 0, \quad (1 - \alpha) c_\text{max} - \hat c_j \ge 0, \quad j = 1, \ldots, K.
+\end{gather*}
+
+\subsection{Случай нормы $\|X\|_1$}
+Аналогично предыдущему случаю, задача \eqref{eq:commonw} может быть записана в терминах линейного программирования.
+
+Для этого заметим следующее: если ввести $2N$ дополнительных переменных \\ $\kappa_1, \ldots, \kappa_N$, $\theta_1, \ldots, \theta_N$, то при любых дополнительных условиях, любой матрице $\bfA \in \sfR^{N \times K}$, любых $Y \in \sfR_N$, $X \in \sfR_K$ следующие задачи эквивалентны: 
+\begin{equation*}
+\|\bfA X - Y \|_1 \to \min_{X}
+\end{equation*}
+и 
+\begin{gather*}
+\sum_{i = 1}^N (\kappa_i + \theta_i) \to \min_{X, \, \kappa_1, \ldots, \kappa_N, \, \theta_1, \ldots, \theta_N} \quad \text{при условиях} \\ \bfA X = F = (f_1, \ldots, f_N)^\rmT, \quad f_i - y_i = \kappa_i - \theta_i, \quad \kappa_i \ge 0, \quad \theta_i \ge 0, \quad i = 1, \ldots, N. 
+\end{gather*}
+
+В итоге, задача \eqref{eq:commonw} в терминах линейного программирования в случае нормы $\|X\|_1$ переписывается следующим образом:
+\begin{gather*}
+\sum_{i = 1}^N (\kappa_i + \theta_i) \to \min_{c_\text{max}, \, \hat c_1, \ldots, \hat c_K, \, \kappa_1, \ldots, \kappa_N, \, \theta_1, \ldots, \theta_N} \quad \text{при условиях} \\ \bfT \bfH \widehat C = F = (f_1, \ldots, f_N)^\rmT,  \quad f_i - 1 = \kappa_i - \theta_i, \quad \kappa_i \ge 0, \quad \theta_i \ge 0, \quad i = 1, \ldots, N, \\
+c_\text{max} \ge 0, \quad \hat c_j \ge 0, \quad (1 - \alpha) c_\text{max} - \hat c_j \ge 0, \quad j = 1, \ldots, K.
+\end{gather*}
+
+\end{document}
