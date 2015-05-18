@@ -925,7 +925,7 @@ A typical analysis of the time series by Basic SSA
 \cite[Chapter 1]{Golyandina.etal2001}
 with window length $L=84$ shows that the leading 11 eigentriples
 correspond to the signal. The ESPRIT method~\cite{Roy.Kailath1989,Golyandina.Zhigljavsky2012} applied to the found signal subspace provides
-estimates of exponential bases $\rho_m$ for the trend and for modulations of seasonal components in the series components, where the $k$-th term in the $m$th component is given in the form $C_m \rho^k$ or $C_m \rho^k \sin(2\pi\omega_m k +\phi_m)$, $k=1,\ldots,N$. The ESPRIT method also estimates the frequencies $\omega_m$; however, for seasonal components the possible frequencies are known and therefore we changed the frequency estimates to  nearest values in the form $j/12$.
+estimates of exponential bases $\rho_m$ for the trend and for modulations of seasonal components in the series components, where the $k$-th term in the $m$th component is given in the form $C_m \rho_m^k$ or $C_m \rho_m^k \sin(2\pi\omega_m k +\phi_m)$, $k=1,\ldots,N$. The ESPRIT method also estimates the frequencies $\omega_m$; however, for seasonal components the possible frequencies are known and therefore we changed the frequency estimates to  nearest values in the form $j/12$.
 The coefficients $C_m$ before the found series components and the phases $\phi_m$ of seasonal components were estimated by
 the least-squares method. Noise is taken multiplicative, that is, its variance increases proportionally to the trend.
 Thus, the model of the signal $\tsS = (s_{1}, \ldots, s_N)$, $N=168$, is estimated as
