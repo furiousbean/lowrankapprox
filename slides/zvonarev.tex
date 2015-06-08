@@ -81,7 +81,7 @@
 	\end{definition}
 	$\tsN$ --- белый шум
 	
-	Дан $\tsX = \tsS + \tsN$. Требуется дать оценку сигнала.
+	Дан $\tsX = \tsS + \tsN$. Требуется построить оценку сигнала.
 	
 	\vspace{0.5cm}
 	Параметрический вид рядов, управляемых ЛРФ:
@@ -100,7 +100,7 @@
 	
 	$1 < L < N$ --- \emph{длина окна}, $K = N - L + 1$
 	
-	\emph{Траекторная матрица} $\tsS$:
+	\emph{Траекторная матрица ряда} $\tsS$:
 	
 	\begin{equation*}
 	\bfS = \begin{pmatrix}
@@ -114,22 +114,25 @@
 	Заметим, что $\bfS$ --- ганкелева ($\bfS \in \calH$) и $\text{rank} \bfS = r$.
 	
 	\begin{definition}
-		$\tsS$ управляется мин. ЛРФ порядка $r$ $ \Rightarrow $   $\calL\text{-rank} \; \tsS = r$ $\Leftrightarrow$ $\text{rank} \; \bfS = r$
+	    L-ранг ряда $\tsS$ равен $r$ $\Leftrightarrow$ $\text{rank} \; \bfS = r$
 	\end{definition}
-	$\sfX^r_N = \{\tsX : \tsX = (x_1, \ldots, x_N), \; \calL\text{-rank} \tsX \le r\}$
+	
+	$\sfX^r_N = \{\tsX : \tsX = (x_1, \ldots, x_N), \; \text{L-ранг} \tsX \le r\}$
 	
 \end{frame}
 
 \begin{frame}
 	\frametitle{Постановка на матричном языке}
 	\vspace{-0.2cm}
-	Пусть $\bfX = \calT(\tsX)$. Задача оценивания сигнала $\tsS$ может быть записана следующим образом:
-	\begin{equation*}
+	Пусть $\bfX = \calT(\tsX)$. Задача аппроксимации матрицы:
+	\begin{equation} \label{matrixtask}
 	\|\bfX - \bfY\|^2_\rmF \to \min_{\substack{\bfY \in \calM_r \cap \calH}},
-	\end{equation*}
-	где $\calM_r$ --- множество матриц ранга $\le r$, $\calT^{-1}(\bfY)$ --- оценка.
+	\end{equation}
+	где $\calM_r$ --- множество матриц ранга $\le r$.
 	
-	Задача на языке рядов:
+	Задача оценивания $\tsS$: $\calT^{-1}(\bfY)$ --- оценка.
+	
+	Задача на языке рядов (эквивалентная \eqref{matrixtask}):
 	\begin{equation*}
 	\sum \limits_{i=1}^N w_i(x_i - y_i)^2 \to \min_{\tsY \in \calX_N^r},
 	\end{equation*}
@@ -203,12 +206,11 @@
 	
 	$\calM$ --- замкнутое относительно умножения на константу подмножество, т.е. если $z \in \calM$, то $\alpha z \in \calM$ для любой $\alpha \in \sfR$.
 	
-	\vspace{0.3cm}
+	\vspace{0.6cm}
 	Требуется спроектировать заданную точку $x$ на $\calH \cap \calM$: 
+	$\|x - y\| \to \min_y$, где $y \in \calH \cap \calM$
 	
-	$\|x - y\| \to \min_y$ где $y \in \calH \cap \calM$
-	
-	\vspace{0.3cm}
+	\vspace{0.6cm}
 	Метод переменных проекций (Alternating projections, AP): $y_{k+1}=\Pi_\calH \Pi_\calM y_{k}, \mbox{\ где\ } y_{0}=x$, $\Pi_\calM$~---~проектор на $\calM$, $\Pi_\calH$ --- проектор на $\calH$.
 \end{frame}
 
@@ -259,12 +261,12 @@
 %	
 %\end{frame}
 
-\subsection{Нормы и алгоритмы}
+\subsection{Применение алгоритма}
 \begin{frame}
 	\frametitle{Обратно к задаче}
-	Язык рядов: $\sum \limits_{i=1}^N q_i(x_i - y_i)^2 \to \min,$ $\tsY \in \calX_N^r$, заданы $q_i > 0$.
+	Ряды: $\sum \limits_{i=1}^N q_i(x_i - y_i)^2 \to \min,$ $\tsY \in \calX_N^r$, заданы $q_i > 0$.
 	
-	Язык матриц: $\bfY$: $\|\bfX - \bfY\|_? \to \min$, $\bfY \in \calH \cap \calM_r$. Так как $q_i$ задаются, то требуется другая (не фробениусовская)  норма.
+	Матрицы: $\bfY$: $\|\bfX - \bfY\|_? \to \min$, $\bfY \in \calH \cap \calM_r$. Так как $q_i$ задаются, то требуется другая (не фробениусовская)  норма.
 	
 	\vspace{0.3cm}
 	Применяем алгоритм к нашему случаю, и получаем решение. Переменные проекции: 
@@ -276,6 +278,7 @@
 	Теорема применима к задаче $\Rightarrow$ существование сходящейся к нужному множеству подпоследовательности.
 \end{frame}
 
+\subsection{Выбор норм}
 \begin{frame}
 	\frametitle{Варианты норм}
 		\begin{enumerate}
@@ -288,7 +291,7 @@
 		Проблемы:
 		\begin{enumerate}
 			\item Как подобрать $m_{i, j}$, соответствующие $q_i$?
-			\item Как вычислить $\Pi_\calH$, $\Pi_{\calM_r}$ в по нужной норме?
+			\item Как вычислить $\Pi_\calH$, $\Pi_{\calM_r}$ по нужной норме?
 		\end{enumerate}
 \end{frame}
 
@@ -316,6 +319,7 @@
 	
 \end{frame}
 
+\subsection{Нахождение проекторов}
 \begin{frame}
 	\frametitle{Проектор $\Pi_{\calM_r}$}
 	Варианты:
@@ -349,17 +353,19 @@
 	\end{enumerate}
 \end{frame}
 
+\subsection{Алгоритмы и их проблемы}
 \begin{frame}
 	\frametitle{Основные варианты алгоритма Cadzow}
 	$\|\bfX\|_{2, \bfC}^2 = \text{tr}(\bfX \bfC \bfX^\rmT)$
 	\begin{itemize}
-		\item $\bfC = \bfI_K$ --- базовый алгоритм Cadzow ($\Pi_{\calM_r}$ --- обычный SVD, $\Pi_\calH$ --- диаг. усреднение).
+		\item $\bfC = \bfI_K$ --- базовый алгоритм Cadzow ($\Pi_{\calM_r}$ --- используя обычное SVD, $\Pi_\calH$ --- диаг. усреднение).
 		\item $\bfC = \text{diag}(1, \alpha, \alpha, \ldots, \alpha, 1, \alpha, \ldots, 1)$,
 		где единицы стоят на $1$, $L + 1$, $2L + 1$, \ldots , $K$ месте, $0 \le \alpha \le 1$ (Cadzow($\alpha$)).
 		
 		$\Pi_{\calM_r}$ --- косоугольное SVD, $\Pi_\calH$ --- взвешенное диагональное усреднение.
 	\end{itemize}
 	
+	\vspace{0.6cm}
 	$\|\bfX\|^2_{1, M} =  \sum_{l = 1}^L \sum_{k = 1}^K m_{l, k}$
 	\begin{itemize}
 		\item $\|\bfX\|_{1, M}$, $m_{l, k} = 1 / w_{l + k - 1}$ --- Weighted Cadzow ($\Pi_{\calM_r}$ --- EM, $\Pi_\calH$ --- диаг. усреднение). Для него все $q_i$ = 1.
@@ -481,7 +487,7 @@
  
 \section{Эксперименты}
 \begin{frame}
-	\frametitle{Пример №1 (одна итерация)}
+	\frametitle{Пример (одна итерация)}
 	Задача оценки сигнала: $N = 40$, $L = 20$, $r = 2$, $\tsX = (x_{1}, \ldots, x_N),$  $x_k = 5\sin{\frac{2 k \pi}{6}} + \varepsilon_k$; $\varepsilon_k$, $k = 1, \ldots N$ --- гауссовский белый шум с нулевым средним и единичной дисперсией.
 	\vspace{-0.3cm}
 	\begin{center}
@@ -490,7 +496,7 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Пример №2 (100 итераций)}
+	\frametitle{Пример (100 итераций)}
 	Задача оценки сигнала: $N = 40$, $L = 20$, $r = 2$, $\tsX = (x_{1}, \ldots, x_N),$  $x_k = 5\sin{\frac{2 k \pi}{6}} + \varepsilon_k$; $\varepsilon_k$, $k = 1, \ldots N$ --- гауссовский белый шум с нулевым средним и единичной дисперсией.
 	\vspace{-0.3cm}
 	
@@ -500,7 +506,7 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Пример №3}
+	\frametitle{Пример (зависимость RMSE от количества итераций)}
 	Задача оценки сигнала: $N = 40$, $L = 20$, $r = 2$, $\tsX = (x_{1}, \ldots, x_N),$  $x_k = 5\sin{\frac{2 k \pi}{6}} + \varepsilon_k$.
 	
 	\vspace{-1cm}
@@ -509,16 +515,16 @@
 	\end{center}
 \end{frame}
 
-%\begin{frame}
-%	\frametitle{Пример №3: среднее количество итераций и RMSE}
-%	Задача оценки сигнала: $N = 40$, $L = 20$, $r = 2$, $\tsX = (x_{1}, \ldots, x_N),$  $x_k = 5\sin{\frac{2 k \pi}{6}} + \varepsilon_k$.
+\begin{frame}
+	\frametitle{Пример №4: среднее количество итераций и RMSE}
+	Задача оценки сигнала: $N = 40$, $L = 20$, $r = 2$, $\tsX = (x_{1}, \ldots, x_N),$  $x_k = 5\sin{\frac{2 k \pi}{6}} + \varepsilon_k$.
 	
-%	Критерий остановки: $\frac{\|\calT^{-1}(\bfY_k) - \calT^{-1}(\bfY_{k + 1})\|^2}{N} < 10^{-8}$
-%	\vspace{-0.4cm}
-%	\begin{center}
-%		\includegraphics*[width = 9cm]{2axis.pdf} 
-%	\end{center}
-%\end{frame}
+	Критерий остановки: $\frac{\|\calT^{-1}(\bfY_k) - \calT^{-1}(\bfY_{k + 1})\|^2}{N} < 10^{-8}$
+	\vspace{-0.4cm}
+	\begin{center}
+		\includegraphics*[width = 9cm]{2axis.pdf} 
+	\end{center}
+\end{frame}
 
 %\begin{frame}
 %	\frametitle{Пример №4.5: $\sigma = 3$}
@@ -534,11 +540,13 @@
 \begin{frame}
 	\frametitle{Реальный пример}
     Ряд `Fortified wine', первые 168 значений.
+    
+    Схема исследования:
     \begin{itemize}
     	\item Построена параметрическая модель ``похожего'' ряда с помощью SSA + ESPRIT.
-    	\item С помощью моделирования получено качество оценки искусственного сигнала и точность аппроксимации ряда
-    	\item Найден промежуток, на котором улучшение точности аппроксимации даёт улучшение RMSE оценки сигнала
-    	\item Метод применён к настоящему ряду с нужным параметром
+    	\item С помощью моделирования метода Cadzow($\alpha$) получено качество оценки модельного сигнала и точность аппроксимации ряда
+    	\item Найден промежуток значений $\alpha$, на котором улучшение точности аппроксимации даёт улучшение RMSE оценки сигнала
+    	\item Метод применён к настоящему ряду с параметром $\alpha$, соответствующим наибольшей точности
     \end{itemize}
 \end{frame}
 
@@ -614,7 +622,7 @@
 		\item Доказано существование сходящейся подпоследовательности для всех алгоритмов
 		\item Установлено соотношение между разделимостью, скоростью сходимости и точностью в пределе
 		\item Проведено численное сравнение на модельном и реальном примере
-		\item Показана разделимость в алгоритмах Cadzow($\alpha$), рекомендации к быстрой реализации алгоритмов (в приложении)
+		\item Получена скорость разделимости для одного примера в алгоритме Cadzow($\alpha$), рекомендации к быстрой реализации алгоритмов (в приложении)
 	\end{itemize}
 	
 \end{frame}
