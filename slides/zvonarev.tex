@@ -72,25 +72,35 @@
 \end{frame}
 
 
+\section{Постановка задачи}
 \begin{frame}
 	\frametitle{Постановка задачи}
-	Дан временной ряд $\tsX = \tsS + \tsN$, $\tsS$ --- сигнал, управляемый линейной рекуррентной формулой (ЛРФ), $\tsN$ --- белый шум. Требуется дать оценку сигнала.
+	$\tsS$ --- сигнал, управляемый \emph{линейной рекуррентной формулой}
 	\begin{definition}
 		Ряд, управляемый ЛРФ порядка~$r$: $\tsS = (s_1, \ldots, s_N), \quad s_n = \sum_{i = 1}^{r} a_i s_{n-i}, \, n = r + 1, \ldots, N, \, a_r \ne 0$.
 	\end{definition}
-	Параметрический вид:
+	$\tsN$ --- белый шум
+	
+	Дан $\tsX = \tsS + \tsN$. Требуется дать оценку сигнала.
+	
+	\vspace{0.5cm}
+	Параметрический вид рядов, управляемых ЛРФ:
 	\begin{equation*}
 	s_n = \sum_i P_i(n) \exp(\alpha_i n) \cos(2 \pi \omega_i n + \psi_i).
 	\end{equation*}
 	
-	К сожалению, параметрический подход работает плохо из-за болезни размерности.
+	Параметрический подход не работает из-за неустойчивости
 	%Можно показать эквивалентность поиска ряда, управляемого ЛРФ, и поиска ряда конечного $L$-ранга при наложении дополнительных условий.
 \end{frame}
 
 \begin{frame}
-	\frametitle{Непараметрический подход: ряды конечного ранга}
+	\frametitle{Ряды конечного ранга}
 	
-	Рассмотрим сигнал $\tsS = (s_1, \ldots, s_N)$, управляемый минимальной ЛРФ порядка $r$: зафиксируем $1 < L < N$ --- \emph{длина окна}, $K = N - L + 1$, и построим \emph{траекторную матрицу} ряда:
+	$\tsS = (s_1, \ldots, s_N)$, управляемый минимальной ЛРФ порядка $r$
+	
+	$1 < L < N$ --- \emph{длина окна}, $K = N - L + 1$
+	
+	\emph{Траекторная матрица} $\tsS$:
 	
 	\begin{equation*}
 	\bfS = \begin{pmatrix}
@@ -98,23 +108,28 @@
 	s_2 & s_3 & \ldots & s_{K + 1} \\
 	\vdots & \vdots & \vdots & \vdots \\
 	s_L & s_{L + 1} & \ldots & s_N
-	\end{pmatrix}.
+	\end{pmatrix} = \calT(\tsS).
 	\end{equation*}
 	
 	Заметим, что $\bfS$ --- ганкелева ($\bfS \in \calH$) и $\text{rank} \bfS = r$.
 	
-	\vspace{0.3cm}
-	Определим $\calX_N$ --- множество всех временных рядов длины $N$, $\calX_N^r$ --- множество всех временных рядов длины $N$ $L$-ранга, не превосходящего $r$ (т.е. у которых ранг траекторной матрицы не превосходит $r$).
+	\begin{definition}
+		$\tsS$ управляется мин. ЛРФ порядка $r$ $ \Rightarrow $   $\calL\text{-rank} \; \tsS = r$ $\Leftrightarrow$ $\text{rank} \; \bfS = r$
+	\end{definition}
+	$\sfX^r_N = \{\tsX : \tsX = (x_1, \ldots, x_N), \; \calL\text{-rank} \tsX \le r\}$
+	
 \end{frame}
 
 \begin{frame}
-	\frametitle{Непараметрический подход: subspace-based methods}
+	\frametitle{Постановка на матричном языке}
 	\vspace{-0.2cm}
-	Пусть $\bfX$ --- траекторная матрица данного временного ряда $\tsX$. Задача оценивания сигнала $\tsS$ может быть записана следующим образом (на языке матриц):
+	Пусть $\bfX = \calT(\tsX)$. Задача оценивания сигнала $\tsS$ может быть записана следующим образом:
 	\begin{equation*}
-	\|\bfX - \bfY\|^2_\rmF \to \min_{\substack{\text{rank} \bfY \le r \\ \bfY \in \calH}},
+	\|\bfX - \bfY\|^2_\rmF \to \min_{\substack{\bfY \in \calM_r \cap \calH}},
 	\end{equation*}
-	что эквивалентно (на языке рядов) следующей задаче:
+	где $\calM_r$ --- множество матриц ранга $\le r$, $\calT^{-1}(\bfY)$ --- оценка.
+	
+	Задача на языке рядов:
 	\begin{equation*}
 	\sum \limits_{i=1}^N w_i(x_i - y_i)^2 \to \min_{\tsY \in \calX_N^r},
 	\end{equation*}
@@ -123,9 +138,9 @@
 	i & \text{для $i = 1, \ldots, L-1,$}\\
 	L & \text{для $i = L, \ldots, K,$}\\
 	N - i + 1 & \text{для $i = K + 1, \ldots, N,$}
-	\end{cases} \qquad,
+	\end{cases} \qquad \text{---}
 	\end{equation*}
-	что не всегда удобно (хотим равномерные веса).
+	трапециевидные веса.
 \end{frame}
 
 %\begin{frame}
@@ -145,6 +160,18 @@
 %		\item $\tsY = \calT^{-1}(\bfY)$
 %	\end{enumerate}
 %\end{frame}
+
+\begin{frame}
+	\frametitle{План работы}
+	\begin{enumerate}
+		\item Алгоритм решения, его сходимость и применение к случаю ганкелевых матриц неполного ранга
+		\item Нахождение требуемых матричных весов
+		\item Вычисление проекторов
+		\item Проблема скорости сходимости алгоритмов
+		\item Численные эксперименты
+		
+	\end{enumerate}
+\end{frame}
 
 \section{Способ решения}
 \subsection{Теоретические сведения}
@@ -170,13 +197,19 @@
 	\frametitle{Общая схема итераций}
 	%$\bfY = (\Pi_\calH \circ \Pi_{\calM_r})^I (\bfX)$, $\Pi_\calH$ --- проектор на ганкелевы матрицы, $\Pi_{\calM_r}$ --- проектор на матрицы ранга $\le r$ по норме $||\cdot||$.
 	
-	Рассмотрим $\sfX$ --- гильбертово пространство со скалярным произведением $\langle \cdot, \cdot \rangle$, $\calH$ --- замкнутое (топологически) линейное подпространство. $\calM$ ---  может быть ни линейным, ни выпуклым множеством. Тем не менее, $\calM$ замкнуто относительно умножения на константу, т.е. если $z \in \calM$, то $\alpha z \in \calM$ для любой $\alpha \in \sfR$.
+	$\sfX$ --- гильбертово пространство
+	
+	$\calH$ --- замкнутое (топологически) линейное подпространство. 
+	
+	$\calM$ --- замкнутое относительно умножения на константу подмножество, т.е. если $z \in \calM$, то $\alpha z \in \calM$ для любой $\alpha \in \sfR$.
 	
 	\vspace{0.3cm}
-	Требуется спроектировать заданную точку $x$ на $\calH \cap \calM$, т.е. решить следующую задачу: $\|x - y\| \to \min_y$ где $y \in \calH \cap \calM$, $\|\cdot\|$ -- норма, порождённая скалярным произведением.
+	Требуется спроектировать заданную точку $x$ на $\calH \cap \calM$: 
+	
+	$\|x - y\| \to \min_y$ где $y \in \calH \cap \calM$
 	
 	\vspace{0.3cm}
-	Решение (приближенное): $y_{k+1}=\Pi_\calH \Pi_\calM y_{k}, \mbox{\ где\ } y_{0}=x$, $\Pi_\calM$~---~проектор на $\calM$, $\Pi_\calH$ --- проектор на $\calH$.
+	Метод переменных проекций (Alternating projections, AP): $y_{k+1}=\Pi_\calH \Pi_\calM y_{k}, \mbox{\ где\ } y_{0}=x$, $\Pi_\calM$~---~проектор на $\calM$, $\Pi_\calH$ --- проектор на $\calH$.
 \end{frame}
 
 %\begin{frame}
@@ -191,7 +224,7 @@
 
 \begin{frame}
 	\frametitle{Основная теорема}
-	Рассмотрим один шаг алгоритма:
+	Один шаг алгоритма AP:
 	$y_{k+1}=\Pi_\calH \Pi_\calM y_{k}, \mbox{\ где\ } y_{0}=x.$
 	\begin{theorem}
 			 Пусть $\sfX$ --- гильбертово пространство, $\calM \subset \sfX$ --- замкнутое относительно умножения на константу подпространство, множество $\calM$ и подпространство $\calH$ топологически замкнуты, $\Pi_\calM$~---~проектор на $\calM$. Тогда
@@ -228,41 +261,53 @@
 
 \subsection{Нормы и алгоритмы}
 \begin{frame}
-	\frametitle{Стандартное решение}
-	$\bfY$: $||\bfX - \bfY||_? \to \min$, $\bfY \in \calH \cap \calM_r$, где $\calH$ --- множество ганкелевых матриц, $\calM_r$ --- матрицы ранга $\le r$.
+	\frametitle{Обратно к задаче}
+	Язык рядов: $\sum \limits_{i=1}^N q_i(x_i - y_i)^2 \to \min,$ $\tsY \in \calX_N^r$, заданы $q_i > 0$.
+	
+	Язык матриц: $\bfY$: $\|\bfX - \bfY\|_? \to \min$, $\bfY \in \calH \cap \calM_r$. Так как $q_i$ задаются, то требуется другая (не фробениусовская)  норма.
 	
 	\vspace{0.3cm}
-	Применяем Теорему к нашему случаю, и получаем решение. Переменные проекции: 
+	Применяем алгоритм к нашему случаю, и получаем решение. Переменные проекции: 
 	\begin{equation*}
-	\bfY = (\Pi_\calH \circ \Pi_{\calM_r})^R (\bfX),
+	\bfY_R = (\Pi_\calH \circ \Pi_{\calM_r})^R (\bfX),
 	\end{equation*}
 	$\Pi_\calH$ --- проектор на ганкелевы матрицы, $\Pi_{\calM_r}$ --- проектор на матрицы ранга $\le r$, $R$ --- число итераций.
 	
-	\vspace{0.3cm}
-	$\Pi_\calH$ и $\Pi_{\calM_r}$ зависят от $||\cdot||_?$. Варианты:
-	\begin{enumerate}
-		\item $||\bfX||_M^2 = \sum_{l = 1}^L \sum_{k = 1}^K m_{l, k} (x_{l, k})^2$, все $m_{l, k} \ge 0$
-		\item Частный случай предыдущего пункта: $m_{l, k} = 1$.
-		\item $||\bfX||_\bfC^2 = \text{tr}(\bfX \bfC \bfX^\rmT)$, $\bfC$ --- симметричная, неотрицательно определенная матрица порядка $K \times K$.
-	\end{enumerate}
+	Теорема применима к задаче $\Rightarrow$ существование сходящейся к нужному множеству подпоследовательности.
+\end{frame}
+
+\begin{frame}
+	\frametitle{Варианты норм}
+		\begin{enumerate}
+			\item $\|\bfX\|_{1, M}^2 = \sum_{l = 1}^L \sum_{k = 1}^K m_{l, k} (x_{l, k})^2$, все $m_{l, k} \ge 0$
+			\item Частный случай предыдущего пункта: $m_{l, k} = 1$.
+			\item $\|\bfX\|_{2, \bfC}^2 = \text{tr}(\bfX \bfC \bfX^\rmT)$, $\bfC$ --- симметричная, неотрицательно определенная матрица порядка $K \times K$ (+ диагональная в нашем случае)
+		\end{enumerate}
+		
+		\vspace{0.4cm}
+		Проблемы:
+		\begin{enumerate}
+			\item Как подобрать $m_{i, j}$, соответствующие $q_i$?
+			\item Как вычислить $\Pi_\calH$, $\Pi_{\calM_r}$ в по нужной норме?
+		\end{enumerate}
 \end{frame}
 
 \begin{frame}
 	\frametitle{Эквивалентность скалярных произведений и норм}
 	\begin{enumerate}
-		\item $<\tsX, \tsY>_q = \sum_{i=1}^N q_i x_i  y_i$
-		\item $<\bfX, \bfY>_M = \sum_{l = 1}^L \sum_{k = 1}^K m_{l, k} x_{l, k} y_{l, k}$
-		\item $<\bfX, \bfY>_\bfC = \text{tr}(\bfX \bfC \bfY^\rmT)$.
+		\item $\langle \tsX, \tsY \rangle_q = \sum_{i=1}^N q_i x_i  y_i$
+		\item $\langle\bfX, \bfY \rangle_{1, M} = \sum_{l = 1}^L \sum_{k = 1}^K m_{l, k} x_{l, k} y_{l, k}$
+		\item $\langle\bfX, \bfY\rangle_{2, \bfC} = \text{tr}(\bfX \bfC \bfY^\rmT)$.
 	\end{enumerate}
 	\begin{proposition}
 		\small
 	    \begin{enumerate}
-		\item Пусть $\bfX = \calT(\tsX)$,  $\bfY = \calT(\tsY)$. Тогда $<\tsX,\tsY>_q= <\bfX,\bfY>_M$ тогда и только тогда, когда
+		\item Пусть $\bfX = \calT(\tsX)$,  $\bfY = \calT(\tsY)$. Тогда $\langle\tsX,\tsY\rangle_q= \langle\bfX,\bfY\rangle_{1, M}$ тогда и только тогда, когда
 		\begin{equation*}
 		q_i = \sum_{\substack{1 \le l \le L \\ 1 \le k \le K \\ l+k-1=i}} m_{l,k}.
 		\end{equation*}
 		
-		\item Для диагональной матрицы $\bfC$, $<\bfX,\bfY>_M= <\bfX,\bfY>_\bfC$ тогда и только тогда, когда
+		\item Для диагональной матрицы $\bfC$, $\langle \bfX,\bfY \rangle_{1, M}= \langle \bfX,\bfY \rangle_{2, \bfC}$ тогда и только тогда, когда
 		\begin{equation*}
 		m_{l,k}=c_{k,k}.
 		\end{equation*}
@@ -275,49 +320,54 @@
 	\frametitle{Проектор $\Pi_{\calM_r}$}
 	Варианты:
 	\begin{enumerate}
-		\item $||\bfX||_M$, общий случай: EM-подобный алгоритм.
+		\item $\|\bfX\|_{1, M}$, все $m_{l, k} = 1$: через стандартное SVD-разложение. $\Pi_{\calM_r}(\bfX) = \bfU \Sigma_r \bfV^\rmT$, где $\bfX = \bfU \Sigma \bfV^\rmT$.
+		
 		\vspace{0.2cm}
-        \item $||\bfX||_\bfC$: косоугольное SVD-разложение. \\ $\bfC = \bfO_{\bfC}^\rmT \bfO_\bfC$, $\bfB = \bfX \bfO_{\bfC}^\rmT$, $\Pi_{\calM_r}^\bfC(\bfX) = \Pi_{\calM_r}(\bfB)(\bfO_{\bfC}^\rmT)^\dagger$.
-        \vspace{0.2cm}		
-		\item $||\bfX||_M$, все $m_{l, k} = 1$: через стандартное SVD-разложение. $\Pi_{\calM_r}(\bfX) = \bfU \Sigma_r \bfV^\rmT$, где $\bfX = \bfU \Sigma \bfV^\rmT$.
+		\item $\|\bfX\|_{2, \bfC}$: косоугольное SVD-разложение. Сводится к п. 1
+		
+		\vspace{0.2cm}
+		\item $\|\bfX\|_{1, M}$, общий случай: EM-подобный алгоритм.
+
 	\end{enumerate}
 \end{frame}
 
 \begin{frame}
 	\frametitle{Проектор $\Pi_{\calH}$}
+	Общий случай (взвешенное диагональное усреднение):
+	\begin{equation*}
+		\bfX = \Pi_{\calH}(\bfY), \quad x_{l,k} = \frac{\sum_{i,j:\, i+j=l+k} m_{i, j} y_{i,j}}{\sum_{i,j:\, i+j=l+k} m_{i,j}}.
+	\end{equation*}
+		
 	Варианты:
 	\begin{enumerate}
-		\item $||\bfX||_M$, $m_{l,k}$ на побочных диагоналях равны, в частности $m_{l, k} = 1$: диагональное усреднение.
+		\item $\|\bfX\|_{1, M}$, $m_{l,k}$ на побочных диагоналях равны, в частности $m_{l, k} = 1$: диагональное усреднение.
 		\begin{equation*}
 		\bfX = \Pi_{\calH}(\bfY), \quad x_{l,k} = \sum_{i + j = l + k} y_{i, j} / w_{l + k - 1}.
 		\end{equation*}
-		\item $||\bfX||_\bfC$, $\bfC$ --- диагональная: взвешенное диагональное усреднение с весами $c_{i, i}$, где $\bfC = (c_{i, j})$.
+		\item $\|\bfX\|_{2, \bfC}$, $\bfC$ --- диагональная: взвешенное диагональное усреднение с весами $m_{i,j} = c_{i, i}$, где $\bfC = (c_{i, j})$.
 		
-		\begin{equation*}
-		\bfX = \Pi_{\calH}(\bfY), \quad x_{l,k} = \frac{\sum_{i,j:\, i+j=l+k} c_{i,i} y_{i,j}}{\sum_{i,j:\, i+j=l+k} c_{i,i}}.
-		\end{equation*}
 	\end{enumerate}
 \end{frame}
 
 \begin{frame}
 	\frametitle{Основные варианты алгоритма Cadzow}
-	$||\bfX||^2_M =  \sum_{l = 1}^L \sum_{k = 1}^K m_{l, k}$
+	$\|\bfX\|_{2, \bfC}^2 = \text{tr}(\bfX \bfC \bfX^\rmT)$
 	\begin{itemize}
-		\item Все $m_{l, k} = 1$ --- базовый алгоритм Cadzow ($\Pi_{\calM_r}$ --- обычный SVD, $\Pi_\calH$ --- диаг. усреднение).
-		\begin{thnote}
-			Эквивалентные веса базового алгоритма $q_i = w_i$, т.е. трапецевидные веса ряда, далекие от равномерных.
-		\end{thnote}
-		\item $||\bfX||_M$, $m_{l, k} = 1 / w_{l + k - 1}$ --- Weighted Cadzow ($\Pi_{\calM_r}$ --- EM, $\Pi_\calH$ --- диаг. усреднение). Для него все $q_i$ = 1.
+		\item $\bfC = \bfI_K$ --- базовый алгоритм Cadzow ($\Pi_{\calM_r}$ --- обычный SVD, $\Pi_\calH$ --- диаг. усреднение).
+		\item $\bfC = \text{diag}(1, \alpha, \alpha, \ldots, \alpha, 1, \alpha, \ldots, 1)$,
+		где единицы стоят на $1$, $L + 1$, $2L + 1$, \ldots , $K$ месте, $0 \le \alpha \le 1$ (Cadzow($\alpha$)).
+		
+		$\Pi_{\calM_r}$ --- косоугольное SVD, $\Pi_\calH$ --- взвешенное диагональное усреднение.
+	\end{itemize}
+	
+	$\|\bfX\|^2_{1, M} =  \sum_{l = 1}^L \sum_{k = 1}^K m_{l, k}$
+	\begin{itemize}
+		\item $\|\bfX\|_{1, M}$, $m_{l, k} = 1 / w_{l + k - 1}$ --- Weighted Cadzow ($\Pi_{\calM_r}$ --- EM, $\Pi_\calH$ --- диаг. усреднение). Для него все $q_i$ = 1.
+		\item Extended Cadzow (использует продолжимость рядов)
 	\end{itemize}
 	
 	\vspace{0.3cm}
-	$||\bfX||_\bfC^2 = \text{tr}(\bfX \bfC \bfX^\rmT)$
-	\begin{itemize}
-	\item $\bfC = \text{diag}(1, \alpha, \alpha, \ldots, \alpha, 1, \alpha, \ldots, 1)$,
-	где единицы стоят на $1$, $L + 1$, $2L + 1$, \ldots , $K$ месте, $0 \le \alpha \le 1$ (Cadzow($\alpha$)).
 	
-	$\Pi_{\calM_r}$ --- косоугольное SVD, $\Pi_\calH$ --- взвешенное диагональное усреднение.
-	\end{itemize}
 \end{frame}
 
 \begin{frame}
@@ -334,18 +384,13 @@
 	    \end{equation*}
 	\end{theorem}
 	
-	Достаточно взять $\alpha = 0$, чтобы получить равномерные веса? Нет! При $\alpha = 0$~--- вообще нет сходимости к нужному множеству; $\alpha \approx 0$, $\alpha > 0$: медленно сходится, проблемы со слабой разделимостью, требуется, чтобы $N$ было кратно $L$.
-	
-	\vspace{0.3cm}
-	Weighted, Extended Cadzow --- работает долго из-за итерационного EM-алгоритма проектирования на $\calM_r$.
-\end{frame}
+	Достаточно взять $\alpha = 0$, чтобы получить равномерные веса? Нет! 
+	\begin{itemize}
+		\item  $\alpha = 0$~--- другая задача
+		\item $\alpha \approx 0$, $\alpha > 0$: медленно сходится, проблемы со слабой разделимостью, требуется, чтобы $N \vdots L$.
+	\end{itemize}
 
-%\begin{frame}
-%	\frametitle{Пример весов ряда ($N = 40$, $L = 8$)}
-%	\begin{center}
-%		\includegraphics*[width = 10cm]{weights.pdf}
-%	\end{center}	
-%\end{frame}
+\end{frame}
 
 %\begin{frame}
 %	\frametitle{Алгоритм Extended Cadzow}
@@ -454,25 +499,26 @@
 	\end{center}
 \end{frame}
 
-%\begin{frame}
-%	\frametitle{Пример №3}
-%	Задача оценки сигнала: $N = 40$, $L = 20$, $r = 2$, $\tsX = (x_{1}, \ldots, x_N),$  $x_k = 5\sin{\frac{2 k \pi}{6}} + \varepsilon_k$.
-	
-%	\begin{center}
-%		\includegraphics*[width = 9cm]{cadzowspeed_2.pdf}
-%	\end{center}
-%\end{frame}
-
 \begin{frame}
-	\frametitle{Пример №3: среднее количество итераций и RMSE}
+	\frametitle{Пример №3}
 	Задача оценки сигнала: $N = 40$, $L = 20$, $r = 2$, $\tsX = (x_{1}, \ldots, x_N),$  $x_k = 5\sin{\frac{2 k \pi}{6}} + \varepsilon_k$.
 	
-	Критерий остановки: $\frac{\|\calT^{-1}(\bfY_k) - \calT^{-1}(\bfY_{k + 1})\|^2}{N} < 10^{-8}$
-	\vspace{-0.4cm}
+	\vspace{-1cm}
 	\begin{center}
-		\includegraphics*[width = 9cm]{2axis.pdf}
+		\includegraphics*[width = 10cm]{cadzowspeed_3.pdf}
 	\end{center}
 \end{frame}
+
+%\begin{frame}
+%	\frametitle{Пример №3: среднее количество итераций и RMSE}
+%	Задача оценки сигнала: $N = 40$, $L = 20$, $r = 2$, $\tsX = (x_{1}, \ldots, x_N),$  $x_k = 5\sin{\frac{2 k \pi}{6}} + \varepsilon_k$.
+	
+%	Критерий остановки: $\frac{\|\calT^{-1}(\bfY_k) - \calT^{-1}(\bfY_{k + 1})\|^2}{N} < 10^{-8}$
+%	\vspace{-0.4cm}
+%	\begin{center}
+%		\includegraphics*[width = 9cm]{2axis.pdf} 
+%	\end{center}
+%\end{frame}
 
 %\begin{frame}
 %	\frametitle{Пример №4.5: $\sigma = 3$}
@@ -489,20 +535,10 @@
 	\frametitle{Реальный пример}
     Ряд `Fortified wine', первые 168 значений.
     \begin{itemize}
-    	\item Построена параметрическая модель ``похожего'' ряда с помощью SSA + ESPRIT: 
-    	\small
-    	\begin{multline*} 
-    	s_{k} = 3997.74 (0.9967)^k +
-    	1174.75 (0.9942)^k \sin(\frac{\pi k}{6} - 2.249) + \\
-    	425.75 (1.0001)^k \sin(\frac{\pi k}{2} + 2.333) + 
-    	211.55 (1.004)^k \sin(\frac{\pi k}{3} + 1.677) + \\
-    	169.33 (1.0007)^k \sin(\frac{5 \pi k}{6} + 1.533) + 
-    	361.07 (0.9884)^k \sin(\frac{2 \pi k}{3} - 2.901),
-    	\end{multline*}
-    	\normalsize
-    	$\tsX=(x_1,\ldots,x_N)$, $x_i=s_i + 353.17 (0.9967)^k \varepsilon_i$.
+    	\item Построена параметрическая модель ``похожего'' ряда с помощью SSA + ESPRIT.
     	\item С помощью моделирования получено качество оценки искусственного сигнала и точность аппроксимации ряда
-    	\item Метод применён к настоящему ряду
+    	\item Найден промежуток, на котором улучшение точности аппроксимации даёт улучшение RMSE оценки сигнала
+    	\item Метод применён к настоящему ряду с нужным параметром
     \end{itemize}
 \end{frame}
 
@@ -570,19 +606,15 @@
 %\end{frame}
 
 \begin{frame}
-	\frametitle{Выводы}\footnotesize
+	\frametitle{Итоги}
 	\begin{itemize}
-		\item Рассмотрен широкий класс итерац. алгоритмов решения задачи 
+		\item Рассмотрен широкий класс итерационных алгоритмов решения задачи 
 		%(повторить для рядов с весами $q_i$) 
 		для оценивания сигнала $\tsS$  в модели $\tsX = \tsS + \tsN$.
-		\item Доказана сходимость по подпоследовательностям для всех алгоритмов
-		\item Единичные веса $q_i$ достигаются только на алгоритмах с вложенными итерациями (Extended, Weighted Cadzow), которые являются медленными.
-		\item  На численных примерах проведено исследование и получены следующие результаты:
-		\begin{itemize} \footnotesize
-			\item Лучший метод среди всех -- Extended Cadzow.
-			\item Алгоритмы с более близкими к единичным весами дают лучшую аппроксимацию в пределе, но медленнее сходятся и имеют проблемы с разделимостью, например, Cadzow($\alpha$) при маленькой  длине окна $L$ или малом параметре $\alpha$.
-			\item На одной итерации лучше всего работает Cadzow($1$) (= Singular Spectrum Analysis) и Hat-Cadzow, т.е. методы с лучшей разделимостью.
-		\end{itemize}
+		\item Доказано существование сходящейся подпоследовательности для всех алгоритмов
+		\item Установлено соотношение между разделимостью, скоростью сходимости и точностью в пределе
+		\item Проведено численное сравнение на модельном и реальном примере
+		\item Показана разделимость в алгоритмах Cadzow($\alpha$), рекомендации к быстрой реализации алгоритмов (в приложении)
 	\end{itemize}
 	
 \end{frame}
