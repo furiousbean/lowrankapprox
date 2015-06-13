@@ -75,14 +75,15 @@
 \section{Постановка задачи}
 \begin{frame}
 	\frametitle{Постановка задачи}
+	Дан $\tsX = \tsS + \tsN$. Требуется построить оценку сигнала.
+
+	$\tsN$ --- белый шум.
+
 	$\tsS$ --- сигнал, управляемый \emph{линейной рекуррентной формулой}
 	\begin{definition}
 		Ряд, управляемый ЛРФ порядка~$r$: $\tsS = (s_1, \ldots, s_N), \quad s_n = \sum_{i = 1}^{r} a_i s_{n-i}, \, n = r + 1, \ldots, N, \, a_r \ne 0$.
 	\end{definition}
-	$\tsN$ --- белый шум
-	
-	Дан $\tsX = \tsS + \tsN$. Требуется построить оценку сигнала.
-	
+
 	\vspace{0.5cm}
 	Параметрический вид рядов, управляемых ЛРФ:
 	\begin{equation*}
@@ -122,7 +123,7 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Постановка на матричном языке}
+	\frametitle{Эквивалентные задачи}
 	\vspace{-0.2cm}
 	Пусть $\bfX = \calT(\tsX)$. Задача аппроксимации матрицы:
 	\begin{equation} \label{matrixtask}
@@ -167,35 +168,18 @@
 \begin{frame}
 	\frametitle{План работы}
 	\begin{enumerate}
-		\item Алгоритм решения, его сходимость и применение к случаю ганкелевых матриц неполного ранга
-		\item Нахождение требуемых матричных весов
-		\item Вычисление проекторов
-		\item Проблема скорости сходимости алгоритмов
+		\item Метод решения в общем случае
+		\item Применение алгоритма
+		\item Выбор норм, соответствие между весами
+		\item Нахождение проекторов
+		\item Алгоритмы и их проблемы
 		\item Численные эксперименты
 		
 	\end{enumerate}
 \end{frame}
 
-\section{Способ решения}
-\subsection{Теоретические сведения}
-%\begin{frame}
-%	\frametitle{Стандартное решение}
-%	$\bfY$: $||\bfX - \bfY||_? \to \min$, $\bfY \in \calH \cap \calM_r$, где $\calH \subset \sfR^{L \times K}$ --- множество ганкелевых матриц, $\calM_r \subset \sfR^{L \times K}$ --- матрицы ранга~$\le r$.
-%	
-%	\begin{solution}
-%		
-%		Переменные проекции: 
-%		\begin{equation*}
-%		\bfY = (\Pi_\calH \circ \Pi_{\calM_r})^I (\bfX),
-%		\end{equation*}
-%		$\Pi_\calH$ --- проектор на ганкелевы матрицы, $\Pi_{\calM_r}$ --- проектор на матрицы ранга $\le r$.
-%	\end{solution}
-%	\begin{enumerate}
-%	\item Интересует сходимость к нужному множеству
-%	\item Выбор норм тоже интересен
-%    \end{enumerate}
-%\end{frame}
-
+\section{Теоретические сведения}
+\subsection{Метод решения в общем случае}
 \begin{frame}
 	\frametitle{Общая схема итераций}
 	%$\bfY = (\Pi_\calH \circ \Pi_{\calM_r})^I (\bfX)$, $\Pi_\calH$ --- проектор на ганкелевы матрицы, $\Pi_{\calM_r}$ --- проектор на матрицы ранга $\le r$ по норме $||\cdot||$.
@@ -278,9 +262,14 @@
 	Теорема применима к задаче $\Rightarrow$ существование сходящейся к нужному множеству подпоследовательности.
 \end{frame}
 
-\subsection{Выбор норм}
+\subsection{Выбор норм, соответствие между весами}
 \begin{frame}
 	\frametitle{Варианты норм}
+	Ряды:
+	$\|\tsX\|_q^2 = \sum_{i = 1}^N q_i x_i^2$, все $q_i \ge 0$
+	
+	\vspace{0.4cm}
+	Матрицы:
 		\begin{enumerate}
 			\item $\|\bfX\|_{1, M}^2 = \sum_{l = 1}^L \sum_{k = 1}^K m_{l, k} (x_{l, k})^2$, все $m_{l, k} \ge 0$
 			\item Частный случай предыдущего пункта: $m_{l, k} = 1$.
@@ -355,24 +344,24 @@
 
 \subsection{Алгоритмы и их проблемы}
 \begin{frame}
-	\frametitle{Основные варианты алгоритма Cadzow}
+	\frametitle{Основные варианты алгоритма Cadzow} 
 	$\|\bfX\|_{2, \bfC}^2 = \text{tr}(\bfX \bfC \bfX^\rmT)$
 	\begin{itemize}
-		\item $\bfC = \bfI_K$ --- базовый алгоритм Cadzow ($\Pi_{\calM_r}$ --- используя обычное SVD, $\Pi_\calH$ --- диаг. усреднение).
+		\item $\bfC = \bfI_K$ --- базовый алгоритм Cadzow \cite{Cadzow1988} ($\Pi_{\calM_r}$ --- используя обычное SVD, $\Pi_\calH$ --- диаг. усреднение).
 		\item $\bfC = \text{diag}(1, \alpha, \alpha, \ldots, \alpha, 1, \alpha, \ldots, 1)$,
 		где единицы стоят на $1$, $L + 1$, $2L + 1$, \ldots , $K$ месте, $0 \le \alpha \le 1$ (Cadzow($\alpha$)).
 		
 		$\Pi_{\calM_r}$ --- косоугольное SVD, $\Pi_\calH$ --- взвешенное диагональное усреднение.
 	\end{itemize}
 	
-	\vspace{0.6cm}
+	\vspace{0.3cm}
 	$\|\bfX\|^2_{1, M} =  \sum_{l = 1}^L \sum_{k = 1}^K m_{l, k}$
 	\begin{itemize}
 		\item $\|\bfX\|_{1, M}$, $m_{l, k} = 1 / w_{l + k - 1}$ --- Weighted Cadzow ($\Pi_{\calM_r}$ --- EM, $\Pi_\calH$ --- диаг. усреднение). Для него все $q_i$ = 1.
 		\item Extended Cadzow (использует продолжимость рядов)
 	\end{itemize}
 	
-	\vspace{0.3cm}
+	\bibliography{zvonarev}
 	
 \end{frame}
 
@@ -485,7 +474,7 @@
 %\end{frame}
 
  
-\section{Эксперименты}
+\section{Численные эксперименты}
 \begin{frame}
 	\frametitle{Пример (одна итерация)}
 	Задача оценки сигнала: $N = 40$, $L = 20$, $r = 2$, $\tsX = (x_{1}, \ldots, x_N),$  $x_k = 5\sin{\frac{2 k \pi}{6}} + \varepsilon_k$; $\varepsilon_k$, $k = 1, \ldots N$ --- гауссовский белый шум с нулевым средним и единичной дисперсией.
@@ -515,16 +504,16 @@
 	\end{center}
 \end{frame}
 
-\begin{frame}
-	\frametitle{Пример №4: среднее количество итераций и RMSE}
-	Задача оценки сигнала: $N = 40$, $L = 20$, $r = 2$, $\tsX = (x_{1}, \ldots, x_N),$  $x_k = 5\sin{\frac{2 k \pi}{6}} + \varepsilon_k$.
-	
-	Критерий остановки: $\frac{\|\calT^{-1}(\bfY_k) - \calT^{-1}(\bfY_{k + 1})\|^2}{N} < 10^{-8}$
-	\vspace{-0.4cm}
-	\begin{center}
-		\includegraphics*[width = 9cm]{2axis.pdf} 
-	\end{center}
-\end{frame}
+%\begin{frame}
+%	\frametitle{Пример №4: среднее количество итераций и RMSE}
+%	Задача оценки сигнала: $N = 40$, $L = 20$, $r = 2$, $\tsX = (x_{1}, \ldots, x_N),$  $x_k = 5\sin{\frac{2 k \pi}{6}} + \varepsilon_k$.
+%	
+%	Критерий остановки: $\frac{\|\calT^{-1}(\bfY_k) - \calT^{-1}(\bfY_{k + 1})\|^2}{N} < 10^{-8}$
+%	\vspace{-0.4cm}
+%	\begin{center}
+%		\includegraphics*[width = 9cm]{2axis.pdf} 
+%	\end{center}
+%\end{frame}
 
 %\begin{frame}
 %	\frametitle{Пример №4.5: $\sigma = 3$}
