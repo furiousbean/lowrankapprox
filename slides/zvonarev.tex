@@ -15,7 +15,7 @@
 \usepackage[T2A]{fontenc}
 \usepackage[utf8x]{inputenc}
 \usepackage[russian]{babel}
-\usepackage{amsthm}
+\usepackage{amsmath,amssymb,amsthm,amscd,amsfonts}
 \usepackage{mathdots}
 
 
@@ -75,7 +75,9 @@
 \section{Постановка задачи}
 \begin{frame}
 	\frametitle{Постановка задачи}
-	Дан $\tsX = \tsS + \tsN$. Требуется построить оценку сигнала.
+	Дан $\tsX = \tsS + \tsN$, $\tsX = (x_1, \ldots, x_N)$.
+	
+	Требуется построить оценку сигнала.
 
 	$\tsN$ --- белый шум.
 
@@ -91,60 +93,66 @@
 	\end{equation*}
 	
 	Параметрический подход не работает из-за неустойчивости
-	%Можно показать эквивалентность поиска ряда, управляемого ЛРФ, и поиска ряда конечного $L$-ранга при наложении дополнительных условий.
 \end{frame}
 
 \begin{frame}
 	\frametitle{Ряды конечного ранга}
+	\vspace{-0.2cm}
+	$\tsX = (x_1, \ldots, x_N)$ --- ряд.
 	
-	$\tsS = (s_1, \ldots, s_N)$, управляемый минимальной ЛРФ порядка $r$
+	$1 < L < N$ --- \emph{длина окна}, $K = N - L + 1$.
 	
-	$1 < L < N$ --- \emph{длина окна}, $K = N - L + 1$
-	
-	\emph{Траекторная матрица ряда} $\tsS$:
+	\emph{Траекторная матрица ряда} $\tsX$:
 	
 	\begin{equation*}
-	\bfS = \begin{pmatrix}
-	s_1 & s_2 & \ldots & s_K \\
-	s_2 & s_3 & \ldots & s_{K + 1} \\
+	\bfX = \calT(\tsX) = \begin{pmatrix}
+	x_1 & x_2 & \ldots & x_K \\
+	x_2 & x_3 & \ldots & x_{K + 1} \\
 	\vdots & \vdots & \vdots & \vdots \\
-	s_L & s_{L + 1} & \ldots & s_N
-	\end{pmatrix} = \calT(\tsS).
+	x_L & x_{L + 1} & \ldots & x_N
+	\end{pmatrix}.
 	\end{equation*}
 	
-	Заметим, что $\bfS$ --- ганкелева ($\bfS \in \calH$) и $\text{rank} \bfS = r$.
+	Заметим, что $\bfX$ --- ганкелева ($\bfX \in \calH$).
+%	Заметим, что $\bfS$ --- ганкелева ($\bfS \in \calH$) и $\text{rank} \bfS = r$.
 	
 	\begin{definition}
-	    L-ранг ряда $\tsS$ равен $r$ $\Leftrightarrow$ $\text{rank} \; \bfS = r$
+	    Ряд $\tsS$ имеет L-ранг $r$ если $\operatorname{rank} \bfS = r$, где $\bfS = \calT(\tsS)$.  
 	\end{definition}
 	
-	$\sfX^r_N = \{\tsX : \tsX = (x_1, \ldots, x_N), \; \text{L-ранг} \tsX \le r\}$
+	Ряд $\tsS$ управляется минимальной ЛРФ порядка $r$ $\Rightarrow$ $\tsS$ имеет L-ранг $r$.   
+	
+	$\sfX^r_N = \{\tsX : \tsX = (x_1, \ldots, x_N), \; \tsX \; \text{имеет L-ранг} \; \le r\}$
 	
 \end{frame}
 
 \begin{frame}
 	\frametitle{Эквивалентные задачи}
 	\vspace{-0.2cm}
-	Пусть $\bfX = \calT(\tsX)$. Задача аппроксимации матрицы:
+	$\tsX = (x_1, \ldots, x_N)$, $\bfX = \calT(\tsX)$. 
+	
+	Задача аппроксимации матрицы:
 	\begin{equation} \label{matrixtask}
 	\|\bfX - \bfY\|^2_\rmF \to \min_{\substack{\bfY \in \calM_r \cap \calH}},
 	\end{equation}
 	где $\calM_r$ --- множество матриц ранга $\le r$.
 	
-	Задача оценивания $\tsS$: $\calT^{-1}(\bfY)$ --- оценка.
+	$\hat \tsS = \calT^{-1}(\bfY)$ --- оценка $\tsS$.
 	
-	Задача на языке рядов (эквивалентная \eqref{matrixtask}):
+	Задача аппроксимации рядов (эквивалентная \eqref{matrixtask}):
 	\begin{equation*}
 	\sum \limits_{i=1}^N w_i(x_i - y_i)^2 \to \min_{\tsY \in \calX_N^r},
 	\end{equation*}
 	где	\begin{equation*}
-	w_i = \begin{cases}
+	q_i = w_i = \begin{cases}
 	i & \text{для $i = 1, \ldots, L-1,$}\\
 	L & \text{для $i = L, \ldots, K,$}\\
 	N - i + 1 & \text{для $i = K + 1, \ldots, N,$}
 	\end{cases} \qquad \text{---}
 	\end{equation*}
 	трапециевидные веса.
+	
+	\textcolor{blue}{Задача: как сделать веса $q_i$ равными?}
 \end{frame}
 
 %\begin{frame}
@@ -167,18 +175,32 @@
 
 \begin{frame}
 	\frametitle{План работы}
-	\begin{enumerate}
-		\item Метод решения в общем случае
-		\item Применение алгоритма
-		\item Выбор норм, соответствие между весами
-		\item Нахождение проекторов
-		\item Алгоритмы и их проблемы
-		\item Численные эксперименты
-		
-	\end{enumerate}
+	\begin{description}
+		\item[I часть] Теория
+		\newcounter{itemcounter}
+\begin{list}
+	{\textcolor{blue}{\arabic{itemcounter}.}}
+	{\usecounter{itemcounter}\leftmargin=-0.5em}
+
+			\item Метод решения задачи аппроксимации в общем случае
+			\item Применение теории к аппроксимации рядами конечного ранга
+			\item Выбор норм, соответствие между весами для аппроксимации рядов и матриц
+			\item Нахождение проекторов в выбранных нормах
+		\end{list}
+		\item[II часть] Алгоритмы и их особенности
+		\item[III часть] Численные эксперименты	
+		\setcounter{itemcounter}{0}
+\begin{list}
+	{\textcolor{blue}{\arabic{itemcounter}.}}
+	{\usecounter{itemcounter}\leftmargin=-0.5em}
+
+			\item Сравнение на модельном примере
+			\item Реальный пример
+		\end{list}		
+	\end{description}
 \end{frame}
 
-\section{Теоретические сведения}
+\section{Теория}
 \subsection{Метод решения в общем случае}
 \begin{frame}
 	\frametitle{Общая схема итераций}
@@ -188,7 +210,7 @@
 	
 	$\calH$ --- замкнутое (топологически) линейное подпространство. 
 	
-	$\calM$ --- замкнутое относительно умножения на константу подмножество, т.е. если $z \in \calM$, то $\alpha z \in \calM$ для любой $\alpha \in \sfR$.
+	$\calM$ --- замкнутое относительно умножения на константу подмножество, т.е. если $z \in \calM$, то $\alpha z \in \calM$ для любого $\alpha \in \sfR$.
 	
 	\vspace{0.6cm}
 	Требуется спроектировать заданную точку $x$ на $\calH \cap \calM$: 
@@ -245,7 +267,7 @@
 %	
 %\end{frame}
 
-\subsection{Применение алгоритма}
+\subsection{Применение теории к аппроксимации рядами}
 \begin{frame}
 	\frametitle{Обратно к задаче}
 	Ряды: $\sum \limits_{i=1}^N q_i(x_i - y_i)^2 \to \min,$ $\tsY \in \calX_N^r$, заданы $q_i > 0$.
@@ -308,7 +330,7 @@
 	
 \end{frame}
 
-\subsection{Нахождение проекторов}
+\subsection{Нахождение проекторов в выбранных нормах}
 \begin{frame}
 	\frametitle{Проектор $\Pi_{\calM_r}$}
 	Варианты:
@@ -342,14 +364,14 @@
 	\end{enumerate}
 \end{frame}
 
-\subsection{Алгоритмы и их проблемы}
+\subsection{Алгоритмы и их особенности}
 \begin{frame}
-	\frametitle{Основные варианты алгоритма Cadzow} 
+	\frametitle{Варианты алгоритма Cadzow} 
 	$\|\bfX\|_{2, \bfC}^2 = \text{tr}(\bfX \bfC \bfX^\rmT)$
 	\begin{itemize}
-		\item $\bfC = \bfI_K$ --- базовый алгоритм Cadzow \cite{Cadzow1988} ($\Pi_{\calM_r}$ --- используя обычное SVD, $\Pi_\calH$ --- диаг. усреднение).
+		\item $\bfC = \bfI_K$ --- базовый алгоритм \textcolor{blue}{Cadzow} (Cadzow, 1988) ($\Pi_{\calM_r}$ --- используя обычное SVD, $\Pi_\calH$ --- диаг. усреднение).
 		\item $\bfC = \text{diag}(1, \alpha, \alpha, \ldots, \alpha, 1, \alpha, \ldots, 1)$,
-		где единицы стоят на $1$, $L + 1$, $2L + 1$, \ldots , $K$ месте, $0 \le \alpha \le 1$ (Cadzow($\alpha$)).
+		где единицы стоят на $1$, $L + 1$, $2L + 1$, \ldots , $K$ месте, $0 \le \alpha \le 1$. \\ \textcolor{blue}{Cadzow($\alpha$)} (Zhigljavsky, 2015)
 		
 		$\Pi_{\calM_r}$ --- косоугольное SVD, $\Pi_\calH$ --- взвешенное диагональное усреднение.
 	\end{itemize}
@@ -357,12 +379,9 @@
 	\vspace{0.3cm}
 	$\|\bfX\|^2_{1, M} =  \sum_{l = 1}^L \sum_{k = 1}^K m_{l, k}$
 	\begin{itemize}
-		\item $\|\bfX\|_{1, M}$, $m_{l, k} = 1 / w_{l + k - 1}$ --- Weighted Cadzow ($\Pi_{\calM_r}$ --- EM, $\Pi_\calH$ --- диаг. усреднение). Для него все $q_i$ = 1.
-		\item Extended Cadzow (использует продолжимость рядов)
+		\item $\|\bfX\|_{1, M}$, $m_{l, k} = 1 / w_{l + k - 1}$ --- \textcolor{blue}{Weighted Cadzow} ($\Pi_{\calM_r}$ --- EM, $\Pi_\calH$ --- диаг. усреднение). Для него все $q_i$ = 1.
+		\item \textcolor{blue}{Extended Cadzow} (использует искусственное продолжение ряда в обе стороны)
 	\end{itemize}
-	
-	\bibliography{zvonarev}
-	
 \end{frame}
 
 \begin{frame}
@@ -379,10 +398,11 @@
 	    \end{equation*}
 	\end{theorem}
 	
-	Достаточно взять $\alpha = 0$, чтобы получить равномерные веса? Нет! 
+	Достаточно взять $\alpha = 0$, чтобы получить равномерные веса? \textcolor{red}{Нет!}
 	\begin{itemize}
 		\item  $\alpha = 0$~--- другая задача
 		\item $\alpha \approx 0$, $\alpha > 0$: медленно сходится, проблемы со слабой разделимостью, требуется, чтобы $N \vdots L$.
+		\item $\alpha = 1$~--- базовый алгоритм Cadzow
 	\end{itemize}
 
 \end{frame}
@@ -475,9 +495,11 @@
 
  
 \section{Численные эксперименты}
+\subsection{Сравнение на модельном примере}
 \begin{frame}
-	\frametitle{Пример (одна итерация)}
-	Задача оценки сигнала: $N = 40$, $L = 20$, $r = 2$, $\tsX = (x_{1}, \ldots, x_N),$  $x_k = 5\sin{\frac{2 k \pi}{6}} + \varepsilon_k$; $\varepsilon_k$, $k = 1, \ldots N$ --- гауссовский белый шум с нулевым средним и единичной дисперсией.
+	\frametitle{Сравнение (одна итерация)}
+	Задача оценки сигнала: $N = 40$, $L = 20$, $r = 2$, $\tsX = (x_{1}, \ldots, x_N),$  $x_k = 5\sin{\frac{2 k \pi}{6}} + \varepsilon_k$; $\varepsilon_k$, $k = 1, \ldots N$, --- гауссовский белый шум, $\tsE \varepsilon_k = 0$, $\tsD \varepsilon_k = 1$, 1000 реализаций.
+
 	\vspace{-0.3cm}
 	\begin{center}
 		\includegraphics*[width = 9cm]{s1_it1.pdf}
@@ -485,8 +507,8 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Пример (100 итераций)}
-	Задача оценки сигнала: $N = 40$, $L = 20$, $r = 2$, $\tsX = (x_{1}, \ldots, x_N),$  $x_k = 5\sin{\frac{2 k \pi}{6}} + \varepsilon_k$; $\varepsilon_k$, $k = 1, \ldots N$ --- гауссовский белый шум с нулевым средним и единичной дисперсией.
+	\frametitle{Сравнение (100 итераций)}
+	Задача оценки сигнала: $N = 40$, $L = 20$, $r = 2$, $\tsX = (x_{1}, \ldots, x_N),$  $x_k = 5\sin{\frac{2 k \pi}{6}} + \varepsilon_k$; $\varepsilon_k$, $k = 1, \ldots N$, --- гауссовский белый шум, $\tsE \varepsilon_k = 0$, $\tsD \varepsilon_k = 1$, 1000 реализаций.
 	\vspace{-0.3cm}
 	
 	\begin{center}
@@ -496,7 +518,7 @@
 
 \begin{frame}
 	\frametitle{Пример (зависимость RMSE от количества итераций)}
-	Задача оценки сигнала: $N = 40$, $L = 20$, $r = 2$, $\tsX = (x_{1}, \ldots, x_N),$  $x_k = 5\sin{\frac{2 k \pi}{6}} + \varepsilon_k$.
+	Задача оценки сигнала: $N = 40$, $L = 20$, $r = 2$, $\tsX = (x_{1}, \ldots, x_N),$  $x_k = 5\sin{\frac{2 k \pi}{6}} + \varepsilon_k$; $\varepsilon_k$, $k = 1, \ldots N$, --- гауссовский белый шум, $\tsE \varepsilon_k = 0$, $\tsD \varepsilon_k = 1$, 1000 реализаций.
 	
 	\vspace{-1cm}
 	\begin{center}
@@ -526,6 +548,7 @@
 %	\end{center}
 %\end{frame}
 
+\subsection{Реальный пример}
 \begin{frame}
 	\frametitle{Реальный пример}
     Ряд `Fortified wine', первые 168 значений.
@@ -607,7 +630,7 @@
 	\begin{itemize}
 		\item Рассмотрен широкий класс итерационных алгоритмов решения задачи 
 		%(повторить для рядов с весами $q_i$) 
-		для оценивания сигнала $\tsS$  в модели $\tsX = \tsS + \tsN$.
+		для оценивания сигнала $\tsS$  в модели $\tsX = \tsS + \tsN$
 		\item Доказано существование сходящейся подпоследовательности для всех алгоритмов
 		\item Установлено соотношение между разделимостью, скоростью сходимости и точностью в пределе
 		\item Проведено численное сравнение на модельном и реальном примере
