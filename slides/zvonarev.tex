@@ -141,10 +141,10 @@
 	
 	Задача аппроксимации рядов (эквивалентная \eqref{matrixtask}):
 	\begin{equation*}
-	\sum \limits_{i=1}^N w_i(x_i - y_i)^2 \to \min_{\tsY \in \calX_N^r},
+	\sum \limits_{i=1}^N q_i(x_i - y_i)^2 \to \min_{\tsY \in \calX_N^r},
 	\end{equation*}
 	где	\begin{equation*}
-	q_i = w_i = \begin{cases}
+	q_i = \begin{cases}
 	i & \text{для $i = 1, \ldots, L-1,$}\\
 	L & \text{для $i = L, \ldots, K,$}\\
 	N - i + 1 & \text{для $i = K + 1, \ldots, N,$}
@@ -210,14 +210,14 @@
 	
 	$\calH$ --- замкнутое (топологически) линейное подпространство. 
 	
-	$\calM$ --- замкнутое относительно умножения на константу подмножество, т.е. если $z \in \calM$, то $\alpha z \in \calM$ для любого $\alpha \in \sfR$.
+	$\calM$ --- замкнутое относительно умножения на константу подмножество, т.е. если $\bfz \in \calM$, то $\alpha \bfz \in \calM$ для любого $\alpha \in \sfR$.
 	
 	\vspace{0.6cm}
-	Требуется спроектировать заданную точку $x$ на $\calH \cap \calM$: 
-	$\|x - y\| \to \min_y$, где $y \in \calH \cap \calM$
+	Требуется спроектировать заданную точку $\bfx$ на $\calH \cap \calM$: 
+	$\|\bfx - \bfy\| \to \min_\bfy$, где $\bfy \in \calH \cap \calM$
 	
 	\vspace{0.6cm}
-	Метод переменных проекций (Alternating projections, AP): $y_{k+1}=\Pi_\calH \Pi_\calM y_{k}, \mbox{\ где\ } y_{0}=x$, $\Pi_\calM$~---~проектор на $\calM$, $\Pi_\calH$ --- проектор на $\calH$.
+	Метод переменных проекций (Alternating projections, AP): $\bfy_{k+1}=\Pi_\calH \Pi_\calM \bfy_{k}, \mbox{\ где\ } \bfy_{0}=x$, $\Pi_\calM$~---~проектор на $\calM$, $\Pi_\calH$ --- проектор на $\calH$.
 \end{frame}
 
 %\begin{frame}
@@ -233,12 +233,12 @@
 \begin{frame}
 	\frametitle{Основная теорема}
 	Один шаг алгоритма AP:
-	$y_{k+1}=\Pi_\calH \Pi_\calM y_{k}, \mbox{\ где\ } y_{0}=x.$
+	$\bfy_{k+1}=\Pi_\calH \Pi_\calM \bfy_{k}, \mbox{\ где\ } \bfy_{0}=\bfx.$
 	\begin{theorem}
 			 Пусть $\sfX$ --- гильбертово пространство, $\calM \subset \sfX$ --- замкнутое относительно умножения на константу подпространство, множество $\calM$ и подпространство $\calH$ топологически замкнуты, $\Pi_\calM$~---~проектор на $\calM$. Тогда
 			\begin{enumerate}
-				\item $\|y_k - \Pi_{\calM} y_k\| \to 0$ при $k \to +\infty$, $\|\Pi_{\calM}y_k - y_{k+1}\| \to 0$ при $k \to +\infty$.
-				\item Пусть $\calM \cap B_1$ является компактом, где $B_1 = \{z: \|z\| \le 1\}$~---~замкнутый единичный шар. Тогда существует сходящаяся подпоследовательность точек $y_{i_1}, y_{i_2}, \ldots$ такая, что ее предел $y^*$  лежит в $\calM \cap \calH$.
+				\item $\|\bfy_k - \Pi_{\calM} \bfy_k\| \to 0$ при $k \to +\infty$, $\|\Pi_{\calM}\bfy_k - \bfy_{k+1}\| \to 0$ при $k \to +\infty$.
+				\item Пусть $\calM \cap B_1$ является компактом, где $B_1 = \{\bfz: \|\bfz\| \le 1\}$~---~замкнутый единичный шар. Тогда существует сходящаяся подпоследовательность точек $\bfy_{i_1}, \bfy_{i_2}, \ldots$ такая, что ее предел $\bfy^*$  лежит в $\calM \cap \calH$.
 			\end{enumerate}
 	\end{theorem}
 \end{frame}
@@ -379,13 +379,13 @@
 	\vspace{0.3cm}
 	$\|\bfX\|^2_{1, M} =  \sum_{l = 1}^L \sum_{k = 1}^K m_{l, k}$
 	\begin{itemize}
-		\item $\|\bfX\|_{1, M}$, $m_{l, k} = 1 / w_{l + k - 1}$ --- \textcolor{blue}{Weighted Cadzow} ($\Pi_{\calM_r}$ --- EM, $\Pi_\calH$ --- диаг. усреднение). Для него все $q_i$ = 1.
+		\item $\|\bfX\|_{1, M}$, $m_{l, k}$ такие, что $q_i = 1$ --- \textcolor{blue}{Weighted Cadzow} ($\Pi_{\calM_r}$ --- EM, $\Pi_\calH$ --- диаг. усреднение). Для него все $q_i$ = 1.
 		\item \textcolor{blue}{Extended Cadzow} (использует искусственное продолжение ряда в обе стороны)
 	\end{itemize}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Различные проблемы}
+	\frametitle{Различные особенности}
 	 $\bfC = \text{diag}(1, \alpha, \alpha, \ldots, \alpha, 1, \alpha, \ldots, 1)$ (Cadzow($\alpha$)).
 	\begin{theorem}
 		Эквивалентные веса ряда в алгоритме Cadzow($\alpha$):
@@ -517,7 +517,7 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Пример (зависимость RMSE от количества итераций)}
+	\frametitle{Сравнение (зависимость RMSE от числа итераций)}
 	Задача оценки сигнала: $N = 40$, $L = 20$, $r = 2$, $\tsX = (x_{1}, \ldots, x_N),$  $x_k = 5\sin{\frac{2 k \pi}{6}} + \varepsilon_k$; $\varepsilon_k$, $k = 1, \ldots N$, --- гауссовский белый шум, $\tsE \varepsilon_k = 0$, $\tsD \varepsilon_k = 1$, 1000 реализаций.
 	
 	\vspace{-1cm}
@@ -553,12 +553,12 @@
 	\frametitle{Реальный пример}
     Ряд `Fortified wine', первые 168 значений.
     
-    Схема исследования:
+    Схема выбора параметра $\alpha$ для применения метода Cadzow($\alpha$):
     \begin{itemize}
-    	\item Построена параметрическая модель ``похожего'' ряда с помощью SSA + ESPRIT.
+    	\item Построена параметрическая модель ``похожего'' ряда с помощью SSA + ESPRIT
     	\item С помощью моделирования метода Cadzow($\alpha$) получено качество оценки модельного сигнала и точность аппроксимации ряда
     	\item Найден промежуток значений $\alpha$, на котором улучшение точности аппроксимации даёт улучшение RMSE оценки сигнала
-    	\item Метод применён к настоящему ряду с параметром $\alpha$, соответствующим наибольшей точности
+    	\item Метод применён к исходному ряду с параметром $\alpha$, соответствующим наибольшей точности
     \end{itemize}
 \end{frame}
 
@@ -632,7 +632,7 @@
 		%(повторить для рядов с весами $q_i$) 
 		для оценивания сигнала $\tsS$  в модели $\tsX = \tsS + \tsN$
 		\item Доказано существование сходящейся подпоследовательности для всех алгоритмов
-		\item Установлено соотношение между разделимостью, скоростью сходимости и точностью в пределе
+		\item Установлено соотношение между разделимостью, скоростью сходимости и точностью в пределе на численных примерах
 		\item Проведено численное сравнение на модельном и реальном примере
 		\item Получена скорость разделимости для одного примера в алгоритме Cadzow($\alpha$), рекомендации к быстрой реализации алгоритмов (в приложении)
 	\end{itemize}
