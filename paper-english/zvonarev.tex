@@ -759,7 +759,7 @@ and $\hat{q}_i$ for $N = 40$, $L = 8$, are shown in Figure~\ref{img_weights}.
 %\item \textit{Comparison by computational cost.}
 %Note that we can compare numbers of iterations providing a given accuracy to compare the methods without inner iterations by computational complexity, since computational costs of one iteration are approximately the same.
 \item \textit{Signal estimation and series approximation.}
-		The proposed methods can be considered as both approximation methods of the initial series by finite-rank series and weighted least-squares methods for signal estimation. Note that generally the approximation quality can contradict to the estimation accuracy due to possible over-fitting.
+		The proposed methods can be considered as both approximation methods of the original series by finite-rank series and weighted least-squares methods for signal estimation. Note that generally the approximation quality can contradict to the estimation accuracy due to possible over-fitting.
 		\item \textit{Algorithms and series weights.}
 		The Weighted Cadzow and Extended Cadzow methods try to solve the problem \eqref{L-rank_task} with equal weights $q_i$. The other methods work with weights with different levels of non-uniformity.
 		\item \textit{Algorithms and computational costs.}
@@ -800,7 +800,8 @@ s_{k} = 5\sin{\frac{2 \pi k}{6}}, \quad k = 1, \ldots, N,
 \end{equation}
 and the series $\tsX = \tsS + \tsN$ is observed, where  $\tsN$ is Gaussian white noise with mean equal to $0$ and variance equal to $1$. Accuracy of a signal estimate $\widehat\tsS$ is measured as the root mean-square error (RMSE) using 1000 simulations. Comparison is performed on the same simulated samples. It was checked that the stated comparison results are significant at the 5\% level of significance.
 
-We start with the investigation of the Cadzow-$\widehat\bfC$ method and the Cadzow($\alpha$) methods for several values of $\alpha$. These methods use an oblique SVD; the Cadzow($1$) method is the conventional Cadzow method. Figure~\ref{img_cadzowspeed2} shows the rate of convergence for $\alpha = 0.1$ and $\alpha = 1$ and for two different window lengths $L$. The RMSE values are depicted versus the number of performed iterations.
+\smallskip
+\textit{Convergence rate and accuracy.} We start with the investigation of the Cadzow-$\widehat\bfC$ method and the Cadzow($\alpha$) methods for several values of $\alpha$, since they have not internal iterations and therefore their computational costs can be compared by the number of external iterations. These methods use an oblique SVD; the Cadzow($1$) method is the conventional Cadzow method. Figure~\ref{img_cadzowspeed2} shows the rate of convergence for $\alpha = 0.1$ and $\alpha = 1$ and for two different window lengths $L$. The RMSE values are depicted versus the number of performed iterations.
 
 \begin{figure}[!hhh]
 %	\begin{center}
@@ -815,7 +816,6 @@ One can see that a method with a smaller limit error is the one with a slower co
 
 Note that the limit errors do not differ strongly, they change from 0.31 ($\alpha=0.1$, $L=8$) in the best case to 0.35 ($\alpha=1$, $L=20$) in the worst case. However, the error equal to 0.35 is achieved at the first iteration in the worst case, while it takes 4--5 iterations to achieve the error 0.35 in the best case.
 
-\smallskip
 \begin{figure}[!hhh]
 	%	\begin{center}
 	\includegraphics[width = \columnwidth]{2axis.pdf}
@@ -823,13 +823,16 @@ Note that the limit errors do not differ strongly, they change from 0.31 ($\alph
 	\label{img_2axis}
 	%	\end{center}
 \end{figure}
-The same signal \eqref{eq:signal} was taken to investigate how the RMSE and the convergence rate depend on $\alpha$ for the Cadzow($\alpha$) algorithms with $L = 20$. The following STOP1 criterion was taken: $\frac{\|\calT^{-1}(\bfY_k) - \calT^{-1}(\bfY_{k + 1})\|^2}{N} < 10^{-8}$. 
+
+\smallskip
+\textit{Accuracy vs number of iterations for Cadzow($\alpha$).} 
+The same signal \eqref{eq:signal} was taken to investigate how the RMSE and the convergence rate depend on $\alpha$ for the Cadzow($\alpha$) algorithms with $L = 20$. The following STOP1 criterion was taken: $\frac{\|\calT^{-1}(\bfY_k) - \calT^{-1}(\bfY_{k + 1})\|^2}{N} < 10^{-8}$.
 
 Figure~\ref{img_2axis} shows that smaller $\alpha$ leads to more accurate estimates of the signal, but increases their computational costs.
 This general rule sometimes does not work for very small values of the parameter $\alpha$, see Figure~\ref{img_2axis-3}, where
 the noise standard deviation was increased from 1 to 3. One can see that for $\alpha$ smaller than 0.1 the dependence of the estimation errors on $\alpha$ changes.
 It seems that the threshold $\alpha$, which corresponds to the change of the accuracy behaviour, depends on the 1-iteration separability of the signal from noise.
-Indeed, as we can expect, for small $\alpha$ the separability quality is poor (see an example in Appendix).
+Indeed, as we can expect, for small $\alpha$ the separability quality is poor (see an example in Appendix~\ref{sec:app}).
 
 \begin{figure}[!hhh]
 	%	\begin{center}
@@ -841,8 +844,8 @@ Indeed, as we can expect, for small $\alpha$ the separability quality is poor (s
 
 
 \smallskip
-Let us take the Extended and Weighted Cadzow iterations into consideration and examine the spreading of the estimation errors along the series. The maximal number of iterations equal to 100 is taken for the stop criterion STOP1 (this choice yields the error close to the limiting value); the stop criterion STOP2 for inner iterations is as follows:
-$\frac{\|\bfY_k - \bfY_{k+1}\|^2}{LK} < 10^{-4}$. The initial left and right extended values $\tsL_{L-1}$ and $\tsR_{L-1}$ in the Extended Cadzow iterations are obtained using the vector SSA-forecasting method \cite[chapter 2.3.1]{Golyandina.etal2001}.
+\textit{Comparison by accuracy at the first iteration and in the limit.} Let us now involve the Extended and Weighted Cadzow iterations and examine the spreading of the estimation errors along the series. The maximal number of iterations equal to 100 is taken for the stop criterion STOP1 (this choice yields the error close to the limiting value); the stop criterion STOP2 for inner iterations is as follows:
+$\frac{\|\bfY_k - \bfY_{k+1}\|^2}{LK} < 10^{-4}$. The initial left and right extended values $\tsL_{L-1}$ and $\tsR_{L-1}$ in the Extended Cadzow iterations are obtained using the vector SSA-forecasting method \cite[Section 2.3.1]{Golyandina.etal2001}.
 
 Figures~\ref{fig:s1_it1}~and~\ref{fig:s1_it100} show the dependence of the RMSE on numbers of the series points. Figure~\ref{fig:s1_it1} shows the errors at the first iteration, Figure~\ref{fig:s1_it100} shows the errors at the 100-th iteration. It is clearly seen that the Extended Cadzow method is the most precise in both cases. The Cadzow($1$) and Cadzow-$\widehat\bfC$ methods are the best at the first iteration among the set of methods without inner iterations. The best method in the limit (after 100-th iteration, the errors do not change significantly further) is the Cadzow($0.1$) method; this is not surprising according to Figure~\ref{img_cadzowspeed2}.
 
@@ -863,14 +866,12 @@ Figures~\ref{fig:s1_it1}~and~\ref{fig:s1_it100} show the dependence of the RMSE 
 \end{figure}
 
 \smallskip
-Since we used the least-squares method for estimation of the signal $\tsS$, consider Table~\ref{fintable} which shows the RMSE for $\tilde \tsS$ as an estimate of $\tsS$ (i.e., the signal estimation errors) and the RMSE for $\tilde \tsS$ as an estimate of the initial series $\tsX$ (i.e., the series approximation errors). Here $k$ is the number of iterations, $L=20$. Table~\ref{fintable} confirms the conclusions about comparison of the methods by accuracy of signal estimation. Also it is seen that the quality of initial series approximation does not always correspond with the quality of signal estimation. For example, overfitting is clearly present for the Cadzow($0.1$) iterations at the first iteration. However, the methods are ordered identically by errors of series approximation and signal estimation in the limit. This means that minimization of the error of approximation likely yields minimization of the error of signal reconstruction.
+\textit{Errors for signal and original series approximations.} Since we used the least-squares method for estimation of the signal $\tsS$, consider Table~\ref{fintable} which shows the RMSE for $\tilde \tsS$ as an estimate of $\tsS$ (i.e., the signal estimation errors) and the RMSE for $\tilde \tsS$ as an estimate of the original series $\tsX$ (i.e., the series approximation errors). Here $k$ is the number of iterations, $L=20$. Table~\ref{fintable} confirms the conclusions about comparison of the methods by accuracy of signal estimation. Also it is seen that the quality of original series approximation does not always correspond with the quality of signal estimation. For example, overfitting is clearly present for the Cadzow($0.1$) iterations at the first iteration. However, the methods are ordered identically by errors of series approximation and signal estimation in the limit. This means that minimization of the error of approximation likely yields minimization of the error of signal reconstruction.
 The same ordering of the errors is very important for practice, since for real-life data we can choose a better method and its parameters by smaller approximation errors.
 Certainly, a proper rank should be set before the comparison of the methods.
 
-The same simulations were performed with the adjusted algorithms (see Remark~\ref{rem:adjust}). One can see in Table~\ref{fintable_improved} that the accuracy is almost the same. By its definition, the adjustment always improves the approximation of the initial series; however, the influence on the accuracy of signal approximation is ambiguous (the adjustment improves the accuracy at the 100-th iteration; results are various at the first iteration).
-
 \begin{table*}
-		\caption{Comparison of methods by the RMSE, $L = 20$, $\sigma=1$.}\label{fintable}
+		\caption{Comparison of methods by the RMSE, $L = 20$, $\sigma=1$, for the signal \eqref{eq:signal}.}\label{fintable}
 
 		\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lcccc}
 			\hline
@@ -891,7 +892,7 @@ The same simulations were performed with the adjusted algorithms (see Remark~\re
 
 \begin{table*}
 	\begin{center}
-		\caption{Comparison of adjusted methods by the RMSE, $L = 20$, $\sigma=1$.}\label{fintable_improved}
+		\caption{Comparison of adjusted methods by the RMSE, $L = 20$, $\sigma=1$, for the signal \eqref{eq:signal}.}\label{fintable_improved}
 		\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lcccc}
 			\hline
 			Method & $\tsS$, $k = 1$ & $\tsX$, $k = 1$ & $\tsS$, $k = 100$ & $\tsX$, $k = 100$  \\
@@ -909,6 +910,10 @@ The same simulations were performed with the adjusted algorithms (see Remark~\re
 		\end{tabular*}
 	\end{center}
 \end{table*}
+
+
+The same simulations were performed with the adjusted algorithms (see Remark~\ref{rem:adjust}). One can see in Table~\ref{fintable_improved} that the accuracy is almost the same. By its definition, the adjustment always improves the approximation of the original series; however, the influence on the accuracy of signal approximation is ambiguous (the adjustment improves the accuracy at the 100-th iteration; results are various at the first iteration).
+
 
 Thus, the numerical examples mostly confirm the statements itemized in Section~\ref{sec:comments}.
 
@@ -996,13 +1001,13 @@ One can expect that the Cadzow($0.2$) algorithm provides one of the most accurat
 \section{Conclusion}
 \label{sec:concl}
 
-Several known and new iterative algorithms for approximation of a noisy series by a finite-rank series (a signal) were considered in the present paper. The approximation was performed by a least-squares method and its result was considered as an estimate of the signal.
+Several known and new iterative algorithms for approximation of a noisy signal by a finite-rank series were considered in the present paper. The approximation was performed by a least-squares method and its result was considered as an estimate of the signal.
 
  We used equivalent statements of the problems for weighted matrix approximation and  weighted time-series approximation, where equal weights in the least-squares matrix problem correspond
  to unequal weights in the least-squares time series problem, and vice verse.
 
 A wide range of the iterative algorithms was reviewed with the aim to obtain equal weights in the least-squares method applied to time series.
-Equal weights were achieved in the algorithms using inner iterations, which converge to a local minimum only and also make the algorithms very time-consuming. It appears that the use of methods without inner iterations (Cadzow-type methods) leads to approximately equal weights only.
+Equal weights were formally achieved in the algorithms using inner iterations, which converge to a local minimum only and also make the algorithms very time-consuming. It appears that the use of methods without inner iterations (Cadzow-type methods) leads to approximately equal weights only.
 
 Convergence of outer iterations by subsequences was proved for the reviewed algorithms.
 
@@ -1045,7 +1050,7 @@ Thus, let
 $\tsX_1^\infty = (\cos(2 \pi \omega k), k = 1, 2, \ldots)$ and  $\tsX_2^\infty = (c, c, \ldots)$.
 Consider $N \to \infty$ and $L(N),\,K(N) \to \infty$ such that $N = L + K - 1$.
 When $\bfC$ is the identity matrix, the answer is known: $\varepsilon$ has order $1/\min(L,K)$, i.e. the rate of separability has order $1/N$ for $L$ proportional to $N$.
-This result can be found in \cite[Chapter 6.1]{Golyandina.etal2001}.
+This result can be found in \cite[Section 6.1]{Golyandina.etal2001}.
 
 \smallskip
 Let us consider the separability rate for the Cadzow($\alpha$) iterations introduced in Section~\ref{sec:cadzow_alpha}.
