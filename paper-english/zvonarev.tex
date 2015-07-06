@@ -30,9 +30,12 @@
 \newtheorem{algorithm}{Algorithm}
 \newtheorem{lemma}{Lemma}
 \newtheorem{remark}{Remark}
-\input{letters}
 
 \input{newcommands}
+\input{letters}
+\newcommand{\bfx}{\textbf{x}}
+\newcommand{\bfy}{\textbf{y}}
+\newcommand{\bfz}{\textbf{z}}
 \endlocaldefs
 
 
@@ -49,17 +52,19 @@
 % \thankstext{t2}{Thanks to somebody}
 % \address{line 1\\ line 2\\ \printead{e1}\\ \printead{e2}}
 
-\author{\fnms{Nikita} \snm{Zvonarev}\ead[label=e1]{nikitazvonarev@gmail.com}}
+\author{\fnms{Nikita} \snm{Zvonarev}\thanksref{t1}\ead[label=e1]{nikitazvonarev@gmail.com}}
 \address{Department of Statistical Modelling\\
 	Faculty of Mathematics and Mechanics\\
 	St. Petersburg State University\\
 	Universitetskij pr 28, 198504, St.Petersburg, Russia\\ \printead{e1}}
 \and
-\author{\fnms{Nina} \snm{Golyandina}\ead[label=e2]{nina@gistatgroup.com}}
+\author{\fnms{Nina} \snm{Golyandina}\thanksref{t1}\thanksref{t2}\corref{}\ead[label=e2]{nina@gistatgroup.com}}
 \address{Department of Statistical Modelling\\
 	Faculty of Mathematics and Mechanics\\
 	St. Petersburg State University\\
 	Universitetskij pr 28, 198504, St.Petersburg, Russia\\ \printead{e2}}
+\thankstext{t1}{The work was partially supported by the NG13-083 grant of Dynasty Foundation and RFBR grant 15-04-06480}
+\thankstext{t2}{The work was partially supported by U.S. NIH grant R01-GM072022}
 
 \runauthor{N. Zvonarev and N. Golyandina}
 
@@ -87,8 +92,6 @@ Several new methods are suggested and examined together with the Cadzow's iterat
 % history:
 \received{\smonth{1} \syear{0000}}
 
-%\tableofcontents
-
 \end{frontmatter}
 
 \section{Introduction}
@@ -112,7 +115,7 @@ s_L & s_{L + 1} & \ldots & s_N
 \end{pmatrix}.
 \end{equation*}
 Note that $\bfS\in \calH$, where $\calH$ is the set of Hankel matrices with equal values on their anti-diagonals $i+j=\mathrm{const}$.
-If $\tsS$ is governed by an LRR of order $r$, $r < \min(L, K)$, and is not governed by an LRR of smaller order, then $\rank \bfS = r$ and therefore $\bfS$ is a Hankel matrix of low-rank $r$. The column space of $\bfS$, that is, the  signal subspace, provides estimates of $\alpha_i$ and $\omega_i$ in \eqref{parametricform} by the ESPRIT method \cite{Roy.Kailath1989, Golyandina.Zhigljavsky2012} applied to $\bfS$.
+ Let $\tsS$ be governed by an LRR of order $r$, $r < \min(L, K)$, and be not governed by an LRR of smaller order. Then $\rank \bfS = r$ and therefore $\bfS$ is a Hankel matrix of low-rank $r$. The column space of $\bfS$, that is, the  signal subspace, provides estimates of $\alpha_i$ and $\omega_i$ in \eqref{parametricform} by the ESPRIT method \cite{Roy.Kailath1989, Golyandina.Zhigljavsky2012} applied to $\bfS$.
 
 Let $\bfX$ be the trajectory matrix of the series $\tsX$. Then the problem of estimation of $\tsS$ and the signal subspace can be considered as a problem of approximation of the matrix $\bfX$ by a Hankel matrix of rank not larger than $r$:
 \begin{equation}\label{introd_task}
@@ -152,13 +155,13 @@ The paper is summarized and conclusions are drawn in Section~\ref{sec:concl}. Su
 \section{Approximation by rank-deficient Hankel matrices}
 \label{sec:lowrank_appr}
 \subsection{Common scheme of iterations}
-Consider the problem of projecting a point $x$ to a set $\calH~ \cap~\calM$ in a Hilbert space $\sfX$ with a inner product $\langle \cdot, \cdot \rangle$, where $\calH$ and $\calM$ are closed under the limit operation, $\calH$ is linear subspace, while $\calM$ is closed with respect to scalar multiplication, i.e.
-if $z \in \calM$, then $\alpha z\in \calM$ for any $\alpha$. Note that  $\calM$ is not necessarily a linear or convex set.
+Consider the problem of projecting a point $\bfx$ to a set $\calH~ \cap~\calM$ in a Hilbert space $\sfX$ with a inner product $\langle \cdot, \cdot \rangle$, where $\calH$ and $\calM$ are closed under the limit operation, $\calH$ is linear subspace, while $\calM$ is closed with respect to scalar multiplication, i.e.
+if $\bfz \in \calM$, then $\alpha \bfz\in \calM$ for any $\alpha$. Note that  $\calM$ is not necessarily a linear space or a convex set.
 
 Thus, the problem is formulated as
 \be
 \label{eq:gen_task}
-\|x - y\| \to \min_y, \mbox{\ where\ } y \in \calH \cap \calM,
+\|\bfx - \bfy\| \to \min_\bfy \mbox{\ over\ } \bfy \in \calH \cap \calM,
 \ee
 where $\|\cdot\|$ is the norm corresponding to the inner product.
 
@@ -168,74 +171,74 @@ Note that if the projection to $\calM$ is not uniquely defined, then we suppose 
 The projector to $\calH$ is evidently orthogonal, while $\Pi_{\calM}$ is orthogonal due to the following proposition.
 
 \begin{proposition} \label{prop:pythaprop}
-	Let $\sfX$ be a Hilbert space, $\calM \subset \sfX$ be a subset closed with respect to scalar multiplication, $\Pi_\calM$ be the projection operator to $\calM$. Then for any $x \in \sfX$ the following equation (``Pythagorean equality'') is true: $\|x\|^2~=~\|x~-~\Pi_\calM x\|^2~+~\|\Pi_\calM x\|^2$.
+	Let $\sfX$ be a Hilbert space, $\calM \subset \sfX$ be a subset closed with respect to scalar multiplication, $\Pi_\calM$ be the projection operator to $\calM$. Then for any $\bfx \in \sfX$ the following equation (``Pythagorean equality'') is true: $\|\bfx\|^2~=~\|\bfx~-~\Pi_\calM \bfx\|^2~+~\|\Pi_\calM \bfx\|^2$.
 \end{proposition}
 %\begin{proof}
-%	By conditions, the set $\calM$ can be represented as $\calM = \bigcup\limits_{l \in \calL}l$, where $\calL$ is the set of all lines lying in $\calM$ and passing through $0$. Then the projection can be described as follows: to begin with, we choose a line $l$ such that $\dist(x, l) \rightarrow \min\limits_{l \in \calL}$; then, $y = \Pi_\calM x$ is the orthogonal projection of $x$ to the line $l$, which is a linear subspace, therefore, $x-y$ is orthogonal to the $y$. Hence, the proposition is proved.
+%	By conditions, the set $\calM$ can be represented as $\calM = \bigcup\limits_{l \in \calL}l$, where $\calL$ is the set of all lines lying in $\calM$ and passing through $0$. Then the projection can be described as follows: to begin with, we choose a line $l$ such that $\dist(\bfx, l) \rightarrow \min\limits_{l \in \calL}$; then, $\bfy = \Pi_\calM \bfx$ is the orthogonal projection of $\bfx$ to the line $l$, which is a linear subspace, therefore, $\bfx-\bfy$ is orthogonal to the $\bfy$. Hence, the proposition is proved.
 %\end{proof}
 
 \begin{proof}
-	Define $y = \Pi_\calM x$. Since
+	Define $\bfy = \Pi_\calM \bfx$. Since
 	\begin{gather*}
-	\|x\|^2 = \|x - y \|^2 + \|y \|^2 + 2 \langle x - y, y \rangle,
+	\|\bfx\|^2 = \|\bfx - \bfy \|^2 + \|\bfy \|^2 + 2 \langle \bfx - \bfy, \bfy \rangle,
 	\end{gather*}
-    we should prove that $\langle x - y, y \rangle = 0$.
-	Assume the opposite: $\langle x - y, y \rangle \ne 0$. Then for
+    we should prove that $\langle \bfx - \bfy, \bfy \rangle = 0$.
+	Assume the opposite: $\langle \bfx - \bfy, \bfy \rangle \ne 0$. Then for
 	\begin{equation*}
-	\gamma = \frac{\langle x, y \rangle}{\langle y, y \rangle}
+	\gamma = \frac{\langle \bfx, \bfy \rangle}{\langle \bfy, \bfy \rangle}
 	\end{equation*}
-    $\langle x - \gamma y, \gamma y \rangle = 0$
-    and  therefore $\|x - y\|^2 > \|x - \gamma y\|^2$:
+    $\langle \bfx - \gamma \bfy, \gamma \bfy \rangle = 0$
+    and  therefore $\|\bfx - \bfy\|^2 > \|\bfx - \gamma \bfy\|^2$:
 	\begin{gather*}
-	\|x - y\|^2 - \|x - \gamma y\|^2 = \\\langle y, y \rangle - 2 \langle x, y \rangle + \frac{\langle x, y \rangle ^ 2}{\langle y, y \rangle} =
-    \frac{\langle x - y, y \rangle^2}{\langle y, y \rangle} > 0.
+	\|\bfx - \bfy\|^2 - \|\bfx - \gamma \bfy\|^2 = \\\langle \bfy, \bfy \rangle - 2 \langle \bfx, \bfy \rangle + \frac{\langle \bfx, \bfy \rangle ^ 2}{\langle \bfy, \bfy \rangle} =
+    \frac{\langle \bfx - \bfy, \bfy \rangle^2}{\langle \bfy, \bfy \rangle} > 0.
 	\end{gather*}
-	Since 	$\gamma y$ lies in $\calM$ according to the property of $\calM$,
-    the contradiction with the fact that $y = \Pi_\calM x$ is the closest point to $x$ is acquired.
+	Since 	$\gamma \bfy$ lies in $\calM$ according to the property of $\calM$,
+    the contradiction with the fact that $\bfy = \Pi_\calM \bfx$ is the closest point to $\bfx$ is acquired.
 \end{proof}
 
 \begin{remark}
 \label{rem:adj}
-The proof of Proposition~\ref{prop:pythaprop} yields that for any $y\in \calM$ one can perform an adjustment $\calA(y)=\frac{\langle x, y \rangle}{\langle y, y \rangle} y \in \calM$ such that $\calA(y)$
-is not further from $x$ than the original $y$. Moreover, $\calA(y)$ is
-orthogonal to $x - \calA(y)$.
+The proof of Proposition~\ref{prop:pythaprop} yields that for any $\bfy\in \calM$ one can perform an adjustment $\calA(\bfy)=\frac{\langle \bfx, \bfy \rangle}{\langle \bfy, \bfy \rangle} \bfy \in \calM$ such that $\calA(\bfy)$
+is not further from $\bfx$ than the original $\bfy$. Moreover, $\calA(\bfy)$ is
+orthogonal to $\bfx - \calA(\bfy)$.
 \end{remark}
 
 Let us consider the \emph{iterative method of alternating projections} for the problem \eqref{eq:gen_task},
 which is given by the following iteration step:
 \be
 \label{eq:iter}
-y_{k+1}=\Pi_\calH \Pi_{\calM} y_{k}, \mbox{\ where\ } y_{0}=x.
+\bfy_{k+1}=\Pi_\calH \Pi_{\calM} \bfy_{k}, \mbox{\ where\ } \bfy_{0}=\bfx.
 \ee
 
 In the following theorem, we investigate convergence of the sequence~\eqref{eq:iter}.
 
 \begin{theorem}
 	\label{th:converg}
-	\begin{enumerate}
 		Let the conditions of Proposition~\ref{prop:pythaprop} be fulfilled and also the set $\calM$ and the space $\calH$ be closed under the limit operation. Then
-		\item $\|y_k - \Pi_{\calM}y_k\| \to 0$ as $k \to +\infty$, $\|\Pi_{\calM}y_k - y_{k+1}\| \to 0$ as $k \to +\infty$.
-		\item Let $\calM \cap B_1$ be a compact set, where $B_1=\{z: \|z\|~\le~1\}$ is the closed unit ball. Then there exists a convergent subsequence of points $y_{i_1}, y_{i_2}, \ldots$ such that its limit $y^*$ belongs to $\calM \cap \calH$.
+	\begin{enumerate}
+		\item $\|\bfy_k - \Pi_{\calM}\bfy_k\| \to 0$ as $k \to +\infty$, $\|\Pi_{\calM}\bfy_k - \bfy_{k+1}\| \to 0$ as $k \to +\infty$.
+		\item Let $\calM \cap B_1$ be a compact set, where $B_1=\{\bfz: \|\bfz\|~\le~1\}$ is the closed unit ball. Then there exists a convergent subsequence of points $\bfy_{i_1}, \bfy_{i_2}, \ldots$ such that its limit $\bfy^*$ belongs to $\calM \cap \calH$.
 	\end{enumerate}
 \end{theorem}
 \begin{proof}
 	Let us use the following inequalities:
 	\begin{multline}
 	\label{eq:chuprop}
-	\|y_k - \Pi_{\calM} y_k\| \ge \|\Pi_{\calM} y_k - y_{k + 1}\| \ge \\ \|y_{k+1} - \Pi_{\calM} y_{k + 1}\|.
+	\|\bfy_k - \Pi_{\calM} \bfy_k\| \ge \|\Pi_{\calM} \bfy_k - \bfy_{k + 1}\| \ge \\ \|\bfy_{k+1} - \Pi_{\calM} \bfy_{k + 1}\|.
 	\end{multline}
-Indeed, since the projection $\Pi_\calM z$ is not further from $z$ than any other point from $\calM$ and the similar statement is valid for
-$\Pi_\calH$, we have $\|\Pi_{\calM} y_k - z\| \ge \|z - \Pi_{\calM} z\|$, where $z=y_{k+1}$, and $\|y_k - z\| \ge \|z - \Pi_{\calH} z\|$, where $z=\Pi_{\calM} y_k$.
+Indeed, since the projection $\Pi_\calM \bfz$ is not further from $\bfz$ than any other point from $\calM$ and the similar statement is valid for
+$\Pi_\calH$, we have $\|\Pi_{\calM} \bfy_k - \bfz\| \ge \|\bfz - \Pi_{\calM} \bfz\|$, where $\bfz=\bfy_{k+1}$, and $\|\bfy_k - \bfz\| \ge \|\bfz - \Pi_{\calH} \bfz\|$, where $\bfz=\Pi_{\calM} \bfy_k$.
 	\begin{enumerate}
-		\item According to inequalities \eqref{eq:chuprop}, the sequences $\|y_k~-~\Pi_{\calM} y_k\|$, $k = 1, 2, \ldots$, and $\|\Pi_{\calM} y_k - y_{k + 1}\|$, $k = 1, 2, \ldots$, are non-increasing. It is obvious that they are limited below by zero. Therefore, they have the same limit $c$ due to \eqref{eq:chuprop}.
+		\item According to inequalities \eqref{eq:chuprop}, the sequences $\|\bfy_k~-~\Pi_{\calM} \bfy_k\|$, $k = 1, 2, \ldots$, and $\|\Pi_{\calM} \bfy_k - \bfy_{k + 1}\|$, $k = 1, 2, \ldots$, are non-increasing. It is obvious that they are limited below by zero. Therefore, they have the same limit $c$ due to \eqref{eq:chuprop}.
 		
-		Let us prove that $c = 0$ assuming the opposite $c > 0$. Then there exists $d > 0$ such that $\|y_k - \Pi_{\calM} y_k\| > d$ and $\|\Pi_{\calM} y_k - y_{k + 1}\| > d$ for any $k = 1, 2, \ldots$. In accordance to Proposition~\ref{prop:pythaprop}, the following equality is valid: $\|y_k \|^2~=~\|y_k~-~\Pi_{\calM} y_k\|^2~+~\|\Pi_{\calM} y_k \|^2$. Since the space $\calH$ is linear, the following equality is valid too:
-		$\|\Pi_{\calM} y_k \|^2~=\|\Pi_{\calM} y_k~-~\Pi_\calH \Pi_{\calM} y_k\|^2~+~\|\Pi_\calH \Pi_{\calM} y_k \|^2 = \|\Pi_{\calM} y_k~-~y_{k+1}\|^2~+~\|y_{k+1} \|^2$. Therefore,
+		Let us prove that $c = 0$ assuming the opposite $c > 0$. Then there exists $d > 0$ such that $\|\bfy_k - \Pi_{\calM} \bfy_k\| > d$ and $\|\Pi_{\calM} \bfy_k - \bfy_{k + 1}\| > d$ for any $k = 1, 2, \ldots$. In accordance to Proposition~\ref{prop:pythaprop}, the following equality is valid: $\|\bfy_k \|^2~=~\|\bfy_k~-~\Pi_{\calM} \bfy_k\|^2~+~\|\Pi_{\calM} \bfy_k \|^2$. Since the space $\calH$ is linear, the following equality is valid too:
+		$\|\Pi_{\calM} \bfy_k \|^2~=\|\Pi_{\calM} \bfy_k~-~\Pi_\calH \Pi_{\calM} \bfy_k\|^2~+~\|\Pi_\calH \Pi_{\calM} \bfy_k \|^2 = \|\Pi_{\calM} \bfy_k~-~\bfy_{k+1}\|^2~+~\|\bfy_{k+1} \|^2$. Therefore,
 		\begin{multline*}
-		\|y_k\|^2 = \|\Pi_{\calM} y_k\|^2 + \|y_k - \Pi_{\calM} y_k\|^2 =\\ \|y_k - \Pi_{\calM} y_k\|^2 + \|\Pi_{\calM} y_k - y_{k + 1}\|^2 + \|y_{k + 1}\|^2.
+		\|\bfy_k\|^2 = \|\Pi_{\calM} \bfy_k\|^2 + \|\bfy_k - \Pi_{\calM} \bfy_k\|^2 =\\ \|\bfy_k - \Pi_{\calM} \bfy_k\|^2 + \|\Pi_{\calM} \bfy_k - \bfy_{k + 1}\|^2 + \|\bfy_{k + 1}\|^2.
 		\end{multline*}
-		Thus, $\|y_{k+1}\|^2 < \|y_k\|^2 - 2d^2$. Expanding this inequality by the same way, we obtain that $\|y_{k+j}\|^2 < \|y_k\|^2 - 2 j d^2$ for any $j = 1, 2, \ldots$. Choose $k = 1$, and $j = \lceil \|y_k\|^2 / (2d^2) \rceil + 1$. Then $\|y_{k+j}\|^2 < 0$, which is impossible. Thus, $c=0$.
-		\item Consider the sequence $\Pi_{\calM} y_k$, $k = 1, 2, \ldots$, which is bounded, since $\|\Pi_{\calM} z\| \le \|z\|$ (by Proposition \ref{prop:pythaprop}) and $\|\Pi_{\calH} z\| \le \|z\|$ for any $z \in \sfX$. The sequence belongs to a compact set, since $\calM$ is closed with respect to scalar multiplication, and we can resize the unit ball to cover the sequence. Then a convergent subsequence $(\Pi_{\calM} y_{i_k})$ can be chosen; denote by $y^*\in\calM$ its limit, wherein $\|\Pi_{\calM} y_{i_k} - y_{i_k + 1}\| = \|\Pi_{\calM} y_{i_k} - \Pi_\calH \Pi_{\calM} y_{i_k}\| \to 0$ as $k \to + \infty$. Since  $\calH$ is closed, and $\sfX$ is a Banach space, the projector $\Pi_\calH$ is a continuous mapping. Taking into consideration that $\|z - \Pi_\calH z\|$ is a composition of continuous mappings, we obtain that $\|y^* - \Pi_\calH y^*\| = 0$, $y^* \in \calM \cap \calH$. Finally, $\Pi_\calH$ is a continuous mapping and therefore the sequence $(\Pi_\calH \Pi_{\calM} y_{i_k})$ converges to $y^*$. Thus, $y_{i_k + 1}$ is the required subsequence.
+		Thus, $\|\bfy_{k+1}\|^2 < \|\bfy_k\|^2 - 2d^2$. Expanding this inequality by the same way, we obtain that $\|\bfy_{k+j}\|^2 < \|\bfy_k\|^2 - 2 j d^2$ for any $j = 1, 2, \ldots$. Choose $k = 1$, and $j = \lceil \|\bfy_k\|^2 / (2d^2) \rceil + 1$. Then $\|\bfy_{k+j}\|^2 < 0$, which is impossible. Thus, $c=0$.
+		\item Consider the sequence $\Pi_{\calM} \bfy_k$, $k = 1, 2, \ldots$, which is bounded, since $\|\Pi_{\calM} \bfz\| \le \|\bfz\|$ (by Proposition \ref{prop:pythaprop}) and $\|\Pi_{\calH} \bfz\| \le \|\bfz\|$ for any $\bfz \in \sfX$. The sequence belongs to a compact set, since $\calM$ is closed with respect to scalar multiplication, and we can resize the unit ball to cover the sequence. Then a convergent subsequence $(\Pi_{\calM} \bfy_{i_k})$ can be chosen; denote by $\bfy^*\in\calM$ its limit and notice that $\|\Pi_{\calM} \bfy_{i_k} - \bfy_{i_k + 1}\| = \|\Pi_{\calM} \bfy_{i_k} - \Pi_\calH \Pi_{\calM} \bfy_{i_k}\| \to 0$ as $k \to + \infty$. Since  $\calH$ is closed, and $\sfX$ is a Banach space, the projector $\Pi_\calH$ is a continuous mapping. Taking into consideration that $\|\bfz - \Pi_\calH \bfz\|$ is a composition of continuous mappings, we obtain that $\|\bfy^* - \Pi_\calH \bfy^*\| = 0$, $\bfy^* \in \calM \cap \calH$. Finally, $\Pi_\calH$ is a continuous mapping and therefore the sequence $(\Pi_\calH \Pi_{\calM} \bfy_{i_k})$ converges to $\bfy^*$. Thus, $\bfy_{i_k + 1}$ is the required subsequence.
 	\end{enumerate}
 \end{proof}
 
@@ -343,7 +346,7 @@ One of these algorithms is described in \cite{Srebro2003}. Denote by $\odot$ the
 	\end{enumerate}
 \end{algorithm}
 
-Note that in the case, when $m_{ij}$ are equal to either 0 or 1, this algorithm is an EM-algorithm \cite{Srebro2003};
+Note that in the case, when $m_{ij}$ are equal to either 0 or 1, Algorithm~\ref{alg:weightedSVD} is an EM-algorithm \cite{Srebro2003};
 hence, properties of EM-algorithms are carried out and the sequence $\bfY_k$ converges to a local minimum. Formally, it does not matter what values are in $\bfY$ at positions of zero weights. However, these values can influence the algorithm's convergence rate and the limiting values.
 
 \section{Time series and problem of matrix approximation}
@@ -524,7 +527,7 @@ m_{i,j} = \begin{cases}
 \begin{algorithm}[Extended Cadzow iterations]\label{alg:ECIt}
 	\textbf{Input}: Time series $\tsX$, window length $L$, rank $r$,
 	stop criteria STOP1 for outer iterations and STOP2 for inner iterations,
-	left and right extension values, $\tsL_{L-1}$ and $\tsR_{L-1}$.
+	left and right extension values $\tsL_{L-1}$ and $\tsR_{L-1}$.
 	
 	\textbf{Result}:
 	Approximation $\widehat\tsS$ of time series $\tsX$ by finite-rank series of rank $r$.
@@ -575,7 +578,7 @@ To solve the problem \eqref{L-rank_task} of approximation of time series with eq
 
 \subsubsection{Cadzow($\alpha$) iterations}
 \label{sec:cadzow_alpha}
-The following lemma describes a case, when the conditions of Proposition~\ref{prop:equiv_tasks} are fulfilled and therefore 
+The following lemma describes a case, when the conditions of Proposition~\ref{prop:equiv_tasks} are fulfilled and therefore
 the problem \eqref{L-rank_task} with equal weights $q_i$ is equivalent to the problem \eqref{rank_task}.
 
 \begin{lemma}[\cite{Gillard2014}]
@@ -736,7 +739,7 @@ Let us normalize series weights so that their sums equal 1.
 The normalized weights $q_i(\alpha)$, for $\alpha = 1$ (the conventional Cadzow iterations), $\alpha = 0$ (equal $q_i$), $\alpha = 0.1$,
 and $\hat{q}_i$ for $N = 40$, $L = 8$, are shown in Figure~\ref{img_weights}.
 \begin{figure}
-		\includegraphics[width =\columnwidth]{weights.pdf}\caption{Normalized series weights $q_i$ corresponding to $\bfC(\alpha)$ and $\widehat\bfC$}\label{img_weights}
+		\includegraphics[width =\columnwidth]{weights.pdf}\caption{Normalized series weights $q_i$ corresponding to $\bfC(\alpha)$ and $\widehat\bfC$.}\label{img_weights}
 \end{figure}
 	
 	\subsection{Comments to algorithms. Comparison}
@@ -820,8 +823,9 @@ Note that the limit errors do not differ strongly, they change from 0.31 ($\alph
 	\label{img_2axis}
 	%	\end{center}
 \end{figure}
-The same signal \eqref{eq:signal} was taken to investigate how the RMSE and the convergence rate depend on $\alpha$ for the Cadzow($\alpha$) algorithms with $L = 20$. The following STOP1 criterion was taken: $\frac{\|\calT^{-1}(\bfY_k) - \calT^{-1}(\bfY_{k + 1})\|^2}{N} < 10^{-8}$. Figure~\ref{img_2axis} shows that smaller $\alpha$ leads to more accurate estimates of the signal, but increases their computational costs.
+The same signal \eqref{eq:signal} was taken to investigate how the RMSE and the convergence rate depend on $\alpha$ for the Cadzow($\alpha$) algorithms with $L = 20$. The following STOP1 criterion was taken: $\frac{\|\calT^{-1}(\bfY_k) - \calT^{-1}(\bfY_{k + 1})\|^2}{N} < 10^{-8}$. 
 
+Figure~\ref{img_2axis} shows that smaller $\alpha$ leads to more accurate estimates of the signal, but increases their computational costs.
 This general rule sometimes does not work for very small values of the parameter $\alpha$, see Figure~\ref{img_2axis-3}, where
 the noise standard deviation was increased from 1 to 3. One can see that for $\alpha$ smaller than 0.1 the dependence of the estimation errors on $\alpha$ changes.
 It seems that the threshold $\alpha$, which corresponds to the change of the accuracy behaviour, depends on the 1-iteration separability of the signal from noise.
@@ -866,9 +870,9 @@ Certainly, a proper rank should be set before the comparison of the methods.
 The same simulations were performed with the adjusted algorithms (see Remark~\ref{rem:adjust}). One can see in Table~\ref{fintable_improved} that the accuracy is almost the same. By its definition, the adjustment always improves the approximation of the initial series; however, the influence on the accuracy of signal approximation is ambiguous (the adjustment improves the accuracy at the 100-th iteration; results are various at the first iteration).
 
 \begin{table*}
-		\caption{Comparison of methods by the RMSE, $L = 20$, $\sigma=1$}\label{fintable}
+		\caption{Comparison of methods by the RMSE, $L = 20$, $\sigma=1$.}\label{fintable}
 
-		\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}ccccc}
+		\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lcccc}
 			\hline
 			Method & $\tsS$, $k = 1$ & $\tsX$, $k = 1$ & $\tsS$, $k = 100$ & $\tsX$, $k = 100$  \\
 			\hline
@@ -887,8 +891,8 @@ The same simulations were performed with the adjusted algorithms (see Remark~\re
 
 \begin{table*}
 	\begin{center}
-		\caption{Comparison of adjusted methods by the RMSE, $L = 20$, $\sigma=1$}\label{fintable_improved}
-		\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}ccccc}
+		\caption{Comparison of adjusted methods by the RMSE, $L = 20$, $\sigma=1$.}\label{fintable_improved}
+		\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lcccc}
 			\hline
 			Method & $\tsS$, $k = 1$ & $\tsX$, $k = 1$ & $\tsS$, $k = 100$ & $\tsX$, $k = 100$  \\
 			\hline
@@ -952,7 +956,7 @@ the RMSE of model series approximation (the column $\tsX$) and the approximation
 	\caption{Comparison of the errors of signal estimation and series approximation using the Cadzow methods, for the `Fortified wine' series and the model realizations.}
 \label{tab:rltable}
 	
-	\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}ccccc}
+	\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lcccc}
 		\hline
 		Method: & $\tsS$ & $\tsX$ & $\tsX^*$ \\
 		\hline
@@ -979,12 +983,12 @@ to converge toward the global minimum.
 
 Figure \ref{fig:rl} depicts the approximation of the original `Fortified wine' series $\tsX^*$ obtained by the Cadzow($0.2$) algorithm.
 The dotted line corresponds to the original series, while the solid line shows the finite-rank estimate of the signal of rank 11.
-One can expect that the Cadzow($0.2$) algorithm provides one of the most accurate finite-rank estimate of the signal.
+One can expect that the Cadzow($0.2$) algorithm provides one of the most accurate finite-rank estimates of the signal.
 
 \begin{figure}[!hhh]
 	%	\begin{center}
 	\includegraphics[width = \columnwidth]{rlimage.pdf}
-	\caption{`Fortified wine' series: application of the Cadzow($0.2$) algorithm}
+	\caption{`Fortified wine' series: application of the Cadzow($0.2$) algorithm.}
 	\label{fig:rl}
 	%	\end{center}
 \end{figure}
