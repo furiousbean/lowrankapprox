@@ -79,11 +79,12 @@ a weighted least-squares method is applied to the trajectory matrix of the consi
 Several new methods are suggested and examined together with the Cadzow's iterative method. The questions of convergence, computational complexity, and accuracy are considered for the proposed methods. The methods are compared on numeric examples.
 \end{abstract}
 
-%\begin{keyword}[class=AMS]
-%\kwd[Primary ]{}
-%\kwd{}
-%\kwd[; secondary ]{}
-%\end{keyword}
+\begin{keyword}[class=AMS]
+\kwd[Primary ]{62G05}
+\kwd{94A12}
+\kwd[; secondary ]{60G35}
+\kwd{37M10}
+\end{keyword}
 
 \begin{keyword}
 \kwd{time series}
@@ -186,9 +187,6 @@ The projector to $\calH$ is evidently orthogonal, while $\Pi_{\calM}$ is orthogo
 	\end{gather*}
     we should prove that $\langle \bfx - \bfy, \bfy \rangle = 0$.
 	Assume the opposite: $\langle \bfx - \bfy, \bfy \rangle \ne 0$. Then for
-%	\begin{equation*}
-%	\gamma = \frac{\langle \bfx, \bfy \rangle}{\langle \bfy, \bfy \rangle}
-%	\end{equation*}
     $\gamma = \frac{\langle \bfx, \bfy \rangle}{\langle \bfy, \bfy \rangle}$ we have
     $\langle \bfx - \gamma \bfy, \gamma \bfy \rangle = 0$
     and  therefore $\|\bfx - \bfy\|^2 > \|\bfx - \gamma \bfy\|^2$:
@@ -338,11 +336,6 @@ One of these algorithms is described in \cite{Srebro2003}. Denote by $\odot$ the
 		\item
 		$\bfY_{k+1} = \Pi_r(\bfY \odot \bfM + \bfY_{k} \odot (\bfQ -  \bfM))$, where
 		$\bfQ \in \sfR^{L \times K}$ is the matrix of all ones;
-%,  $\bfQ = \begin{pmatrix}
-%		1 & \cdots & 1 \\
-%		\vdots & \ddots & \vdots \\
-%		1 & \cdots & 1
-%		\end{pmatrix}$;
         \quad $k\leftarrow k+1$.
 		\item
 		If STOP, then $\widehat\bfY = \bfY_k$; else go to 2.
@@ -350,7 +343,6 @@ One of these algorithms is described in \cite{Srebro2003}. Denote by $\odot$ the
 \end{algorithm}
 
 Note that in the case, when $m_{ij}$ are equal to either 0 or 1, Algorithm~\ref{alg:weightedSVD} is an EM-algorithm \cite{Srebro2003}.
-%hence, properties of EM-algorithms are carried out and the sequence $\bfY_k$ converges to a local minimum.
 Formally, it does not matter what values are in $\bfY$ at positions of zero weights. However, these values can influence the algorithm convergence rate and the limiting values.
 
 \section{Time series and problem of matrix approximation}
@@ -545,12 +537,6 @@ m_{i,j} = \begin{cases}
 	\end{enumerate}
 \end{algorithm}
 
-%\begin{remark}
-%Несмотря на то, что при добавлении точек формально получается задача \eqref{L-rank_task} с частично нулевыми весами, сходимость $\bfY_k$
-%по подпоследовательностям имеет место. Это следует из того, что при построении $\bfY_k$ добавленные точки с нулевыми весами
-%не участвуют.
-%\end{remark}
-
 \subsection{Oblique Cadzow iterations}
 \label{sec:ObliqueCadzow}
 Algorithms considered in this section generalize the conventional Cadzow algorithm based on the Euclidean inner product to the use of an oblique inner product given by a matrix $\bfC$.
@@ -620,7 +606,6 @@ Equality \eqref{sk_mlk} provides the form of a matrix $\bfM$ to obtain $\|\cdot\
 1 & 0 & 0 & \cdots & 0 & 1 & 0 & \cdots & \cdots & 1
 \end{pmatrix}.
 \end{equation}
-%So, distance is taken using only $h$ columns instead of $K$, while multiplicating by $\bfO_\bfC^{\rmT}$ sets to zero $K - h$ columns of $\bfC$.
 
 \begin{remark}
 	The optimization problem \eqref{rank_task} with the matrix $\bfM$ given in \eqref{eq:degenerateM} corresponds to the search of an arbitrary (not necessary Hankel) matrix of rank not larger than $r$, which is closest in the Frobenius norm to the matrix
@@ -657,9 +642,6 @@ The solution $\widehat\bfM$ is evidently constructed as the averaging of the mat
 \begin{equation}\label{my_s}
 \hat c_k = \frac{1}{L}\sum_{l=1}^L m_{l, k}.
 \end{equation}
-
-%where $m_{l, k}$ are defined in \eqref{Mw}.
-
 
 We call Algorithm~\ref{alg:obliqueCadzow} with the matrix $\bfC=\widehat\bfC$ Cadzow-$\widehat\bfC$ iterations.
 
@@ -753,12 +735,9 @@ and $\hat{q}_i$ for $N = 40$, $L = 8$, are shown in Figure~\ref{img_weights}.
 	\begin{itemize}
 		\item \textit{Theoretical convergence.}
 		Theorem \ref{th:converg} provides conditions for the existence of a subsequence, which converges to a matrix from $\calM_r \cap \calH$. This theorem is applicable directly to Algorithm \ref{alg:obliqueCadzow} if all weights are positive and to Algorithm \ref{alg:WCIt} if to suppose that the weighted projection to $\calM_r$ can be calculated with no error. It is easy to extend Theorem \ref{th:converg} to be applicable to Algorithm \ref{alg:ECIt} where the weights for added values are zero, if to consider the sequence  $\bfY_k$ instead of $\widetilde\bfY_k$.
-%consisting of columns of matrices $\Pi_{\calM_r} \bfY_k$ from $L$-th to $N$-th and having positive weight of each element are matrices of rank not larger than $r$, and their Frobenius norms are not larger than seminorm of original matrix: $\|\widetilde \bfY_k\|_F \le \|\Pi_{\calM_r} \bfY_k\|_\bfM$. Hence it is bounded sequence which contains a subsequence converging to needed set.
 		\item \textit{Convergence in practice.} Although the theory says about the existence of converging subsequences, the numerical convergence of the constructed sequences took place in all the training examples.
 		\item \textit{Comparison by accuracy.}
 		The methods are iterative, and convergence to the global minimum in the corresponding least-squares problem does not necessarily take place. Therefore, different algorithms corresponding to the same weights can yield different approximations. Hence, the comparison of the algorithms by the approximation accuracy makes sense.		
-%\item \textit{Comparison by computational cost.}
-%Note that we can compare numbers of iterations providing a given accuracy to compare the methods without inner iterations by computational complexity, since computational costs of one iteration are approximately the same.
 \item \textit{Signal estimation and series approximation.}
 		The proposed methods can be considered as both approximation methods of the original series by finite-rank series and weighted least-squares methods for signal estimation. Note that generally the approximation quality can contradict to the estimation accuracy due to possible over-fitting.
 		\item \textit{Algorithms and series weights.}
@@ -782,7 +761,7 @@ Influence of the parameter $\alpha$ on separability in the class of Cadzow($\alp
         the case corresponding to poor separability.
  		\item \textit{Equal series weights and accuracy of signal estimation.}
  Thus, the weights, which are close to equal ones, correspond to the algorithms, which either have a time-consuming iteration step with inner iterations or are slowly convergent; therefore such algorithms have high computational complexity.
-There are no theoretical results about the behavior of the estimation accuracy in dependence on the algorithms and their parameters. However, the numerical study shows that the best accuracy is achieved in the algorithms corresponding to the weights, which are equal or almost equal.	 
+There are no theoretical results about the behavior of the estimation accuracy in dependence on the algorithms and their parameters. However, the numerical study shows that the best accuracy is achieved in the algorithms corresponding to the weights, which are equal or almost equal.	
 \end{itemize}
 	
 	\begin{remark}
@@ -926,7 +905,7 @@ We compare the Cadzow($\alpha$) algorithms for different $\alpha$ and demonstrat
 a smaller approximation error.
 
 In Section~\ref{sec:simul} we considered a simple example with a signal consisting of one sine wave.
-However, the real-life time series has a much more complex form. To check if the minimization of 
+However, the real-life time series has a much more complex form. To check if the minimization of
 the approximation errors can diminish the signal estimate errors,
 let us construct a model of the `Fortified wine' series and use this model for simulation experiments.
 
@@ -1071,7 +1050,6 @@ a function $f \in \Omega(g(n))$ as $n\ra \infty$ if there exist $k>0$ and $n_0>0
 	\alpha, & \text{otherwise},
 	\end{cases}
 	\end{equation*}
-%	where $0 < \alpha(N) \le 1$.
 Then
 	\begin{enumerate}
 		\item $\rho$ given by \eqref{weak_sep_eq} has the following order: $\rho~=~O\left(\max\left(\frac{1}{L}, \frac{(1-\alpha)C_{L,K}+\alpha}{(1-\alpha)D_{L,K}+\alpha K}\right)\right)$, where
@@ -1131,7 +1109,7 @@ Hence, the rate of separability has the same order $O(1/N)$  for $\alpha(N) \to 
 \section*{Acknowledgements}
 The authors are grateful to the referees for their useful comments and suggestions.
 
-\ 
+\
 
 \bibliographystyle{imsart-number}
 \bibliography{zvonarev}
