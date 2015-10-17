@@ -1,0 +1,414 @@
+\documentclass[unicode, notheorems]{beamer}
+
+% If you have more than three sections or more than three subsections in at least one section,
+% you might want to use the [compress] switch. In this case, only the current (sub-) section
+% is displayed in the header and not the full overview.
+\mode<presentation>
+{
+  \usetheme[numbers, totalnumbers, compress]{Statmod}
+
+  \setbeamercovered{transparent}
+  % or whatever (possibly just delete it)
+}
+
+%\usepackage{pscyr}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath,amssymb,amsthm,amscd,amsfonts}
+\usepackage{mathdots}
+
+
+%\usepackage{tikz}
+% you only need this when using TikZ graphics
+
+\newtheorem{theorem}{Теорема}
+\newtheorem{example}{Пример}
+\newtheorem{definition}{Определение}
+\newtheorem{thnote}{Замечание}
+\newtheorem{proposition}{Утверждение}
+\newtheorem{solution}{Решение}
+
+\DeclareMathOperator{\mathspan}{span}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\cond}{cond}
+\def\dist{\mathop{\mathrm{dist}}}
+
+\input{letters}
+
+\title[Аппроксимация рядами конечного ранга]{Аппроксимация временных рядов рядами конечного ранга}
+
+\author[Звонарев Никита]{Звонарев Никита}
+\institute[СПбГУ]{Санкт-Петербургский государственный университет \\
+    Кафедра статистического моделирования
+}
+\date{
+    Санкт-Петербург\\
+    2015г.
+}
+
+\subject{Beamer}
+\setbeamertemplate{bibliography item}{[\theenumiv]}
+% This is only inserted into the PDF information catalog. Can be left
+% out.
+
+% Delete this, if you do not want the table of contents to pop up at
+% the beginning of each subsection:
+% \AtBeginSubsection[]
+% {
+%   \begin{frame}<beamer>
+%     \frametitle{Outline}
+%     \tableofcontents[currentsection,currentsubsection]
+%   \end{frame}
+% }
+
+\begin{document}
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+
+\section{Введение}
+\begin{frame}
+	\frametitle{Постановка задачи}
+	Дан временной ряд $\tsX = \tsS + \tsN$, $\tsX = (x_1, \ldots, x_N)$, 
+	
+	$\tsN$ --- белый шум.
+
+	$\tsS$ --- сигнал, имеющий \textit{определённую структуру}, например:
+	\begin{enumerate}
+		\item $\tsS$ удовлетворяет линейной рекуррентной формуле ($s_n = a_1 s_{n-1} + a_2 s_{n-2}$)
+		\item $\tsS$ удовлетворяет параметрической модели ($s_n = C e^{\alpha n} \cos(2 \pi \omega n + \psi)$ или $s_n = C_1 e^{\alpha_1 n} + C_2 e^{\alpha_2 n}$)
+	\end{enumerate}
+	
+	\textcolor{blue}{Задача:} построить оценку $\hat \tsS$ сигнала $\tsS$.
+	
+	\pause
+	
+	\textcolor{blue}{Выбираем первый подход}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Модель сигнала}
+	Общий вид:
+	
+	\begin{definition}
+		Ряд, управляемый минимальной линейной рекуррентной формулой порядка~$r$: $\tsS = (s_1, \ldots, s_N), \quad s_n = \sum_{i = 1}^{r} a_i s_{n-i}, \, n = r + 1, \ldots, N, \, a_r \ne 0$.
+	\end{definition}
+	
+	\vspace{0.5cm}
+	Параметрический вид рядов, управляемых ЛРФ:
+	\begin{equation*}
+	s_n = \sum_i P_i(n) \exp(\alpha_i n) \cos(2 \pi \omega_i n + \psi_i).
+	\end{equation*}
+	
+	Параметрический подход не работает из-за неустойчивости
+	
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Идея: траекторная матрица}
+	Возьмём $\tsS = (s_1, \ldots, s_N)$ --- ряд, управляемый минимальной ЛРФ порядка $r$: $ s_n = \sum_{i = 1}^{r} a_i s_{n-i}$.
+	
+	$1 < L < N$ --- \emph{длина окна}, $K = N - L + 1$.
+	
+	\emph{Траекторная матрица ряда} $\tsS$:
+	
+	\begin{equation*}
+	\bfS = \calT(\tsS) = \begin{pmatrix}
+	s_1 & s_2 & \ldots & s_K \\
+	s_2 & s_3 & \ldots & s_{K + 1} \\
+	\vdots & \vdots & \vdots & \vdots \\
+	s_L & s_{L + 1} & \ldots & s_N
+	\end{pmatrix}.
+	\end{equation*}
+	
+	Заметим, что $\bfS$ --- ганкелева (\textit{structured}, $\bfS \in \calH$) и \\ $\rank \bfS = r$ (\textit{low-rank}, $\bfS \in \calM_r$). 
+	
+	$\tsX = \tsS + \tsN$, $\bfX = \calT(\tsX) = \bfS + \bfN$
+	
+	Оценка $\hat \tsS$ $\Leftrightarrow$ \textbf{SLRA} (Structured (Hankel) Low Rank Approximation) матрицы $\bfX$ в классе $\calH \cap \calM_r$.
+	% Если получим $\hat \bfS$ --- оценку $\bfS$, то $\hat \tsS = \calT^{-1}(\hat \bfS)$ --- оценка сигнала.
+	
+	
+%	Заметим, что $\bfS$ --- ганкелева ($\bfS \in \calH$) и $\text{rank} \bfS = r$.
+	
+%	\begin{definition}
+%	    Ряд $\tsS$ имеет L-ранг $r$ если $\operatorname{rank} \bfS = r$, где $\bfS = \calT(\tsS)$.  
+%	\end{definition}
+	
+%	Ряд $\tsS$ управляется минимальной ЛРФ порядка $r$ $\Rightarrow$ $\tsS$ имеет L-ранг $r$.   
+	
+%	$\sfX^r_N = \{\tsX : \tsX = (x_1, \ldots, x_N), \; \tsX \; \text{имеет L-ранг} \; \le r\}$
+	
+\end{frame}
+
+\begin{frame}
+	\frametitle{Эквивалентные задачи}
+	\vspace{-0.2cm}
+	$\tsX = (x_1, \ldots, x_N)$, $\bfX = \calT(\tsX)$. 
+	
+	Задача аппроксимации матрицы (SLRA):
+	\begin{equation*} \label{matrixtask}
+	\|\bfX - \bfY\|^2_F \to \min_{\substack{\bfY \in \calM_r \cap \calH}},
+	\end{equation*}
+	%$\|\cdot \|_M$ порождена следующим скалярным произведением: $\langle\bfX, \bfY \rangle_M = \sum_{l = 1}^L \sum_{k = 1}^K m_{l, k} x_{l, k} y_{l, k}$
+	\vspace{0.2cm}
+	Эквивалентная задача аппроксимации рядов:
+	\begin{equation*}
+	\sum \limits_{i=1}^N w_i(x_i - y_i)^2 \to \min_{\tsY \in \calX_N^r},
+	\end{equation*}
+	$\calX_N^r$ --- множество рядов, управляемых ЛРФ,
+	\begin{equation*}
+	w_i = \begin{cases}
+	i & \text{для $i = 1, \ldots, L-1,$}\\
+	L & \text{для $i = L, \ldots, K,$}\\
+	N - i + 1 & \text{для $i = K + 1, \ldots, N,$}
+	\end{cases} \qquad \text{---}
+	\end{equation*}
+	трапециевидные веса.
+\end{frame}
+
+\begin{frame}
+	\frametitle{Методы Cadzow и SSA}
+	
+	SLRA:
+	\begin{equation*}
+		\|\bfX - \bfY\|^2_F \to \min_{\substack{\bfY \in \calM_r \cap \calH}}
+	\end{equation*}
+
+	Решение --- \textcolor{blue}{метод Cadzow (1988)}: 
+	\begin{equation*}
+	\bfY_k = (\Pi_\calH \circ \Pi_{\calM_r})^k (\bfX),
+	\end{equation*}
+	$\Pi_\calH$ --- проектор на ганкелевы матрицы, $\Pi_{\calM_r}$ --- проектор на матрицы ранга $\le r$, $k$ --- число итераций.
+			
+
+	$k = 1$ --- метод SSA (Singular Spectrum Analysis, ссылки). Не дает оценку из $\calM_r \cap \calH$.
+	
+	\vspace{0.4cm}\pause		
+	Что известно про Cadzow?
+\end{frame}
+
+\begin{frame}
+	\frametitle{Метод Cadzow}
+	\begin{equation*}
+	\bfY_k = (\Pi_\calH \circ \Pi_{\calM_r})^k (\bfX).
+	\end{equation*}
+	
+	Ничего не известно ни про сходимость к глобальному, ни к локальному минимуму (понятие ``локального экстремума'' отсутствует, т.к. его не ввести естественным образом)
+
+	\textcolor{blue}{Но:} 
+
+	\begin{theorem}[Cadzow, 1988]
+		\begin{enumerate}
+			\item $\|\bfY_k - \Pi_{\calM_r} \bfY_k\| \to 0$ при $k \to +\infty$, $\|\Pi_{\calM_r}\bfY_k - \bfY_{k+1}\| \to 0$ при $k \to +\infty$.
+			\item Существует сходящаяся подпоследовательность точек $\bfY_{i_1}, \bfY_{i_2}, \ldots$ такая, что ее предел $\bfY^*$  лежит в $\calM_r \cap \calH$.
+		\end{enumerate}
+	\end{theorem}
+\end{frame}
+
+\section{Выбор норм, соответствие между весами}
+\begin{frame}
+\frametitle{Напоминание: эквивалентные задачи}
+Аппроксимация рядов:
+\begin{equation*}
+\sum \limits_{i=1}^N w_i(x_i - y_i)^2 \to \min_{\tsY \in \calX_N^r},
+\end{equation*}
+\begin{equation*}
+w_i = \begin{cases}
+i & \text{для $i = 1, \ldots, L-1,$}\\
+L & \text{для $i = L, \ldots, K,$}\\
+N - i + 1 & \text{для $i = K + 1, \ldots, N$}
+\end{cases}
+\end{equation*}
+
+	\vspace{0.4cm}
+\textit{Наша задача --- с помощью аппроксимации ряда оценить сигнал.}
+
+	\vspace{0.4cm}
+Можно ли обобщить Cadzow и использовать другие веса вместо $w_i$?
+\end{frame}
+
+\begin{frame}
+	\frametitle{Варианты (полу)норм}
+	Ряды:
+	$\|\tsX\|_q^2 = \sum_{i = 1}^N q_i x_i^2$, все $q_i \ge 0$. \textit{Но как аппроксимировать по }$\|\tsX\|_q$?
+	
+	\vspace{0.4cm}
+	Решение: подобрать эквивалентную матричную норму
+	
+	\begin{enumerate}
+		\item $\|\bfX\|^2_{\bfD_1, \bfD_2} = \text{tr}(\bfD_1 \bfX \bfD_2 \bfX^\rmT)$, $\bfD_1 \in \sfR^{L \times L}$, $\bfD_2 \in \sfR^{K \times K}$ --- симметричные, неотрицательно определённые матрицы (+ диагональные в нашем случае) (Zhigljavsky, 2014)
+		\item Частный случай предыдущего пункта: $\bfD_1$, $\bfD_2$ --- единичные матрицы (Фробениусовская норма $\|\bfX\|_F$)
+
+	\end{enumerate}
+	
+	\vspace{0.4cm}
+	Проблемы:
+	\begin{enumerate}
+		\item Как вычислить $\Pi_\calH$, $\Pi_{\calM_r}$ по нужной норме?
+		\item Как подобрать $\bfD_1$ и $\bfD_2$, соответствующие $q_i$: $\|\tsX\|_q = \|\bfX\|_{\bfD_1, \bfD_2}$?
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Проекторы $\Pi_{\calM_r}$ и $\Pi_{\calH}$}
+	
+	$\Pi_{\calM_r}$: через косоугольное SVD-разложение $\bfX$. Сводится к стандартному SVD-разложению матрицы $\bfO_1 \bfX \bfO_2^\rmT$, $\bfO_i^\rmT \bfO_i = \bfD_i$, $i = 1, 2.$
+		
+	\vspace{0.6cm}
+	$\Pi_{\calH}$: через взвешенное диагональное усреднение
+	\begin{equation*}
+	\bfX = \Pi_{\calH}(\bfY), \quad x_{l,k} = \frac{\sum_{i,j:\, i+j=l+k} d_{1, i} d_{2, j} y_{i,j}}{\sum_{i,j:\, i+j=l+k} d_{1, i} d_{2, j}}.
+	\end{equation*}
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Эквивалентность и равенство норм}
+    $\|\tsX\|_q^2 = \sum_{i = 1}^N q_i x_i^2$, все $q_i > 0$
+    
+    $\|\bfX\|^2_{\bfD_1, \bfD_2} = \text{tr}(\bfD_1 \bfX \bfD_2 \bfX^\rmT)$
+    
+    $\bfD_1 = \text{diag}(d_{1, 1}, \ldots, d_{1, L})$, $\bfD_2 = \text{diag}(d_{2, 1}, \ldots, d_{2, K})$.
+	
+	\begin{theorem}
+		Полунорма $\|\cdot\|_{\bfD_1, \bfD_2}$ является нормой $\Leftrightarrow$ все $d_{1, i} > 0$, $i = 1, \ldots, L$, $d_{2, j} > 0$, $j = 1, \ldots, K$.
+	\end{theorem}
+	\vspace{0.2cm}
+	Векторы $D_1$, $D_2$, $Q \in \sfR^N$, $D_1 = (d_{1, 1}, \ldots, d_{1, L}, 0, \ldots, 0)^\rmT$, $D_2 = (d_{2, 1}, \ldots, d_{2, K}, 0, \ldots, 0)^\rmT$, $Q = (q_1, \ldots, q_N)^\rmT$.
+	
+	Свертка: $C = A \star B$, $c_{i} = \sum_{j=0}^{N-1} a_{j} b_{i-j}$, $A = (a_0, \ldots, a_{N-1})^\rmT$ \ldots
+	\begin{theorem}[Zhigljavsky, 2015]
+		$\|\calT(\tsX)\|_{\bfD_1, \bfD_2} = \|\tsX\|_q$ для любого $\tsX$ $\Leftrightarrow$ $Q = D_1 \star D_2$.
+	\end{theorem}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Единичные веса ряда}
+	\vspace{-0.3cm}
+	\begin{equation*}
+	\sum \limits_{i=1}^N q_i(x_i - y_i)^2 \to \min_{\tsY \in \calX_N^r}
+	\end{equation*}
+	
+    \textcolor{blue}{Естественные веса:} $q_i = 1$.
+	
+	\vspace{0.3cm}
+	
+	Вопрос: \textcolor{blue}{как найти невырожденные $\bfD_1$, $\bfD_2$ такие, что $D_1 \star D_2 = (1, \ldots, 1)^\rmT$?}
+	
+	Anatoly Zhigljavsky, 2015: $D_1$ и $D_2$ могут состоять только из нулей и единиц $\Rightarrow$ \textcolor{red}{таких невырожденных $D_1$ и $D_2$ не существует,} значит, невозможно найти эквивалентную матричную задачу.
+	
+	\vspace{0.4cm}
+	Пример: $N = 12$, $L = 4$, $K = 9$. $\bfD_1 = \text{diag}(1, 1, 1, 1)$, 
+	$\bfD_2 = \text{diag}(1, 0, 0, 0, 1, 0, 0, 0, 1)$.
+\end{frame}
+
+\begin{frame}
+	\frametitle{Поиск весов}
+	\begin{equation*}
+	Q = D_1 \star D_2.
+	\end{equation*}
+	
+	\textcolor{blue}{Идея:} потерять точность равенства, но избавиться от вырожденности. 
+	
+	Зафиксируем $\bfD_1$ --- единичная матрица. Аппроксимация требуемых единичных весов: зафиксируем параметр $0 < \alpha < 1$, минимизация по диагональной положительно определённой $\bfD_2$:
+	\begin{equation*}
+	\|D_1 \star D_2 - (1, \ldots, 1)^\rmT\|_\cdot \to \min_{\cond \bfD_2 \le \frac{1}{\alpha}}
+	\end{equation*}
+	
+	\vspace{0.2cm}
+	Condition number (число обусловленности) $\cond \bfD = \|D\| \|D\|^{-1} = $ $\frac{\max_i d_i}{\min_i d_i}$, если $\bfD = \text{diag}(d_1, \ldots, d_N)$.
+\end{frame}
+
+\begin{frame}
+	\frametitle{План}
+	\begin{equation}\label{plan_approx}
+	\|D_1 \star D_2 - (1, \ldots, 1)^\rmT\|_\cdot \to \min_{\cond \bfD_2 \le \frac{1}{\alpha}}
+	\end{equation}
+	
+	\begin{enumerate}
+		\item Как решить задачу \eqref{plan_approx}?
+		Если $\|\cdot\|_\cdot = \|\cdot\|_1$ или $\|\cdot\|_\infty$ --- сводится к задаче линейного программирования
+		
+		$\|\cdot\|_\cdot = \|\cdot\|_2$ --- квадратичное программирование, есть очень быстрое решение при $L \approx N/2$ (``Active set'' метод, оптимальный выбор начальной точки)
+		\pause
+		\item Как решить задачу \eqref{plan_approx}, если не фиксировать $\bfD_1$?
+		
+		Открытый вопрос: невыпуклая целевая функция (приближенное решение --- эвристика), неясные ограничения.
+		\pause
+		\item Какой выигрыш дают примерно единичные веса?
+	\end{enumerate}
+	
+\end{frame}
+
+\section{Численные эксперименты}
+\begin{frame}
+	\frametitle{Сравнение (зависимость RMSE от числа итераций)}
+	Задача оценки сигнала: $N = 40$, $L = 20$, $r = 2$, $\tsX = (x_{1}, \ldots, x_N),$  $x_k = 5\sin{\frac{2 k \pi}{6}} + \varepsilon_k$; $\varepsilon_k$, $k = 1, \ldots N$, --- гауссовский белый шум, $\tsE \varepsilon_k = 0$, $\tsD \varepsilon_k = 1$, 1000 реализаций.
+	
+	\vspace{-1cm}
+	\begin{center}
+		\includegraphics*[width = 10cm]{threealphas.pdf}
+	\end{center}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Сравнение по трудоемкости}
+	Задача оценки сигнала: $N = 40$, $L = 20$, $r = 2$, $\tsX = (x_{1}, \ldots, x_N),$  $x_k = 5\sin{\frac{2 k \pi}{6}} + \varepsilon_k$.
+	
+	Критерий остановки: $\frac{\|\calT^{-1}(\bfY_k) - \calT^{-1}(\bfY_{k + 1})\|^2}{N} < 10^{-8}$
+	\vspace{-0.4cm}
+	\begin{center}
+		\includegraphics*[width = 9cm]{2axis.pdf}
+	\end{center}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Чередование проекций при различном параметре $\alpha$}
+	\vspace{-0.2cm}
+	\textcolor{blue}{Идея:} совместить малые и большие $\alpha$, чтобы получить и быструю, и точную оценку.
+	
+	Целевая функция имеет большое число ``локальных минимумов''.
+	
+	\vspace{0.2cm} При большом $\alpha$ ($\alpha = 1$): быстрая сходимость, но далеко от оптимальной окрестности
+	
+	\vspace{0.2cm} При малом $\alpha$: медленная сходимость, но близко к оптимальной окрестности
+    \begin{center}
+		\includegraphics*[width = 7.5cm]{optim.pdf} 
+    \end{center}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Сравнение (RMSE при чередовании $\alpha$)}
+	Задача оценки сигнала: $N = 40$, $L = 20$, $r = 2$, $\tsX = (x_{1}, \ldots, x_N),$  $x_k = 5\sin{\frac{2 k \pi}{6}} + \varepsilon_k$; $\varepsilon_k$, $k = 1, \ldots N$, --- гауссовский белый шум, $\tsE \varepsilon_k = 0$, $\tsD \varepsilon_k = 1$, 1000 реализаций.
+	
+	\vspace{-1cm}
+	\begin{center}
+		\includegraphics*[width = 10cm]{various.pdf}
+	\end{center}
+\end{frame}
+
+\section{Итоги}
+
+\begin{frame}
+	\frametitle{Планы на будущее}
+	\begin{itemize}
+		\item Теоретически установить соотношение между скоростью сходимости и разделимостью
+		\item Оценить разделимость теоретически через $\cond \bfD_2$ в общем случае
+		
+		(разделимость $\leftrightarrow$ $\alpha$: есть результат для весов определённого вида при $N \vdots L$ (Zvonarev, 2015))
+		\item Использование двусторонних весов (без фиксирования $\bfD_1$).
+		
+		Включает в себя два предыдущих вопроса
+		\item Использование недиагональных $\bfD_1$ и $\bfD_2$ (например, для красного шума)
+	\end{itemize}
+	
+\end{frame}
+
+\bibliographystyle{plain}
+
+\end{document}
