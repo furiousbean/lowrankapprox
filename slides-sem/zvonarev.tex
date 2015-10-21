@@ -36,7 +36,7 @@
 
 \input{letters}
 
-\title[Аппроксимация рядами конечного ранга]{Аппроксимация временных рядов рядами конечного ранга}
+\title[Структурные аппроксимации временных рядов]{Структурные аппроксимации временных рядов}
 
 \author[Звонарев Никита]{Звонарев Никита}
 \institute[СПбГУ]{Санкт-Петербургский государственный университет \\
@@ -102,8 +102,6 @@
 	\begin{equation*}
 	s_n = \sum_i P_i(n) \exp(\alpha_i n) \cos(2 \pi \omega_i n + \psi_i).
 	\end{equation*}
-	
-	Параметрический подход не работает из-за неустойчивости
 	
 \end{frame}
 
@@ -184,9 +182,11 @@
 	\bfY_k = (\Pi_\calH \circ \Pi_{\calM_r})^k (\bfX),
 	\end{equation*}
 	$\Pi_\calH$ --- проектор на ганкелевы матрицы, $\Pi_{\calM_r}$ --- проектор на матрицы ранга $\le r$, $k$ --- число итераций.
-			
-
-	$k = 1$ --- метод SSA (Singular Spectrum Analysis, ссылки). Не дает оценку из $\calM_r \cap \calH$.
+	
+	\begin{itemize}
+		\item $k = \infty$ --- SLRA: Structured Low-Rank Approximation (Markovsky, 2012)
+		\item $k = 1$ --- метод SSA: Singular Spectrum Analysis (Elsner \& Tsonis, 1996; Golyandina et al., 2001). Не дает оценку из $\calM_r \cap \calH$.
+	\end{itemize}
 	
 	\vspace{0.4cm}\pause		
 	Что известно про Cadzow?
@@ -208,6 +208,20 @@
 			\item Существует сходящаяся подпоследовательность точек $\bfY_{i_1}, \bfY_{i_2}, \ldots$ такая, что ее предел $\bfY^*$  лежит в $\calM_r \cap \calH$.
 		\end{enumerate}
 	\end{theorem}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Спектр решаемых задач}
+	\begin{itemize}
+		\item Оценка сигнала
+		\item Оценка параметров сигнала
+		\item Прогнозирование
+		\item Заполнение пропусков
+	\end{itemize}
+	\vspace{0.4cm}
+	\textcolor{blue}{Для этого не обязательно иметь оценку из $\calM_r \cap \calH$}
+	
+	Все задачи решаются в том числе с помощью оценок, полученных по SSA (одной итерации Cadzow)
 \end{frame}
 
 \section{Выбор норм, соответствие между весами}
@@ -238,10 +252,10 @@ N - i + 1 & \text{для $i = K + 1, \ldots, N$}
 	$\|\tsX\|_q^2 = \sum_{i = 1}^N q_i x_i^2$, все $q_i \ge 0$. \textit{Но как аппроксимировать по }$\|\tsX\|_q$?
 	
 	\vspace{0.4cm}
-	Решение: подобрать эквивалентную матричную норму
+	Решение: подобрать эквивалентную матричную норму (Zhigljavsky, 2014)
 	
 	\begin{enumerate}
-		\item $\|\bfX\|^2_{\bfD_1, \bfD_2} = \text{tr}(\bfD_1 \bfX \bfD_2 \bfX^\rmT)$, $\bfD_1 \in \sfR^{L \times L}$, $\bfD_2 \in \sfR^{K \times K}$ --- симметричные, неотрицательно определённые матрицы (+ диагональные в нашем случае) (Zhigljavsky, 2014)
+		\item $\|\bfX\|^2_{\bfD_1, \bfD_2} = \text{tr}(\bfD_1 \bfX \bfD_2 \bfX^\rmT)$, $\bfD_1 \in \sfR^{L \times L}$, $\bfD_2 \in \sfR^{K \times K}$ --- симметричные, неотрицательно определённые матрицы (+ диагональные в нашем случае)
 		\item Частный случай предыдущего пункта: $\bfD_1$, $\bfD_2$ --- единичные матрицы (Фробениусовская норма $\|\bfX\|_F$)
 
 	\end{enumerate}
@@ -313,15 +327,15 @@ N - i + 1 & \text{для $i = K + 1, \ldots, N$}
 	Q = D_1 \star D_2.
 	\end{equation*}
 	
-	\textcolor{blue}{Идея:} потерять точность равенства, но избавиться от вырожденности. 
+	\textcolor{blue}{Идея:} получить приближённо равные веса, но избавиться от вырожденности. 
 	
-	Зафиксируем $\bfD_1$ --- единичная матрица. Аппроксимация требуемых единичных весов: зафиксируем параметр $0 < \alpha < 1$, минимизация по диагональной положительно определённой $\bfD_2$:
+	Пусть $\bfD_1$ --- единичная матрица. Аппроксимация требуемых единичных весов: зафиксируем параметр $0 < \alpha < 1$, минимизация по диагональной положительно определённой $\bfD_2$:
 	\begin{equation*}
-	\|D_1 \star D_2 - (1, \ldots, 1)^\rmT\|_\cdot \to \min_{\cond \bfD_2 \le \frac{1}{\alpha}}
+	\|D_1 \star D_2 - (1, \ldots, 1)^\rmT\|_. \to \min_{\cond \bfD_2 \le \frac{1}{\alpha}}
 	\end{equation*}
 	
 	\vspace{0.2cm}
-	Condition number (число обусловленности) $\cond \bfD = \|D\| \|D\|^{-1} = $ $\frac{\max_i d_i}{\min_i d_i}$, если $\bfD = \text{diag}(d_1, \ldots, d_N)$.
+	Condition number (число обусловленности) $\cond \bfD = \|D\| \|D\|^{-1} = $ $\frac{\max_i d_i}{\min_i d_i}$, если $\bfD = \text{diag}(d_1, \ldots, d_K)$.
 \end{frame}
 
 \begin{frame}
@@ -332,9 +346,14 @@ N - i + 1 & \text{для $i = K + 1, \ldots, N$}
 	
 	\begin{enumerate}
 		\item Как решить задачу \eqref{plan_approx}?
+		\begin{itemize}
+			\item
 		Если $\|\cdot\|_\cdot = \|\cdot\|_1$ или $\|\cdot\|_\infty$ --- сводится к задаче линейного программирования
+		\item
+		$\|\cdot\|_\cdot = \|\cdot\|_2$ --- квадратичное программирование, есть очень быстрое решение при $L \approx N/2$ (``Active set'' метод, оптимальный выбор начальной точки)		
+		\end{itemize}
+
 		
-		$\|\cdot\|_\cdot = \|\cdot\|_2$ --- квадратичное программирование, есть очень быстрое решение при $L \approx N/2$ (``Active set'' метод, оптимальный выбор начальной точки)
 		\pause
 		\item Как решить задачу \eqref{plan_approx}, если не фиксировать $\bfD_1$?
 		
@@ -407,6 +426,18 @@ N - i + 1 & \text{для $i = K + 1, \ldots, N$}
 		\item Использование недиагональных $\bfD_1$ и $\bfD_2$ (например, для красного шума)
 	\end{itemize}
 	
+\end{frame}
+
+\section{Бонус}
+
+\begin{frame}
+	\frametitle{Сравнение (SD периода при чередовании $\alpha$)}
+	Задача оценки периода сигнала: $N = 40$, $L = 20$, $r = 2$, $\tsX = (x_{1}, \ldots, x_N),$  $x_k = 5\sin{\frac{2 k \pi}{6}} + \varepsilon_k$; $\varepsilon_k$, $k = 1, \ldots N$, --- гауссовский белый шум, $\tsE \varepsilon_k = 0$, $\tsD \varepsilon_k = 1$, 1000 реализаций.
+	
+	\vspace{-1cm}
+	\begin{center}
+		\includegraphics*[width = 10cm]{esprit.pdf}
+	\end{center}
 \end{frame}
 
 \bibliographystyle{plain}
