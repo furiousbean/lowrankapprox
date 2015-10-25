@@ -16,6 +16,7 @@
 \usepackage[utf8x]{inputenc}
 \usepackage[russian]{babel}
 \usepackage{amsmath,amssymb,amsthm,amscd,amsfonts}
+\usepackage{appendixnumberbeamer}
 \usepackage{mathdots}
 
 
@@ -331,7 +332,7 @@ N - i + 1 & \text{для $i = K + 1, \ldots, N$}
 	
 	Пусть $\bfD_1$ --- единичная матрица. Аппроксимация требуемых единичных весов: зафиксируем параметр $0 < \alpha < 1$, минимизация по диагональной положительно определённой $\bfD_2$:
 	\begin{equation*}
-	\|D_1 \star D_2 - (1, \ldots, 1)^\rmT\|_. \to \min_{\cond \bfD_2 \le \frac{1}{\alpha}}
+	\|D_1 \star D_2 - (1, \ldots, 1)^\rmT\| \to \min_{\cond \bfD_2 \le \frac{1}{\alpha}}
 	\end{equation*}
 	
 	\vspace{0.2cm}
@@ -341,27 +342,47 @@ N - i + 1 & \text{для $i = K + 1, \ldots, N$}
 \begin{frame}
 	\frametitle{План}
 	\begin{equation}\label{plan_approx}
-	\|D_1 \star D_2 - (1, \ldots, 1)^\rmT\|_\cdot \to \min_{\cond \bfD_2 \le \frac{1}{\alpha}}
+	\|D_1 \star D_2 - (1, \ldots, 1)^\rmT\| \to \min_{\cond \bfD_2 \le \frac{1}{\alpha}}
 	\end{equation}
 	
 	\begin{enumerate}
 		\item Как решить задачу \eqref{plan_approx}?
 		\begin{itemize}
 			\item
-		Если $\|\cdot\|_\cdot = \|\cdot\|_1$ или $\|\cdot\|_\infty$ --- сводится к задаче линейного программирования
-		\item
-		$\|\cdot\|_\cdot = \|\cdot\|_2$ --- квадратичное программирование, есть очень быстрое решение при $L \approx N/2$ (``Active set'' метод, оптимальный выбор начальной точки)		
+		Если $\|\cdot\| = \|\cdot\|_1$ или $\|\cdot\|_\infty$ --- сводится к задаче линейного программирования
+		\item \pause
+		$\|\cdot\| = \|\cdot\|_2$ --- квадратичное программирование	
 		\end{itemize}
 
 		
 		\pause
 		\item Как решить задачу \eqref{plan_approx}, если не фиксировать $\bfD_1$?
 		
-		Открытый вопрос: невыпуклая целевая функция (приближенное решение --- эвристика), неясные ограничения.
 		\pause
+		Открытый вопрос: невыпуклая целевая функция (приближенное решение --- эвристика), неясные ограничения.
 		\item Какой выигрыш дают примерно единичные веса?
 	\end{enumerate}
 	
+\end{frame}
+
+\begin{frame}
+	\frametitle{Задача квадратичного программирования}
+	\vspace{-0.4cm}
+	\begin{equation*}
+	\|D_1 \star D_2 - (1, \ldots, 1)^\rmT\|_2 \to \min_{\cond \bfD_2 \le \frac{1}{\alpha}}
+	\end{equation*}
+	\begin{itemize}
+		%\item Неотрицательно определённая квадр. форма в целевой функции после введения вспомогательной переменной $\Longrightarrow$ эквивалентная задача с положительно определённой формой (фиксируем точку с максимальным весом)
+		\item Решается эквивалентная задача (фикс. индекс макс. веса)
+		\item ``Primary Active Set'' метод решения задачи квадратичного программирования (используются особенности)
+		\item Оптимальный выбор начальных весов
+
+	\vspace{-0.3cm}
+	    \begin{center}
+		    \includegraphics*[width = 7cm]{qpsp.pdf}
+    	\end{center}		
+		При $L \approx N/2$ решение часто угадывается
+	\end{itemize}
 \end{frame}
 
 \section{Численные эксперименты}
@@ -427,7 +448,7 @@ N - i + 1 & \text{для $i = K + 1, \ldots, N$}
 	\end{itemize}
 	
 \end{frame}
-
+\appendix
 \section{Бонус}
 
 \begin{frame}
