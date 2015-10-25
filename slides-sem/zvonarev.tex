@@ -44,8 +44,9 @@
     Кафедра статистического моделирования
 }
 \date{
+	Семинар кафедры статистического моделирования\\
     Санкт-Петербург\\
-    2015г.
+    27 октября 2015г.
 }
 
 \subject{Beamer}
@@ -124,7 +125,7 @@
 	\end{pmatrix}.
 	\end{equation*}
 	
-	Заметим, что $\bfS$ --- ганкелева (\textit{structured}, $\bfS \in \calH$) и \\ $\rank \bfS = r$ (\textit{low-rank}, $\bfS \in \calM_r$). 
+	Заметим, что $\bfS$ --- ганкелева (\textcolor{blue}{structured}, $\bfS \in \calH$) и \\ $\rank \bfS = r$ (\textcolor{blue}{low-rank}, $\bfS \in \calM_r$). 
 	
 	$\tsX = \tsS + \tsN$, $\bfX = \calT(\tsX) = \bfS + \bfN$
 	
@@ -223,6 +224,8 @@
 	\textcolor{blue}{Для этого не обязательно иметь оценку из $\calM_r \cap \calH$}
 	
 	Все задачи решаются в том числе с помощью оценок, полученных по SSA (одной итерации Cadzow)
+	
+	Но, возможно, оценка из $\calM_r \cap \calH$ улучшит точность
 \end{frame}
 
 \section{Выбор норм, соответствие между весами}
@@ -252,16 +255,18 @@ N - i + 1 & \text{для $i = K + 1, \ldots, N$}
 	Ряды:
 	$\|\tsX\|_q^2 = \sum_{i = 1}^N q_i x_i^2$, все $q_i \ge 0$. \textit{Но как аппроксимировать по }$\|\tsX\|_q$?
 	
-	\vspace{0.4cm}
+	\vspace{0.2cm}
 	Решение: подобрать эквивалентную матричную норму (Zhigljavsky, 2014)
 	
 	\begin{enumerate}
 		\item $\|\bfX\|^2_{\bfD_1, \bfD_2} = \text{tr}(\bfD_1 \bfX \bfD_2 \bfX^\rmT)$, $\bfD_1 \in \sfR^{L \times L}$, $\bfD_2 \in \sfR^{K \times K}$ --- симметричные, неотрицательно определённые матрицы (+ диагональные в нашем случае)
+		
+        $\bfD_1 = \text{diag}(d_{1, 1}, \ldots, d_{1, L})$, $\bfD_2 = \text{diag}(d_{2, 1}, \ldots, d_{2, K})$ $\Longrightarrow$ $\|\bfX\|_{\bfD_1, \bfD_2}^2 = \sum_{i = 1}^L \sum_{j = 1}^K d_{1, i} d_{2, j} x_{i, j}^2$	.
 		\item Частный случай предыдущего пункта: $\bfD_1$, $\bfD_2$ --- единичные матрицы (Фробениусовская норма $\|\bfX\|_F$)
 
 	\end{enumerate}
 	
-	\vspace{0.4cm}
+	\vspace{0.2cm}
 	Проблемы:
 	\begin{enumerate}
 		\item Как вычислить $\Pi_\calH$, $\Pi_{\calM_r}$ по нужной норме?
@@ -273,8 +278,10 @@ N - i + 1 & \text{для $i = K + 1, \ldots, N$}
 	\frametitle{Проекторы $\Pi_{\calM_r}$ и $\Pi_{\calH}$}
 	
 	$\Pi_{\calM_r}$: через косоугольное SVD-разложение $\bfX$. Сводится к стандартному SVD-разложению матрицы $\bfO_1 \bfX \bfO_2^\rmT$, $\bfO_i^\rmT \bfO_i = \bfD_i$, $i = 1, 2.$
-		
-	\vspace{0.6cm}
+	
+	$\bfD_1 = \text{diag}(d_{1, 1}, \ldots, d_{1, L})$, $\bfD_2 = \text{diag}(d_{2, 1}, \ldots, d_{2, K})$ $\Longrightarrow$ $\bfO_1 = \text{diag}(\sqrt{d_{1, 1}}, \ldots, \sqrt{d_{1, L}})$, $\bfO_2 = \text{diag}(\sqrt{d_{2, 1}}, \ldots, \sqrt{d_{2, K}})$
+	
+	\vspace{0.4cm}
 	$\Pi_{\calH}$: через взвешенное диагональное усреднение
 	\begin{equation*}
 	\bfX = \Pi_{\calH}(\bfY), \quad x_{l,k} = \frac{\sum_{i,j:\, i+j=l+k} d_{1, i} d_{2, j} y_{i,j}}{\sum_{i,j:\, i+j=l+k} d_{1, i} d_{2, j}}.
@@ -328,7 +335,7 @@ N - i + 1 & \text{для $i = K + 1, \ldots, N$}
 	Q = D_1 \star D_2.
 	\end{equation*}
 	
-	\textcolor{blue}{Идея:} получить приближённо равные веса, но избавиться от вырожденности. 
+	\textcolor{blue}{Идея:} получить приближённо равные веса, но избавиться от вырожденности (Zvonarev, 2016). 
 	
 	Пусть $\bfD_1$ --- единичная матрица. Аппроксимация требуемых единичных весов: зафиксируем параметр $0 < \alpha < 1$, минимизация по диагональной положительно определённой $\bfD_2$:
 	\begin{equation*}
@@ -371,13 +378,17 @@ N - i + 1 & \text{для $i = K + 1, \ldots, N$}
 	\begin{equation*}
 	\|D_1 \star D_2 - (1, \ldots, 1)^\rmT\|_2 \to \min_{\cond \bfD_2 \le \frac{1}{\alpha}}
 	\end{equation*}
+	\vspace{-0.2cm}
 	\begin{itemize}
-		%\item Неотрицательно определённая квадр. форма в целевой функции после введения вспомогательной переменной $\Longrightarrow$ эквивалентная задача с положительно определённой формой (фиксируем точку с максимальным весом)
-		\item Решается эквивалентная задача (фикс. индекс макс. веса)
-		\item ``Primary Active Set'' метод решения задачи квадратичного программирования (используются особенности)
-		\item Оптимальный выбор начальных весов
+		\item Решается эквивалентная задача:
+		$f_j \to \min_{j = 1, \ldots, K}$, 
+		\begin{equation*}
+	    f_j = \|D_1 \star D_2 - (1, \ldots, 1)^\rmT\|_2 \to \min_{\cond \bfD_2 \le \frac{1}{\alpha}, \; \arg \max_i d_{2, i} = j}.
+		\end{equation*}
+		\item ``Primary Active Set'' метод решения
+		\item Эвристика: выбор начальных весов
 
-	\vspace{-0.3cm}
+	\vspace{-0.18cm}
 	    \begin{center}
 		    \includegraphics*[width = 7cm]{qpsp.pdf}
     	\end{center}		
@@ -450,6 +461,24 @@ N - i + 1 & \text{для $i = K + 1, \ldots, N$}
 \end{frame}
 \appendix
 \section{Бонус}
+
+\begin{frame}
+	\frametitle{Метод ESPRIT}
+	Задача: оценить $\{\mu_i\}$ в модели $x_n = \sum_{i = 1}^{r} C_i \mu_i^n + \varepsilon_n$.
+	
+	Метод Cadzow: $\bfY_k = (\Pi_\calH \circ \Pi_{\calM_r})^k (\bfX)$.
+	
+	$\calT^{-1} (\bfY_{k})$ --- оценка сигнала на $k$-й итерации, $\bfY_{k} = \sum_{i = 1}^{d} \sqrt{\lambda_{k, i}} U_{k, i} V_{k, i}^T$, $\Pi_{\calM_r} \bfY_{k} = \sum_{i = 1}^{r} \sqrt{\lambda_{k, i}} U_{k, i} V_{k, i}^T$.
+	
+	Оценка сигнального подпространства на $k$-й итерации: $\{U_{k, 1}, \ldots, U_{k, r}\}$. Пусть $\bfU_k = [U_{k, 1}, \ldots, U_{k, r}]$. $\overline{U}_{k, r}$ и $\underline{U}_{k, r}$ --- без первой и последней строчки.
+	
+	\vspace{0.2cm}
+	Для $k = \infty$ выполняется $\underline{U}_{\infty, r} \bfE = \overline{U}_{\infty, r}$, где собственные числа $\bfE$ --- оценки $\mu_1, \ldots, \mu_r$.
+	
+	\vspace{0.2cm}
+	\textcolor{blue}{LS-ESPRIT}:  $\underline{U}_{k, r} \bfE \approx \overline{U}_{k, r}$, $\bfE = \underline{U}_{k, r}^\dagger \overline{U}_{k, r}$.
+\end{frame}
+
 
 \begin{frame}
 	\frametitle{Сравнение (SD периода при чередовании $\alpha$)}
