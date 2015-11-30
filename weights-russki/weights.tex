@@ -1,8 +1,6 @@
+\documentclass[10pt]{article}
 
-\documentclass[12pt,a4paper]{article}
-\usepackage[a4paper,
-mag=1000, includefoot,
-left=3cm, right=1.5cm, top=2cm, bottom=2cm, headsep=1cm, footskip=1cm]{geometry}
+\usepackage[text={14cm,20cm}]{geometry}
 \usepackage{mathtext}
 \usepackage{amsmath,amssymb,amsthm,amscd,amsfonts}
 
@@ -10,6 +8,8 @@ left=3cm, right=1.5cm, top=2cm, bottom=2cm, headsep=1cm, footskip=1cm]{geometry}
 \usepackage{cmap}
 \usepackage[T2A]{fontenc}
 \usepackage[russian]{babel}
+\usepackage{lmodern}
+
 
 \usepackage{euscript}
 \usepackage{relsize}
@@ -195,15 +195,11 @@ X^\star = \overline \bfA (\overline \bfA^\rmT \bfS \overline \bfA)^{-1} \overlin
 
 Эвристика заключается в том, чтобы для точек $1$, $2, \ldots, j-1$, $j + 1, \ldots, \ldots, \lceil K/2\rceil$ назначить первым $0 \le t \le \lceil K/2\rceil - 1$ максимальный вес, а оставшимся --- минимальный, после чего решить соответствующую задачу \eqref{eq:subtask} с $V = L_K$.  Графически, используя терминологию раздела \ref{subsect:graphprog}, такие ограничения можно изобразить следующим образом (на графе изображен случай $j = 1$, положение вершин соответствует реальному решению задачи, рёбра чёрного цвета соответствуют ограничениям вида \eqref{eq:positw_symm}, красного ---  \eqref{eq:positw_max}, синего --- \eqref{eq:positw_min}, ребра на рисунке ориентированы согласно порядку обхода графа из первой вершины):
 
-\tikzset{
-  equal/.style   = { ultra thick, blue },
-  max/.style = { dashed, red }
-}
 
 \begin{tikzpicture}
     \node[shape=circle,draw=black] (A) at (0,3) {1};
-    \node[shape=circle,draw=black] (B) at (1.5,3) {2};
-    \node[shape=circle,draw=black] (C) at (3, 3) {\ldots};
+    \node[shape=circle,draw=black] (B) at (1.4,3) {2};
+    \node[shape=circle,draw=black] (C) at (2.8, 3) {\ldots};
     \node[shape=circle,draw=black] (D) at (4.5,3) {$t + 1$};
     \node[shape=circle,draw=black] (E) at (5.7, 0) {$t + 2$};
     \node[shape=circle,draw=black] (F) at (7.4,0) {\ldots} ;
