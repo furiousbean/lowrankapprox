@@ -1,0 +1,543 @@
+\RequirePackage[reqno]{amsmath}
+\documentclass[10pt]{amsart}
+
+
+\usepackage[text={14cm,20cm}]{geometry}
+%\usepackage{mathtext}
+\usepackage{amsmath,amssymb,amsthm,amscd,amsfonts}
+
+\usepackage[cp1251]{inputenc}
+%\usepackage{cmap}
+\usepackage[T2A]{fontenc}
+\usepackage[russian]{babel}
+%\usepackage{lmodern}
+
+
+\usepackage{euscript}
+\usepackage{relsize}
+\usepackage{mathdots}
+\usepackage{graphicx}
+%\usepackage{epstopdf}
+%\usepackage{caption2}
+\usepackage{indentfirst}
+%\usepackage{fancyhdr}
+%\usepackage{sectsty}
+%\usepackage{titlesec}
+% \usepackage{bbold}
+%\usepackage{tikz}
+%\usetikzlibrary{arrows.meta}
+\usepackage{empheq}
+
+\newcommand*\widefbox[1]{\fbox{\hspace{2em}#1\hspace{2em}}}
+
+\usepackage[colorlinks, urlcolor=blue, pdfborder={0 0 0 [0 0]}]{hyperref}
+
+\hyphenation{Struc-tu-red}
+\hyphenation{Ran-do-mized}
+\hyphenation{Ma-xi-mi-za-tion}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator{\tr}{tr}
+\providecommand*{\BibDash}{}
+
+\def\rank{\mathop{\mathrm{rank}}}
+\DeclareSymbolFont{bbold}{U}{bbold}{m}{n}
+\DeclareSymbolFontAlphabet{\mathbbold}{bbold}
+
+\newtheorem{corollary}{Следствие}
+\newtheorem{proposition}{Предложение}
+\newtheorem{algorithm}{Алгоритм}
+\newtheorem{theorem}{Теорема}
+\newtheorem{lemma}{Лемма}
+\newtheorem{remark}{Замечание}
+\newtheorem{problem}{Задача}
+
+\usepackage{euscript}
+
+\newcommand{\diag}{\mathop{\mathrm{diag}}}
+
+\newcommand{\bfA}{\mathbf{A}}
+\newcommand{\bfB}{\mathbf{B}}
+\newcommand{\bfC}{\mathbf{C}}
+\newcommand{\bfG}{\mathbf{G}}
+\newcommand{\bfH}{\mathbf{H}}
+\newcommand{\bfS}{\mathbf{S}}
+\newcommand{\bfX}{\mathbf{X}}
+\newcommand{\bfY}{\mathbf{Y}}
+\newcommand{\bfZ}{\mathbf{Z}}
+
+\newcommand{\tsS}{\mathbb{S}}
+\newcommand{\tsX}{\mathbb{X}}
+\newcommand{\tsN}{\mathbb{N}}
+\newcommand{\tsY}{\mathbb{Y}}
+\newcommand{\tsZ}{\mathbb{Z}}
+
+\newcommand{\sfP}{\mathsf{P}}
+\newcommand{\sfW}{\mathsf{W}}
+\newcommand{\sfX}{\mathsf{X}}
+\newcommand{\sfY}{\mathsf{Y}}
+\newcommand{\sfZ}{\mathsf{Z}}
+
+\newcommand{\sfR}{\mathsf{R}}
+
+\newcommand{\calC}{\mathcal{C}}
+\newcommand{\calT}{\mathcal{T}}
+\newcommand{\calH}{\mathcal{H}}
+
+\newcommand{\rmT}{\mathrm{T}}
+
+%\sectionfont{\centering}
+
+%\subsectionfont{\centering}
+%\subsubsectionfont{\normalsize}
+%\setcounter{page}{1}
+
+
+\author{Н.К.~Звонарев}
+\title{О поиске весов в задаче взвешенной аппроксимации рядом конечного ранга}
+\address{Санкт-Петербургский государственный университет,\\
+	Российская Федерация, 199034, Санкт-Петербург, Университетская наб., 7/9}
+\email{nikitazvonarev@gmail.com}
+\begin{document}
+\maketitle
+
+\begin{center}
+	УДК 519.246.8+519.853.32
+\end{center}
+
+{\footnotesize
+	
+	Представлен новый подход к поиску весов, которые приводят к улучшению точности в задаче взвешенной аппроксимации рядом конечного ранга. Для построения численного метода поиска весов использована теория квадратичной оптимизации. Задача поиска весов сформулирована в нескольких эквивалентных формулировках, каждая из которых используется при построении эффективного и применимого на практике алгоритма.
+	
+\emph{Ключевые слова:} \ Временные ряды, метод Cadzow, ряды конечного ранга, взвешенный метод наименьших квадратов, косоугольное SVD-разложение, квадратичное программирование
+	}
+
+\section*{Введение}
+Рассмотрим задачу извлечения сигнала $\tsS~=~(s_1, \ldots, s_N)$ из зашумлённого временного ряда $\tsX = \tsS + \tsN$, где $\tsS$ управляется \emph{линейной рекуррентной формулой} (ЛРФ) порядка $r$: $s_n = \sum_{i = 1}^{r} a_i s_{n-i}$, $n = r + 1, \ldots, N$, $a_r\neq 0$. Ряды, управляемые ЛРФ, могут быть записаны в параметрическом виде $s_n = \sum_i P_i(n) \exp(\alpha_i n) \cos(2 \pi \omega_i n + \psi_i)$, где $P_i(n)$ --- многочлены от $n$  \cite{Golyandina.etal2001}.
+
+Известно \cite{Broomhead.King1986, Vautard.etal1992, Elsner.Tsonis1996, Golyandina.etal2001}, что для выделения такого рода сигналов хорошо работают методы, основанные на оценке сигнального подпространства (subspace-based methods). Идея методов состоит в следующем: зафиксируем \emph{длину окна} $L$, $1 < L < N$, положим $K = N - L + 1$, и определим \emph{траекторную матрицу} для ряда $\tsS \in \sfX_N$ ($\sfX_N$ --- множество вещественных временных рядов длины $N$):
+\begin{equation*}
+\bfS = \calT_L(\tsS) =  \begin{pmatrix}
+s_1 & s_2 & \ldots & s_K \\
+s_2 & s_3 & \ldots & s_{K + 1} \\
+\vdots & \vdots & \vdots & \vdots \\
+s_L & s_{L + 1} & \ldots & s_N
+\end{pmatrix},
+\end{equation*}
+где $\calT_L$ обозначает биекцию между $\sfX_N$ и $\calH$, и $\calH$ --- множество ганкелевых матриц порядка $L \times K$ с одинаковыми значениями на побочных диагоналях $i+j=\mathrm{const}$.
+
+Скажем, что ряд $\tsS$, у которого траекторная матрица $\bfS$ имеет неполный ранг $r$, называется \emph{рядом L-ранга} $r$. Если $L$-ранг не зависит от $L$ при достаточно больших $N$ и $L$, то ряд называется \emph{рядом конечного ранга}. Рассмотрим задачу аппроксимации временного ряда рядом $L$-ранга по взвешенной норме \cite{Zvonarev2015, Gillard2014}:
+\begin{equation}\label{eq:sourcetask}
+\sum_{i = 1}^N q_i (x_i - y_i)^2 \to \min_{\tsY: \rank \bfY  = \calT_L(\tsY) \le r},
+\end{equation}
+где $\tsX = (x_1, \ldots, x_N) \in \sfX_N$ --- исходный временной ряд, $\tsY = (y_1, \ldots, y_N)$ --- требуемая аппроксимация, $\bfY = \calT(\tsY)$ --- соответствующая траекторная матрица, $q_i > 0$, $i = 1, \ldots, N,$ --- веса (в дальнейшем называемые ``весами ряда''). 
+%Отображение $\calT$ работает следующим образом: для $\calT(\tsX) = \bfX$ $\hat x_{l, k} = x_{l + k - 1}$, где $\tsX = (x_1, \ldots, x_N)$, $\bfX = (\hat x_{l, k})$. 
+Полученное решение $\tsY^\star$ задачи \eqref{eq:sourcetask} можно использовать как оценку сигнала $\tsS$ рядом конечного ранга. Более того, полученная оценка позволяет решить множество связанных задач: оценка коэффициентов ЛРФ и параметров ряда, прогнозирование ряда, заполнение пропусков и так далее, см. \cite{Golyandina.etal2001}.
+
+Обозначим соответствующее скалярное произведение в $\sfX_N$ как $\langle \tsX, \tsY \rangle_q = \sum_{i=1}^N q_i x_i y_i$.  Для решения задачи \eqref{eq:sourcetask} в \cite{Zvonarev2015} рассматривается эквивалентная задача структурной аппроксимации матрицей неполного ранга (Structured Low-Rank Approximation, SLRA):
+\begin{equation}\label{eq:slra}
+	\|\bfX - \bfY\|^2_\bfC \to \min_{\substack{\rank \bfY \le r \\ \bfY \in \calH}},
+\end{equation}
+где $\bfX = \calT(\tsX)$, а матричная норма $\|\cdot\|_\bfC$ ($\bfC$ --- диагональная, положительно определённая матрица) порождена следующим скалярным произведением:
+\begin{equation*}
+\langle \bfY, \bfZ \rangle_\bfC = \tr(\bfY \bfC \bfZ^\rmT) = \sum_{l=1}^L \sum_{k=1}^K c_k y_{l,k} z_{l, k},
+\end{equation*}
+где $\bfC = \diag(c_1, \ldots, c_K)$, $\bfY = (y_{l, k})$, $\bfZ = (z_{l, k})$. Между весами $q_i$ в задаче \eqref{eq:sourcetask} аппроксимации ряда и весами $c_i$ в задаче \eqref{eq:slra} (в дальнейшем называемые ``матричными весами'') существует соотношение, см. \cite[Proposition 4]{Zvonarev2015} для эквивалентности норм.
+
+Основная проблема в \cite{Zvonarev2015} состояла в том, чтобы найти веса $c_i$, соответствующие $q_i = 1$ и тем самым, решив задачу \eqref{eq:slra}, получить оценки ряда, являющиеся решением задачи невзвешенных наименьших квадратов в пространстве рядов. Однако, опять же согласно \cite[Lemma 1]{Zvonarev2015} и \cite{Gillard2014}, если это и возможно, то только при вырожденной матрице $\bfC$, что недопустимо при решении задачи методами типа Oblique Cadzow, см. \cite[Remark 4]{Zvonarev2015}. Следовательно, равномерностью весов ряда $q_i$ приходится жертвовать, и использовать матричные веса $c_i$ такие, чтобы $\bfC$ была невырожденной, а веса $q_i$ лишь близкими к равномерным.
+
+Цель статьи --- разработать эффективный алгоритм поиска весов при зафиксированной мере невырожденности матрицы $\bfC$. В качестве такой меры ограничим число обусловленности $\bfC$ снизу. Так же, как и в \cite{Zvonarev2015}, введём параметр $0 < \alpha \le 1$, и потребуем, чтобы все $c_i \ge 0$ и
+\begin{equation} \label{eq:ratiocond}
+\frac{\min_i c_i}{\max_i c_i} \ge \alpha,
+\end{equation}
+что эквивалентно тому, что $\text{Сond}(\bfC) \le 1/\alpha$, после чего поставим задачу аппроксимации единичных весов ряда по наиболее естественной эвклидовой норме. В этом и состоит ключевое отличие от предыдущего подхода, описанного в \cite[Proposition 5]{Zvonarev2015} и неприменимого в большинстве практических ситуаций: например, в \cite{Zvonarev2015} требуется, чтобы длина ряда $N$ была кратной длине окна $L$. Данная работа посвящена решению задачи в такой постановке, что требует применение теории экстремальных задач и квадратичного программирования (КП). Поэтому получение эффективного по скорости работы алгоритма поиска весов является нетривиальной задачей.
+
+В \cite[Section 5]{Zvonarev2015} показано, что чем равномернее веса ряда в задаче \eqref{eq:sourcetask}, тем точнее получается решение. Более того, как было показано в \cite{Zvonarev2015}, параметр $\alpha$ влияет на скорость сходимости метода Oblique Cadzow: чем больше $\text{Сond}(\bfC)$ (что равнозначно меньшему значению $\alpha$), тем медленнее сходится метод. В Разделе \ref{sect:numeric} показано, что эти соотношения выполняются и для весов, полученных новым методом.
+
+% \tableofcontents
+\section{Постановка задачи аппроксимации весов}
+Для удобства переформулируем предложение \cite[Proposition 4]{Zvonarev2015}, связывающее $c_i$ и $q_i$, в матричном виде. Для этого рассмотрим матрицу $\bfB = (b_{i, j})$ порядка $N \times K$, имеющую следующий вид:
+\begin{equation} \label{eq:tmatrix}
+b_{i, j} = \begin{cases}
+1, & \text{для} \; i = j, \ldots, j + L - 1, \\
+0, & \text{в противном случае}.
+\end{cases}
+\end{equation}
+Заметим, что матрица $\bfB$ полного ранга. Предложение выглядит следующим образом:
+\begin{proposition}
+	Пусть $\bfY = \calT(\tsY)$, $\bfZ = \calT(\tsZ)$, $Q = (q_1, \ldots, q_N)^\rmT$, $C = (c_1, \ldots, c_K)^\rmT$, $\bfC = \diag(C)$. Тогда $\langle \tsY, \tsZ \rangle_q = \langle \bfY, \bfZ \rangle_\bfC$ для любых $\tsY, \tsZ \in \sfX_n$ тогда и только тогда, когда $Q = \bfB C$.
+\end{proposition}
+
+В общем виде задачу аппроксимации весов cформулируем следующим образом:
+\begin{problem}\label{problem:commonw}
+\begin{subequations} 
+\begin{empheq}[box=\widefbox]{gather}
+%\begin{equation}
+	\label{eq:commonw}
+\varphi^\star = \min_{C \in \calC} \varphi(C), \quad \text{где} \quad \varphi(C) = \|\bfB C - \mathbbold{1}_N\|,\\
+\calC = \left\lbrace c_i \ge 0, \quad i = 1, \ldots, K, \quad \label{eq:commonw_cond}
+\frac{\min_i c_i}{\max_i c_i} \ge \alpha \right\rbrace, 
+\end{empheq}
+\end{subequations}
+где $\mathbbold{1}_N = (1, \ldots, 1)^\rmT \in \sfR^N$ --- требуемые веса ряда (вектор из $N$ единиц), $0 < \alpha \le 1$ --- параметр, регулирующий степень вырожденности матрицы $\bfC$, $\|\cdot\|$ --- эвклидова норма в $\sfR^N$.
+\end{problem}
+
+\section{Эквивалентные формулировки}
+Раскроем функцию $\varphi^2(C)/2$ из \eqref{eq:commonw}, избавимся от константного члена и перепишем множество $\calC$ из \eqref{eq:commonw_cond} в виде набора линейных ограничений. Получим следующую эквивалентную формулировку:
+\begin{problem} \label{problem:quadtf}
+\begin{subequations} 
+	\begin{empheq}[box=\widefbox]{gather}
+	\label{eq:quadtf}
+	f^{\star} = \min_{C \in \calC} f(C), \quad \text{где} \quad f(C) = \frac{1}{2} C^\rmT \bfS C - L_K^\rmT C, \\
+	C \in \calC, \quad \text{если} \; \label{eq:quadtf_cond}\begin{cases}
+	c_i - \alpha c_j \ge 0, & i \ne j \\
+	c_i \ge 0, & i = j
+	\end{cases}, \quad 1 \le i, j \le K,
+	\end{empheq}
+	\end{subequations}
+	где 	$\bfS = (s_{i, j}) = \bfB^\rmT \bfB$ --- положительно определённая матрица размера $K \times K$ с элементами:
+	\begin{equation} \label{eq:bfS}
+	s_{i,j} = \begin{cases}
+	L - |i - j|, & |i - j| \le L, \\
+	0, & \text{в противном случае},
+	\end{cases}
+	\end{equation}
+	а вектор $L_K = \bfB^\rmT \mathbbold{1}_N = (L, \ldots, L)^\rmT \in \sfR^K$.
+\end{problem}
+
+В таком виде задача становится пригодной для использования теории квадратичного программирования \cite{Gavurin1984}. Справедливо следующее:
+\begin{proposition}\label{prop:uniqsymm}
+\begin{enumerate}
+\item Задача \ref{problem:quadtf} имеет единственное решение $C^\star$.
+\item Её решение $C^{\star} = (c^\star_1, \ldots, c^\star_K)^\rmT$ является симметричным, то есть для любого индекса $1 \le i \le K$: $c^\star_i = c^\star_{K - i + 1}$.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+\begin{enumerate}
+\item Задача \ref{problem:quadtf} --- задача КП с набором из $K^2$ линейных ограничений \eqref{eq:quadtf_cond} и целевой функцией \eqref{eq:quadtf}, квадратичная форма в которой положительно определена, поэтому решение такой задачи единственно \cite{nocedal2006numerical}[p. 452].
+\item Достаточно рассмотреть вектор $C^{\star \star} = (c^\star_K, \ldots, c^\star_1)$ и заметить, что $f(C^\star) = f(C^{\star \star})$ и $C^{\star \star} \in \calC$ в \eqref{eq:quadtf_cond}; значит, $C^\star = C^{\star \star}$, что и требовалось доказать.
+\end{enumerate}
+\end{proof}
+Для решения задачи \ref{problem:quadtf} можно использовать методы квадратичного программирования, но, к сожалению, $K^2$ линейных ограничений являются серьёзной проблемой при решении задачи на практике. Рассмотрим ещё две эквивалентных формулировки, свойства которых используются при решении задачи.
+
+Сделаем дополнительное предположение: пусть в точке $j$ веса достигают своего максимума (тем самым, снизим число линейных ограничений до линейного по $K$ размера), а само $j$ будем перебирать в цикле от $1$ до $\lceil K/2\rceil$. При этом воспользуемся тем фактом, что решение симметрично. Формально, задача выглядит следующим образом:
+\begin{problem}\label{problem:positw}
+\begin{subequations} 
+\begin{empheq}[box=\widefbox]{gather}
+f^{\star \star} = \min_{j = 1,\ldots, \lceil K/2\rceil} f^\star_j, \label{eq:positw} \\ 
+f^\star_j = \min_{C \in \calC_j} f(C), \ \text{где} \ C \in \calC_j, \ \text{если} \label{eq:j_positw}\\
+c_i = c_{K - i + 1}, \; i = 1,\ldots, \lceil K/2\rceil, \label{eq:positw_symm}\\ 
+c_j \ge 0, \label{eq:positw_notnull}\\
+c_i - \alpha c_j \ge 0, \; i = 1,\ldots, j-1, j+1, \ldots, \lceil K/2\rceil, \label{eq:positw_min}\\
+c_j -  c_i \ge 0, \; i = 1,\ldots, j-1, j+1, \ldots, \lceil K/2\rceil \label{eq:positw_max}.
+\end{empheq}
+\end{subequations}
+\end{problem}
+% Таким образом, решение Задачи \ref{problem:positw} --- это ответ на одну из $\lceil K/2\rceil$ подзадач квадратичного программирования.
+
+Чтобы не перебирать все возможные $j$, удобно уметь проверять, даёт ли полученное на очередной итерации решение глобальный минимум. Для такой проверки рассмотрим ещё одну эквивалентную формулировку задачи \ref{problem:commonw}. Введём $c_\text{max}$ --- дополнительную переменную, хранящую максимальный вес, и перейдём к новым переменным $\hat c_i = c_\text{max} - c_i$, $i = 1, \ldots, K$ --- разница между максимальным среди всех и текущим весом, при этом $c_\text{max} \ge 0$, $\hat c_i \ge 0$. Между векторами $C = (c_1, \ldots, c_K)^\rmT$ и $\widehat C = (\hat c_1, \ldots, \hat c_K, c_\text{max})^\rmT$ существует простое линейное соответствие: $C = \bfH \widehat C$, где $\bfH \in \sfR^{K \times (K+1)}$ --- матрица следующего вида:
+\begin{equation} \label{eq:hmatrix}
+\bfH = \left(
+\begin{array}{cccc}
+-1 &  & 0 & 1 \\ 
+& \ddots &  & \vdots \\ 
+0 &  & -1 & 1
+\end{array} 
+\right).
+\end{equation}
+Условие \eqref{eq:ratiocond}, устанавливающее границу снизу для весов, в новых обозначениях записывается как $(1 - \alpha) c_\text{max} - \hat c_i \ge 0$, $i = 1, \ldots, K$.
+
+Получаем следующую задачу квадратичного программирования с линейными ограничениями, но с нестрого выпуклой целевой функцией:
+
+\begin{problem} \label{problem:nonnegatqw}
+\begin{subequations} 
+	\begin{empheq}[box=\widefbox]{gather}\label{eq:nonnegatqw}
+\hat f^\star = \min_{\widehat C \in \hat \calC} \hat f(\widehat C), \quad \text{где} \quad \hat f(\widehat C) = f(\bfH \widehat C) = \frac{1}{2} \widehat C^\rmT  \bfH^\rmT \bfS \bfH \widehat C - L_K^\rmT \bfH  \widehat C, \\
+\label{eq:nonnegatqw_cond}
+\hat \calC = \left\lbrace c_{\rm{max}} \ge 0, \quad \hat c_j \ge 0, \quad (1 - \alpha) c_{\rm{max}} - \hat c_j \ge 0, \quad j = 1, \ldots, K \right\rbrace.
+\end{empheq}
+\end{subequations}
+\end{problem}
+
+\begin{theorem} \label{th:eqivqw}
+	Задачи \ref{problem:commonw}, \ref{problem:quadtf}, \ref{problem:positw} и \ref{problem:nonnegatqw}  эквивалентны.
+\end{theorem}
+\begin{proof}
+	Требуется доказать, что $\varphi^\star \le f^\star \le f^{\star \star} \le \hat f^\star \le \varphi^\star$, и что по решению одной из задач можно построить решение любой другой.
+	
+	Эквивалентность задач \ref{problem:commonw} и \ref{problem:quadtf} очевидна. Для оставшихся приведём идею доказательства. Достаточно показать следующее:
+	\begin{enumerate}
+		\item Пусть $C^\star$ --- решение задачи \ref{problem:quadtf}, то есть $C^\star = \argmin_{C \in \calC} f(C)$. Положим $j^\star = \argmax_i c_i$. $C^\star \in \calC$ и $C^\star$ симметрично, следовательно, $C^\star \in \calC_{j^\star}$. Цепочка неравенств $f^{\star} = f(C^\star) \ge f^\star_j = \min_{C \in \calC_{j^\star}} f(C) \ge \min_{j = 1,\ldots, \lceil K/2\rceil} \min_{C \in \calC_j} f(C) = f^{\star \star}$ завершает доказательство пункта.
+		\item Пусть $j^\star = \argmin_{j = 1,\ldots, \lceil K/2\rceil} f^\star_j$, $C^{\star}_{j^\star} = \argmin_{C \in \calC_{j^\star}} f(C)$ --- решение задачи \ref{problem:positw}. Положим $c_\text{max} = c_{j^\star, j^\star}$, $\hat c_i = c_\text{max} - c_{j^\star, i}$, $i = 1, \ldots, K$, где $C_{j^\star}^\star = (c_{j^\star, 1}, \ldots, c_{j^\star, K})^\rmT$. Нетрудно заметить, что $\widehat C \in \hat \calC$, из чего получим, что $\hat f^\star \le \hat f(\widehat C) = f(C_{j^\star}^\star) = f^{\star \star}$.
+		\item Пусть $\widehat C^\star = \argmin_{\widehat C \in \hat \calC} \hat f(\widehat C)$ --- решение задачи \ref{problem:nonnegatqw}. Положим $c_i =c_\text{max} - \hat c_i$ и заметим, что $C \in \calC$, из чего получим, что $f^\star \le f(C) = \hat f(\widehat C) = \hat f^\star$.
+	\end{enumerate}
+\end{proof}
+
+
+\section{Общий алгоритм решения}
+Используя эквивалентность, доказанную в теореме \ref{th:eqivqw}, можем сформулировать следующий алгоритм решения Задачи \ref{problem:commonw}:
+
+\begin{algorithm}
+	\label{alg:solveqw}
+	\textbf{Вход}: Параметры $L$, $K$, $\alpha$.
+	
+	\textbf{Результат}:
+	Вектор оптимальных весов $C^\star$.
+	
+	\begin{enumerate}
+		\item Положить $j$ = 1.
+		\item Решить подзадачу КП $C^\star_j = (c_{j, 1}, \ldots, c_{j, K})^\rmT = \argmin_{C \in \calC_j} f(C)$.
+		\item Задать эквивалентный вектор $\widehat C$, взяв $c_\text{max} = c_{j, j}$, $\hat c_i = c_\text{max} - c_{j, i}$.
+		\item Проверить, является ли вектор $\widehat C$ решением задачи \ref{problem:nonnegatqw}. Если да, то положить $C^\star = C^\star_j$ решением задачи, иначе взять $j \leftarrow j + 1$ и перейти к пункту 2.
+	\end{enumerate}
+\end{algorithm}
+
+Таким образом, если встретился нужный индекс $j$, то алгоритму не понадобится перебирать оставшиеся индексы и решать подзадачу \eqref{eq:j_positw} лишний раз. Практические эксперименты показывают, что максимальный вес всегда находится на краях: алгоритм \ref{alg:solveqw} останавливается уже при $j = 1$, то есть фактически сводится к задаче КП с положительно определённой квадратичной формой в целевой функции.
+
+Для реализации алгоритма \ref{alg:solveqw} необходимо разработать алгоритмы решения задач из пункта 2 и 4, что и будет сделано в следующих разделах. Сначала в разделе \ref{sect:check} рассмотрим пункт 4, а в разделе \ref{subsect:qp} --- пункт 2.
+
+% \section{Реализация шагов алгоритма \ref{alg:solveqw}}
+
+\section{Проверка вектора на решение задачи \ref{problem:nonnegatqw}} \label{sect:check}
+Предложим быстрый алгоритм, проверяющий, является ли заданный вектор $\widehat C$ точкой, в которой достигается глобальный минимум в задаче \ref{problem:nonnegatqw}, то есть реализующий пункт 4 из алгоритма \ref{alg:solveqw}. Для этого применим теорему о необходимом и достаточном условии минимума в задаче квадратичного программирования для задачи \ref{problem:nonnegatqw}.
+\begin{theorem} \label{th:nonnegatfc}
+	Рассмотрим вектор $R = (r_1, \ldots, r_{K+1})^\rmT = \bfH^\rmT \bfS \bfH \widehat C - \bfH^\rmT L_K \in \sfR^{K+1}$. Тогда $\widehat C$ является решением задачи \ref{problem:nonnegatqw} тогда и только тогда, когда:
+	\begin{enumerate}
+		\item $R^\rmT \widehat C = 0$,
+		\item Существует вектор $U = (u_1, \ldots, u_K)^\rmT \in \sfR^K$ такой, что: \begin{itemize}
+			\item $u_i \ge 0$, $i = 1, \ldots, K$,
+			\item $u_i \ge -r_i$, $i = 1, \ldots, K$,
+			\item $(1 - \alpha) \sum_{i=1}^K u_i \le r_{K+1}$.
+		\end{itemize}
+	\end{enumerate}
+\end{theorem} 
+\begin{proof}
+	Данная теорема является переформулировкой  теоремы  \cite[Теорема 9.2]{Gavurin1984} для задачи \ref{problem:nonnegatqw}.
+\end{proof}
+
+Следующее следствие из теоремы \ref{th:nonnegatfc} важно для построения алгоритма.
+
+\begin{corollary} \label{cor:nonnegatfc}
+	В обозначениях теоремы \ref{th:nonnegatfc}; положим $u_i = \max(0, -r_i)$, $i = 1, \ldots, K$. Тогда $\widehat C$ является решением задачи \ref{problem:nonnegatqw} тогда и только тогда, когда:
+	\begin{enumerate}
+		\item $R^\rmT \widehat C = 0$,
+		\item $(1 - \alpha) \sum_{i=1}^K u_i \le r_{K+1}$.
+	\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+Первое условие совпадает с п. 1 теоремы \ref{th:nonnegatfc}. Докажем эквивалентность второго условия.
+
+Достаточность. Коэффициенты $u_i$ выбраны так, чтобы удовлетворять условиям $u_i \ge 0$ и $u_i \ge -r_i$. Если выполняется и второе условие, то выполняются все требования теоремы.
+
+Необходимость. Очевидно, что $u_i$ выбраны наименьшими из всех тех, которые удовлетворяют условиям $u_i \ge 0$ и $u_i \ge -r_i$. Пусть $(1 - \alpha) \sum_{i=1}^K u_i > r_{K+1}$. Рассмотрим любой вектор $\widetilde U = (\tilde u_1, \ldots, \tilde u_N)$, удовлетворяющий второму условию, то есть $(1 - \alpha) \sum_{i=1}^K \tilde u_i \le r_{K+1}$. Тогда существует индекс $i$ такой, что $\tilde u_i < u_i$. Следовательно, либо $\tilde u_i < 0$, либо $\tilde u_i < -r_i$, из чего следует, что не существует такого вектора $\widetilde U$, который бы удовлетворял условиям теоремы.
+\end{proof}
+
+Рассмотрим следующий алгоритм, базирующийся на следствии \ref{cor:nonnegatfc}.
+\begin{algorithm}
+	\label{alg:nonnegatfc}
+	\textbf{Вход}: предполагаемое решение $\widehat C$, параметр $\alpha$.
+	
+	\textbf{Результат}:
+	Булево значение: является ли $\widehat C$ решением задачи \ref{problem:nonnegatqw}.
+	
+	\begin{enumerate}
+		\item Вычислить $R = \bfH^\rmT \bfS \bfH \widehat C - \bfH^\rmT L_K$.
+		\item Если $R^\rmT \widehat C \neq 0$, то вернуть FALSE, иначе перейти к следующему пункту.
+		\item Выбрать в качестве вектора $U = (u_1, \ldots, u_K)^\rmT$ следующие значения: $u_i = \max(0, -r_i)$, $i = 1, \ldots, K$.
+		\item Если $(1 - \alpha) \sum_{i=1}^K u_i \le r_{K+1}$, то вернуть TRUE, иначе FALSE.
+	\end{enumerate}
+\end{algorithm}
+
+\section{Задача квадратичного программирования специального вида} \label{subsect:qp}
+\subsection{Общая схема ``Active Set'' метода}
+Теперь переходим к пункту 2 Алгоритма \ref{alg:solveqw}. Для решения подзадачи \eqref{eq:j_positw} при зафиксированном индексе $j$ воспользуемся так называемым ``Primary Active Set'' методом решения задачи КП, описанным в \cite{nocedal2006numerical}. Специфика задачи позволяет эффективно реализовать алгоритм.
+
+В общем случае, задача квадратичного программирования выглядит следующим образом:
+\begin{problem} \label{problem:commonqp}
+\begin{subequations} 
+	\begin{empheq}{gather}
+\min_{X \in \sfX} \frac{1}{2} X^\rmT \bfG X - V^\rmT X,  \quad \text{где} \ X \in \sfX, \; \text{если} \\
+A_i^\rmT X = p_i, \quad i \in \sfY, \label{eq:commonqpeq}\\ 
+A_i^\rmT X \ge p_i, \quad i \in \sfZ \label{eq:commonqpneq},
+\end{empheq}
+\end{subequations}
+где $\bfG \in \sfR^{K \times K}$ --- произвольная положительно определённая матрица, $V \in \sfR^K$ --- произвольный вектор, $\sfY$ и $\sfZ$ --- множества индексов, вектора $A_i \in \sfR^K$ вместе с $p_i \in \sfR$ задают ограничения.
+\end{problem}
+
+Суть любого ``Active Set'' метода состоит в последовательном переборе подмножества ограничений, которые выполняются как равенство для промежуточной точки --- кандидата в решение задачи квадратичного программирования. Такое множество называется \emph{рабочим множеством}, и обозначается, как $\sfW \subset \sfY \cup \sfZ$, при этом всегда $\sfY \subset \sfW$, а ограничения, лежащие в рабочем множестве, называются \emph{активными}. Ниже представлена схема этого метода для решения задачи \ref{problem:commonqp}.
+
+%\begin{algorithm}[\cite[С. 472]{nocedal2006numerical}]
+\begin{algorithm}[\cite{nocedal2006numerical}, стр. 472]
+	\label{alg:asm}
+	\textbf{Вход}: параметры задачи квадратичного программирования: матрица $\bfG$, вектор $V$, множества $\sfY$, $\sfZ$ и коэффициенты условий $A_i$, $p_i$.
+	
+	\textbf{Результат}:
+	Решение $X^\star$ задачи \ref{problem:commonqp}. 
+	
+	\begin{enumerate}
+		\item Найти начальную точку $X_0$, удовлетворяющую условиям задачи \eqref{eq:commonqpeq}, \eqref{eq:commonqpneq}, и положить $\sfW_0$ --- множество активных ограничений в этой точке.
+		\item Положить $k = 0$
+        \item Положить $G_k = V - \bfG X_k$
+        \item Решить подзадачу квадратичного программирования и найти множители Лагранжа $u_i$, $i \in \sfW_k$:
+        \begin{subequations} \begin{empheq}{gather} \label{eq:subtask}
+P_k^\star = \argmin_{P_k \in \sfP_k} \frac{1}{2} P_k^\rmT \bfG P_k - G_k^\rmT P_k ,  \ \text{где} \\ \label{eq:subtask_cond} \ P_k \in \sfP_k, \; \text{если} \quad
+A_i^\rmT P_k = 0, \quad i \in \sfW_k,
+\end{empheq}
+\end{subequations}
+после чего $u_i$ находятся из системы уравнений $\sum_{i \in \sfW_k} u_i A_i =  \bfG P_k^\star - G_K$.
+		\item Если $P_k^\star = \mathbbold{0}$, и все $u_i \ge 0$, $i \in \sfW_k \cap \sfZ$, то положить $X^\star = X_k$ и STOP.
+        \item Если $P_k^\star = \mathbbold{0}$, но существует $i$ такое, что $u_i < 0$, то взять $j = \argmin_{j \in \sfW_k \cap \sfZ} u_j$, положить $\sfW_{k + 1} = \sfW_k \setminus \{j\}$, увеличить $k$ на единицу и перейти к п. 3.
+        \item Положить $\alpha_k = \min \left( 1, \min_{i \notin \sfW_k, \; A_i^\rmT P_k^\star < 0} \frac{p_i - A_i^\rmT X_k}{A_i^\rmT P_k^\star} \right)$.
+        \item Положить $X_{k+1} = X_k + \alpha_k P_k^\star$.
+        \item Если $\alpha_k < 1$, то положить $j = \argmin_{i \notin \sfW_k, \; A_i^\rmT P_k^\star < 0} \frac{p_i - A_i^\rmT X_k}{A_i^\rmT P_k^\star}$ и $\sfW_{k+1} = \sfW_k \cup \{j\}$, иначе $\sfW_{k+1} = \sfW_k$.
+        \item Положить $k \leftarrow k+1$ и перейти к пункту 3.
+	\end{enumerate}
+\end{algorithm}
+\subsection{Специфика задачи}
+Подзадача \eqref{eq:j_positw} при фиксированном $j$ переписывается в терминах задачи \ref{problem:commonqp} следующим образом: $X^\star = C^\star$, $X = C$, $\bfG = \bfS$, $V = L_K$, \eqref{eq:commonqpeq} состоит из \eqref{eq:positw_symm}, \eqref{eq:commonqpneq} состоит из \eqref{eq:positw_notnull}, \eqref{eq:positw_min} и \eqref{eq:positw_max}.
+
+Таким образом, необходимо объяснить, как находить начальную точку (п. 1 алгоритма $\ref{alg:asm}$), решение подзадачи квадратичного программирования и множители Лагранжа (п. 4 алгоритма $\ref{alg:asm}$) применительно к частному случаю задачи \eqref{eq:j_positw}. 
+%При этом логичнее вначале рассмотреть п. 4, а только потом п. 1 Алгоритма $\ref{alg:asm}$, используя уже введённую технику.
+
+Обозначим вкратце те особенности, которые помогают получить быстрое решение:
+\begin{enumerate}
+	\item Для выполнения пункта 4 алгоритма $\ref{alg:asm}$ требуется уметь решать задачу \eqref{eq:subtask} с ограничениями \eqref{eq:subtask_cond}. Положив $\bfA = [A_i : i \in \sfW_k]$, ограничения \eqref{eq:subtask_cond} можно записать, как $\bfA^\rmT P_k = \mathbbold{0}$.
+	
+	Для решения поставленной вспомогательной задачи \eqref{eq:subtask} есть явная формула обобщённого метода наименьших квадратов:
+	\begin{equation*}
+	P_k^\star = \overline \bfA (\overline \bfA^\rmT \bfG \overline \bfA)^{-1} \overline \bfA^\rmT G_k,
+	\end{equation*}
+	где матрица $\overline \bfA \in \sfR^{K \times (K-m)}$ состоит из столбцов, составляющих базис ортогонального дополнения к базису столбцов матрицы $\bfA$. Обычно $m$ велико, поэтому $K-m$ мало, что позволяет быстро искать решение подзадачи.
+	
+	В случае задачи \ref{problem:positw} матрица $\bfG$ имеет простой вид, и её можно умножать на вектор за время $O(K)$. Матрица $\bfA$ --- разрежённая, в ней содержится максимум 2 ненулевых коэффициента в каждом столбце. За счёт этого матрицу $\overline \bfA$ можно также найти быстро и хранить, используя $O(K)$ памяти. Из-за быстрого умножения матрицы $\bfA$ для вычисления формулы обобщённого МНК удобно и эффективно использовать метод сопряжённых градиентов.
+	
+	Аналогично, за счёт разряжённости матрицы $\bfA$ можно быстро находить множители Лагранжа.
+	
+	\item Есть две стратегии выбора начальной точки: первая применяется при малом размере задачи и заключается в том, чтобы назначить первым $t$ точкам, где $t$ перебирается по целочисленной сетке до $\lfloor K/2 \rfloor$, максимальный вес (то есть \eqref{eq:positw_max}), а оставшимся --- минимальный (то есть \eqref{eq:positw_min}), после чего выбрать то $t$, где достигается наименьшее значение целевой функции $f(C)$.
+	
+	Вторая стратегия основана на следующем факте: решения задач при примерно одинаковом отношении $N$ к $L$ и одинаковом $\alpha$ схожи. Например, на рисунке \ref{img:scale} изображены два отнормированных (умноженных на $N$) решения задачи \ref{problem:quadtf} при $N = 200$, $L = 60$, $\alpha = 0.1$ и $N = 1000$, $L = 300$, $\alpha = 0.1$ соответственно.
+	
+	\begin{figure}[!hhh]
+		\includegraphics[width = \columnwidth]{scale.eps}
+		\caption{Два решения задачи \ref{problem:quadtf} при одинаковом отношении $N$ к $L$}
+		\label{img:scale}
+	\end{figure}
+	
+	Схема эвристики следующая: зафиксируем параметр масштаба $0 < \gamma < 1$ (на практике хорошими значениями $\gamma$ являются $0.5$ -- $0.7$), найдём решение задачи при $N_\gamma \approx \gamma N$, $L_\gamma \approx \gamma L$, $\alpha_\gamma = \alpha$, после чего растянем и перенормируем решение задачи меньшего порядка для выбора начального рабочего множества и начальной точки. Таким образом, при использовании данной эвристики получаем рекурсивный алгоритм, который уменьшает размерность задачи в $\gamma$ раз до тех пор, пока $K$ не станет достаточно малым для использования первой стратегии.
+	
+\end{enumerate}
+
+\section{Численный эксперимент} \label{sect:numeric}
+Ниже приведём численное сравнение эффективности полученных с помощью алгоритма \ref{alg:solveqw} весов в задаче оценки сигнала рядом конечного ранга методом Oblique Cadzow \cite{Zvonarev2015}. Сравнение было проведено на примере синусоидального сигнала.
+
+Был взят сигнал $\tsS = (s_{1}, \ldots, s_N)$ длины $N = 40$ и ранга $r=2$, имеющий вид:
+\begin{equation*}
+%\label{eq:signal}
+s_{k} = 5\sin{\frac{2 \pi k}{6}}, \quad k = 1, \ldots, N,
+\end{equation*}
+и рассматривался ряд вида $\tsX = \tsS + \tsN$, где $\tsN$ --- гауссовский белый шум с нулевым средним и единичной дисперсией. Точность оценки сигнала $\widehat\tsS$ измерялась с помощью корня из среднего по точкам ряда и по 1000 реализациям ряда квадрата отклонения от сигнала $\tsS$. Эту меру будем называть RMSE (root mean-square error) оценки сигнала. В качестве меры скорости сходимости алгоритма Oblique Cadzow используется среднее число итераций до остановки. Длина окна зафиксирована равной $L = 20$. Был использован следующий критерий остановки метода Oblique Cadzow: $\frac{\|\calT_L^{-1}(\bfY_k) - \calT_L^{-1}(\bfY_{k + 1})\|^2}{N} < 10^{-8}$. Рассматривались веса, полученные алгоритмом \ref{alg:solveqw} (тип I) и прежним методом Cadzow($\alpha$) \cite[Proposition 5]{Zvonarev2015} (тип II). %Результаты сравнения между весами одного типа при различных $\alpha$ являются значимыми при уровне значимости 5\%.
+
+Результаты сравнения приведены в таблице \ref{fintable}. Заметим, что результаты при $\alpha = 1$ и $\alpha = 2^{-5}, 2^{-6}$ совпадают, так как равны матричные веса, полученные двумя различными методами. В целом, методы дают сравнимые результаты, а при $\alpha = 0.5$ и $\alpha = 0.25$ новый подход даёт оценку лучше, чем Cadzow($\alpha$). Также заметим, что заявленные соотношения между $\alpha$ и точностью оценивания, $\alpha$ и скоростью сходимости метода Oblique Cadzow выполняются и для нового метода: при малых $\alpha$ точность оценки существенно лучше, чем при $1$, при этом точность убывает вместе с ростом $\alpha$.
+
+\begin{table}[!hhh]
+	\caption{Сравнение методов по RMSE и среднему числу итераций при различных $\alpha$ и алгоритмах получения весов (I, II).}\label{fintable}
+	\begin{center}
+		\begin{tabular}{|c|c|c|c|c|}
+			\hline $\alpha$ & RMSE, I & RMSE, II & Iterations, I & Iterations, II \\ 
+			\hline 1 & 0.3811 & 0.3811 & 8.44 & 8.44 \\ 
+			\hline $2^{-1}$ & 0.3615 & 0.3682 & 8.67 & 8.71 \\ 
+			\hline $2^{-2}$ & 0.3475 & 0.3529 & 9.76 & 9.55 \\ 
+			\hline $2^{-3}$ & 0.3371 & 0.3388 & 11.97 & 11.61 \\ 
+			\hline $2^{-4}$ & 0.3300 & 0.3293 & 14.73 & 15.95 \\ 
+			\hline $2^{-5}$ & 0.3247 & 0.3247 & 24.37 & 24.37 \\ 
+			\hline $2^{-6}$ & 0.3231 & 0.3231 & 39.95 & 39.95 \\ 
+			%\hline $2^{-7}$ & 0.3227 & 0.3227 & 67.86 & 67.86 \\ 
+			%\hline $2^{-8}$ & 0.3226 & 0.3226 & 116.87 & 116.87 \\ 
+			%\hline $2^{-9}$ & 0.3226 & 0.3226 & 201.09 & 201.09 \\ 
+			\hline 
+		\end{tabular} 
+
+	\end{center}
+\end{table}
+
+\section*{Заключение}
+Для решения задачи поиска весов было применено несколько нетривиальных переходов. Сформулированная в терминах минимизации квадратичного функционала задача \ref{problem:quadtf} содержит $K^2$ линейных ограничений, что не позволяет эффективно искать решение на практике. Поэтому была выведена эквивалентная задача \ref{problem:positw}, решение которой -- минимум по $K/2$ задачам квадратичного программирования с количеством ограничений порядка $K$. Преимущество формулировки \ref{problem:positw} состоит в том, что перебор задач КП можно остановить заранее, используя алгоритм \ref{alg:nonnegatfc}. На практике перебор ограничивается уже на первой итерации, вследствие чего решение находится эффективно.
+
+Качество полученных алгоритмом \ref{alg:solveqw} весов было проверено численным экспериментом. Для длины ряда $N$, кратной длине окна $L$, результаты сравнимы с прежним алгоритмом Cadzow($\alpha$), но зато новый алгоритм позволяет находить решение для произвольных $N$ и $L$. %Численный эксперимент подтверждает свойства весов, которые требовались от них при формулировке задачи аппроксимации.
+
+% \bibliographystyle{gost705}
+% \inputencoding{cp1251}
+% \bibliography{weights}
+\ifx\undefined\BibEmph\def\BibEmph#1{#1}\else\fi
+\ifx\undefined\href\def\href#1#2{#2}\else\fi
+\ifx\undefined\url\def\url#1{\texttt{#1}}\else\fi
+\ifx\undefined\urlprefix\def\urlprefix{URL: }\else\fi
+\ifx\undefined\BibUrl\def\BibUrl#1{\urlprefix\url{#1}}\else\fi
+\ifx\undefined\BibUrlDate\long\def\BibUrlDate#1{({%
+		\cyr\cyrd\cyra\cyrt\cyra\ %
+		\cyro\cyrb\cyrr\cyra\cyrshch\cyre\cyrn\cyri\cyrya}: #1)}\else\fi
+\ifx\undefined\BibAnnote\long\def\BibAnnote#1{#1}\else\fi
+\begin{thebibliography}{1}
+	\def\selectlanguageifdefined#1{
+		\expandafter\ifx\csname date#1\endcsname\relax
+		\else\language\csname l@#1\endcsname\fi}
+	
+	\bibitem{Golyandina.etal2001}
+	\selectlanguageifdefined{english}
+	\BibEmph{Golyandina~N., Nekrutkin~V., Zhigljavsky~A.} Analysis of Time Series
+	Structure: {SSA} and Related Techniques.
+	\newblock Chapman\&Hall/CRC, 2001.
+	
+	\bibitem{Broomhead.King1986}
+	\selectlanguageifdefined{english}
+	\BibEmph{Broomhead~D., King~G.} Extracting qualitative dynamics from
+	experimental data~// \BibEmph{Physica D}.
+	\newblock 1986.
+	\newblock Vol.~20.
+	\newblock P.~217--236.
+	
+	\bibitem{Vautard.etal1992}
+	\selectlanguageifdefined{english}
+	\BibEmph{Vautard~R., Yiou~P., Ghil~M.} {S}ingular-{S}pectrum {A}nalysis: A
+	toolkit for short, noisy chaotic signals~// \BibEmph{Physica~D}.
+	\newblock 1992.
+	\newblock Vol.~58.
+	\newblock P.~95--126.
+	
+	\bibitem{Elsner.Tsonis1996}
+	\selectlanguageifdefined{english}
+	\BibEmph{Elsner~J.~B., Tsonis~A.~A.} {S}ingular {S}pectrum {A}nalysis: A New
+	Tool in Time Series Analysis.
+	\newblock Plenum, 1996.
+	
+	\bibitem{Zvonarev2015}
+	\selectlanguageifdefined{english}
+	\BibEmph{Zvonarev~N., Golyandina~N.} Iterative algorithms for weighted and
+	unweighted finite-rank time-series approximations~// \BibEmph{Stat.
+		Interface}.
+	\newblock 2016.
+	
+	\bibitem{Gillard2014}
+	\selectlanguageifdefined{english}
+	\BibEmph{Gillard~J., Zhigljavsky~A.~A.} Stochastic algorithms for solving
+	structured low-rank matrix approximation problems~// \BibEmph{Communication
+		in Nonlinear Science and Numerical Simulation}.
+	\newblock 2015.
+	\newblock Vol.~21, no.~1.
+	\newblock P.~70--88.
+	
+	\bibitem{Gavurin1984}
+	\selectlanguageifdefined{english}
+	\BibEmph{Гавурин~М.~К., Малоземов~В.~Н.} Экстремальные задачи с линейными
+	ограничениями. Учебное пособие.
+	\newblock 1984.
+	
+	\bibitem{nocedal2006numerical}
+	\selectlanguageifdefined{english}
+	\BibEmph{Nocedal~J., Wright~S.} Numerical optimization.
+	\newblock Springer Science \& Business Media, 2006.
+	
+\end{thebibliography}
+
+\end{document}
