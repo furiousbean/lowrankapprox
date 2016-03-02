@@ -1,16 +1,13 @@
 \RequirePackage[reqno]{amsmath}
 \documentclass[10pt]{amsart}
 
-
 \usepackage[text={14cm,20cm}]{geometry}
-%\usepackage{mathtext}
 \usepackage{amsmath,amssymb,amsthm,amscd,amsfonts}
-
+\usepackage{amsaddr} % Адрес в начале
 \usepackage[cp1251]{inputenc}
-%\usepackage{cmap}
+
 \usepackage[T2A]{fontenc}
 \usepackage[russian]{babel}
-%\usepackage{lmodern}
 
 
 \usepackage{euscript}
@@ -18,14 +15,7 @@
 \usepackage{mathdots}
 \usepackage{graphicx}
 %\usepackage{epstopdf}
-%\usepackage{caption2}
 \usepackage{indentfirst}
-%\usepackage{fancyhdr}
-%\usepackage{sectsty}
-%\usepackage{titlesec}
-% \usepackage{bbold}
-%\usepackage{tikz}
-%\usetikzlibrary{arrows.meta}
 \usepackage{empheq}
 
 \newcommand*\widefbox[1]{\fbox{\hspace{2em}#1\hspace{2em}}}
@@ -94,10 +84,10 @@
 
 
 \author{Н.К.~Звонарев}
-\title{О поиске весов в задаче взвешенной аппроксимации рядом конечного ранга}
+\title{О поиске весов в задаче взвешенной аппроксимации временным рядом конечного ранга}
 \address{Санкт-Петербургский государственный университет,\\
 	Российская Федерация, 199034, Санкт-Петербург, Университетская наб., 7/9}
-\email{nikitazvonarev@gmail.com}
+% \email{nikitazvonarev@gmail.com}
 \begin{document}
 \maketitle
 
@@ -107,10 +97,9 @@
 
 {\footnotesize
 	
-	Представлен новый подход к поиску весов, которые приводят к улучшению точности в задаче взвешенной аппроксимации рядом конечного ранга. Для построения численного метода поиска весов использована теория квадратичной оптимизации. Задача поиска весов сформулирована в нескольких эквивалентных формулировках, каждая из которых используется при построении эффективного и применимого на практике алгоритма.
+	Представлен новый подход к поиску весов, которые приводят к улучшению точности в задаче взвешенной аппроксимации рядом конечного ранга. Для построения численного метода поиска весов использована теория квадратичной оптимизации. Задача поиска весов поставлена в нескольких эквивалентных формулировках, каждая из которых используется при выведении отдельных шагов эффективного и применимого на практике алгоритма. Найденные алгоритмом веса проверены в численном эксперименте.
 	
-\emph{Ключевые слова:} \ Временные ряды, метод Cadzow, ряды конечного ранга, взвешенный метод наименьших квадратов, косоугольное SVD-разложение, квадратичное программирование
-	}
+\emph{Ключевые слова:} \ Временные ряды, метод Cadzow, ряды конечного ранга, взвешенный метод наименьших квадратов, косоугольное SVD-разложение, квадратичное программирование}
 
 \section*{Введение}
 Рассмотрим задачу извлечения сигнала $\tsS~=~(s_1, \ldots, s_N)$ из зашумлённого временного ряда $\tsX = \tsS + \tsN$, где $\tsS$ управляется \emph{линейной рекуррентной формулой} (ЛРФ) порядка $r$: $s_n = \sum_{i = 1}^{r} a_i s_{n-i}$, $n = r + 1, \ldots, N$, $a_r\neq 0$. Ряды, управляемые ЛРФ, могут быть записаны в параметрическом виде $s_n = \sum_i P_i(n) \exp(\alpha_i n) \cos(2 \pi \omega_i n + \psi_i)$, где $P_i(n)$ --- многочлены от $n$  \cite{Golyandina.etal2001}.
@@ -462,7 +451,7 @@ s_{k} = 5\sin{\frac{2 \pi k}{6}}, \quad k = 1, \ldots, N,
 \end{table}
 
 \section*{Заключение}
-Для решения задачи поиска весов было применено несколько нетривиальных переходов. Сформулированная в терминах минимизации квадратичного функционала задача \ref{problem:quadtf} содержит $K^2$ линейных ограничений, что не позволяет эффективно искать решение на практике. Поэтому была выведена эквивалентная задача \ref{problem:positw}, решение которой -- минимум по $K/2$ задачам квадратичного программирования с количеством ограничений порядка $K$. Преимущество формулировки \ref{problem:positw} состоит в том, что перебор задач КП можно остановить заранее, используя алгоритм \ref{alg:nonnegatfc}. На практике перебор ограничивается уже на первой итерации, вследствие чего решение находится эффективно.
+Для решения задачи поиска весов было применено несколько нетривиальных переходов. Сформулированная в терминах минимизации квадратичного функционала задача~\ref{problem:quadtf} содержит $K^2$ линейных ограничений, что не позволяет эффективно искать решение на практике. Поэтому была выведена эквивалентная задача \ref{problem:positw}, решение которой -- минимум по $K/2$ задачам квадратичного программирования с количеством ограничений порядка $K$. Преимущество формулировки \ref{problem:positw} состоит в том, что перебор задач КП можно остановить заранее, используя алгоритм \ref{alg:nonnegatfc}. На практике перебор ограничивается уже на первой итерации, вследствие чего решение находится эффективно.
 
 Качество полученных алгоритмом \ref{alg:solveqw} весов было проверено численным экспериментом. Для длины ряда $N$, кратной длине окна $L$, результаты сравнимы с прежним алгоритмом Cadzow($\alpha$), но зато новый алгоритм позволяет находить решение для произвольных $N$ и $L$. %Численный эксперимент подтверждает свойства весов, которые требовались от них при формулировке задачи аппроксимации.
 
@@ -539,5 +528,89 @@ s_{k} = 5\sin{\frac{2 \pi k}{6}}, \quad k = 1, \ldots, N,
 	\newblock Springer Science \& Business Media, 2006.
 	
 \end{thebibliography}
+
+\subsection*{Сведения об авторах}
+	
+{\footnotesize
+	
+	\emph{Звонарев Никита Константинович} --- аспирант; \href{mailto:nikitazvonarev@gmail.com}{nikitazvonarev@gmail.com}
+}
+
+\section*{On search of weights in weighted finite-rank time-series approximation}
+{\footnotesize
+	
+	\emph{Zvonarev Nikita}
+	
+	St.Petersburg State University, Universitetskaya nab., 7-9, St.Petersburg, 199034,
+	Russian Federation; \href{mailto:nikitazvonarev@gmail.com}{nikitazvonarev@gmail.com}
+	
+    The new approach of finding weights leading to improvement of accuracy in a weighted finite-rank time-series approximation problem is considered. Theory of quadratic optimization is used in the construction of numeric method of finding weigths. The problem of finding weights is formulated in several equivalent statements, each of them used in the construction of steps of efficient algorithm. Weights found by the algorithm are checked on the numeric example.
+    
+    \emph{Keywords:} \ time series, time series of finite rank, Cadzow's iterative method, weighted low-rank approximation, oblique singular value decomposition, quadratic programming.
+}
+
+\renewcommand{\refname}{\normalfont\selectfont\normalsize References} 
+
+\begin{thebibliography}{1}
+	\def\selectlanguageifdefined#1{
+		\expandafter\ifx\csname date#1\endcsname\relax
+		\else\language\csname l@#1\endcsname\fi}
+	
+	\bibitem{Golyandina.etal2001}
+	\selectlanguageifdefined{english}
+	\BibEmph{Golyandina~N., Nekrutkin~V., Zhigljavsky~A.} Analysis of Time Series
+	Structure: {SSA} and Related Techniques.
+	\newblock Chapman\&Hall/CRC, 2001.
+	
+	\bibitem{Broomhead.King1986}
+	\selectlanguageifdefined{english}
+	\BibEmph{Broomhead~D., King~G.} Extracting qualitative dynamics from
+	experimental data~// \BibEmph{Physica D}.
+	\newblock 1986.
+	\newblock Vol.~20.
+	\newblock P.~217--236.
+	
+	\bibitem{Vautard.etal1992}
+	\selectlanguageifdefined{english}
+	\BibEmph{Vautard~R., Yiou~P., Ghil~M.} {S}ingular-{S}pectrum {A}nalysis: A
+	toolkit for short, noisy chaotic signals~// \BibEmph{Physica~D}.
+	\newblock 1992.
+	\newblock Vol.~58.
+	\newblock P.~95--126.
+	
+	\bibitem{Elsner.Tsonis1996}
+	\selectlanguageifdefined{english}
+	\BibEmph{Elsner~J.~B., Tsonis~A.~A.} {S}ingular {S}pectrum {A}nalysis: A New
+	Tool in Time Series Analysis.
+	\newblock Plenum, 1996.
+	
+	\bibitem{Zvonarev2015}
+	\selectlanguageifdefined{english}
+	\BibEmph{Zvonarev~N., Golyandina~N.} Iterative algorithms for weighted and
+	unweighted finite-rank time-series approximations~// \BibEmph{Stat.
+		Interface}.
+	\newblock 2016.
+	
+	\bibitem{Gillard2014}
+	\selectlanguageifdefined{english}
+	\BibEmph{Gillard~J., Zhigljavsky~A.~A.} Stochastic algorithms for solving
+	structured low-rank matrix approximation problems~// \BibEmph{Communication
+		in Nonlinear Science and Numerical Simulation}.
+	\newblock 2015.
+	\newblock Vol.~21, no.~1.
+	\newblock P.~70--88.
+	
+	\bibitem{Gavurin1984}
+	\selectlanguageifdefined{english}
+	\BibEmph{Gavurin~M.~K., Malozemov~V.~N.} Extremal problems with linear constraints. Leningrad: Izdat. Leningrad State Univ.
+	\newblock 1984.
+	
+	\bibitem{nocedal2006numerical}
+	\selectlanguageifdefined{english}
+	\BibEmph{Nocedal~J., Wright~S.} Numerical optimization.
+	\newblock Springer Science \& Business Media, 2006.
+	
+\end{thebibliography}
+
 
 \end{document}
