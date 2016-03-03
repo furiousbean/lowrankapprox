@@ -97,7 +97,11 @@
 
 {\footnotesize
 	
-	Представлен новый подход к поиску весов, которые приводят к улучшению точности в задаче взвешенной аппроксимации рядом конечного ранга. Для построения численного метода поиска весов использована теория квадратичной оптимизации. Задача поиска весов поставлена в нескольких эквивалентных формулировках, каждая из которых используется при выведении отдельных шагов эффективного и применимого на практике алгоритма. Найденные алгоритмом веса проверены в численном эксперименте.
+%	Представлен новый подход к поиску весов, которые приводят к улучшению точности в задаче взвешенной аппроксимации рядом конечного ранга. Для построения численного метода поиска весов использована теория квадратичной оптимизации. Задача поиска весов поставлена в нескольких эквивалентных формулировках, каждая из которых используется при выведении отдельных шагов эффективного и применимого на практике алгоритма. Найденные алгоритмом веса проверены в численном эксперименте.
+
+	Рассматривается задача взвешенной аппроксимации временным рядом конечного ранга с целью оценивания сигнала. Решается проблема поиска весов, которые приводят к улучшению точности оценок. Построен и теоретически обоснован эффективный метод численного метода поиска весов.
+ Для этого использована теория квадратичной оптимизации. Чтобы получить эффективный алгоритм, задача квадратичной оптимизации с большим числом ограничений сводится к последовательности задач с меньшим числом ограничений и критерию остановки. Для обоснования алгоритма доказана эквивалентность различных формулировок исходной задачи. Проведен численный эксперимент, подтверждающий эффективность алгоритма и улучшение точности метода оценивания сигнала
+ за счет применения алгоритма. 
 	
 \emph{Ключевые слова:} \ Временные ряды, метод Cadzow, ряды конечного ранга, взвешенный метод наименьших квадратов, косоугольное SVD-разложение, квадратичное программирование}
 
@@ -119,8 +123,8 @@ s_L & s_{L + 1} & \ldots & s_N
 \begin{equation}\label{eq:sourcetask}
 \sum_{i = 1}^N q_i (x_i - y_i)^2 \to \min_{\tsY: \rank \bfY  = \calT_L(\tsY) \le r},
 \end{equation}
-где $\tsX = (x_1, \ldots, x_N) \in \sfX_N$ --- исходный временной ряд, $\tsY = (y_1, \ldots, y_N)$ --- требуемая аппроксимация, $\bfY = \calT(\tsY)$ --- соответствующая траекторная матрица, $q_i > 0$, $i = 1, \ldots, N,$ --- веса (в дальнейшем называемые ``весами ряда''). 
-%Отображение $\calT$ работает следующим образом: для $\calT(\tsX) = \bfX$ $\hat x_{l, k} = x_{l + k - 1}$, где $\tsX = (x_1, \ldots, x_N)$, $\bfX = (\hat x_{l, k})$. 
+где $\tsX = (x_1, \ldots, x_N) \in \sfX_N$ --- исходный временной ряд, $\tsY = (y_1, \ldots, y_N)$ --- требуемая аппроксимация, $\bfY = \calT(\tsY)$ --- соответствующая траекторная матрица, $q_i > 0$, $i = 1, \ldots, N,$ --- веса (в дальнейшем называемые ``весами ряда'').
+%Отображение $\calT$ работает следующим образом: для $\calT(\tsX) = \bfX$ $\hat x_{l, k} = x_{l + k - 1}$, где $\tsX = (x_1, \ldots, x_N)$, $\bfX = (\hat x_{l, k})$.
 Полученное решение $\tsY^\star$ задачи \eqref{eq:sourcetask} можно использовать как оценку сигнала $\tsS$ рядом конечного ранга. Более того, полученная оценка позволяет решить множество связанных задач: оценка коэффициентов ЛРФ и параметров ряда, прогнозирование ряда, заполнение пропусков и так далее, см. \cite{Golyandina.etal2001}.
 
 Обозначим соответствующее скалярное произведение в $\sfX_N$ как $\langle \tsX, \tsY \rangle_q = \sum_{i=1}^N q_i x_i y_i$.  Для решения задачи \eqref{eq:sourcetask} в \cite{Zvonarev2015} рассматривается эквивалентная задача структурной аппроксимации матрицей неполного ранга (Structured Low-Rank Approximation, SLRA):
@@ -159,13 +163,13 @@ b_{i, j} = \begin{cases}
 
 В общем виде задачу аппроксимации весов cформулируем следующим образом:
 \begin{problem}\label{problem:commonw}
-\begin{subequations} 
+\begin{subequations}
 \begin{empheq}[box=\widefbox]{gather}
 %\begin{equation}
 	\label{eq:commonw}
 \varphi^\star = \min_{C \in \calC} \varphi(C), \quad \text{где} \quad \varphi(C) = \|\bfB C - \mathbbold{1}_N\|,\\
 \calC = \left\lbrace c_i \ge 0, \quad i = 1, \ldots, K, \quad \label{eq:commonw_cond}
-\frac{\min_i c_i}{\max_i c_i} \ge \alpha \right\rbrace, 
+\frac{\min_i c_i}{\max_i c_i} \ge \alpha \right\rbrace,
 \end{empheq}
 \end{subequations}
 где $\mathbbold{1}_N = (1, \ldots, 1)^\rmT \in \sfR^N$ --- требуемые веса ряда (вектор из $N$ единиц), $0 < \alpha \le 1$ --- параметр, регулирующий степень вырожденности матрицы $\bfC$, $\|\cdot\|$ --- эвклидова норма в $\sfR^N$.
@@ -174,7 +178,7 @@ b_{i, j} = \begin{cases}
 \section{Эквивалентные формулировки}
 Раскроем функцию $\varphi^2(C)/2$ из \eqref{eq:commonw}, избавимся от константного члена и перепишем множество $\calC$ из \eqref{eq:commonw_cond} в виде набора линейных ограничений. Получим следующую эквивалентную формулировку:
 \begin{problem} \label{problem:quadtf}
-\begin{subequations} 
+\begin{subequations}
 	\begin{empheq}[box=\widefbox]{gather}
 	\label{eq:quadtf}
 	f^{\star} = \min_{C \in \calC} f(C), \quad \text{где} \quad f(C) = \frac{1}{2} C^\rmT \bfS C - L_K^\rmT C, \\
@@ -211,11 +215,11 @@ b_{i, j} = \begin{cases}
 
 Сделаем дополнительное предположение: пусть в точке $j$ веса достигают своего максимума (тем самым, снизим число линейных ограничений до линейного по $K$ размера), а само $j$ будем перебирать в цикле от $1$ до $\lceil K/2\rceil$. При этом воспользуемся тем фактом, что решение симметрично. Формально, задача выглядит следующим образом:
 \begin{problem}\label{problem:positw}
-\begin{subequations} 
+\begin{subequations}
 \begin{empheq}[box=\widefbox]{gather}
-f^{\star \star} = \min_{j = 1,\ldots, \lceil K/2\rceil} f^\star_j, \label{eq:positw} \\ 
+f^{\star \star} = \min_{j = 1,\ldots, \lceil K/2\rceil} f^\star_j, \label{eq:positw} \\
 f^\star_j = \min_{C \in \calC_j} f(C), \ \text{где} \ C \in \calC_j, \ \text{если} \label{eq:j_positw}\\
-c_i = c_{K - i + 1}, \; i = 1,\ldots, \lceil K/2\rceil, \label{eq:positw_symm}\\ 
+c_i = c_{K - i + 1}, \; i = 1,\ldots, \lceil K/2\rceil, \label{eq:positw_symm}\\
 c_j \ge 0, \label{eq:positw_notnull}\\
 c_i - \alpha c_j \ge 0, \; i = 1,\ldots, j-1, j+1, \ldots, \lceil K/2\rceil, \label{eq:positw_min}\\
 c_j -  c_i \ge 0, \; i = 1,\ldots, j-1, j+1, \ldots, \lceil K/2\rceil \label{eq:positw_max}.
@@ -228,10 +232,10 @@ c_j -  c_i \ge 0, \; i = 1,\ldots, j-1, j+1, \ldots, \lceil K/2\rceil \label{eq:
 \begin{equation} \label{eq:hmatrix}
 \bfH = \left(
 \begin{array}{cccc}
--1 &  & 0 & 1 \\ 
-& \ddots &  & \vdots \\ 
+-1 &  & 0 & 1 \\
+& \ddots &  & \vdots \\
 0 &  & -1 & 1
-\end{array} 
+\end{array}
 \right).
 \end{equation}
 Условие \eqref{eq:ratiocond}, устанавливающее границу снизу для весов, в новых обозначениях записывается как $(1 - \alpha) c_\text{max} - \hat c_i \ge 0$, $i = 1, \ldots, K$.
@@ -239,7 +243,7 @@ c_j -  c_i \ge 0, \; i = 1,\ldots, j-1, j+1, \ldots, \lceil K/2\rceil \label{eq:
 Получаем следующую задачу квадратичного программирования с линейными ограничениями, но с нестрого выпуклой целевой функцией:
 
 \begin{problem} \label{problem:nonnegatqw}
-\begin{subequations} 
+\begin{subequations}
 	\begin{empheq}[box=\widefbox]{gather}\label{eq:nonnegatqw}
 \hat f^\star = \min_{\widehat C \in \hat \calC} \hat f(\widehat C), \quad \text{где} \quad \hat f(\widehat C) = f(\bfH \widehat C) = \frac{1}{2} \widehat C^\rmT  \bfH^\rmT \bfS \bfH \widehat C - L_K^\rmT \bfH  \widehat C, \\
 \label{eq:nonnegatqw_cond}
@@ -299,7 +303,7 @@ c_j -  c_i \ge 0, \; i = 1,\ldots, j-1, j+1, \ldots, \lceil K/2\rceil \label{eq:
 			\item $(1 - \alpha) \sum_{i=1}^K u_i \le r_{K+1}$.
 		\end{itemize}
 	\end{enumerate}
-\end{theorem} 
+\end{theorem}
 \begin{proof}
 	Данная теорема является переформулировкой  теоремы  \cite[Теорема 9.2]{Gavurin1984} для задачи \ref{problem:nonnegatqw}.
 \end{proof}
@@ -344,10 +348,10 @@ c_j -  c_i \ge 0, \; i = 1,\ldots, j-1, j+1, \ldots, \lceil K/2\rceil \label{eq:
 
 В общем случае, задача квадратичного программирования выглядит следующим образом:
 \begin{problem} \label{problem:commonqp}
-\begin{subequations} 
+\begin{subequations}
 	\begin{empheq}{gather}
 \min_{X \in \sfX} \frac{1}{2} X^\rmT \bfG X - V^\rmT X,  \quad \text{где} \ X \in \sfX, \; \text{если} \\
-A_i^\rmT X = p_i, \quad i \in \sfY, \label{eq:commonqpeq}\\ 
+A_i^\rmT X = p_i, \quad i \in \sfY, \label{eq:commonqpeq}\\
 A_i^\rmT X \ge p_i, \quad i \in \sfZ \label{eq:commonqpneq},
 \end{empheq}
 \end{subequations}
@@ -362,7 +366,7 @@ A_i^\rmT X \ge p_i, \quad i \in \sfZ \label{eq:commonqpneq},
 	\textbf{Вход}: параметры задачи квадратичного программирования: матрица $\bfG$, вектор $V$, множества $\sfY$, $\sfZ$ и коэффициенты условий $A_i$, $p_i$.
 	
 	\textbf{Результат}:
-	Решение $X^\star$ задачи \ref{problem:commonqp}. 
+	Решение $X^\star$ задачи \ref{problem:commonqp}.
 	
 	\begin{enumerate}
 		\item Найти начальную точку $X_0$, удовлетворяющую условиям задачи \eqref{eq:commonqpeq}, \eqref{eq:commonqpneq}, и положить $\sfW_0$ --- множество активных ограничений в этой точке.
@@ -386,7 +390,7 @@ A_i^\rmT P_k = 0, \quad i \in \sfW_k,
 \subsection{Специфика задачи}
 Подзадача \eqref{eq:j_positw} при фиксированном $j$ переписывается в терминах задачи \ref{problem:commonqp} следующим образом: $X^\star = C^\star$, $X = C$, $\bfG = \bfS$, $V = L_K$, \eqref{eq:commonqpeq} состоит из \eqref{eq:positw_symm}, \eqref{eq:commonqpneq} состоит из \eqref{eq:positw_notnull}, \eqref{eq:positw_min} и \eqref{eq:positw_max}.
 
-Таким образом, необходимо объяснить, как находить начальную точку (п. 1 алгоритма $\ref{alg:asm}$), решение подзадачи квадратичного программирования и множители Лагранжа (п. 4 алгоритма $\ref{alg:asm}$) применительно к частному случаю задачи \eqref{eq:j_positw}. 
+Таким образом, необходимо объяснить, как находить начальную точку (п. 1 алгоритма $\ref{alg:asm}$), решение подзадачи квадратичного программирования и множители Лагранжа (п. 4 алгоритма $\ref{alg:asm}$) применительно к частному случаю задачи \eqref{eq:j_positw}.
 %При этом логичнее вначале рассмотреть п. 4, а только потом п. 1 Алгоритма $\ref{alg:asm}$, используя уже введённую технику.
 
 Обозначим вкратце те особенности, которые помогают получить быстрое решение:
@@ -433,19 +437,19 @@ s_{k} = 5\sin{\frac{2 \pi k}{6}}, \quad k = 1, \ldots, N,
 	\caption{Сравнение методов по RMSE и среднему числу итераций при различных $\alpha$ и алгоритмах получения весов (I, II).}\label{fintable}
 	\begin{center}
 		\begin{tabular}{|c|c|c|c|c|}
-			\hline $\alpha$ & RMSE, I & RMSE, II & Iterations, I & Iterations, II \\ 
-			\hline 1 & 0.3811 & 0.3811 & 8.44 & 8.44 \\ 
-			\hline $2^{-1}$ & 0.3615 & 0.3682 & 8.67 & 8.71 \\ 
-			\hline $2^{-2}$ & 0.3475 & 0.3529 & 9.76 & 9.55 \\ 
-			\hline $2^{-3}$ & 0.3371 & 0.3388 & 11.97 & 11.61 \\ 
-			\hline $2^{-4}$ & 0.3300 & 0.3293 & 14.73 & 15.95 \\ 
-			\hline $2^{-5}$ & 0.3247 & 0.3247 & 24.37 & 24.37 \\ 
-			\hline $2^{-6}$ & 0.3231 & 0.3231 & 39.95 & 39.95 \\ 
-			%\hline $2^{-7}$ & 0.3227 & 0.3227 & 67.86 & 67.86 \\ 
-			%\hline $2^{-8}$ & 0.3226 & 0.3226 & 116.87 & 116.87 \\ 
-			%\hline $2^{-9}$ & 0.3226 & 0.3226 & 201.09 & 201.09 \\ 
-			\hline 
-		\end{tabular} 
+			\hline $\alpha$ & RMSE, I & RMSE, II & Iterations, I & Iterations, II \\
+			\hline 1 & 0.3811 & 0.3811 & 8.44 & 8.44 \\
+			\hline $2^{-1}$ & 0.3615 & 0.3682 & 8.67 & 8.71 \\
+			\hline $2^{-2}$ & 0.3475 & 0.3529 & 9.76 & 9.55 \\
+			\hline $2^{-3}$ & 0.3371 & 0.3388 & 11.97 & 11.61 \\
+			\hline $2^{-4}$ & 0.3300 & 0.3293 & 14.73 & 15.95 \\
+			\hline $2^{-5}$ & 0.3247 & 0.3247 & 24.37 & 24.37 \\
+			\hline $2^{-6}$ & 0.3231 & 0.3231 & 39.95 & 39.95 \\
+			%\hline $2^{-7}$ & 0.3227 & 0.3227 & 67.86 & 67.86 \\
+			%\hline $2^{-8}$ & 0.3226 & 0.3226 & 116.87 & 116.87 \\
+			%\hline $2^{-9}$ & 0.3226 & 0.3226 & 201.09 & 201.09 \\
+			\hline
+		\end{tabular}
 
 	\end{center}
 \end{table}
@@ -545,11 +549,11 @@ s_{k} = 5\sin{\frac{2 \pi k}{6}}, \quad k = 1, \ldots, N,
 	Russian Federation; \href{mailto:nikitazvonarev@gmail.com}{nikitazvonarev@gmail.com}
 	
     The new approach of finding weights leading to improvement of accuracy in a weighted finite-rank time-series approximation problem is considered. Theory of quadratic optimization is used in the construction of numeric method of finding weigths. The problem of finding weights is formulated in several equivalent statements, each of them used in the construction of steps of efficient algorithm. Weights found by the algorithm are checked on the numeric example.
-    
+
     \emph{Keywords:} \ time series, time series of finite rank, Cadzow's iterative method, weighted low-rank approximation, oblique singular value decomposition, quadratic programming.
 }
 
-\renewcommand{\refname}{\normalfont\selectfont\normalsize References} 
+\renewcommand{\refname}{\normalfont\selectfont\normalsize References}
 
 \begin{thebibliography}{1}
 	\def\selectlanguageifdefined#1{
