@@ -84,7 +84,7 @@
 
 
 \author{Н.К.~Звонарев}
-\title{О поиске весов в задаче взвешенной аппроксимации временным рядом конечного ранга}
+\title{Поиск весов в задаче взвешенной аппроксимации временным рядом конечного ранга}
 \address{Санкт-Петербургский государственный университет,\\
 	Российская Федерация, 199034, Санкт-Петербург, Университетская наб., 7/9}
 % \email{nikitazvonarev@gmail.com}
@@ -97,11 +97,8 @@
 
 {\footnotesize
 	
-%	Представлен новый подход к поиску весов, которые приводят к улучшению точности в задаче взвешенной аппроксимации рядом конечного ранга. Для построения численного метода поиска весов использована теория квадратичной оптимизации. Задача поиска весов поставлена в нескольких эквивалентных формулировках, каждая из которых используется при выведении отдельных шагов эффективного и применимого на практике алгоритма. Найденные алгоритмом веса проверены в численном эксперименте.
-
 	Рассматривается задача взвешенной аппроксимации временным рядом конечного ранга с целью оценивания сигнала. Решается проблема поиска весов, которые приводят к улучшению точности оценок. Построен и теоретически обоснован эффективный метод численного метода поиска весов.
- Для этого использована теория квадратичной оптимизации. Чтобы получить эффективный алгоритм, задача квадратичной оптимизации с большим числом ограничений сводится к последовательности задач с меньшим числом ограничений и критерию остановки. Для обоснования алгоритма доказана эквивалентность различных формулировок исходной задачи. Проведен численный эксперимент, подтверждающий эффективность алгоритма и улучшение точности метода оценивания сигнала
- за счет применения алгоритма. 
+ Для этого использована теория квадратичной оптимизации. Чтобы получить эффективный алгоритм, задача квадратичной оптимизации с большим числом ограничений сводится к последовательности задач с меньшим числом ограничений и критерию остановки. Для обоснования алгоритма доказана эквивалентность различных формулировок исходной задачи оптимизации. Проведено численное моделирование, подтверждающее эффективность алгоритма и улучшение точности метода оценивания сигнала.
 	
 \emph{Ключевые слова:} \ Временные ряды, метод Cadzow, ряды конечного ранга, взвешенный метод наименьших квадратов, косоугольное SVD-разложение, квадратичное программирование}
 
@@ -540,16 +537,22 @@ s_{k} = 5\sin{\frac{2 \pi k}{6}}, \quad k = 1, \ldots, N,
 	\emph{Звонарев Никита Константинович} --- аспирант; \href{mailto:nikitazvonarev@gmail.com}{nikitazvonarev@gmail.com}
 }
 
-\section*{On search of weights in weighted finite-rank time-series approximation}
+\section*{Search of weights in problem of weighted finite-rank time-series approximation}
 {\footnotesize
 	
 	\emph{Zvonarev Nikita}
 	
 	St.Petersburg State University, Universitetskaya nab., 7-9, St.Petersburg, 199034,
 	Russian Federation; \href{mailto:nikitazvonarev@gmail.com}{nikitazvonarev@gmail.com}
-	
-    The new approach of finding weights leading to improvement of accuracy in a weighted finite-rank time-series approximation problem is considered. Theory of quadratic optimization is used in the construction of numeric method of finding weigths. The problem of finding weights is formulated in several equivalent statements, each of them used in the construction of steps of efficient algorithm. Weights found by the algorithm are checked on the numeric example.
 
+     The problem of weighted finite-rank time-series approximation is considered for signal estimation.
+     Finding of weights, which lead to improvement of estimate accuracy, is examined. 
+     An effective method for numerical search of weights is constructed and proved.
+     The theory of quadratic optimization is used.  For effective algorithm, the problem of quadratic optimization with large number of linear constraints
+     reduced to a sequence of problems with smaller number constraints, which is completed by a stopping criterion. For the algorithm deduction, 
+     equivalence of different statements of the original optimization problem is proved. 
+     A numerical simulation is performed to approve the algorithm efficiency and improvement of the estimate accuracy. 
+     
     \emph{Keywords:} \ time series, time series of finite rank, Cadzow's iterative method, weighted low-rank approximation, oblique singular value decomposition, quadratic programming.
 }
 
