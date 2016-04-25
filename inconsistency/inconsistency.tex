@@ -127,15 +127,15 @@ y_t = \sum_{i = 1}^p \beta_i y_{t - i} + \varepsilon_t,
 \section{Линейная регрессия на экспоненциальные временные ряды}
 Рассмотрим задачу оценивания сигнала, состоящего из $r$ комплексных экспонент длины $N$: пусть нам дан ряд $\tsX_N = (x_t, t = 0, \ldots, N-1)$: $\tsX_n = \tsS_N + \tsY_N$, $x_t = \sum_{i=1}^r c_i \mu_i^t + y_t$, где $\mu_i \ne 0$ --- попарно различные показатели экспонент (в данном случае, для простоты рассматриваются комплексные экспоненты, чтобы упростить случаи синусоидальных и экспоненциально-модулированных синусоидальных сигналов), $y_t$ --- шум, представляющий из себя стационарный процесс авторегрессии. При $p = 0$ имеем белый шум. Параметры шума (коэффициенты $\beta_1$, \ldots, $\beta_p$) и показатели экспонент известны, что является упрощением реальной задачи. Требуется дать оценку параметрам $C = (c_1, \ldots, c_r)^\rmT$. Тогда оценку $\widehat C_N$ коэффициентов $C$ можно получить по методу наименьших квадратов:
 \begin{equation*}
-\widehat C_N = (\bfM_N^+ \Sigma_N^{-1} \bfM_N)^{-1}\bfM_N^+ \Sigma_N^{-1} \tsX_N^\rmT,
+\widehat C_N = (\bfM_N^* \Sigma_N^{-1} \bfM_N)^{-1}\bfM_N^* \Sigma_N^{-1} \tsX_N^\rmT,
 \end{equation*}
-где $\bfM_N$ --- матрица регрессоров порядка $N \times r$, $\bfM_N = (m_{i, j})$, $m_{i, j} = \mu_j^{i- 1}$, $\Sigma_N$~---~матрица ковариаций случайного вектора $\tsY_N$, под $\bfM_N^+$ определено эрмитово транспонирование матрицы $\bfM_N$.
+где $\bfM_N$ --- матрица регрессоров порядка $N \times r$, $\bfM_N = (m_{i, j})$, $m_{i, j} = \mu_j^{i- 1}$, $\Sigma_N$~---~матрица ковариаций случайного вектора $\tsY_N$, под $\bfM_N^*$ определено эрмитово транспонирование матрицы $\bfM_N$.
 
 Согласно теореме Гаусса-Маркова, такая оценка является наилучшей в классе несмещённых линейных оценок $C$. Матрица ковариаций $\Sigma_{\widehat C_N}$ вектора $\widehat C_N$ при этом равна
 \begin{equation*}
-\Sigma_{\widehat C_N} = (\bfM_N^+ \Sigma_N^{-1} \bfM_N)^{-1}.
+\Sigma_{\widehat C_N} = (\bfM_N^* \Sigma_N^{-1} \bfM_N)^{-1}.
 \end{equation*}
-В случае белого шума, при $p = 0$ имеем $\Sigma_{\widehat C_N} = \sigma^2 (\bfM_N^+ \bfM_N)^{-1}$. Учитывая, что оценка является несмещённой, её состоятельность выполняется тогда и только тогда, когда $ \lim_{N \to +\infty} \Sigma_{\widehat C_N} = \mathbf{0}$.
+В случае белого шума, при $p = 0$ имеем $\Sigma_{\widehat C_N} = \sigma^2 (\bfM_N^* \bfM_N)^{-1}$. Учитывая, что оценка является несмещённой, её состоятельность выполняется тогда и только тогда, когда $ \lim_{N \to +\infty} \Sigma_{\widehat C_N} = \mathbf{0}$.
 
 Вначале докажем результат, касающийся состоятельности этой оценки, для случая белого шума, а затем для общего случая процесса авторегрессии порядка $p$.
 
@@ -151,7 +151,7 @@ y_t = \sum_{i = 1}^p \beta_i y_{t - i} + \varepsilon_t,
 		\end{equation*}
 		
 		Тогда \begin{equation*}
-		\lim_{N \to + \infty} \widetilde \bfM_N^+ \widetilde \bfM_N = \left( \begin{array}{c|c|c}
+		\lim_{N \to + \infty} \widetilde \bfM_N^* \widetilde \bfM_N = \left( \begin{array}{c|c|c}
 		\widetilde \bfA & \mathbf{0} & \mathbf{0} \\ \hline
 		\mathbf{0} & \bfI & \mathbf{0} \\ \hline
 		\mathbf{0} & \mathbf{0} & \widetilde \bfC
@@ -159,23 +159,23 @@ y_t = \sum_{i = 1}^p \beta_i y_{t - i} + \varepsilon_t,
 		\end{equation*}
 		где матрица $\widetilde \bfA = (\tilde a_{i, j})$ --- невырожденная квадратная матрица порядка $r_A$, элементы которой равны
 		\begin{equation*}
-		\tilde a_{i, j} = \frac{\sqrt{\mu_i \overline{\mu_i} - 1}\sqrt{\mu_j \overline{\mu_j} - 1}}{\mu_i \overline{\mu_j} - 1},
+		\tilde a_{i, j} = \frac{\sqrt{\mu_i \overline{\mu_i} - 1}\sqrt{\mu_j \overline{\mu_j} - 1}}{\overline{\mu_i} \mu_j - 1},
 		\end{equation*}
 		$\bfI$ --- единичная квадратная матрица порядка $r_B$, $\widetilde \bfC = (\tilde c_{i, j})$ --- невырожденная квадратная матрица порядка $r_C$, элементы которой равны
 		\begin{equation*}
-		\tilde c_{i, j} = \frac{\sqrt{1 - \mu_{i+r_A+r_B} \overline{\mu_{i+r_A+r_B}}}\sqrt{1 - \mu_{j+r_A+r_B} \overline{\mu_{j+r_A+r_B}}}}{1 - \mu_{i+r_A+r_B} \overline{\mu_{j+r_A+r_B}}}.
+		\tilde c_{i, j} = \frac{\sqrt{1 - \mu_{i+r_A+r_B} \overline{\mu_{i+r_A+r_B}}}\sqrt{1 - \mu_{j+r_A+r_B} \overline{\mu_{j+r_A+r_B}}}}{1 - \overline{\mu_{i+r_A+r_B}} \mu_{j+r_A+r_B}}.
 	    \end{equation*}
 	    
 	    \item 
 	    \begin{equation*}
-	    \lim_{N \to + \infty} \sigma^2 (\bfM_N^+ \bfM_N)^{-1} = \sigma^2 \left( \begin{array}{c|c}
+	    \lim_{N \to + \infty} \sigma^2 (\bfM_N^* \bfM_N)^{-1} = \sigma^2 \left( \begin{array}{c|c}
 	    \mathbf{0}_{r_A + r_B} & \mathbf{0} \\ \hline
 	    \mathbf{0} & \bfC^{-1}
 	    \end{array}  \right),
 	    \end{equation*}
 	    где $\mathbf{0}_{r_A + r_B}$ --- нулевая матрица порядка $r_A + r_B$, $\bfC = (c_{i,j})$ --- невырожденная квадратная матрица порядка $r_C$, элементы которой равны
 	    \begin{equation*}
-	    c_{i, j} = \frac{1}{1 - \mu_{i+r_A+r_B} \overline{\mu_{j+r_A+r_B}}}.
+	    c_{i, j} = \frac{1}{1 - \overline{\mu_{i+r_A+r_B}} \mu_{j+r_A+r_B}}.
 	    \end{equation*}
 	\end{enumerate}
 \end{theorem}
@@ -185,37 +185,37 @@ y_t = \sum_{i = 1}^p \beta_i y_{t - i} + \varepsilon_t,
 		\begin{itemize}
 			\item Пусть $\rho_i > 1$, $\rho_j > 1$. Тогда
 			\begin{multline*}
-			\sum_{t=0}^{N-1} \frac{\mu_i^t \overline{\mu_j^t} e^{I N (\varphi_j - \varphi_i)}}{\sqrt{\sum_{k=0}^{N-1} \mu_i^k \overline{\mu_i^k}} \sqrt{\sum_{k=0}^{N-1} \mu_j^k \overline{\mu_j^k}}} = \frac{(\rho_i \rho_j)^N - e^{I N(\varphi_j - \varphi_i)}}{\rho_i \rho_j e^{I (\varphi_i - \varphi_j)} - 1} \frac{\sqrt{\rho_i^2 - 1}}{\sqrt{\rho_i^{2N} - 1}} \cdot \\ \cdot \frac{\sqrt{\rho_j^2 - 1}}{\sqrt{\rho_j^{2N} - 1}} \to \tilde a_{i, j}.
+			\sum_{t=0}^{N-1} \frac{\overline{\mu_i^t} \mu_j^t e^{I N (\varphi_i - \varphi_j)}}{\sqrt{\sum_{k=0}^{N-1} \mu_i^k \overline{\mu_i^k}} \sqrt{\sum_{k=0}^{N-1} \mu_j^k \overline{\mu_j^k}}} = \frac{(\rho_i \rho_j)^N - e^{I N(\varphi_i - \varphi_j)}}{\rho_i \rho_j e^{I (\varphi_j - \varphi_i)} - 1} \frac{\sqrt{\rho_i^2 - 1}}{\sqrt{\rho_i^{2N} - 1}} \cdot \\ \cdot \frac{\sqrt{\rho_j^2 - 1}}{\sqrt{\rho_j^{2N} - 1}} \to \tilde a_{i, j}.
 			\end{multline*}
 			
 			\item Пусть $\rho_i > 1$, $\rho_j = 1$. Тогда
 			\begin{equation*}
-			\sum_{t=0}^{N-1} \frac{\mu_i^t \overline{\mu_j^t} e^{I N (- \varphi_i)}}{\sqrt{\sum_{k=0}^{N-1} \mu_i^k \overline{\mu_i^k}} \sqrt{\sum_{k=0}^{N-1} \mu_j^k \overline{\mu_j^k}}} = \frac{(\rho_i )^N e^{I N ( -\varphi_j)} - e^{I N(-\varphi_i)}}{\rho_i e^{I (\varphi_i - \varphi_j)} - 1} \frac{\sqrt{\rho_i^2 - 1}}{\sqrt{\rho_i^{2N} - 1}} \frac{1}{\sqrt{N}} \to 0.
+			\sum_{t=0}^{N-1} \frac{\overline{\mu_i^t} \mu_j^t e^{I N \varphi_i}}{\sqrt{\sum_{k=0}^{N-1} \mu_i^k \overline{\mu_i^k}} \sqrt{\sum_{k=0}^{N-1} \mu_j^k \overline{\mu_j^k}}} = \frac{(\rho_i )^N e^{I N \varphi_j} - e^{I N \varphi_i}}{\rho_i e^{I (\varphi_j - \varphi_i)} - 1} \frac{\sqrt{\rho_i^2 - 1}}{\sqrt{\rho_i^{2N} - 1}} \frac{1}{\sqrt{N}} \to 0.
 			\end{equation*}
 			
 			\item Пусть $\rho_i > 1$, $\rho_j < 1$. Учитывая, что $\rho_i \rho_j < \rho_i$, получаем \footnote{Здесь нет случая, когда $\rho_j = 1/\rho_i$. Результат целиком аналогичен.}
 			\begin{multline*}
-			\sum_{t=0}^{N-1} \frac{\mu_i^t \overline{\mu_j^t} e^{I N ( - \varphi_i)}}{\sqrt{\sum_{k=0}^{N-1} \mu_i^k \overline{\mu_i^k}} \sqrt{\sum_{k=0}^{N-1} \mu_j^k \overline{\mu_j^k}}} = \frac{(\rho_i \rho_j)^N e^{I N ( -\varphi_j)} - e^{I N( - \varphi_i)}}{\rho_i \rho_j e^{I (\varphi_i - \varphi_j)} - 1} \frac{\sqrt{\rho_i^2 - 1}}{\sqrt{\rho_i^{2N} - 1}} \cdot \\ \cdot \frac{\sqrt{1 - \rho_j^2}}{\sqrt{1 - \rho_j^{2N}}} \to 0.
+			\sum_{t=0}^{N-1} \frac{\overline{\mu_i^t} \mu_j^t e^{I N \varphi_i}}{\sqrt{\sum_{k=0}^{N-1} \mu_i^k \overline{\mu_i^k}} \sqrt{\sum_{k=0}^{N-1} \mu_j^k \overline{\mu_j^k}}} = \frac{(\rho_i \rho_j)^N e^{I N \varphi_j} - e^{I N \varphi_i}}{\rho_i \rho_j e^{I (\varphi_j - \varphi_i)} - 1} \frac{\sqrt{\rho_i^2 - 1}}{\sqrt{\rho_i^{2N} - 1}} \cdot \\ \cdot \sqrt{\frac{1 - \rho_j^2}{1 - \rho_j^{2N}}} \to 0.
 			\end{multline*}
 			
 			\item Пусть $\rho_i = 1$, $\rho_j = 1$, $i \ne j$. Тогда
 			\begin{equation*}
-			\sum_{t=0}^{N-1} \frac{\mu_i^t \overline{\mu_j^t}}{\sqrt{\sum_{k=0}^{N-1} \mu_i^k \overline{\mu_i^k}} \sqrt{\sum_{k=0}^{N-1} \mu_j^k \overline{\mu_j^k}}} = \frac{e^{I N (\varphi_i -\varphi_j)} - 1}{e^{I (\varphi_i - \varphi_j)} - 1} \frac{1}{\sqrt{N}} \frac{1}{\sqrt{N}} \to 0.
+			\sum_{t=0}^{N-1} \frac{\overline{\mu_i^t} \mu_j^t}{\sqrt{\sum_{k=0}^{N-1} \mu_i^k \overline{\mu_i^k}} \sqrt{\sum_{k=0}^{N-1} \mu_j^k \overline{\mu_j^k}}} = \frac{e^{I N (\varphi_j -\varphi_i)} - 1}{e^{I (\varphi_j - \varphi_i)} - 1} \frac{1}{\sqrt{N}} \frac{1}{\sqrt{N}} \to 0.
 			\end{equation*}
 			
 			\item Пусть $\rho_i = 1$, $\rho_j < 1$. Тогда
 			\begin{equation*}
-			\sum_{t=0}^{N-1} \frac{\mu_i^t \overline{\mu_j^t}}{\sqrt{\sum_{k=0}^{N-1} \mu_i^k \overline{\mu_i^k}} \sqrt{\sum_{k=0}^{N-1} \mu_j^k \overline{\mu_j^k}}} = \frac{\rho_j^N e^{I N (\varphi_i -\varphi_j)} - 1}{\rho_j e^{I (\varphi_i - \varphi_j)} - 1}  \frac{1}{\sqrt{N}} \frac{\sqrt{1 - \rho_j^2}}{\sqrt{1 - \rho_j^{2N}}} \to 0.
+			\sum_{t=0}^{N-1} \frac{\overline{\mu_i^t} \mu_j^t}{\sqrt{\sum_{k=0}^{N-1} \mu_i^k \overline{\mu_i^k}} \sqrt{\sum_{k=0}^{N-1} \mu_j^k \overline{\mu_j^k}}} = \frac{\rho_j^N e^{I N (\varphi_j -\varphi_i)} - 1}{\rho_j e^{I (\varphi_j - \varphi_i)} - 1}  \frac{1}{\sqrt{N}} \frac{\sqrt{1 - \rho_j^2}}{\sqrt{1 - \rho_j^{2N}}} \to 0.
 			\end{equation*}
 			
 			\item Пусть $\rho_i < 1$, $\rho_j < 1$. Тогда
 			\begin{multline*}
-			\sum_{t=0}^{N-1} \frac{\mu_i^t \overline{\mu_j^t}}{\sqrt{\sum_{k=0}^{N-1} \mu_i^k \overline{\mu_i^k}} \sqrt{\sum_{k=0}^{N-1} \mu_j^k \overline{\mu_j^k}}} = \frac{1 - (\rho_i \rho_j)^N e^{I N (\varphi_i -\varphi_j)}}{1 - \rho_i \rho_j e^{I (\varphi_i - \varphi_j)}} \cdot \\ \cdot \frac{\sqrt{1 - \rho_i^2}}{\sqrt{1 - \rho_i^{2N}}} \frac{\sqrt{1 - \rho_j^2}}{\sqrt{1 - \rho_j^{2N}}} \to \frac{\sqrt{1 - \mu_{i} \overline{\mu_{i}}}\sqrt{1 - \mu_{j} \overline{\mu_{j}}}}{1 - \mu_{i} \overline{\mu_{j}}}.
+			\sum_{t=0}^{N-1} \frac{\overline{\mu_i^t} \mu_j^t}{\sqrt{\sum_{k=0}^{N-1} \mu_i^k \overline{\mu_i^k}} \sqrt{\sum_{k=0}^{N-1} \mu_j^k \overline{\mu_j^k}}} = \frac{1 - (\rho_i \rho_j)^N e^{I N (\varphi_j -\varphi_i)}}{1 - \rho_i \rho_j e^{I (\varphi_j - \varphi_i)}} \cdot \\ \cdot \frac{\sqrt{1 - \rho_i^2}}{\sqrt{1 - \rho_i^{2N}}} \frac{\sqrt{1 - \rho_j^2}}{\sqrt{1 - \rho_j^{2N}}} \to \frac{\sqrt{1 - \mu_{i} \overline{\mu_{i}}}\sqrt{1 - \mu_{j} \overline{\mu_{j}}}}{1 - \overline{\mu_{i}} \mu_{j}}.
 			\end{multline*}
 				
 		\end{itemize}
 		
-		Матрицы $\widetilde \bfA$, $\widetilde \bfC$ и $\bfC$ --- Коши-подобные матрицы (Cauchy-like matrix), при этом они невырожденные.
+		Матрицы $\widetilde \bfA$, $\widetilde \bfC$ и $\bfC$ --- Коши-подобные матрицы (Cauchy-like matrix), при этом все они невырожденные, см. \cite{Schechter1959}.
 		
 		Пункт 2 следует из пункта 1 теоремы с учётом применённой нормировки.
 	\end{proof}
@@ -234,7 +234,7 @@ y_t = \sum_{i = 1}^p \beta_i y_{t - i} + \varepsilon_t,
 		\end{equation*}
 		
 		Тогда \begin{equation*}
-		\lim_{N \to + \infty} \widetilde \bfM_N^+ \Sigma_N^{-1} \widetilde \bfM_N = \left( \begin{array}{c|c|c}
+		\lim_{N \to + \infty} \widetilde \bfM_N^* \Sigma_N^{-1} \widetilde \bfM_N = \left( \begin{array}{c|c|c}
 		\widetilde \bfA & \mathbf{0} & \mathbf{0} \\ \hline
 		\mathbf{0} & \bfI / \sigma^2& \mathbf{0} \\ \hline
 		\mathbf{0} & \mathbf{0} & \widetilde \bfC
@@ -242,23 +242,23 @@ y_t = \sum_{i = 1}^p \beta_i y_{t - i} + \varepsilon_t,
 		\end{equation*}
 		где матрица $\widetilde \bfA = (\tilde a_{i, j})$ --- невырожденная квадратная матрица порядка $r_A$, элементы которой равны
 		\begin{equation*}
-		\tilde a_{i, j} = \frac{1}{\sigma^2} \frac{\sqrt{\mu_i \overline{\mu_i} - 1}\sqrt{\mu_j \overline{\mu_j} - 1} f(1/\mu_i) \overline{f(1/\mu_j)} }{(\mu_i \overline{\mu_j} - 1) |f(1/\mu_i)| |f(1/\mu_j)|},
+		\tilde a_{i, j} = \frac{1}{\sigma^2} \frac{\sqrt{\mu_i \overline{\mu_i} - 1}\sqrt{\mu_j \overline{\mu_j} - 1} \overline{f(1/\mu_i)} f(1/\mu_j) }{(\overline{\mu_i} \mu_j - 1) |f(1/\mu_i)| |f(1/\mu_j)|},
 		\end{equation*}
 		$\bfI$ --- единичная квадратная матрица порядка $r_B$, $\widetilde \bfC = (\tilde c_{i, j})$ --- невырожденная квадратная матрица порядка $r_C$, элементы которой равны
 		\begin{multline*}
-		\tilde c_{i, j} = \frac{1}{\sigma^2} \frac{\sqrt{1 - \mu_{i+r_A+r_B} \overline{\mu_{i+r_A+r_B}}}\sqrt{1 - \mu_{j+r_A+r_B} \overline{\mu_{j+r_A+r_B}}}}{1 - \mu_{i+r_A+r_B} \overline{\mu_{j+r_A+r_B}}} \cdot \\ \cdot \frac{f(\mu_{i+r_A+r_B}) \overline{f(\mu_{j+r_A+r_B})}}{|f(\mu_{i+r_A+r_B})| |f(\mu_{j+r_A+r_B})|}.
+		\tilde c_{i, j} = \frac{1}{\sigma^2} \frac{\sqrt{1 - \mu_{i+r_A+r_B} \overline{\mu_{i+r_A+r_B}}}\sqrt{1 - \mu_{j+r_A+r_B} \overline{\mu_{j+r_A+r_B}}}}{1 - \overline{\mu_{i+r_A+r_B}} \mu_{j+r_A+r_B}} \cdot \\ \cdot \frac{\overline{f(\mu_{i+r_A+r_B})} f(\mu_{j+r_A+r_B})}{|f(\mu_{i+r_A+r_B})| |f(\mu_{j+r_A+r_B})|}.
 		\end{multline*}
 		
 		\item 
 		\begin{equation*}
-		\lim_{N \to + \infty} (\bfM_N^+ \Sigma_N^{-1} \bfM_N)^{-1} = \sigma^2 \left( \begin{array}{c|c}
+		\lim_{N \to + \infty} (\bfM_N^* \Sigma_N^{-1} \bfM_N)^{-1} = \sigma^2 \left( \begin{array}{c|c}
 		\mathbf{0}_{r_A + r_B} & \mathbf{0} \\ \hline
 		\mathbf{0} & \bfC^{-1}
 		\end{array}  \right),
 		\end{equation*}
 		где $\mathbf{0}_{r_A + r_B}$ --- нулевая матрица порядка $r_A + r_B$, $\bfC = (c_{i,j})$ --- невырожденная квадратная матрица порядка $r_C$, элементы которой равны
 		\begin{equation*}
-		c_{i, j} = \frac{f(\mu_{i + r_A + r_B}) \overline{f(\mu_{j + r_A + r_B})}}{1 - \mu_{i+r_A+r_B} \overline{\mu_{j+r_A+r_B}}}.
+		c_{i, j} = \frac{\overline{f(\mu_{i + r_A + r_B})} f(\mu_{j + r_A + r_B})}{1 - \overline{\mu_{i+r_A+r_B}} \mu_{j+r_A+r_B}}.
 		\end{equation*}
 	\end{enumerate}
 \end{theorem}
@@ -266,17 +266,17 @@ y_t = \sum_{i = 1}^p \beta_i y_{t - i} + \varepsilon_t,
 \begin{proof}
 	Чтобы не пересчитывать заново все пределы, заметим следующее:
 	\begin{itemize}
-		\item Если $A$ и $B$ --- два вектора, лежащие в $\sfZ^N$, то $A^+ \Sigma_N^{-1} B = \rev{A}^+ \Sigma_N^{-1} \rev{B}$, где $\rev{\cdot}$ --- оператор, разворачивающий вектор наоборот. Следует из того, что $\Sigma_N^{-1}$ симметрична относительно побочной диагонали.
-		\item Выполняется равенство $A^+ \Sigma_N^{-1} B = A^+ \bfU_N^T \bfU_N B$, где $\bfU_N$ --- верхнетреугольная матрица в разложении Холецкого матрицы $\Sigma_N^{-1}$. С достаточно большого $N$ можно применять результат теоремы \ref{th:invcov_chol}.
+		\item Если $A$ и $B$ --- два вектора, лежащие в $\sfZ^N$, то $A^* \Sigma_N^{-1} B = \rev(A)^* \Sigma_N^{-1} \rev(B)$, где $\rev(\cdot)$ --- оператор, разворачивающий вектор наоборот. Следует из того, что $\Sigma_N^{-1}$ симметрична относительно побочной диагонали.
+		\item Выполняется равенство $A^* \Sigma_N^{-1} B = A^* \bfU_N^T \bfU_N B$, где $\bfU_N$ --- верхнетреугольная матрица в разложении Холецкого матрицы $\Sigma_N^{-1}$. С достаточно большого $N$ можно применять результат теоремы \ref{th:invcov_chol}.
 	\end{itemize}
 	
 	Пусть $A = (a_0, \ldots, a_{N - 1})^\rmT$, $a_i = \nu^i$, $B = (b_0, \ldots, b_{N - 1})^\rmT$, $b_i = \xi^i$. Рассмотрим два случая (не умаляя общности, пусть $\sigma = 1$):
 	\begin{itemize}
 		\item $|\nu| > 1$. Тогда последовательности надо развернуть, получаем следующее:
-		$A^+ \Sigma_N^{-1} B = A^+ \bfU_N^T \bfU_N B = \sum_{i=0}^{N-{2p} -2} (\sum_{j=1}^{p+1}b_j \overline{\nu^{N - i - j}}) \cdot$ \\$\cdot (\sum_{j=1}^{p+1}b_j \mu^{N - i - j}) + O(1) = $ $\sum_{i=0}^{N-{2p} - 2} (\overline{\nu^{N - i - 1}} \overline{f(1/\nu)})  (\mu^{N - i - 1}f(1/\mu)) + O(1)$ $= \overline{f(1/\nu)} f(1/\mu)\sum_{i=0}^{N-1} (\overline{\nu^{N - i - 1}} ) (\mu^{N - i - 1}) + O(1) = $\\
+		$A^* \Sigma_N^{-1} B = \rev(A)^* \Sigma_N^{-1} \rev(B) =  \rev(A)^* \bfU_N^T \bfU_N  \rev(B) =$ \\$\sum_{i=0}^{N-{2p} -2} (\sum_{j=1}^{p+1}b_j \overline{\nu^{N - i - j}}) (\sum_{j=1}^{p+1}b_j \mu^{N - i - j}) + O(1) = $\\ $\sum_{i=0}^{N-{2p} - 2} (\overline{\nu^{N - i - 1}} \overline{f(1/\nu)})  (\mu^{N - i - 1}f(1/\mu)) + O(1) =$\\ $\overline{f(1/\nu)} f(1/\mu)\sum_{i=0}^{N-1} (\overline{\nu^{N - i - 1}} ) (\mu^{N - i - 1}) + O(1) = $\\
 		$\overline{f(1/\nu)} f(1/\mu)\sum_{i=0}^{N-1} \overline{\nu^i} \mu^i + O(1)$.
 		\item $|\nu| \le 1, |\mu| \le 1$. Последовательности разворачивать не нужно, имеем следующее:
-		$A^+ \Sigma_N^{-1} B = A^+ \bfU_N^T \bfU_N B = \sum_{i=0}^{N-{2p}-2} (\sum_{j=1}^{p+1}b_j \overline{\nu^{
+		$A^* \Sigma_N^{-1} B = A^* \bfU_N^T \bfU_N B = \sum_{i=0}^{N-{2p}-2} (\sum_{j=1}^{p+1}b_j \overline{\nu^{
 				i + j - 1}}) \cdot$ \\$\cdot (\sum_{j=1}^{p+1}b_j \mu^{i + j - 1}) + O((|\nu||\mu|)^{N - 2p - 1}) =$  
 		$\sum_{i=0}^{N-{2p} -2} (\overline{\nu^i f(\nu)})(\mu^i f(\mu)) +$\\ $+ O((|\nu||\mu|)^{N})$ = 
 		$\overline{f(\nu)} f(\mu) \sum_{i=0}^{N-1} \overline{\nu^i} \mu^i + O((|\nu||\mu|)^{N})$.
