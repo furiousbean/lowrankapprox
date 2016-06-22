@@ -84,7 +84,7 @@
 
 
 \author{Н.К.~Звонарев$^\dagger$}
-\thanks{$\dagger$ Работа была поддержана грантом РФФИ номер 16-04-00821}
+\thanks{$\dagger$ Работа частично поддержана грантом РФФИ номер 16-04-00821}
 \title[Поиск весов в задаче аппроксимации рядом конечного ранга]{Поиск весов в задаче взвешенной аппроксимации временным рядом конечного ранга}
 \address{Санкт-Петербургский государственный университет,\\
 	Российская Федерация, 199034, Санкт-Петербург, Университетская наб., 7/9}
@@ -101,7 +101,7 @@
 
 Для этого использована теория квадратичной оптимизации. Чтобы получить эффективный алгоритм, задача квадратичной оптимизации с большим числом ограничений сводится к последовательности задач с меньшим числом ограничений и критерию остановки. Для обоснования алгоритма доказана эквивалентность различных формулировок исходной задачи оптимизации. Проведено численное моделирование, подтверждающее эффективность алгоритма и улучшение точности метода оценивания сигнала.
 
-\emph{Ключевые слова:} \ Временные ряды, метод Cadzow, ряды конечного ранга, взвешенный метод наименьших квадратов, косоугольное SVD-разложение, квадратичное программирование}
+\emph{Ключевые слова:} \ Временные ряды, метод Cadzow, ряды конечного ранга, взвешенный метод наименьших квадратов, сингулярное разложение, квадратичное программирование}
 
 \section*{Введение}
 Рассмотрим задачу извлечения сигнала $\tsS~=~(s_1, \ldots, s_N)$ из зашумлённого временного ряда $\tsX = \tsS + \tsN$, где $\tsS$ управляется \emph{линейной рекуррентной формулой} (ЛРФ) порядка $r$: $s_n = \sum_{i = 1}^{r} a_i s_{n-i}$, $n = r + 1, \ldots, N$, $a_r\neq 0$, $\tsN$ --- белый шум. Ряды, управляемые ЛРФ, могут быть записаны в параметрическом виде $s_n = \sum_i P_i(n) \exp(\alpha_i n) \cos(2 \pi \omega_i n + \psi_i)$, где $P_i(n)$ --- многочлены от $n$  \cite{Golyandina.etal2001}.
@@ -122,7 +122,7 @@ s_L & s_{L + 1} & \ldots & s_N
 \begin{equation}\label{eq:sourcetask}
 \sum_{i = 1}^N q_i (x_i - y_i)^2 \to \min_{\tsY: \rank \bfY  = \calT_L(\tsY) \le r},
 \end{equation}
-где $\tsX = (x_1, \ldots, x_N) \in \sfX_N$ --- исходный временной ряд, $\tsY = (y_1, \ldots, y_N)$ --- требуемая аппроксимация, $\bfY = \calT(\tsY)$ --- соответствующая траекторная матрица, $q_i > 0$, $i = 1, \ldots, N,$ --- веса (в дальнейшем называемые ``весами ряда'').
+где $\tsX = (x_1, \ldots, x_N) \in \sfX_N$ --- исходный временной ряд, $\tsY = (y_1, \ldots, y_N)$ --- требуемая аппроксимация, $\bfY = \calT_L(\tsY) = \calT(\tsY)$ --- соответствующая траекторная матрица, $q_i > 0$, $i = 1, \ldots, N,$ --- веса (в дальнейшем называемые ``весами ряда'').
 
 %Отображение $\calT$ работает следующим образом: для $\calT(\tsX) = \bfX$ $\hat x_{l, k} = x_{l + k - 1}$, где $\tsX = (x_1, \ldots, x_N)$, $\bfX = (\hat x_{l, k})$.
 
@@ -175,24 +175,28 @@ b_{i, j} = \begin{cases}
 %\begin{equation}
 	\label{eq:commonw}
 \varphi^\star = \min_{C \in \calC} \varphi(C), \quad \text{где} \quad \varphi(C) = \|\bfB C - \mathbbold{1}_N\|,\\
-\calC = \left\lbrace c_i \ge 0, \quad i = 1, \ldots, K, \quad \label{eq:commonw_cond}
+\calC = \left\lbrace C \mathrel{\Big|} c_i \ge 0, \quad i = 1, \ldots, K, \quad \label{eq:commonw_cond}
 \frac{\min_i c_i}{\max_i c_i} \ge \alpha \right\rbrace,
 \end{empheq}
 \end{subequations}
 где $\mathbbold{1}_N = (1, \ldots, 1)^\rmT \in \sfR^N$ --- требуемые веса ряда (вектор из $N$ единиц), $0 < \alpha \le 1$ --- параметр, регулирующий степень вырожденности матрицы $\bfC$, $\|\cdot\|$ --- евклидова норма в $\sfR^N$.
 \end{problem}
 
+В дальнейшем, тривиальный случай $\alpha = 1$ опустим.
+
 \section{Эквивалентные формулировки}
-Раскроем функцию $\varphi^2(C)/2$ из \eqref{eq:commonw}, избавимся от константного члена и перепишем множество $\calC$ из \eqref{eq:commonw_cond} в виде набора линейных ограничений. Получим следующую эквивалентную формулировку:
+%Раскроем функцию $\varphi^2(C)/2$ из \eqref{eq:commonw}, избавимся от константного члена и перепишем множество $\calC$ из \eqref{eq:commonw_cond} в виде набора линейных ограничений. Получим следующую эквивалентную формулировку:
+Рассмотрим выражение $\varphi^2(C)/2$, где $\varphi(C)$ определено в \eqref{eq:commonw}. Раскроем его, избавимся от константного члена, а множество $\calC$ из \eqref{eq:commonw_cond} обозначим в виде набора линейных ограничений. Получим следующую эквивалентную формулировку:
 \begin{problem} \label{problem:quadtf}
 \begin{subequations}
 	\begin{empheq}[box=\widefbox]{gather}
 	\label{eq:quadtf}
-	f^{\star} = \min_{C \in \calC} f(C), \quad \text{где} \quad f(C) = \frac{1}{2} C^\rmT \bfS C - L_K^\rmT C, \\
-	C \in \calC, \quad \text{если} \; \label{eq:quadtf_cond}\begin{cases}
-	c_i - \alpha c_j \ge 0, & i \ne j \\
-	c_i \ge 0, & i = j
-	\end{cases}, \quad 1 \le i, j \le K,
+	f^{\star} = \min_{C \in \calC} f(C), \quad \text{где} \quad f(C) = \frac{1}{2} C^\rmT \bfS C - L \mathbbold{1}_K^\rmT C, \\
+           \label{eq:quadtf_cond} \calC = \left\lbrace C \mid c_i - \alpha c_j \ge 0, \quad i \ne j, \quad 1 \le i, j \le K \right\rbrace,
+	%C \in \calC, \quad \text{если} \; \label{eq:quadtf_cond}\begin{cases}
+	%c_i - \alpha c_j \ge 0, & i \ne j \\
+	%c_i \ge 0, & i = j
+	%\end{cases}, \quad 1 \le i, j \le K,
 	\end{empheq}
 	\end{subequations}
 	где 	$\bfS = (s_{i, j}) = \bfB^\rmT \bfB$ --- положительно определённая матрица размера $K \times K$ с элементами:
@@ -202,10 +206,12 @@ b_{i, j} = \begin{cases}
 	0, & \text{в противном случае},
 	\end{cases}
 	\end{equation}
-	а вектор $L_K = \bfB^\rmT \mathbbold{1}_N = (L, \ldots, L)^\rmT \in \sfR^K$.
+	а вектор $L \mathbbold{1}_K = \bfB^\rmT \mathbbold{1}_N = (L, \ldots, L)^\rmT \in \sfR^K$.
 \end{problem}
 
-В таком виде задача становится пригодной для использования теории квадратичного программирования \cite{Gavurin1984}. Справедливо следующее:
+%В таком виде задача становится удобной для использования теории квадратичного программирования \cite{Gavurin1984}. 
+Теория квадратичного программирования становится доступной при решении задачи в таком виде \cite{Gavurin1984}.
+Справедливо следующее:
 \begin{proposition}\label{prop:uniqsymm}
 \begin{enumerate}
 \item Задача \ref{problem:quadtf} имеет единственное решение $C^\star$.
@@ -214,7 +220,7 @@ b_{i, j} = \begin{cases}
 \end{proposition}
 \begin{proof}
 \begin{enumerate}
-\item Задача \ref{problem:quadtf} --- задача КП с набором из $K^2$ линейных ограничений \eqref{eq:quadtf_cond} и целевой функцией \eqref{eq:quadtf}, квадратичная форма в которой положительно определена, поэтому решение такой задачи единственно \cite{nocedal2006numerical}[p. 452].
+\item Задача \ref{problem:quadtf} --- задача КП с набором из $K^2$ линейных ограничений \eqref{eq:quadtf_cond} и целевой функцией \eqref{eq:quadtf}, квадратичная форма в которой положительно определена, поэтому решение такой задачи единственно \cite[p. 452]{nocedal2006numerical}.
 \item Достаточно рассмотреть вектор $C^{\star \star} = (c^\star_K, \ldots, c^\star_1)$ и заметить, что $f(C^\star) = f(C^{\star \star})$ и $C^{\star \star} \in \calC$ в \eqref{eq:quadtf_cond}; значит, $C^\star = C^{\star \star}$, что и требовалось доказать.
 \end{enumerate}
 \end{proof}
@@ -225,11 +231,11 @@ b_{i, j} = \begin{cases}
 \begin{subequations}
 \begin{empheq}[box=\widefbox]{gather}
 f^{\star \star} = \min_{j = 1,\ldots, \lceil K/2\rceil} f^\star_j, \label{eq:positw} \\
-f^\star_j = \min_{C \in \calC_j} f(C), \ \text{где} \ C \in \calC_j, \ \text{если} \label{eq:j_positw}\\
-c_i = c_{K - i + 1}, \; i = 1,\ldots, \lceil K/2\rceil, \label{eq:positw_symm}\\
-c_j \ge 0, \label{eq:positw_notnull}\\
+f^\star_j = \min_{C \in \calC_j} f(C), \label{eq:j_positw} \\ %\ \text{где} \ C \in \calC_j, \ \text{если} \\
+\calC_j = \lbrace C \mid c_i = c_{K - i + 1}, \; i = 1,\ldots, \lceil K/2\rceil, \label{eq:positw_symm}\\
+% c_j \ge 0, \label{eq:positw_notnull}\\
 c_i - \alpha c_j \ge 0, \; i = 1,\ldots, j-1, j+1, \ldots, \lceil K/2\rceil, \label{eq:positw_min}\\
-c_j -  c_i \ge 0, \; i = 1,\ldots, j-1, j+1, \ldots, \lceil K/2\rceil \label{eq:positw_max}.
+c_j -  c_i \ge 0, \; i = 1,\ldots, j-1, j+1, \ldots, \lceil K/2\rceil \label{eq:positw_max} \rbrace.
 \end{empheq}
 \end{subequations}
 \end{problem}
@@ -252,24 +258,27 @@ c_j -  c_i \ge 0, \; i = 1,\ldots, j-1, j+1, \ldots, \lceil K/2\rceil \label{eq:
 \begin{problem} \label{problem:nonnegatqw}
 \begin{subequations}
 	\begin{empheq}[box=\widefbox]{gather}\label{eq:nonnegatqw}
-\hat f^\star = \min_{\widehat C \in \hat \calC} \hat f(\widehat C), \quad \text{где} \quad \hat f(\widehat C) = f(\bfH \widehat C) = \frac{1}{2} \widehat C^\rmT  \bfH^\rmT \bfS \bfH \widehat C - L_K^\rmT \bfH  \widehat C, \\
+\hat f^\star = \min_{\widehat C \in \hat \calC} \hat f(\widehat C), \quad \text{где} \quad \hat f(\widehat C) = f(\bfH \widehat C) = \frac{1}{2} \widehat C^\rmT  \bfH^\rmT \bfS \bfH \widehat C - L \mathbbold{1}_K^\rmT \bfH  \widehat C, \\
 \label{eq:nonnegatqw_cond}
-\hat \calC = \left\lbrace c_{\rm{max}} \ge 0, \quad \hat c_j \ge 0, \quad (1 - \alpha) c_{\rm{max}} - \hat c_j \ge 0, \quad j = 1, \ldots, K \right\rbrace.
+\hat \calC = \left\lbrace \widehat C \mathrel{\Big|} \hat c_j \ge 0, \quad (1 - \alpha) c_{\rm{max}} - \hat c_j \ge 0, \quad j = 1, \ldots, K \right\rbrace.
 \end{empheq}
 \end{subequations}
 \end{problem}
 
 \begin{theorem} \label{th:eqivqw}
-	Задачи \ref{problem:commonw}, \ref{problem:quadtf}, \ref{problem:positw} и \ref{problem:nonnegatqw}  эквивалентны.
+	Задачи %\ref{problem:commonw}, 
+	\ref{problem:quadtf}, \ref{problem:positw} и \ref{problem:nonnegatqw}  эквивалентны.
 \end{theorem}
 \begin{proof}
-	Требуется доказать, что $\varphi^\star \le f^\star \le f^{\star \star} \le \hat f^\star \le \varphi^\star$, и что по решению одной из задач можно построить решение любой другой.
+	%Требуется доказать, что $\varphi^\star \ge f^\star \ge f^{\star \star} \ge \hat f^\star \ge \varphi^\star$, и что по решению одной из задач можно построить решение любой другой.
+	Требуется доказать, что $f^\star \ge f^{\star \star} \ge \hat f^\star \ge f^\star$, и что по решению одной из задач можно построить решение любой другой.
 	
-	Эквивалентность задач \ref{problem:commonw} и \ref{problem:quadtf} очевидна. Для оставшихся приведём идею доказательства. Достаточно показать следующее:
+	%Эквивалентность задач \ref{problem:commonw} и \ref{problem:quadtf} очевидна. Для оставшихся приведём идею доказательства. 
+	Приведём идею доказательства. Достаточно показать следующее:
 	\begin{enumerate}
-		\item Пусть $C^\star$ --- решение задачи \ref{problem:quadtf}, то есть $C^\star = \argmin_{C \in \calC} f(C)$. Положим $j^\star = \argmax_i c_i$. $C^\star \in \calC$ и $C^\star$ симметрично, следовательно, $C^\star \in \calC_{j^\star}$. Цепочка неравенств $f^{\star} = f(C^\star) \ge f^\star_j = \min_{C \in \calC_{j^\star}} f(C) \ge \min_{j = 1,\ldots, \lceil K/2\rceil} \min_{C \in \calC_j} f(C) = f^{\star \star}$ завершает доказательство пункта.
-		\item Пусть $j^\star = \argmin_{j = 1,\ldots, \lceil K/2\rceil} f^\star_j$, $C^{\star}_{j^\star} = \argmin_{C \in \calC_{j^\star}} f(C)$ --- решение задачи \ref{problem:positw}. Положим $c_\text{max} = c_{j^\star, j^\star}$, $\hat c_i = c_\text{max} - c_{j^\star, i}$, $i = 1, \ldots, K$, где $C_{j^\star}^\star = (c_{j^\star, 1}, \ldots, c_{j^\star, K})^\rmT$. Нетрудно заметить, что $\widehat C \in \hat \calC$, из чего получим, что $\hat f^\star \le \hat f(\widehat C) = f(C_{j^\star}^\star) = f^{\star \star}$.
-		\item Пусть $\widehat C^\star = \argmin_{\widehat C \in \hat \calC} \hat f(\widehat C)$ --- решение задачи \ref{problem:nonnegatqw}. Положим $c_i =c_\text{max} - \hat c_i$ и заметим, что $C \in \calC$, из чего получим, что $f^\star \le f(C) = \hat f(\widehat C) = \hat f^\star$.
+		\item $(f^\star \ge f^{\star \star}).$ Пусть $C^\star$ --- решение задачи \ref{problem:quadtf}, то есть $C^\star = \argmin_{C \in \calC} f(C)$. Положим $j^\star = \argmax_i c_i$. $C^\star \in \calC$ и $C^\star$ симметрично, следовательно, $C^\star \in \calC_{j^\star}$. Цепочка неравенств $f^{\star} = f(C^\star) \ge f^\star_j = \min_{C \in \calC_{j^\star}} f(C) \ge \min_{j = 1,\ldots, \lceil K/2\rceil} \min_{C \in \calC_j} f(C) = f^{\star \star}$ завершает доказательство пункта.
+		\item $(f^{\star \star} \ge \hat f^\star)$. Пусть $j^\star = \argmin_{j = 1,\ldots, \lceil K/2\rceil} f^\star_j$, $C^{\star}_{j^\star} = \argmin_{C \in \calC_{j^\star}} f(C)$ --- решение задачи \ref{problem:positw}. Положим $c_\text{max} = c_{j^\star, j^\star}$, $\hat c_i = c_\text{max} - c_{j^\star, i}$, $i = 1, \ldots, K$, где $C_{j^\star}^\star = (c_{j^\star, 1}, \ldots, c_{j^\star, K})^\rmT$. Нетрудно заметить, что $\widehat C \in \hat \calC$, из чего получим, что $\hat f^\star \le \hat f(\widehat C) = f(C_{j^\star}^\star) = f^{\star \star}$.
+		\item $(\hat f^\star \ge f^\star)$. Пусть $\widehat C^\star = \argmin_{\widehat C \in \hat \calC} \hat f(\widehat C)$ --- решение задачи \ref{problem:nonnegatqw}. Положим $c_i =c_\text{max} - \hat c_i$ и заметим, что $C \in \calC$, из чего получим, что $f^\star \le f(C) = \hat f(\widehat C) = \hat f^\star$.
 	\end{enumerate}
 \end{proof}
 
@@ -300,8 +309,8 @@ c_j -  c_i \ge 0, \; i = 1,\ldots, j-1, j+1, \ldots, \lceil K/2\rceil \label{eq:
 
 \section{Проверка вектора на решение задачи \ref{problem:nonnegatqw}} \label{sect:check}
 Предложим быстрый алгоритм, проверяющий, является ли заданный вектор $\widehat C$ точкой, в которой достигается глобальный минимум в задаче \ref{problem:nonnegatqw}, то есть реализующий пункт 4 из алгоритма \ref{alg:solveqw}. Для этого применим теорему о необходимом и достаточном условии минимума в задаче квадратичного программирования для задачи \ref{problem:nonnegatqw}.
-\begin{theorem} \label{th:nonnegatfc}
-	Рассмотрим вектор $R = (r_1, \ldots, r_{K+1})^\rmT = \bfH^\rmT \bfS \bfH \widehat C - \bfH^\rmT L_K \in \sfR^{K+1}$. Тогда $\widehat C$ является решением задачи \ref{problem:nonnegatqw} тогда и только тогда, когда:
+\begin{theorem} \label{th:nonnegatfc} \begin{enumerate}
+	\item Рассмотрим вектор $R = (r_1, \ldots, r_{K+1})^\rmT = \bfH^\rmT \bfS \bfH \widehat C - L \bfH^\rmT \mathbbold{1}_K$. Тогда $\widehat C$ является решением задачи \ref{problem:nonnegatqw} в том и только в том случае, если:
 	\begin{enumerate}
 		\item $R^\rmT \widehat C = 0$,
 		\item Существует вектор $U = (u_1, \ldots, u_K)^\rmT \in \sfR^K$ такой, что: \begin{itemize}
@@ -310,30 +319,35 @@ c_j -  c_i \ge 0, \; i = 1,\ldots, j-1, j+1, \ldots, \lceil K/2\rceil \label{eq:
 			\item $(1 - \alpha) \sum_{i=1}^K u_i \le r_{K+1}$.
 		\end{itemize}
 	\end{enumerate}
-\end{theorem}
-\begin{proof}
-	Данная теорема является переформулировкой  теоремы  \cite[Теорема 9.2]{Gavurin1984} для задачи \ref{problem:nonnegatqw}.
-\end{proof}
-
-Следующее следствие из теоремы \ref{th:nonnegatfc} важно для построения алгоритма.
-
-\begin{corollary} \label{cor:nonnegatfc}
-	В обозначениях теоремы \ref{th:nonnegatfc}; положим $u_i = \max(0, -r_i)$, $i = 1, \ldots, K$. Тогда $\widehat C$ является решением задачи \ref{problem:nonnegatqw} тогда и только тогда, когда:
+\item Положим $u_i = \max(0, -r_i)$, $i = 1, \ldots, K$.
+%Тогда $\widehat C$ является решением задачи \ref{problem:nonnegatqw} тогда и только тогда, когда:
+Тогда $\widehat C$ является решением задачи \ref{problem:nonnegatqw} в том и только в том случае, если:
 	\begin{enumerate}
 		\item $R^\rmT \widehat C = 0$,
 		\item $(1 - \alpha) \sum_{i=1}^K u_i \le r_{K+1}$.
 	\end{enumerate}
-\end{corollary}
-
+\end{enumerate}
+\end{theorem}
 \begin{proof}
-Первое условие совпадает с п. 1 теоремы \ref{th:nonnegatfc}. Докажем эквивалентность второго условия.
+	Первый пункт данной теоремы является переформулировкой  теоремы  \cite[Теорема 9.2]{Gavurin1984} для задачи \ref{problem:nonnegatqw}, поэтому перейдём сразу к доказательству второго пункта.
 
-Достаточность. Коэффициенты $u_i$ выбраны так, чтобы удовлетворять условиям $u_i \ge 0$ и $u_i \ge -r_i$. Если выполняется и второе условие, то выполняются все требования теоремы.
+Первое условие в обоих пунктах одинаковое. Докажем эквивалентность второго условия.
 
-Необходимость. Очевидно, что $u_i$ выбраны наименьшими из всех тех, которые удовлетворяют условиям $u_i \ge 0$ и $u_i \ge -r_i$. Пусть $(1 - \alpha) \sum_{i=1}^K u_i > r_{K+1}$. Рассмотрим любой вектор $\widetilde U = (\tilde u_1, \ldots, \tilde u_N)$, удовлетворяющий второму условию, то есть $(1 - \alpha) \sum_{i=1}^K \tilde u_i \le r_{K+1}$. Тогда существует индекс $i$ такой, что $\tilde u_i < u_i$. Следовательно, либо $\tilde u_i < 0$, либо $\tilde u_i < -r_i$, из чего следует, что не существует такого вектора $\widetilde U$, который бы удовлетворял условиям теоремы.
+Достаточность. Коэффициенты $u_i$ выбраны так, чтобы условия $u_i~\ge~0$ и $u_i \ge -r_i$ выполнялись. Если удовлетворено и второе условие, то выполняются все требования первого пункта.
+
+Необходимость. Очевидно, что $u_i$ выбраны наименьшими из всех тех, которые удовлетворяют условиям $u_i \ge 0$ и $u_i \ge -r_i$. Пусть $(1 - \alpha) \sum_{i=1}^K u_i > r_{K+1}$. Рассмотрим любой вектор $\widetilde U = (\tilde u_1, \ldots, \tilde u_N)$, удовлетворяющий  условию (b), то есть $(1 - \alpha) \sum_{i=1}^K \tilde u_i \le r_{K+1}$. Тогда существует индекс $i$ такой, что $\tilde u_i < u_i$. Следовательно, либо $\tilde u_i < 0$, либо $\tilde u_i < -r_i$, из чего следует, что не существует такого вектора $\widetilde U$, который бы удовлетворял условиям первого пункта.
 \end{proof}
 
-Рассмотрим следующий алгоритм, базирующийся на следствии \ref{cor:nonnegatfc}.
+%Следующее следствие из теоремы \ref{th:nonnegatfc} важно для построения алгоритма.
+%
+%\begin{corollary} \label{cor:nonnegatfc}
+%	В обозначениях теоремы \ref{th:nonnegatfc}; 
+%\end{corollary}
+
+%\begin{proof}
+%\end{proof}
+
+Рассмотрим следующий алгоритм, базирующийся на теореме  \ref{th:nonnegatfc}.
 \begin{algorithm}
 	\label{alg:nonnegatfc}
 	\textbf{Вход}: предполагаемое решение $\widehat C$, параметр $\alpha$.
@@ -342,7 +356,7 @@ c_j -  c_i \ge 0, \; i = 1,\ldots, j-1, j+1, \ldots, \lceil K/2\rceil \label{eq:
 	Булево значение: является ли $\widehat C$ решением задачи \ref{problem:nonnegatqw}.
 	
 	\begin{enumerate}
-		\item Вычислить $R = \bfH^\rmT \bfS \bfH \widehat C - \bfH^\rmT L_K$.
+		\item Вычислить $R = \bfH^\rmT \bfS \bfH \widehat C - L \bfH^\rmT \mathbbold{1}_K$.
 		\item Если $R^\rmT \widehat C \neq 0$, то вернуть FALSE, иначе перейти к следующему пункту.
 		\item Выбрать в качестве вектора $U = (u_1, \ldots, u_K)^\rmT$ следующие значения: $u_i = \max(0, -r_i)$, $i = 1, \ldots, K$.
 		\item Если $(1 - \alpha) \sum_{i=1}^K u_i \le r_{K+1}$, то вернуть TRUE, иначе FALSE.
@@ -357,9 +371,9 @@ c_j -  c_i \ge 0, \; i = 1,\ldots, j-1, j+1, \ldots, \lceil K/2\rceil \label{eq:
 \begin{problem} \label{problem:commonqp}
 \begin{subequations}
 	\begin{empheq}{gather}
-\min_{X \in \sfX} \frac{1}{2} X^\rmT \bfG X - V^\rmT X,  \quad \text{где} \ X \in \sfX, \; \text{если} \\
-A_i^\rmT X = p_i, \quad i \in \sfY, \label{eq:commonqpeq}\\
-A_i^\rmT X \ge p_i, \quad i \in \sfZ \label{eq:commonqpneq},
+\min_{X \in \sfX} \frac{1}{2} X^\rmT \bfG X - V^\rmT X, \\ % \quad \text{где} \ X \in , \; \text{если} \\
+\sfX = \lbrace X \mid A_i^\rmT X = p_i, \quad i \in \sfY, \label{eq:commonqpeq}\\
+A_i^\rmT X \ge p_i, \quad i \in \sfZ \label{eq:commonqpneq} \rbrace,
 \end{empheq}
 \end{subequations}
 где $\bfG \in \sfR^{K \times K}$ --- произвольная положительно определённая матрица, $V \in \sfR^K$ --- произвольный вектор, $\sfY$ и $\sfZ$ --- множества индексов, вектора $A_i \in \sfR^K$ вместе с $p_i \in \sfR$ задают ограничения.
@@ -381,8 +395,8 @@ A_i^\rmT X \ge p_i, \quad i \in \sfZ \label{eq:commonqpneq},
         \item Положить $G_k = V - \bfG X_k$
         \item Решить подзадачу квадратичного программирования и найти множители Лагранжа $u_i$, $i \in \sfW_k$:
         \begin{subequations} \begin{empheq}{gather} \label{eq:subtask}
-P_k^\star = \argmin_{P_k \in \sfP_k} \frac{1}{2} P_k^\rmT \bfG P_k - G_k^\rmT P_k ,  \ \text{где} \\ \label{eq:subtask_cond} \ P_k \in \sfP_k, \; \text{если} \quad
-A_i^\rmT P_k = 0, \quad i \in \sfW_k,
+P_k^\star = \argmin_{P_k \in \sfP_k} \frac{1}{2} P_k^\rmT \bfG P_k - G_k^\rmT P_k ,  \\ %\ \text{где} \\
+\label{eq:subtask_cond} \sfP_k = \lbrace P_k \mid A_i^\rmT P_k = 0, \quad i \in \sfW_k \rbrace,
 \end{empheq}
 \end{subequations}
 после чего $u_i$ находятся из системы уравнений $\sum_{i \in \sfW_k} u_i A_i =  \bfG P_k^\star - G_K$.
@@ -395,7 +409,8 @@ A_i^\rmT P_k = 0, \quad i \in \sfW_k,
 	\end{enumerate}
 \end{algorithm}
 \subsection{Специфика задачи}
-Подзадача \eqref{eq:j_positw} при фиксированном $j$ переписывается в терминах задачи \ref{problem:commonqp} следующим образом: $X^\star = C^\star$, $X = C$, $\bfG = \bfS$, $V = L_K$, \eqref{eq:commonqpeq} состоит из \eqref{eq:positw_symm}, \eqref{eq:commonqpneq} состоит из \eqref{eq:positw_notnull}, \eqref{eq:positw_min} и \eqref{eq:positw_max}.
+Подзадача \eqref{eq:j_positw} при фиксированном $j$ переписывается в терминах задачи \ref{problem:commonqp} следующим образом: $X^\star = C^\star$, $X = C$, $\bfG = \bfS$, $V = L \mathbbold{1}_K$, \eqref{eq:commonqpeq} состоит из \eqref{eq:positw_symm}, \eqref{eq:commonqpneq} состоит из %\eqref{eq:positw_notnull},
+\eqref{eq:positw_min} и \eqref{eq:positw_max}.
 
 Таким образом, необходимо объяснить, как находить начальную точку (п. 1 алгоритма $\ref{alg:asm}$), решение подзадачи квадратичного программирования и множители Лагранжа (п. 4 алгоритма $\ref{alg:asm}$) применительно к частному случаю задачи \eqref{eq:j_positw}.
 %При этом логичнее вначале рассмотреть п. 4, а только потом п. 1 Алгоритма $\ref{alg:asm}$, используя уже введённую технику.
