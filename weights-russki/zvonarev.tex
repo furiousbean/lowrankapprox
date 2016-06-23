@@ -186,7 +186,7 @@ b_{i, j} = \begin{cases}
 
 \section{Эквивалентные формулировки}
 %Раскроем функцию $\varphi^2(C)/2$ из \eqref{eq:commonw}, избавимся от константного члена и перепишем множество $\calC$ из \eqref{eq:commonw_cond} в виде набора линейных ограничений. Получим следующую эквивалентную формулировку:
-Рассмотрим выражение $\varphi^2(C)/2$, где $\varphi(C)$ определено в \eqref{eq:commonw}. Раскроем его, избавимся от константного члена, а множество $\calC$ из \eqref{eq:commonw_cond} обозначим в виде набора линейных ограничений. Получим следующую эквивалентную формулировку:
+Рассмотрим выражение $\varphi^2(C)/2$, где $\varphi(C)$ определено в \eqref{eq:commonw}. Преобразуем его, избавимся от константного слагаемого, а множество $\calC$ из \eqref{eq:commonw_cond} запишем в виде набора линейных ограничений. Получим следующую эквивалентную формулировку:
 \begin{problem} \label{problem:quadtf}
 \begin{subequations}
 	\begin{empheq}[box=\widefbox]{gather}
@@ -209,8 +209,8 @@ b_{i, j} = \begin{cases}
 	а вектор $L \mathbbold{1}_K = \bfB^\rmT \mathbbold{1}_N = (L, \ldots, L)^\rmT \in \sfR^K$.
 \end{problem}
 
-%В таком виде задача становится удобной для использования теории квадратичного программирования \cite{Gavurin1984}. 
-Теория квадратичного программирования становится доступной при решении задачи в таком виде \cite{Gavurin1984}.
+Теперь задача \eqref{problem:quadtf} представлена в том виде, для которого разработана теория квадратичного программирования \cite[p. 111]{Gavurin1984}.
+%Теория квадратичного программирования становится доступной при решении задачи в таком виде \cite{Gavurin1984}.
 Справедливо следующее:
 \begin{proposition}\label{prop:uniqsymm}
 \begin{enumerate}
@@ -274,7 +274,8 @@ c_j -  c_i \ge 0, \; i = 1,\ldots, j-1, j+1, \ldots, \lceil K/2\rceil \label{eq:
 	Требуется доказать, что $f^\star \ge f^{\star \star} \ge \hat f^\star \ge f^\star$, и что по решению одной из задач можно построить решение любой другой.
 	
 	%Эквивалентность задач \ref{problem:commonw} и \ref{problem:quadtf} очевидна. Для оставшихся приведём идею доказательства. 
-	Приведём идею доказательства. Достаточно показать следующее:
+	%Приведём идею доказательства. Достаточно показать следующее:
+	Приведём схему доказательства.
 	\begin{enumerate}
 		\item $(f^\star \ge f^{\star \star}).$ Пусть $C^\star$ --- решение задачи \ref{problem:quadtf}, то есть $C^\star = \argmin_{C \in \calC} f(C)$. Положим $j^\star = \argmax_i c_i$. $C^\star \in \calC$ и $C^\star$ симметрично, следовательно, $C^\star \in \calC_{j^\star}$. Цепочка неравенств $f^{\star} = f(C^\star) \ge f^\star_j = \min_{C \in \calC_{j^\star}} f(C) \ge \min_{j = 1,\ldots, \lceil K/2\rceil} \min_{C \in \calC_j} f(C) = f^{\star \star}$ завершает доказательство пункта.
 		\item $(f^{\star \star} \ge \hat f^\star)$. Пусть $j^\star = \argmin_{j = 1,\ldots, \lceil K/2\rceil} f^\star_j$, $C^{\star}_{j^\star} = \argmin_{C \in \calC_{j^\star}} f(C)$ --- решение задачи \ref{problem:positw}. Положим $c_\text{max} = c_{j^\star, j^\star}$, $\hat c_i = c_\text{max} - c_{j^\star, i}$, $i = 1, \ldots, K$, где $C_{j^\star}^\star = (c_{j^\star, 1}, \ldots, c_{j^\star, K})^\rmT$. Нетрудно заметить, что $\widehat C \in \hat \calC$, из чего получим, что $\hat f^\star \le \hat f(\widehat C) = f(C_{j^\star}^\star) = f^{\star \star}$.
