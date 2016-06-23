@@ -174,7 +174,7 @@ b_{i, j} = \begin{cases}
 \begin{empheq}[box=\widefbox]{gather}
 %\begin{equation}
 	\label{eq:commonw}
-\varphi^\star = \min_{C \in \calC} \varphi(C), \quad \text{где} \quad \varphi(C) = \|\bfB C - \mathbbold{1}_N\|,\\
+\varphi^\star = \min_{C \in \calC} \varphi(C), \quad \text{где} \quad \varphi(C) = \|\bfB C - \mathbbold{1}_N\|^2,\\
 \calC = \left\lbrace C \mathrel{\Big|} c_i \ge 0, \quad i = 1, \ldots, K, \quad \label{eq:commonw_cond}
 \frac{\min_i c_i}{\max_i c_i} \ge \alpha \right\rbrace,
 \end{empheq}
@@ -232,10 +232,10 @@ b_{i, j} = \begin{cases}
 \begin{empheq}[box=\widefbox]{gather}
 f^{\star \star} = \min_{j = 1,\ldots, \lceil K/2\rceil} f^\star_j, \label{eq:positw} \\
 f^\star_j = \min_{C \in \calC_j} f(C), \label{eq:j_positw} \\ %\ \text{где} \ C \in \calC_j, \ \text{если} \\
-\calC_j = \lbrace C \mid c_i = c_{K - i + 1}, \; i = 1,\ldots, \lceil K/2\rceil, \label{eq:positw_symm}\\
+\calC_j = \big\lbrace C \mid c_i = c_{K - i + 1}, \; i = 1,\ldots, \lceil K/2\rceil; \label{eq:positw_symm}\\
 % c_j \ge 0, \label{eq:positw_notnull}\\
-c_i - \alpha c_j \ge 0, \; i = 1,\ldots, j-1, j+1, \ldots, \lceil K/2\rceil, \label{eq:positw_min}\\
-c_j -  c_i \ge 0, \; i = 1,\ldots, j-1, j+1, \ldots, \lceil K/2\rceil \label{eq:positw_max} \rbrace.
+c_i - \alpha c_j \ge 0, \; i = 1,\ldots, j-1, j+1, \ldots, \lceil K/2\rceil; \label{eq:positw_min}\\
+c_j -  c_i \ge 0, \; i = 1,\ldots, j-1, j+1, \ldots, \lceil K/2\rceil \label{eq:positw_max} \big\rbrace.
 \end{empheq}
 \end{subequations}
 \end{problem}
@@ -266,16 +266,17 @@ c_j -  c_i \ge 0, \; i = 1,\ldots, j-1, j+1, \ldots, \lceil K/2\rceil \label{eq:
 \end{problem}
 
 \begin{theorem} \label{th:eqivqw}
-	Задачи %\ref{problem:commonw}, 
+	Задачи \ref{problem:commonw}, 
 	\ref{problem:quadtf}, \ref{problem:positw} и \ref{problem:nonnegatqw}  эквивалентны.
 \end{theorem}
 \begin{proof}
-	%Требуется доказать, что $\varphi^\star \ge f^\star \ge f^{\star \star} \ge \hat f^\star \ge \varphi^\star$, и что по решению одной из задач можно построить решение любой другой.
-	Требуется доказать, что $f^\star \ge f^{\star \star} \ge \hat f^\star \ge f^\star$, и что по решению одной из задач можно построить решение любой другой.
+	%Требуется доказать, что $\varphi^\star/2 \ge f^\star \ge f^{\star \star} \ge \hat f^\star \ge \varphi^\star/2$, и что по решению одной из задач можно построить решение любой другой.
+		
+	Эквивалентность задач \ref{problem:commonw} и \ref{problem:quadtf} очевидна, так как задача \ref{problem:quadtf} является переформулировкой задачи \ref{problem:commonw}. Для оставшихся приведём идею доказательства. 
 	
-	%Эквивалентность задач \ref{problem:commonw} и \ref{problem:quadtf} очевидна. Для оставшихся приведём идею доказательства. 
+	Требуется доказать, что $f^\star \ge f^{\star \star} \ge \hat f^\star \ge f^\star$, и что по решению одной из задач можно построить решение любой другой.
 	%Приведём идею доказательства. Достаточно показать следующее:
-	Приведём схему доказательства.
+	%Приведём схему доказательства.
 	\begin{enumerate}
 		\item $(f^\star \ge f^{\star \star}).$ Пусть $C^\star$ --- решение задачи \ref{problem:quadtf}, то есть $C^\star = \argmin_{C \in \calC} f(C)$. Положим $j^\star = \argmax_i c_i$. $C^\star \in \calC$ и $C^\star$ симметрично, следовательно, $C^\star \in \calC_{j^\star}$. Цепочка неравенств $f^{\star} = f(C^\star) \ge f^\star_j = \min_{C \in \calC_{j^\star}} f(C) \ge \min_{j = 1,\ldots, \lceil K/2\rceil} \min_{C \in \calC_j} f(C) = f^{\star \star}$ завершает доказательство пункта.
 		\item $(f^{\star \star} \ge \hat f^\star)$. Пусть $j^\star = \argmin_{j = 1,\ldots, \lceil K/2\rceil} f^\star_j$, $C^{\star}_{j^\star} = \argmin_{C \in \calC_{j^\star}} f(C)$ --- решение задачи \ref{problem:positw}. Положим $c_\text{max} = c_{j^\star, j^\star}$, $\hat c_i = c_\text{max} - c_{j^\star, i}$, $i = 1, \ldots, K$, где $C_{j^\star}^\star = (c_{j^\star, 1}, \ldots, c_{j^\star, K})^\rmT$. Нетрудно заметить, что $\widehat C \in \hat \calC$, из чего получим, что $\hat f^\star \le \hat f(\widehat C) = f(C_{j^\star}^\star) = f^{\star \star}$.
@@ -365,16 +366,16 @@ c_j -  c_i \ge 0, \; i = 1,\ldots, j-1, j+1, \ldots, \lceil K/2\rceil \label{eq:
 \end{algorithm}
 
 \section{Задача квадратичного программирования специального вида} \label{subsect:qp}
-\subsection{Общая схема ``Active Set'' метода}
 Теперь переходим к пункту 2 Алгоритма \ref{alg:solveqw}. Для решения подзадачи \eqref{eq:j_positw} при зафиксированном индексе $j$ воспользуемся так называемым ``Primary Active Set'' методом решения задачи КП, описанным в \cite{nocedal2006numerical}. Специфика задачи позволяет эффективно реализовать алгоритм.
 
+\subsection{Общая схема ``Active Set'' метода}
 В общем случае, задача квадратичного программирования выглядит следующим образом:
 \begin{problem} \label{problem:commonqp}
 \begin{subequations}
 	\begin{empheq}{gather}
 \min_{X \in \sfX} \frac{1}{2} X^\rmT \bfG X - V^\rmT X, \\ % \quad \text{где} \ X \in , \; \text{если} \\
-\sfX = \lbrace X \mid A_i^\rmT X = p_i, \quad i \in \sfY, \label{eq:commonqpeq}\\
-A_i^\rmT X \ge p_i, \quad i \in \sfZ \label{eq:commonqpneq} \rbrace,
+\sfX = \big\lbrace X \mid A_i^\rmT X = p_i, \quad i \in \sfY; \label{eq:commonqpeq}\\
+A_i^\rmT X \ge p_i, \quad i \in \sfZ \label{eq:commonqpneq} \big\rbrace,
 \end{empheq}
 \end{subequations}
 где $\bfG \in \sfR^{K \times K}$ --- произвольная положительно определённая матрица, $V \in \sfR^K$ --- произвольный вектор, $\sfY$ и $\sfZ$ --- множества индексов, вектора $A_i \in \sfR^K$ вместе с $p_i \in \sfR$ задают ограничения.
