@@ -107,7 +107,7 @@
 \section*{Введение}
 Рассмотрим задачу извлечения сигнала $\tsS~=~(s_1, \ldots, s_N)$ из зашумлённого временного ряда $\tsX = \tsS + \tsN$, где $\tsS$ управляется \emph{линейной рекуррентной формулой} (ЛРФ) порядка $r$: $s_n = \sum_{i = 1}^{r} a_i s_{n-i}$, $n = r + 1, \ldots, N$, $a_r\neq 0$, $\tsN$ --- белый шум. Ряды, управляемые ЛРФ, могут быть записаны в параметрическом виде $s_n = \sum_i P_i(n) \exp(\alpha_i n) \cos(2 \pi \omega_i n + \psi_i)$, где $P_i(n)$ --- многочлены от $n$  \cite{Golyandina.etal2001}.
 
-Известно \cite{Broomhead.King1986, Vautard.etal1992, Elsner.Tsonis1996, Golyandina.etal2001}, что для выделения такого рода сигналов хорошо работают методы, основанные на оценке сигнального подпространства (subspace-based methods). Идея методов состоит в следующем: зафиксируем \emph{длину окна} $L$, $1 < L < N$, положим $K = N - L + 1$, и определим \emph{траекторную матрицу} для ряда $\tsS \in \sfX_N$ ($\sfX_N$ --- множество вещественных временных рядов длины $N$):
+Известно (см. \cite{Golyandina.etal2001, Broomhead.King1986, Vautard.etal1992, Elsner.Tsonis1996} и \cite[Chapter 4]{stoica2005spectral}), что для выделения такого рода сигналов хорошо работают методы, основанные на оценке сигнального подпространства (subspace-based methods). Идея методов состоит в следующем: зафиксируем \emph{длину окна} $L$, $1 < L < N$, положим $K = N - L + 1$, и определим \emph{траекторную матрицу} для ряда $\tsS \in \sfX_N$ ($\sfX_N$ --- множество вещественных временных рядов длины $N$):
 \begin{equation*}
 \bfS = \calT_L(\tsS) =  \begin{pmatrix}
 s_1 & s_2 & \ldots & s_K \\
@@ -576,6 +576,12 @@ s_{k} = 5\sin{\frac{2 \pi k}{6}}, \quad k = 1, \ldots, N,
 	\BibEmph{Elsner~J.~B., Tsonis~A.~A.} {S}ingular {S}pectrum {A}nalysis: A New
 	Tool in Time Series Analysis.
 	\newblock Plenum, 1996.
+
+    \bibitem{stoica2005spectral}
+    \selectlanguageifdefined{english}
+    \BibEmph{Stoica~P., Moses~R.~L.} Spectral analysis of signals.
+    \newblock Pearson Prentice Hall Upper Saddle River, NJ, 2005.
+    \newblock Vol.~452.
 	
 	\bibitem{Zvonarev2015}
 	\selectlanguageifdefined{english}
@@ -674,6 +680,12 @@ s_{k} = 5\sin{\frac{2 \pi k}{6}}, \quad k = 1, \ldots, N,
 	\BibEmph{Elsner~J.~B., Tsonis~A.~A.} {S}ingular {S}pectrum {A}nalysis: A New
 	Tool in Time Series Analysis.
 	\newblock Plenum, 1996.
+	
+	\bibitem{stoica2005spectral}
+	\selectlanguageifdefined{english}
+	\BibEmph{Stoica~P., Moses~R.~L.} Spectral analysis of signals.
+	\newblock Pearson Prentice Hall Upper Saddle River, NJ, 2005.
+	\newblock Vol.~452.
 	
 	\bibitem{Zvonarev2015}
 	\selectlanguageifdefined{english}
