@@ -107,7 +107,7 @@
 \section*{Введение}
 Рассмотрим задачу извлечения сигнала $\tsS~=~(s_1, \ldots, s_N)$ из зашумлённого временного ряда $\tsX = \tsS + \tsN$, где $\tsS$ управляется \emph{линейной рекуррентной формулой} (ЛРФ) порядка $r$: $s_n = \sum_{i = 1}^{r} a_i s_{n-i}$, $n = r + 1, \ldots, N$, $a_r\neq 0$, $\tsN$ --- белый шум. Ряды, управляемые ЛРФ, могут быть записаны в параметрическом виде $s_n = \sum_i P_i(n) \exp(\alpha_i n) \cos(2 \pi \omega_i n + \psi_i)$, где $P_i(n)$ --- многочлены от $n$  \cite{Golyandina.etal2001}.
 
-Известно (см. \cite{Golyandina.etal2001, Broomhead.King1986, Vautard.etal1992, Elsner.Tsonis1996} и \cite[Chapter 4]{stoica2005spectral}), что для выделения такого рода сигналов хорошо работают методы, основанные на оценке сигнального подпространства (subspace-based methods). Идея методов состоит в следующем: зафиксируем \emph{длину окна} $L$, $1 < L < N$, положим $K = N - L + 1$, и определим \emph{траекторную матрицу} для ряда $\tsS \in \sfX_N$ ($\sfX_N$ --- множество вещественных временных рядов длины $N$):
+Известно, что для выделения такого рода сигналов хорошо работают методы, основанные на оценке сигнального подпространства (subspace-based methods) и, в частности, анализ сингулярного спектра (см. \cite{Golyandina.etal2001, Broomhead.King1986, Vautard.etal1992, Elsner.Tsonis1996} и \cite[Chapter 4]{stoica2005spectral}). Идея методов состоит в следующем: зафиксируем \emph{длину окна} $L$, $1 < L < N$, положим $K = N - L + 1$, и определим \emph{траекторную матрицу} для ряда $\tsS \in \sfX_N$ ($\sfX_N$ --- множество вещественных временных рядов длины $N$):
 \begin{equation*}
 \bfS = \calT_L(\tsS) =  \begin{pmatrix}
 s_1 & s_2 & \ldots & s_K \\
@@ -269,13 +269,13 @@ c_j -  c_i \ge 0, \; i = 1,\ldots, j-1, j+1, \ldots, \lceil K/2\rceil \label{eq:
 \end{problem}
 
 \begin{theorem} \label{th:eqivqw}
-	Задачи \ref{problem:commonw}, 
+	Задачи \ref{problem:commonw},
 	\ref{problem:quadtf}, \ref{problem:positw} и \ref{problem:nonnegatqw}  эквивалентны.
 \end{theorem}
 \begin{proof}
 	%Требуется доказать, что $\varphi^\star/2 \ge f^\star \ge f^{\star \star} \ge \hat f^\star \ge \varphi^\star/2$, и что по решению одной из задач можно построить решение любой другой.
 		
-	Эквивалентность задач \ref{problem:commonw} и \ref{problem:quadtf} очевидна, так как задача \ref{problem:quadtf} является переформулировкой задачи \ref{problem:commonw}. Для оставшихся приведём идею доказательства. 
+	Эквивалентность задач \ref{problem:commonw} и \ref{problem:quadtf} очевидна, так как задача \ref{problem:quadtf} является переформулировкой задачи \ref{problem:commonw}. Для оставшихся приведём идею доказательства.
 	
 	Требуется доказать, что $f^\star \ge f^{\star \star} \ge \hat f^\star \ge f^\star$, и что по решению одной из задач можно построить решение любой другой.
 	%Приведём идею доказательства. Достаточно показать следующее:
@@ -346,7 +346,7 @@ c_j -  c_i \ge 0, \; i = 1,\ldots, j-1, j+1, \ldots, \lceil K/2\rceil \label{eq:
 %Следующее следствие из теоремы \ref{th:nonnegatfc} важно для построения алгоритма.
 %
 %\begin{corollary} \label{cor:nonnegatfc}
-%	В обозначениях теоремы \ref{th:nonnegatfc}; 
+%	В обозначениях теоремы \ref{th:nonnegatfc};
 %\end{corollary}
 
 %\begin{proof}
@@ -588,7 +588,7 @@ s_{k} = 5\sin{\frac{2 \pi k}{6}}, \quad k = 1, \ldots, N,
 	\BibEmph{Zvonarev~N., Golyandina~N.} Iterative algorithms for weighted and
 	unweighted finite-rank time-series approximations~// \BibEmph{Stat.
 		Interface}.
-	\newblock 2016.
+	\newblock 2017, в печати.
 	
 	\bibitem{Gillard2014}
 	\selectlanguageifdefined{english}
@@ -604,8 +604,8 @@ s_{k} = 5\sin{\frac{2 \pi k}{6}}, \quad k = 1, \ldots, N,
 	\BibEmph{Zhigljavsky~A., Golyandina~N., Gryaznov~S.} Deconvolution of a
 	discrete uniform distribution~//
 	\BibEmph{Statistics {\&} Probability Letters}.
-	\newblock 2016. "--- jun.
-	\newblock \BibUrl{http://dx.doi.org/10.1016/j.spl.2016.06.006}.
+	\newblock Vol.~118.
+    \newblock P.~37--44.
 	
 	\bibitem{Gavurin1984}
 	\selectlanguageifdefined{english}
@@ -636,13 +636,13 @@ s_{k} = 5\sin{\frac{2 \pi k}{6}}, \quad k = 1, \ldots, N,
 	Russian Federation; \href{mailto:nikitazvonarev@gmail.com}{nikitazvonarev@gmail.com}
 
      The problem of weighted finite-rank time-series approximation is considered for signal estimation.
-     Finding of weights, which lead to improvement of estimate accuracy, is examined. 
+     Finding of weights, which lead to improvement of estimate accuracy, is examined.
      An effective method for numerical search of weights is constructed and proved.
      The theory of quadratic optimization is used.  For effective algorithm, the problem of quadratic optimization with large number of linear constraints
-     reduced to a sequence of problems with smaller number constraints, which is completed by a stopping criterion. For the algorithm deduction, 
-     equivalence of different statements of the original optimization problem is proved. 
-     A numerical simulation is performed to approve the algorithm efficiency and improvement of the estimate accuracy. 
-     
+     reduced to a sequence of problems with smaller number constraints, which is completed by a stopping criterion. For the algorithm deduction,
+     equivalence of different statements of the original optimization problem is proved.
+     A numerical simulation is performed to approve the algorithm efficiency and improvement of the estimate accuracy.
+
     \emph{Keywords:} \ time series, time series of finite rank, Cadzow's iterative method, weighted low-rank approximation, oblique singular value decomposition, quadratic programming.
 }
 
@@ -692,7 +692,7 @@ s_{k} = 5\sin{\frac{2 \pi k}{6}}, \quad k = 1, \ldots, N,
 	\BibEmph{Zvonarev~N., Golyandina~N.} Iterative algorithms for weighted and
 	unweighted finite-rank time-series approximations~// \BibEmph{Stat.
 		Interface}.
-	\newblock 2016.
+	\newblock 2017, in print.
 	
 	\bibitem{Gillard2014}
 	\selectlanguageifdefined{english}
@@ -708,8 +708,9 @@ s_{k} = 5\sin{\frac{2 \pi k}{6}}, \quad k = 1, \ldots, N,
 	\BibEmph{Zhigljavsky~A., Golyandina~N., Gryaznov~S.} Deconvolution of a
 	discrete uniform distribution~//
 	\BibEmph{Statistics {\&} Probability Letters}.
-	\newblock 2016. "--- jun.
-	\newblock \BibUrl{http://dx.doi.org/10.1016/j.spl.2016.06.006}.
+	\newblock 2016. 
+	\newblock Vol.~118.
+    \newblock P.~37--44.
 	
 	\bibitem{Gavurin1984}
 	\selectlanguageifdefined{english}
