@@ -145,7 +145,7 @@ s_n = \sum_{j=1}^r c_j \mu_j^n = \sum_{j=1}^r c_j \exp(\lambda_j n),
 \begin{theorem} \label{th:wninconsistency}
 	Пусть $\Sigma_N^{-1} = \frac{1}{\sigma^2}{\mathbf{1}}$, где $\mathbf{1}$ --- единичная матрица порядка $N \times N$, что соответствует случаю белого шума с дисперсией $\sigma^2$.
 	
-	Представим все $\mu_i$ в полярном виде: $\mu_j = \rho_j e^{i \varphi_j}$, $\varphi_j \in (-\pi, \pi]$. Пусть показатели экспонент упорядочены по невозрастанию модуля $\mu_j$, т.е. $\rho_j \ge \rho_{j+1}$. Показатели экспонент в этом случае будут разделены на три (возможно пустые) подпоследовательности: те, у которых $|\mu_j|>1$, те, у которых $|\mu_j| = 1$ и те, у которых $|\mu_j| < 1$. Пусть соответствующее количество экспонент будет равно $r_A$ для $|\mu_j|>1$, $r_B$ для $|\mu_j|=1$ и $r_C$ для $|\mu_j|<1$. Тогда
+	Представим все $\mu_i$ в полярном виде: $\mu_j = \rho_j e^{i \varphi_j}$, $\varphi_j \in (-\pi, \pi]$. Пусть показатели экспонент упорядочены по невозрастанию модуля $\mu_j$, т.е. $\rho_j \ge \rho_{j+1}$. Показатели экспонент в этом случае будут разделены на три (возможно пустые) подстроки: те, у которых $|\mu_j|>1$, те, у которых $|\mu_j| = 1$ и те, у которых $|\mu_j| < 1$. Пусть соответствующее количество экспонент будет равно $r_A$ для $|\mu_j|>1$, $r_B$ для $|\mu_j|=1$ и $r_C$ для $|\mu_j|<1$. Тогда
 	\begin{enumerate}
 		\item Рассмотрим отнормированную матрицу $\widetilde \bfN = \bfN \bfL$, $\bfL = \text{diag}(l_1, \ldots, l_r)$, 
 		\begin{equation*}
@@ -187,120 +187,46 @@ s_n = \sum_{j=1}^r c_j \mu_j^n = \sum_{j=1}^r c_j \exp(\lambda_j n),
 \end{theorem}
 	
 	\begin{proof}
-		Не умаляя общности: пусть $\sigma^2 = 1$. Достаточно рассмотреть соответствующие пределы последовательностей. Для этого требуется использовать формулу $\sum_{i = 0}^{N-1} x^i = \frac{x^N-1}{x-1}$, если $x \ne 1$, и $N$ в противном случае.
+		Не умаляя общности: пусть $\sigma^2 = 1$. Достаточно рассмотреть соответствующие пределы последовательностей. Это легко сделать, используя следующую формулу: $\sum_{j = 0}^{N-1} x^j = \frac{x^N-1}{x-1}$, если $x \ne 1$, и $N$ в противном случае.
 		\begin{itemize}
-			\item Пусть $\rho_i > 1$, $\rho_j > 1$. Тогда
+			\item Пусть $\rho_j > 1$, $\rho_k > 1$. Тогда
 			\begin{multline*}
-			\sum_{t=0}^{N-1} \frac{\overline{\mu_i^t} \mu_j^t e^{I N (\varphi_i - \varphi_j)}}{\sqrt{\sum_{k=0}^{N-1} \mu_i^k \overline{\mu_i^k}} \sqrt{\sum_{k=0}^{N-1} \mu_j^k \overline{\mu_j^k}}} = \frac{(\rho_i \rho_j)^N - e^{I N(\varphi_i - \varphi_j)}}{\rho_i \rho_j e^{I (\varphi_j - \varphi_i)} - 1} \frac{\sqrt{\rho_i^2 - 1}}{\sqrt{\rho_i^{2N} - 1}} \cdot \\ \cdot \frac{\sqrt{\rho_j^2 - 1}}{\sqrt{\rho_j^{2N} - 1}} \to \tilde a_{i, j}.
+			\sum_{t=0}^{N-1} \frac{\overline{\mu_j^t} \mu_k^t e^{i N (\varphi_j - \varphi_k)}}{\sqrt{\sum_{u=0}^{N-1} \mu_j^u \overline{\mu_j^u}} \sqrt{\sum_{u=0}^{N-1} \mu_k^u \overline{\mu_k^u}}} = \frac{(\rho_j \rho_k)^N - e^{i N(\varphi_j - \varphi_k)}}{\rho_j \rho_k e^{i (\varphi_k - \varphi_j)} - 1} \frac{\sqrt{\rho_j^2 - 1}}{\sqrt{\rho_j^{2N} - 1}} \cdot \\ \cdot \frac{\sqrt{\rho_k^2 - 1}}{\sqrt{\rho_k^{2N} - 1}} \to \tilde a_{j, k}.
 			\end{multline*}
 			
-			\item Пусть $\rho_i > 1$, $\rho_j = 1$. Тогда
+			\item Пусть $\rho_j > 1$, $\rho_k = 1$. Тогда
 			\begin{equation*}
-			\sum_{t=0}^{N-1} \frac{\overline{\mu_i^t} \mu_j^t e^{I N \varphi_i}}{\sqrt{\sum_{k=0}^{N-1} \mu_i^k \overline{\mu_i^k}} \sqrt{\sum_{k=0}^{N-1} \mu_j^k \overline{\mu_j^k}}} = \frac{(\rho_i )^N e^{I N \varphi_j} - e^{I N \varphi_i}}{\rho_i e^{I (\varphi_j - \varphi_i)} - 1} \frac{\sqrt{\rho_i^2 - 1}}{\sqrt{\rho_i^{2N} - 1}} \frac{1}{\sqrt{N}} \to 0.
+			\sum_{t=0}^{N-1} \frac{\overline{\mu_j^t} \mu_k^t e^{i N \varphi_j}}{\sqrt{\sum_{u=0}^{N-1} \mu_j^u \overline{\mu_j^u}} \sqrt{\sum_{u=0}^{N-1} \mu_k^u \overline{\mu_k^u}}} = \frac{(\rho_j )^N e^{i N \varphi_k} - e^{i N \varphi_j}}{\rho_j e^{i (\varphi_k - \varphi_j)} - 1} \frac{\sqrt{\rho_j^2 - 1}}{\sqrt{\rho_j^{2N} - 1}} \frac{1}{\sqrt{N}} \to 0.
 			\end{equation*}
 			
-			\item Пусть $\rho_i > 1$, $\rho_j < 1$. Учитывая, что $\rho_i \rho_j < \rho_i$, получаем \footnote{Здесь нет случая, когда $\rho_j = 1/\rho_i$. Результат целиком аналогичен.}
+			\item Пусть $\rho_j > 1$, $\rho_k < 1$. Учитывая, что $\rho_j \rho_k < \rho_j$, получаем \footnote{Здесь нет случая, когда $\rho_k = 1/\rho_j$. Результат целиком аналогичен.}
 			\begin{multline*}
-			\sum_{t=0}^{N-1} \frac{\overline{\mu_i^t} \mu_j^t e^{I N \varphi_i}}{\sqrt{\sum_{k=0}^{N-1} \mu_i^k \overline{\mu_i^k}} \sqrt{\sum_{k=0}^{N-1} \mu_j^k \overline{\mu_j^k}}} = \frac{(\rho_i \rho_j)^N e^{I N \varphi_j} - e^{I N \varphi_i}}{\rho_i \rho_j e^{I (\varphi_j - \varphi_i)} - 1} \frac{\sqrt{\rho_i^2 - 1}}{\sqrt{\rho_i^{2N} - 1}} \cdot \\ \cdot \sqrt{\frac{1 - \rho_j^2}{1 - \rho_j^{2N}}} \to 0.
+			\sum_{t=0}^{N-1} \frac{\overline{\mu_j^t} \mu_k^t e^{i N \varphi_j}}{\sqrt{\sum_{u=0}^{N-1} \mu_j^u \overline{\mu_j^u}} \sqrt{\sum_{u=0}^{N-1} \mu_k^u \overline{\mu_k^u}}} = \frac{(\rho_j \rho_k)^N e^{i N \varphi_k} - e^{i N \varphi_j}}{\rho_j \rho_k e^{i (\varphi_k - \varphi_j)} - 1} \frac{\sqrt{\rho_j^2 - 1}}{\sqrt{\rho_j^{2N} - 1}} \cdot \\ \cdot \sqrt{\frac{1 - \rho_k^2}{1 - \rho_k^{2N}}} \to 0.
 			\end{multline*}
 			
-			\item Пусть $\rho_i = 1$, $\rho_j = 1$, $i \ne j$. Тогда
+			\item Пусть $\rho_j = 1$, $\rho_k = 1$, $j \ne k$. Тогда
 			\begin{equation*}
-			\sum_{t=0}^{N-1} \frac{\overline{\mu_i^t} \mu_j^t}{\sqrt{\sum_{k=0}^{N-1} \mu_i^k \overline{\mu_i^k}} \sqrt{\sum_{k=0}^{N-1} \mu_j^k \overline{\mu_j^k}}} = \frac{e^{I N (\varphi_j -\varphi_i)} - 1}{e^{I (\varphi_j - \varphi_i)} - 1} \frac{1}{\sqrt{N}} \frac{1}{\sqrt{N}} \to 0.
+			\sum_{t=0}^{N-1} \frac{\overline{\mu_j^t} \mu_k^t}{\sqrt{\sum_{u=0}^{N-1} \mu_j^u \overline{\mu_j^u}} \sqrt{\sum_{u=0}^{N-1} \mu_k^u \overline{\mu_k^u}}} = \frac{e^{i N (\varphi_k -\varphi_j)} - 1}{e^{i (\varphi_k - \varphi_j)} - 1} \frac{1}{\sqrt{N}} \frac{1}{\sqrt{N}} \to 0.
 			\end{equation*}
 			
-			\item Пусть $\rho_i = 1$, $\rho_j < 1$. Тогда
+			\item Пусть $\rho_j = 1$, $\rho_k < 1$. Тогда
 			\begin{equation*}
-			\sum_{t=0}^{N-1} \frac{\overline{\mu_i^t} \mu_j^t}{\sqrt{\sum_{k=0}^{N-1} \mu_i^k \overline{\mu_i^k}} \sqrt{\sum_{k=0}^{N-1} \mu_j^k \overline{\mu_j^k}}} = \frac{\rho_j^N e^{I N (\varphi_j -\varphi_i)} - 1}{\rho_j e^{I (\varphi_j - \varphi_i)} - 1}  \frac{1}{\sqrt{N}} \frac{\sqrt{1 - \rho_j^2}}{\sqrt{1 - \rho_j^{2N}}} \to 0.
+			\sum_{t=0}^{N-1} \frac{\overline{\mu_j^t} \mu_k^t}{\sqrt{\sum_{u=0}^{N-1} \mu_j^u \overline{\mu_j^u}} \sqrt{\sum_{u=0}^{N-1} \mu_k^u \overline{\mu_k^u}}} = \frac{\rho_k^N e^{i N (\varphi_k -\varphi_j)} - 1}{\rho_k e^{i (\varphi_k - \varphi_j)} - 1}  \frac{1}{\sqrt{N}} \frac{\sqrt{1 - \rho_k^2}}{\sqrt{1 - \rho_k^{2N}}} \to 0.
 			\end{equation*}
 			
-			\item Пусть $\rho_i < 1$, $\rho_j < 1$. Тогда
+			\item Пусть $\rho_j < 1$, $\rho_k < 1$. Тогда
 			\begin{multline*}
-			\sum_{t=0}^{N-1} \frac{\overline{\mu_i^t} \mu_j^t}{\sqrt{\sum_{k=0}^{N-1} \mu_i^k \overline{\mu_i^k}} \sqrt{\sum_{k=0}^{N-1} \mu_j^k \overline{\mu_j^k}}} = \frac{1 - (\rho_i \rho_j)^N e^{I N (\varphi_j -\varphi_i)}}{1 - \rho_i \rho_j e^{I (\varphi_j - \varphi_i)}} \cdot \\ \cdot \frac{\sqrt{1 - \rho_i^2}}{\sqrt{1 - \rho_i^{2N}}} \frac{\sqrt{1 - \rho_j^2}}{\sqrt{1 - \rho_j^{2N}}} \to \frac{\sqrt{1 - \mu_{i} \overline{\mu_{i}}}\sqrt{1 - \mu_{j} \overline{\mu_{j}}}}{1 - \overline{\mu_{i}} \mu_{j}}.
+			\sum_{t=0}^{N-1} \frac{\overline{\mu_j^t} \mu_k^t}{\sqrt{\sum_{u=0}^{N-1} \mu_j^u \overline{\mu_j^u}} \sqrt{\sum_{u=0}^{N-1} \mu_k^u \overline{\mu_k^u}}} = \frac{1 - (\rho_j \rho_k)^N e^{i N (\varphi_k -\varphi_j)}}{1 - \rho_j \rho_k e^{i (\varphi_k - \varphi_j)}} \cdot \\ \cdot \frac{\sqrt{1 - \rho_j^2}}{\sqrt{1 - \rho_j^{2N}}} \frac{\sqrt{1 - \rho_k^2}}{\sqrt{1 - \rho_k^{2N}}} \to \frac{\sqrt{1 - \mu_{j} \overline{\mu_{j}}}\sqrt{1 - \mu_{k} \overline{\mu_{k}}}}{1 - \overline{\mu_{j}} \mu_{k}}.
 			\end{multline*}
 				
 		\end{itemize}
 		
-		Матрицы $\widetilde \bfA$, $\widetilde \bfC$ и $\bfC$ --- Коши-подобные матрицы (Cauchy-like matrix), при этом все они невырожденные, см. \cite{Schechter1959}.
+		Матрицы $\widetilde \bfA$, $\widetilde \bfC$ и $\bfC$ --- Коши-подобные матрицы (Cauchy-like matrix), при этом все они являются невырожденными, см. \cite{Schechter1959}.
 		
 		Пункт 2 следует из пункта 1 теоремы с учётом применённой с помощью матрицы $\bfL$ нормировки.
 	\end{proof}
 
-Теперь докажем теорему в общем виде, сведя вычисление пределов к случаю белого шума.
-
-\begin{theorem} \label{th:arinconsistency}
-	Представим все $\mu_i$ в полярном виде: $\mu_i = \rho_i e^{I \varphi_i}$, $\varphi_i \in (-\pi, \pi]$. Пусть показатели экспонент упорядочены по невозрастанию модуля $\mu_i$, т.е. $\rho_i \ge \rho_{i+1}$. Показатели экспонент в этом случае будут разделены на три (возможно пустые) подпоследовательности: те, у которых $|\mu_i|>1$, те, у которых $|\mu_i| = 1$ и те, у которых $|\mu_i| < 1$. Пусть соответствующее количество экспонент будет равно $r_A$ для $|\mu_i|>1$, $r_B$ для $|\mu_i|>1$ и $r_C$ для $|\mu_i|<1$. Тогда
-	\begin{enumerate}
-		\item Рассмотрим отнормированную матрицу $\widetilde \bfM_N = (\tilde m_{i, j})$: 
-		\begin{equation*}
-		\tilde m_{i, j} = \begin{cases}
-		\frac{\mu_j^{i-1}}{\sqrt{\sum_{k=0}^{N-1} \mu_j^k \overline{\mu_j^k}}} e^{-I N \varphi_j}, & \rho_j > 1, \\
-		\frac{\mu_j^{i-1}}{\sqrt{\sum_{k=0}^{N-1} \mu_j^k \overline{\mu_j^k}}}, & \rho_j \le 1.
-		\end{cases}
-		\end{equation*}
-		
-		Тогда \begin{equation*}
-		\lim_{N \to + \infty} \widetilde \bfM_N^* \Sigma_N^{-1} \widetilde \bfM_N = \left( \begin{array}{c|c|c}
-		\widetilde \bfA & \mathbf{0} & \mathbf{0} \\ \hline
-		\mathbf{0} & \bfI / \sigma^2& \mathbf{0} \\ \hline
-		\mathbf{0} & \mathbf{0} & \widetilde \bfC
-		\end{array}  \right),
-		\end{equation*}
-		где матрица $\widetilde \bfA = (\tilde a_{i, j})$ --- невырожденная квадратная матрица порядка $r_A$, элементы которой равны
-		\begin{equation*}
-		\tilde a_{i, j} = \frac{1}{\sigma^2} \frac{\sqrt{\mu_i \overline{\mu_i} - 1}\sqrt{\mu_j \overline{\mu_j} - 1} \overline{f(1/\mu_i)} f(1/\mu_j) }{(\overline{\mu_i} \mu_j - 1) |f(1/\mu_i)| |f(1/\mu_j)|},
-		\end{equation*}
-		$\bfI$ --- единичная квадратная матрица порядка $r_B$, $\widetilde \bfC = (\tilde c_{i, j})$ --- невырожденная квадратная матрица порядка $r_C$, элементы которой равны
-		\begin{multline*}
-		\tilde c_{i, j} = \frac{1}{\sigma^2} \frac{\sqrt{1 - \mu_{i+r_A+r_B} \overline{\mu_{i+r_A+r_B}}}\sqrt{1 - \mu_{j+r_A+r_B} \overline{\mu_{j+r_A+r_B}}}}{1 - \overline{\mu_{i+r_A+r_B}} \mu_{j+r_A+r_B}} \cdot \\ \cdot \frac{\overline{f(\mu_{i+r_A+r_B})} f(\mu_{j+r_A+r_B})}{|f(\mu_{i+r_A+r_B})| |f(\mu_{j+r_A+r_B})|}.
-		\end{multline*}
-		
-		\item 
-		\begin{equation*}
-		\lim_{N \to + \infty} (\bfM_N^* \Sigma_N^{-1} \bfM_N)^{-1} = \sigma^2 \left( \begin{array}{c|c}
-		\mathbf{0}_{r_A + r_B} & \mathbf{0} \\ \hline
-		\mathbf{0} & \bfC^{-1}
-		\end{array}  \right),
-		\end{equation*}
-		где $\mathbf{0}_{r_A + r_B}$ --- нулевая матрица порядка $r_A + r_B$, $\bfC = (c_{i,j})$ --- невырожденная квадратная матрица порядка $r_C$, элементы которой равны
-		\begin{equation*}
-		c_{i, j} = \frac{\overline{f(\mu_{i + r_A + r_B})} f(\mu_{j + r_A + r_B})}{1 - \overline{\mu_{i+r_A+r_B}} \mu_{j+r_A+r_B}}.
-		\end{equation*}
-	\end{enumerate}
-\end{theorem}
-
-\begin{proof}
-	Чтобы не пересчитывать заново все пределы, заметим следующее:
-	\begin{itemize}
-		\item Если $A$ и $B$ --- два вектора, лежащие в $\sfZ^N$, то $A^* \Sigma_N^{-1} B = \rev(A)^* \Sigma_N^{-1} \rev(B)$, где $\rev(\cdot)$ --- оператор, разворачивающий вектор наоборот. Следует из того, что $\Sigma_N^{-1}$ симметрична относительно побочной диагонали.
-		\item Выполняется равенство $A^* \Sigma_N^{-1} B = A^* \bfU_N^T \bfU_N B$, где $\bfU_N$ --- верхнетреугольная матрица в разложении Холецкого матрицы $\Sigma_N^{-1}$. С достаточно большого $N$ можно применять результат теоремы \ref{th:invcov_chol}.
-	\end{itemize}
-	
-	Пусть $A = (a_0, \ldots, a_{N - 1})^\rmT$, $a_i = \nu^i$, $B = (b_0, \ldots, b_{N - 1})^\rmT$, $b_i = \xi^i$. Рассмотрим два случая (не умаляя общности, пусть $\sigma = 1$):
-	\begin{itemize}
-		\item $|\nu| > 1$. Тогда последовательности надо развернуть, получаем следующее:
-		$A^* \Sigma_N^{-1} B = \rev(A)^* \Sigma_N^{-1} \rev(B) =  \rev(A)^* \bfU_N^T \bfU_N  \rev(B) =$ \\$\sum_{i=0}^{N-{2p} -2} (\sum_{j=1}^{p+1}b_j \overline{\nu^{N - i - j}}) (\sum_{j=1}^{p+1}b_j \mu^{N - i - j}) + O(1) = $\\ $\sum_{i=0}^{N-{2p} - 2} (\overline{\nu^{N - i - 1}} \overline{f(1/\nu)})  (\mu^{N - i - 1}f(1/\mu)) + O(1) =$\\ $\overline{f(1/\nu)} f(1/\mu)\sum_{i=0}^{N-1} (\overline{\nu^{N - i - 1}} ) (\mu^{N - i - 1}) + O(1) = $\\
-		$\overline{f(1/\nu)} f(1/\mu)\sum_{i=0}^{N-1} \overline{\nu^i} \mu^i + O(1)$.
-		\item $|\nu| \le 1, |\mu| \le 1$. Последовательности разворачивать не нужно, имеем следующее:
-		$A^* \Sigma_N^{-1} B = A^* \bfU_N^T \bfU_N B = \sum_{i=0}^{N-{2p}-2} (\sum_{j=1}^{p+1}b_j \overline{\nu^{
-				i + j - 1}}) \cdot$ \\$\cdot (\sum_{j=1}^{p+1}b_j \mu^{i + j - 1}) + O((|\nu||\mu|)^{N - 2p - 1}) =$  
-		$\sum_{i=0}^{N-{2p} -2} (\overline{\nu^i f(\nu)})(\mu^i f(\mu)) +$\\ $+ O((|\nu||\mu|)^{N})$ = 
-		$\overline{f(\nu)} f(\mu) \sum_{i=0}^{N-1} \overline{\nu^i} \mu^i + O((|\nu||\mu|)^{N})$.
-	\end{itemize}
-	
-	Далее доказательство аналогично теореме \ref{th:invcov_chol}. Заметим, что все знаменатели остаются корректными, и невырожденность соответствующих матриц сохраняется: $f(1/\mu_i)$ не может быть равно $0$ при $|\mu_i| > 1$, и $f(\mu_i)$ не может быть равно $0$ при $|\mu_i| \le 1$, потому что авторегрессионный шум является стационарным, а, значит, справедлива лемма \ref{th:stat}.
-\end{proof}
-
-\section{Следствия из теорем \ref{th:wninconsistency} и \ref{th:arinconsistency}}
-\begin{enumerate}
-	\item Даже зная параметры шума и сигнальные корни, невозможно получить состоятельную оценку сигнала, если в сигнале есть убывающая экспонента или экспоненциально-модулированная синусоида. Тем более странно ожидать состоятельность, если параметры шума и сигнальные корни требуется оценивать. Тем не менее, результат не отвергает возможную (при реальном оценивании) состоятельность сигнала, если модули всех его сигнальных корней $|\mu_i| \ge 1$.
-	
-	\item Теоремы также дают оценки снизу на скорость сходимости при реальном оценивании: $O(\mu_i^{-N})$ для $|\mu_i| > 1$, $O(\frac{1}{\sqrt{N}})$ для $|\mu_i| = 1$ и $O(1)$ для $|\mu_i| < 1$. Быстрее нереально.
-	
-	\item Результат не зависит от того, стоит задача выделения из сигнала плюс белого шума или авторегрессионной стационарной последовательности конечного порядка $p$. \cite{ZhigljavskyGolyandinaGryaznov2016}
-\end{enumerate}
-
-\section{Сведения из теории авторегрессионных процессов}
+Теперь докажем теорему в случае, когда шум представляет из себя стационарный процесс авторегрессии порядка $p$. Доказательство сводится к случаю белого шума \ref{th:wninconsistency} через предельное представление ковариационной матрицы.
 
 Рассмотрим $\tsY = (y_t, \; t~\in~\sfN)$ --- стационарный гауссовский процесс авторегрессии  порядка $p$:
 \begin{equation} \label{def:arp}
@@ -308,14 +234,94 @@ y_t = \sum_{j = 1}^p \beta_j y_{t - j} + \sigma \varepsilon_t,
 \end{equation}
 где $\beta_1, \ldots, \beta_p$ --- коэффициенты авторегрессии, $\sigma$ --- стандартное отклонение шума, $(\varepsilon_t, t \in \sfN)$ --- независимые нормально распределённые случайные величины с нулевым средним и единичной дисперсией.
 
-Определим следующее: вектор $B = (1, -\beta_1, \ldots, -\beta_p)^\rmT \in \sfR^{p+1}$, $B = (b_1, \ldots, b_{p+1})^\rmT$ и комплексный полином $f(z) = 1 - \sum_{j=1}^p \beta_j z^j$.
+Определим следующее: вектор $B = (1, -\beta_1, \ldots, -\beta_p)^\rmT \in \sfR^{p+1}$, $B = (b_1, \ldots, b_{p+1})^\rmT$ и комплексный полином $f(z) = 1 - \sum_{j=1}^p \beta_j z^j$, случайный вектор $\tsY_N = (y_1, \ldots, y_N)^\rmT$ длины $N \ge 2p + 1$ --- подстрока процесса $\tsY$ длины $N$ и $\Sigma_N$ --- его ковариационная матрица.
+
+\begin{theorem} \label{th:arinconsistency}
+	Пусть $\Sigma_N^{-1}$ --- обратная ковариационная матрица процесса случайного вектора $\tsY$.
+	
+	Представим все $\mu_i$ в полярном виде: $\mu_j = \rho_j e^{i \varphi_j}$, $\varphi_j \in (-\pi, \pi]$. Пусть показатели экспонент упорядочены по невозрастанию модуля $\mu_j$, т.е. $\rho_j \ge \rho_{j+1}$. Показатели экспонент в этом случае будут разделены на три (возможно пустые) подстроки: те, у которых $|\mu_j|>1$, те, у которых $|\mu_j| = 1$ и те, у которых $|\mu_j| < 1$. Пусть соответствующее количество экспонент будет равно $r_A$ для $|\mu_j|>1$, $r_B$ для $|\mu_j|=1$ и $r_C$ для $|\mu_j|<1$. Тогда
+	\begin{enumerate}
+		\item Рассмотрим отнормированную матрицу $\widetilde \bfN = \bfN \bfL$, $\bfL = \text{diag}(l_1, \ldots, l_r)$, 
+		\begin{equation*}
+		l_j = \begin{cases}
+		\frac{1}{\sqrt{\langle N_j, N_j \rangle_{\Sigma_N}}} e^{-i N \varphi_j}, & \rho_j > 1, \\
+		\frac{1}{\sqrt{\langle N_j, N_j \rangle_{\Sigma_N}}}, & \rho_j \le 1,
+		\end{cases}
+		\end{equation*}
+		$N_j$ --- $j$-й столбец матрицы $\bfN$.
+		
+		Тогда \begin{equation*}
+		\lim_{N \to + \infty} \widetilde \bfN^* \Sigma_N^{-1} \widetilde \bfN = \left( \begin{array}{c|c|c}
+		\widetilde \bfA & \mathbf{0} & \mathbf{0} \\ \hline
+		\mathbf{0} & \mathbf{1}_{r_B} & \mathbf{0} \\ \hline
+		\mathbf{0} & \mathbf{0} & \widetilde \bfC
+		\end{array}  \right),
+		\end{equation*}
+		где матрица $\widetilde \bfA = (\tilde a_{j, k})$ --- невырожденная квадратная матрица порядка $r_A$, элементы которой равны
+		\begin{equation*}
+		\tilde a_{j, k} = \frac{\sqrt{\mu_j \overline{\mu_j} - 1}\sqrt{\mu_k \overline{\mu_k} - 1} }{(\overline{\mu_j} \mu_k - 1)} \frac{\overline{f(1/\mu_j)} f(1/\mu_k) }{|f(1/\mu_j)| |f(1/\mu_k)|},
+		\end{equation*}
+		$\mathbf{1}_{r_B}$ --- единичная квадратная матрица порядка $r_B$, $\widetilde \bfC = (\tilde c_{j, k})$ --- невырожденная квадратная матрица порядка $r_C$, элементы которой равны
+		\begin{multline*}
+		\tilde c_{j, k} = \frac{\sqrt{1 - \mu_{j+r_A+r_B} \overline{\mu_{j+r_A+r_B}}}\sqrt{1 - \mu_{k+r_A+r_B} \overline{\mu_{k+r_A+r_B}}}}{1 - \overline{\mu_{j+r_A+r_B}} \mu_{k+r_A+r_B}} \cdot \\ \cdot \frac{\overline{f(\mu_{j+r_A+r_B})} f(\mu_{k+r_A+r_B})}{|f(\mu_{j+r_A+r_B})| |f(\mu_{k+r_A+r_B})|}.
+		\end{multline*}
+		
+		\item 
+	    \begin{equation*}
+	    \lim_{N \to + \infty} \bfJ^{-1} = \sigma^2 \left( \begin{array}{c|c}
+	    \mathbf{0}_{r_A + r_B} & \mathbf{0} \\ \hline
+	    \mathbf{0} & \bfC^{-1}
+	    \end{array}  \right),
+	    \end{equation*}
+	    где $\mathbf{0}_{r_A + r_B}$ --- нулевая матрица порядка $r_A + r_B$, $\bfC = (c_{j,k})$ --- невырожденная квадратная матрица порядка $r_C$, элементы которой равны
+		\begin{equation*}
+		c_{j, k} = \frac{\overline{f(\mu_{j + r_A + r_B})} f(\mu_{k + r_A + r_B})}{1 - \overline{\mu_{j+r_A+r_B}} \mu_{k+r_A+r_B}}.
+		\end{equation*}
+	\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+	Чтобы не пересчитывать заново все пределы, заметим следующее:
+	\begin{itemize}
+		\item Если $X$ и $Y$ --- два вектора, лежащие в $\sfZ^N$, то $\langle X, Y \rangle_{\Sigma_N} = X^* \Sigma_N^{-1} Y = \rev(X)^* \Sigma_N^{-1} \rev(Y)$, где $\rev(\cdot)$ --- оператор, разворачивающий вектор наоборот. Это следует из того, что $\Sigma_N^{-1}$ симметрична относительно побочной диагонали.
+		\item Выполняется равенство $\langle X, Y \rangle_{\Sigma_N} = X^* \Sigma_N^{-1} Y = X^* \bfU_N^T \bfU_N Y$, где $\bfU_N$ --- верхнетреугольная матрица в разложении Холецкого матрицы $\Sigma_N^{-1}$. С достаточно большого $N$ можно применять результат теоремы \ref{th:invcov_chol}.
+	\end{itemize}
+	
+	Пусть $X = (x_0, \ldots, x_{N - 1})^\rmT$, $X_t = \nu^t$, $Y = (y_0, \ldots, y_{N - 1})^\rmT$, $y_t = \xi^t$. Рассмотрим два случая (не умаляя общности, пусть $\sigma = 1$):
+	\begin{itemize}
+		\item $|\nu| > 1$. Тогда последовательности надо развернуть, получаем следующее:
+		$X^* \Sigma_N^{-1} Y = \rev(X)^* \Sigma_N^{-1} \rev(Y) =  \rev(X)^* \bfU_N^T \bfU_N  \rev(Y) =$ \\$\sum_{t=0}^{N-{2p} -2} (\sum_{j=1}^{p+1}b_j \overline{\nu^{N - t - j}}) (\sum_{j=1}^{p+1}b_j \mu^{N - t - j}) + O(1) = $\\ $\sum_{t=0}^{N-{2p} - 2} (\overline{\nu^{N - t - 1}} \overline{f(1/\nu)})  (\mu^{N - t - 1}f(1/\mu)) + O(1) =$\\ $\overline{f(1/\nu)} f(1/\mu)\sum_{t=0}^{N-1} (\overline{\nu^{N - t - 1}} ) (\mu^{N - t - 1}) + O(1) = $\\
+		$\overline{f(1/\nu)} f(1/\mu)\sum_{t=0}^{N-1} \overline{\nu^t} \mu^t + O(1)$.
+		\item $|\nu| \le 1, |\mu| \le 1$. Последовательности разворачивать не нужно, имеем следующее:
+		$X^* \Sigma_N^{-1} Y = X^* \bfU_N^T \bfU_N Y = \sum_{t=0}^{N-{2p}-2} (\sum_{j=1}^{p+1}b_j \overline{\nu^{
+				t + j - 1}}) \cdot$ \\$\cdot (\sum_{j=1}^{p+1}b_j \mu^{t + j - 1}) + O((|\nu||\mu|)^{N - 2p - 1}) =$  
+		$\sum_{t=0}^{N-{2p} -2} (\overline{\nu^t f(\nu)})(\mu^t f(\mu)) +$\\ $+ O((|\nu||\mu|)^{N})$ = 
+		$\overline{f(\nu)} f(\mu) \sum_{t=0}^{N-1} \overline{\nu^t} \mu^t + O((|\nu||\mu|)^{N})$.
+	\end{itemize}
+	
+	Далее доказательство аналогично теореме \ref{th:invcov_chol}. Заметим, что все знаменатели остаются корректными, и невырожденность соответствующих матриц сохраняется: $f(1/\mu_j)$ не может быть равно $0$ при $|\mu_j| > 1$, и $f(\mu_j)$ не может быть равно $0$ при $|\mu_j| \le 1$, потому что авторегрессионный шум является стационарным, а, значит, справедлива лемма \ref{th:stat}.
+\end{proof}
+
+\begin{remark}
+	Теоремы \ref{th:wninconsistency} и \ref{th:arinconsistency} также дают оценку на скорость сходимости констант $c_j$ в \eqref{task:compparametricform} (или $p_j$ и $\omega_j$ в \eqref{task:redparametricform}): $O(\mu_j^{-N})$ для $|\mu_j| > 1$, $O(\frac{1}{\sqrt{N}})$ для $|\mu_j| = 1$ и $O(1)$ для $|\mu_j| < 1$.
+\end{remark}
+
+
+\section{Следствия из теорем \ref{th:wninconsistency} и \ref{th:arinconsistency}}
+\begin{enumerate}
+	\item Даже зная параметры шума и сигнальные корни, невозможно получить состоятельную оценку сигнала, если в сигнале есть убывающая экспонента или экспоненциально-модулированная синусоида. Тем более странно ожидать состоятельность, если параметры шума и сигнальные корни требуется оценивать. Тем не менее, результат не отвергает возможную (при реальном оценивании) состоятельность сигнала, если модули всех его сигнальных корней $|\mu_i| \ge 1$.
+		
+	\item Результат не зависит от того, стоит задача выделения из сигнала плюс белого шума или авторегрессионной стационарной последовательности конечного порядка $p$. \cite{ZhigljavskyGolyandinaGryaznov2016}
+\end{enumerate}
+
+\section{Сведения из теории авторегрессионных процессов}
 
 \begin{lemma}\label{th:stat}
-	Процесс авторегресии $\tsY$ является стационарным тогда и только тогда, когда все корни полинома $f(z)$ по модулю строго больше $1$: $f(z) = 0$ в том и только в том случае, если $|z| > 1$.
+	Процесс авторегресии $\tsY$, определённый в \eqref{def:arp}, является стационарным тогда и только тогда, когда все корни полинома $f(z)$ по модулю строго больше $1$: $f(z) = 0$ в том и только в том случае, если $|z| > 1$.
 \end{lemma}
 
 \begin{theorem}\label{th:invcov}
-	Рассмотрим случайный вектор $\tsY_N = (y_1, \ldots, y_N)^\rmT$ длины $N \ge 2p + 1$ --- подстрока процесса $\tsY$ длины $N$, $\Sigma_N$ --- его ковариационная матрица. Тогда обратная ковариационная матрица $\Sigma_N^{-1} = (s_{l, j; N})$ равна:
+	Рассмотрим случайный вектор $\tsY_N = (y_1, \ldots, y_N)^\rmT$ длины $N \ge 2p + 1$ --- подстрока процесса $\tsY$ длины $N$ и $\Sigma_N$ --- его ковариационную матрицу. Тогда обратная ковариационная матрица $\Sigma_N^{-1} = (s_{l, j; N})$ равна:
 	\begin{equation*}
 	s_{l, j; N} = \begin{cases}
 	0, & |l - j| > p, \\
